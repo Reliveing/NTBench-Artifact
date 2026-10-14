@@ -10,7 +10,7 @@ This directory contains the processed data, review records, and analysis scripts
 - `data/rq4`: the 390 failure-outcome classifications and the final review records for the 97 outcomes initially labeled U.
 - `data/guided_retry`: guided-retry patches, logs, and evaluation results.
 - `data/rq5`: patch-distance, clone, and atypical-success records. The `clone_review/` directory contains the 50-pair review sample, two independent review records, and detailed agreement results.
-- `scripts`: release preparation, aggregation, validation, and benchmark-audit scripts.
+- `scripts`: aggregation, validation, review-analysis, and benchmark-audit scripts.
 
 ## Clone-classification validation
 
@@ -27,7 +27,7 @@ The three comparisons show high agreement, with the remaining differences concen
 Run from the repository root:
 
 ```bash
-python artifact/scripts/summarize_results.py
-python artifact/scripts/validate_release.py
-python artifact/scripts/summarize_benchmark_composition.py
+python scripts/summarize_results.py
+python scripts/validate_release.py
+python scripts/summarize_benchmark_composition.py
 ```

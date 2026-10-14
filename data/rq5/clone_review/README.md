@@ -86,6 +86,6 @@ Overall, the LLM agrees with each reviewer on at least 84.0% of the sample, with
 - `reviewer2.csv`: Reviewer 2 labels and rationales.
 - `comparison_labels.csv`: aligned Reviewer 1, Reviewer 2, and LLM labels used to reproduce the comparisons.
 
-Run `python artifact/scripts/analyze_clone_review_agreement.py` from the repository root to reproduce the agreement statistics and regenerate `comparison_labels.csv`.
+Run `python scripts/analyze_clone_review_agreement.py` from the repository root to reproduce the agreement statistics and regenerate `comparison_labels.csv`.
 
-Run `python artifact/scripts/select_clone_review_sample.py` to reproduce the stratified blind sample as `artifact/derived/clone_review_sample.csv`.
+Run `python scripts/select_clone_review_sample.py` to reproduce the stratified blind sample as `derived/clone_review_sample.csv`.
