@@ -1,0 +1,75 @@
+diff --git a/sympy/logic/algorithms/dpll2.py b/sympy/logic/algorithms/dpll2.py
+index 75115e01ef..553ddc0bf6 100644
+--- a/sympy/logic/algorithms/dpll2.py
++++ b/sympy/logic/algorithms/dpll2.py
+@@ -102,6 +102,7 @@ def __init__(self, clauses, variables, var_settings, symbols=None,
+         else:
+             self.symbols = symbols
+ 
++        self.clause_set = set()
+         self._initialize_variables(variables)
+         self._initialize_clauses(clauses)
+ 
+@@ -154,6 +155,7 @@ def _initialize_clauses(self, clauses):
+         - The number of clauses a literal appears in is computed.
+         """
+         self.clauses = [list(clause) for clause in clauses]
++        self.clause_set.update(frozenset(clause) for clause in self.clauses)
+ 
+         for i, clause in enumerate(self.clauses):
+ 
+@@ -237,7 +239,10 @@ def _find_model(self):
+                         yield {self.symbols[abs(lit) - 1]:
+                                     lit > 0 for lit in self.var_settings}
+                     else:
+-                        self._simple_add_learned_clause(res[1])
++                        if self._handle_theory_conflict(res[1]):
++                            return
++                        flip_var = True
++                        continue
+ 
+                     while self._current_level.flipped:
+                         self._undo()
+@@ -280,6 +285,30 @@ def _find_model(self):
+                 self.levels.append(Level(flip_lit, flipped=True))
+                 flip_var = True
+ 
++    def _handle_theory_conflict(self, conflict):
++        """Add a theory conflict clause and backtrack to make progress."""
++        self._simple_add_learned_clause(conflict)
++        conflict_literals = set(conflict)
++
++        while len(self.levels) > 1:
++            if any(-lit in self._current_level.var_settings
++                    for lit in conflict_literals):
++                break
++            self._undo()
++
++        while self._current_level.flipped:
++            self._undo()
++            if 1 == len(self.levels):
++                return True
++
++        if 1 == len(self.levels):
++            return True
++
++        flip_lit = -self._current_level.decision
++        self._undo()
++        self.levels.append(Level(flip_lit, flipped=True))
++        return False
++
+     ########################
+     #    Helper Methods    #
+     ########################
+@@ -638,6 +667,11 @@ def _simple_add_learned_clause(self, cls):
+         {-3: {0, 2}, -2: {3, 4}, 2: {0, 3}, 3: {2, 4, 5}}
+ 
+         """
++        clause_key = frozenset(cls)
++        if clause_key in self.clause_set:
++            return
++        self.clause_set.add(clause_key)
++
+         cls_num = len(self.clauses)
+         self.clauses.append(cls)
+ 

@@ -1,0 +1,15 @@
+diff --git a/numpy/core/arrayprint.py b/numpy/core/arrayprint.py
+index 987589dbe1..e30840b1ef 100644
+--- a/numpy/core/arrayprint.py
++++ b/numpy/core/arrayprint.py
+@@ -1422,7 +1422,9 @@ def array_str(a, max_line_width=None, precision=None, suppress_small=None):
+     # so floats are not truncated by `precision`, and strings are not wrapped
+     # in quotes. So we return the str of the scalar value.
+     if a.shape == ():
+-        return str(a[()])
++        # obtain a scalar using a view of the bare ndarray to avoid
++        # falling back into the __str__ of the subclass (gh-10635)
++        return str(a.view(np.ndarray)[()])
+ 
+     return array2string(a, max_line_width, precision, suppress_small, ' ', "")
+ 

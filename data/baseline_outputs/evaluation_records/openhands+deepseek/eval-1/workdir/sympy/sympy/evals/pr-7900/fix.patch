@@ -1,0 +1,13 @@
+diff --git a/sympy/solvers/solvers.py b/sympy/solvers/solvers.py
+index 9bc2b7b3a5..968ef32b16 100644
+--- a/sympy/solvers/solvers.py
++++ b/sympy/solvers/solvers.py
+@@ -706,7 +706,7 @@ def _sympified_list(w):
+         freei = f[i].free_symbols
+         if freei and all(s.is_real or s.is_imaginary for s in freei):
+             fr, fi = f[i].as_real_imag()
+-            if fr and fi and not any(i.has(re, im, arg) for i in (fr, fi)) \
++            if fr and fi and not any(i.has(re, im, arg, Abs) for i in (fr, fi)) \
+                     and fr != fi:
+                 if bare_f:
+                     bare_f = False

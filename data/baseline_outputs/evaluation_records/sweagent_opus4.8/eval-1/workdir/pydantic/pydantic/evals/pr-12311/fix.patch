@@ -1,0 +1,101 @@
+diff --git a/pydantic/json_schema.py b/pydantic/json_schema.py
+index f5cc325be..4a27263f0 100644
+--- a/pydantic/json_schema.py
++++ b/pydantic/json_schema.py
+@@ -539,6 +539,11 @@ class GenerateJsonSchema:
+                 js_modify_function: GetJsonSchemaFunction = js_modify_function,
+             ) -> JsonSchemaValue:
+                 json_schema = js_modify_function(schema_or_field, current_handler)
++                # A user-provided `__get_pydantic_json_schema__` (or similar) may return a JSON schema
++                # that carries its own inline `$defs` together with `$ref`s pointing at them. Hoist those
++                # definitions into the generator's own definitions so that ref counting, garbage collection
++                # and remapping all work as expected.
++                json_schema = self._hoist_embedded_defs(json_schema)
+                 if _core_utils.is_core_schema(schema_or_field):
+                     json_schema = populate_defs(schema_or_field, json_schema)
+                 original_schema = current_handler.resolve_ref_schema(json_schema)
+@@ -2347,6 +2352,84 @@ class GenerateJsonSchema:
+             return members[0]
+         return {'anyOf': members}
+ 
++    def _hoist_embedded_defs(self, json_schema: JsonSchemaValue) -> JsonSchemaValue:
++        r"""Hoist any inline ``$defs`` present in a (typically user-provided) JSON schema into the
++        generator's own definitions.
++
++        A ``__get_pydantic_json_schema__`` implementation (or another custom JSON schema function) may
++        return a self-contained JSON schema that includes its own ``$defs`` alongside ``$ref``\s that
++        point at them (e.g. ``{'$ref': '#/$defs/Tire'}``). Since these references and definitions are not
++        registered with the generator, ref counting, garbage collection and definition remapping would
++        otherwise fail. This method extracts those definitions, registers them (renaming to avoid
++        collisions with existing definitions), rewrites the corresponding ``$ref``\s, and returns the
++        schema with its inline ``$defs`` removed.
++
++        Args:
++            json_schema: The JSON schema that may contain inline ``$defs``.
++
++        Returns:
++            The JSON schema with inline ``$defs`` hoisted into the generator's definitions.
++        """
++        if not isinstance(json_schema, dict):
++            return json_schema
++
++        embedded_defs = json_schema.get('$defs')
++        if not isinstance(embedded_defs, dict) or not embedded_defs:
++            return json_schema
++
++        json_schema = json_schema.copy()
++        del json_schema['$defs']
++
++        # Collect all names that are already claimed, either as an existing definition or as a possible
++        # remapping target for one, so that hoisted definitions never collide with pydantic-generated ones.
++        used_names: set[str] = set(self.definitions)
++        for choices in self._prioritized_defsref_choices.values():
++            used_names.update(choices)
++
++        # Build a mapping from the embedded def name to a (possibly renamed) DefsRef that does not
++        # collide with any existing definition, and register the corresponding refs.
++        ref_remapping: dict[JsonRef, JsonRef] = {}
++        hoisted_defs_refs: list[DefsRef] = []
++        for name, def_schema in embedded_defs.items():
++            base_ref = self.normalize_name(name)
++            defs_ref = DefsRef(base_ref)
++            suffix = 0
++            while defs_ref in used_names:
++                suffix += 1
++                defs_ref = DefsRef(f'{base_ref}_hoisted_{suffix}')
++            used_names.add(defs_ref)
++
++            new_json_ref = JsonRef(self.ref_template.format(model=defs_ref))
++            old_json_ref = JsonRef(f'#/$defs/{name}')
++            ref_remapping[old_json_ref] = new_json_ref
++
++            self.definitions[defs_ref] = def_schema
++            self.json_to_defs_refs[new_json_ref] = defs_ref
++            # Register the defs_ref as its own only choice so that it survives the remapping step unchanged.
++            self._prioritized_defsref_choices.setdefault(defs_ref, [defs_ref])
++            hoisted_defs_refs.append(defs_ref)
++
++        def _rewrite_refs(schema: Any) -> Any:
++            if isinstance(schema, dict):
++                result: dict[str, Any] = {}
++                for k, v in schema.items():
++                    if k == '$ref' and isinstance(v, str) and JsonRef(v) in ref_remapping:
++                        result[k] = ref_remapping[JsonRef(v)]
++                    else:
++                        result[k] = _rewrite_refs(v)
++                return result
++            elif isinstance(schema, list):
++                return [_rewrite_refs(item) for item in schema]
++            return schema
++
++        json_schema = _rewrite_refs(json_schema)
++        # Rewrite the refs within the definitions we just hoisted, since they may reference each other
++        # using the original (now remapped) ref names.
++        for defs_ref in hoisted_defs_refs:
++            self.definitions[defs_ref] = _rewrite_refs(self.definitions[defs_ref])
++
++        return json_schema
++
+     def get_json_ref_counts(self, json_schema: JsonSchemaValue) -> dict[JsonRef, int]:
+         """Get all values corresponding to the key '$ref' anywhere in the json_schema."""
+         json_refs: dict[JsonRef, int] = Counter()

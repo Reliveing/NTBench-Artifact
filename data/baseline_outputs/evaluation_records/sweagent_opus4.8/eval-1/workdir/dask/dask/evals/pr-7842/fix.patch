@@ -1,0 +1,20 @@
+diff --git a/dask/dataframe/multi.py b/dask/dataframe/multi.py
+index 278d434ac..9f081a6c9 100644
+--- a/dask/dataframe/multi.py
++++ b/dask/dataframe/multi.py
+@@ -740,6 +740,15 @@ def pair_partitions(L, R):
+     result = []
+ 
+     n, m = len(L) - 1, len(R) - 1
++
++    # If the right side has no known divisions (e.g. it is empty), the
++    # comparisons against ``R`` below would all involve ``NaN`` and never
++    # advance the iteration, resulting in an infinite loop. In that case each
++    # left partition is simply paired with the (single) right partition with no
++    # bounds on the slice.
++    if any(pd.isnull(x) for x in R):
++        return [[(min(m - 1, 0), None, None)] for _ in range(n)]
++
+     i, j = 0, -1
+     while j + 1 < m and R[j + 1] <= L[i]:
+         j += 1

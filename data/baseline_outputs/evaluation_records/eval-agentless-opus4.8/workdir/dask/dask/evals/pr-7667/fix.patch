@@ -1,0 +1,32 @@
+diff --git a/dask/array/creation.py b/dask/array/creation.py
+index 9df5d67..7d8d8c6 100644
+--- a/dask/array/creation.py
++++ b/dask/array/creation.py
+@@ -249,6 +249,9 @@ def _get_like_function_shapes_chunks(a, chunks, shape):
+     return shape, chunks
+ 
+ 
++from dask.base import compute, is_dask_collection
++
++
+ def linspace(
+     start, stop, num=50, endpoint=True, retstep=False, chunks="auto", dtype=None
+ ):
+@@ -293,6 +296,11 @@ def linspace(
+     if dtype is None:
+         dtype = np.linspace(0, 1, 1).dtype
+ 
++    if is_dask_collection(start):
++        (start,) = compute(start)
++    if is_dask_collection(stop):
++        (stop,) = compute(stop)
++
+     chunks = normalize_chunks(chunks, (num,), dtype=dtype)
+ 
+     range_ = stop - start
+@@ -1178,4 +1186,4 @@ def pad(array, pad_width, mode="constant", **kwargs):
+     elif mode in ["reflect", "symmetric", "wrap"]:
+         return pad_reuse(array, pad_width, mode, **kwargs)
+ 
+-    assert False, "unreachable"
++    assert False, "unreachable"

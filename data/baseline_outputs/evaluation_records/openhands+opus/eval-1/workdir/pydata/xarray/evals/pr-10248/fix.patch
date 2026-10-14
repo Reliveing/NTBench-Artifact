@@ -1,0 +1,112 @@
+diff --git a/doc/whats-new.rst b/doc/whats-new.rst
+index cf9dd162..78e04a34 100644
+--- a/doc/whats-new.rst
++++ b/doc/whats-new.rst
+@@ -65,6 +65,9 @@ Bug fixes
+   had no effect. (Mentioned in :issue:`9921`)
+ - Enable ``keep_attrs`` in ``DatasetView.map`` relevant for :py:func:`map_over_datasets`  (:pull:`10219`)
+   By `Mathias Hauser <https://github.com/mathause>`_.
++- Fix ``RecursionError`` when calling numpy functions such as :py:func:`numpy.fix`
++  that pass an xarray object through the ``where`` keyword argument to a ufunc
++  (:issue:`9880`).
+ 
+ Documentation
+ ~~~~~~~~~~~~~
+diff --git a/xarray/computation/arithmetic.py b/xarray/computation/arithmetic.py
+index 7c2058f9..e3e673a0 100644
+--- a/xarray/computation/arithmetic.py
++++ b/xarray/computation/arithmetic.py
+@@ -79,20 +79,62 @@ class SupportsArithmetic:
+                 "`.values`)."
+             )
+ 
++        # Extract any SupportsArithmetic objects from kwargs (e.g., "where")
++        # These need to be treated as inputs to avoid recursion when numpy
++        # redispatches on them during ufunc evaluation
++        extra_args = []
++        extra_kwargs_keys = []
++        cleaned_kwargs = {}
++        for key, value in kwargs.items():
++            if isinstance(value, SupportsArithmetic):
++                extra_args.append(value)
++                extra_kwargs_keys.append(key)
++            else:
++                cleaned_kwargs[key] = value
++
+         join = dataset_join = OPTIONS["arithmetic_join"]
+ 
+-        return apply_ufunc(
+-            ufunc,
+-            *inputs,
+-            input_core_dims=((),) * ufunc.nin,
+-            output_core_dims=((),) * ufunc.nout,
+-            join=join,
+-            dataset_join=dataset_join,
+-            dataset_fill_value=np.nan,
+-            kwargs=kwargs,
+-            dask="allowed",
+-            keep_attrs=_get_keep_attrs(default=True),
+-        )
++        if extra_args:
++            # Wrapper to reinsert the kwargs after alignment/conversion
++            def func_with_reinsertion(ufunc_func, *all_args):
++                n_inputs = len(inputs)
++                actual_inputs = all_args[:n_inputs]
++                extracted_kwargs = all_args[n_inputs:]
++                reinserted_kwargs = cleaned_kwargs.copy()
++                for key, value in zip(extra_kwargs_keys, extracted_kwargs):
++                    reinserted_kwargs[key] = value
++                return ufunc_func(*actual_inputs, **reinserted_kwargs)
++
++            from functools import partial
++
++            func = partial(func_with_reinsertion, ufunc)
++            all_inputs = inputs + tuple(extra_args)
++            n_total = len(all_inputs)
++
++            return apply_ufunc(
++                func,
++                *all_inputs,
++                input_core_dims=((),) * n_total,
++                output_core_dims=((),) * ufunc.nout,
++                join=join,
++                dataset_join=dataset_join,
++                dataset_fill_value=np.nan,
++                dask="allowed",
++                keep_attrs=_get_keep_attrs(default=True),
++            )
++        else:
++            return apply_ufunc(
++                ufunc,
++                *inputs,
++                input_core_dims=((),) * ufunc.nin,
++                output_core_dims=((),) * ufunc.nout,
++                join=join,
++                dataset_join=dataset_join,
++                dataset_fill_value=np.nan,
++                kwargs=cleaned_kwargs,
++                dask="allowed",
++                keep_attrs=_get_keep_attrs(default=True),
++            )
+ 
+ 
+ class VariableArithmetic(
+diff --git a/xarray/tests/test_ufuncs.py b/xarray/tests/test_ufuncs.py
+index 61cd88e3..2ab0b407 100644
+--- a/xarray/tests/test_ufuncs.py
++++ b/xarray/tests/test_ufuncs.py
+@@ -154,6 +154,14 @@ def test_out():
+     assert_identical(other, np.array([1, 2, 3]))
+ 
+ 
++def test_where_kwarg():
++    # ufuncs that pass an xarray object via the ``where`` keyword argument
++    # should not trigger infinite recursion (GH9880), e.g. np.fix.
++    xarray_obj = xr.DataArray([-2.7, 2.7, 3.9])
++    expected = xr.DataArray([-2.0, 2.0, 3.0])
++    assert_identical(np.fix(xarray_obj), expected)
++
++
+ def test_gufuncs():
+     xarray_obj = xr.DataArray([1, 2, 3])
+     fake_gufunc = mock.Mock(signature="(n)->()", autospec=np.sin)

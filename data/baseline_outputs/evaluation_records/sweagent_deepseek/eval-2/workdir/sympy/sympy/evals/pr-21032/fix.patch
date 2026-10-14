@@ -1,0 +1,18 @@
+diff --git a/sympy/solvers/solveset.py b/sympy/solvers/solveset.py
+index 34fa8f03bf..5e116d8375 100644
+--- a/sympy/solvers/solveset.py
++++ b/sympy/solvers/solveset.py
+@@ -856,8 +856,11 @@ def _solve_radical(f, symbol, solveset_solver):
+     res = unrad(f)
+     eq, cov = res if res else (f, [])
+     if not cov:
+-        result = solveset_solver(eq, symbol) - \
+-            Union(*[solveset_solver(g, symbol) for g in denoms(f, symbol)])
++        if res is None:
++            result = ConditionSet(symbol, Eq(f, 0), S.Complexes)
++        else:
++            result = solveset_solver(eq, symbol) - \
++                Union(*[solveset_solver(g, symbol) for g in denoms(f, symbol)])
+     else:
+         y, yeq = cov
+         if not solveset_solver(y - I, y):

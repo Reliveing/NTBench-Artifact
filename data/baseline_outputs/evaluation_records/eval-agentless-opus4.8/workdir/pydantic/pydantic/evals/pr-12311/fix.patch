@@ -1,0 +1,37 @@
+diff --git a/pydantic/json_schema.py b/pydantic/json_schema.py
+index f5cc325..12bff24 100644
+--- a/pydantic/json_schema.py
++++ b/pydantic/json_schema.py
+@@ -2255,7 +2255,7 @@ class GenerateJsonSchema:
+                 raise self._core_defs_invalid_for_json_schema[def_ref]
+             return self.definitions.get(def_ref, None)
+         except KeyError:
+-            if json_ref.startswith(('http://', 'https://')):
++            if json_ref.startswith(('http://', 'https://', '#/$defs/')):
+                 return None
+             raise
+ 
+@@ -2367,7 +2367,7 @@ class GenerateJsonSchema:
+                             raise self._core_defs_invalid_for_json_schema[defs_ref]
+                         _add_json_refs(self.definitions[defs_ref])
+                     except KeyError:
+-                        if not json_ref.startswith(('http://', 'https://')):
++                        if not json_ref.startswith(('http://', 'https://', '#/$defs/')):
+                             raise
+ 
+                 for k, v in schema.items():
+@@ -2436,7 +2436,7 @@ class GenerateJsonSchema:
+                 visited_defs_refs.add(next_defs_ref)
+                 unvisited_json_refs.update(_get_all_json_refs(self.definitions[next_defs_ref]))
+             except KeyError:
+-                if not next_json_ref.startswith(('http://', 'https://')):
++                if not next_json_ref.startswith(('http://', 'https://', '#/$defs/')):
+                     raise
+ 
+         self.definitions = {k: v for k, v in self.definitions.items() if k in visited_defs_refs}
+@@ -2776,4 +2776,4 @@ def _get_ser_schema_for_default_value(schema: CoreSchema) -> core_schema.PlainSe
+     ):
+         return ser_schema
+     if _core_utils.is_function_with_inner_schema(schema):
+-        return _get_ser_schema_for_default_value(schema['schema'])
++        return _get_ser_schema_for_default_value(schema['schema'])

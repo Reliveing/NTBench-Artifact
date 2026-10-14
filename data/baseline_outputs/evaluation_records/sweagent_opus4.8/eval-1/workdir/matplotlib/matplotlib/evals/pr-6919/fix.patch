@@ -1,0 +1,29 @@
+diff --git a/lib/matplotlib/ticker.py b/lib/matplotlib/ticker.py
+index a2be7cbd80..80973de48d 100644
+--- a/lib/matplotlib/ticker.py
++++ b/lib/matplotlib/ticker.py
+@@ -1676,11 +1676,24 @@ class MaxNLocator(Locator):
+         else:
+             nbins = self._nbins
+ 
++        # Increasing nbins reduces the tick step, which can only increase the
++        # number of ticks up to a point.  If the ticks are constrained to be
++        # integers, the smallest possible step is 1, so there is no benefit in
++        # trying more bins than the span of the data.  We therefore cap nbins to
++        # guarantee the loop below terminates instead of looping forever when
++        # the requested minimum number of ticks can never be satisfied (e.g.
++        # with ``integer=True`` on an axis spanning less than one unit).
++        if self._integer:
++            max_nbins = max(1, int(np.floor(vmax) - np.ceil(vmin)))
++            nbins = min(nbins, max_nbins)
++
+         while True:
+             ticks = self._try_raw_ticks(vmin, vmax, nbins)
+             nticks = ((ticks <= vmax) & (ticks >= vmin)).sum()
+             if nticks >= self._min_n_ticks:
+                 break
++            if self._integer and nbins >= max_nbins:
++                break
+             nbins += 1
+ 
+         self._nbins_used = nbins  # Maybe useful for troubleshooting.

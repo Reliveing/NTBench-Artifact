@@ -1,0 +1,56 @@
+diff --git a/sklearn/svm/src/liblinear/tron.cpp b/sklearn/svm/src/liblinear/tron.cpp
+index ae1dae88da..0dcffe5d30 100644
+--- a/sklearn/svm/src/liblinear/tron.cpp
++++ b/sklearn/svm/src/liblinear/tron.cpp
+@@ -110,6 +110,16 @@ int TRON::tron(double *w)
+ 
+ 		info("iter %2d act %5.3e pre %5.3e delta %5.3e f %5.3e |g| %5.3e CG %3d\n", iter, actred, prered, delta, f, gnorm, cg_iter);
+ 
++		// Guard against non-finite values (e.g. due to overflow when the input
++		// data is badly scaled). Otherwise the comparisons involving NaN below
++		// would all be false, `iter` would never be incremented and the outer
++		// loop would run forever, causing the solver to hang.
++		if (!isfinite(actred) || !isfinite(prered) || !isfinite(f))
++		{
++			info("WARNING: actred, prered or f is not finite\n");
++			break;
++		}
++
+ 		if (actred > eta0*prered)
+ 		{
+ 			iter++;
+@@ -166,12 +176,32 @@ int TRON::trcg(double delta, double *g, double *s, double *r)
+ 	rTr = blas->dot(n, r, inc, r, inc);
+ 	while (1)
+ 	{
+-		if (blas->nrm2(n, r, inc) <= cgtol)
++		double rnorm = blas->nrm2(n, r, inc);
++		// Guard against non-finite residuals (e.g. due to overflow in the
++		// Hessian-vector product when the input data is badly scaled). A NaN
++		// residual would make the stopping criterion below always false,
++		// causing this loop to run forever and the solver to hang.
++		if (!isfinite(rnorm))
++			break;
++		if (rnorm <= cgtol)
+ 			break;
+ 		cg_iter++;
+ 		fun_obj->Hv(d, Hd);
+ 
+-		alpha = rTr / blas->dot(n, d, inc, Hd, inc);
++		double dHd = blas->dot(n, d, inc, Hd, inc);
++		alpha = rTr / dHd;
++		// Guard against non-finite or vanishing step sizes. When the input data
++		// is badly scaled, the Hessian-vector product can overflow, making
++		// `dHd` infinite and `alpha` zero (or non-finite). In that case the
++		// conjugate gradient iterations below make no progress and the residual
++		// norm never decreases, which would make this loop run forever and the
++		// solver hang. Breaking out lets the outer trust region loop handle the
++		// (non-)convergence gracefully.
++		if (!isfinite(alpha) || alpha == 0)
++		{
++			info("WARNING: alpha is not finite or zero\n");
++			break;
++		}
+ 		blas->axpy(n, alpha, d, inc, s, inc);
+ 		if (blas->nrm2(n, s, inc) > delta)
+ 		{

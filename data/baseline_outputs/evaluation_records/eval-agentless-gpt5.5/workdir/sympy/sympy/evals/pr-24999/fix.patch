@@ -1,0 +1,71 @@
+diff --git a/sympy/solvers/solvers.py b/sympy/solvers/solvers.py
+index fcc7e13..03fbded 100644
+--- a/sympy/solvers/solvers.py
++++ b/sympy/solvers/solvers.py
+@@ -1359,6 +1359,24 @@ def _solve(f, *symbols, **flags):
+     f = f.replace(lambda e: isinstance(e, binomial) and e.has(symbol),
+         lambda e: expand_func(e))
+ 
++    if f.is_zero:
++        return []
++
++    # Expressions containing integer-valued functions can hide an identity
++    # behind rational subexpressions, e.g. Mod((floor(x) + 1)**2/
++    # (floor(x) + 1), 1). If this is identically zero then solving for a
++    # particular value is unnecessary and can otherwise send solve through
++    # repeated attempts to invert Mod/floor. Do this before solve_linear, since
++    # differentiating such expressions is also problematic.
++    from sympy.core.mod import Mod
++    from sympy.functions.elementary.integers import floor
++    if f.has(Mod, floor):
++        f_simplified = simplify(f)
++        if f_simplified.is_zero:
++            return []
++        if f_simplified != f and f_simplified.count_ops() <= f.count_ops():
++            f = f_simplified
++
+     # checking will be done unless it is turned off before making a
+     # recursive call; the variables `checkdens` and `check` are
+     # captured here (for reference below) in case flag value changes
+@@ -2603,7 +2621,20 @@ multi_inverses = {
+ 
+ def _vsolve(e, s, **flags):
+     """return list of scalar values for the solution of e for symbol s"""
+-    return [i[s] for i in _solve(e, s, **flags)]
++    # _vsolve is used recursively by _solve and _tsolve while attempting
++    # changes of variables and functional inversions. Some equations involving
++    # non-invertible functions such as Mod/floor can lead back to an identical
++    # subproblem. Detect an active repeated request and report failure for that
++    # path rather than recursing until Python raises RecursionError.
++    seen = flags.setdefault('_vsolve_seen', set())
++    key = (s, e)
++    if key in seen:
++        raise NotImplementedError
++    seen.add(key)
++    try:
++        return [i[s] for i in _solve(e, s, **flags)]
++    finally:
++        seen.remove(key)
+ 
+ 
+ def _tsolve(eq, sym, **flags):
+@@ -2771,7 +2802,12 @@ def _tsolve(eq, sym, **flags):
+ 
+         rewrite = lhs.rewrite(exp)
+         if rewrite != lhs:
+-            return _vsolve(rewrite - rhs, sym, **flags)
++            rewritten_eq = rewrite - rhs
++            # Avoid cycling through equivalent rewrites. This can happen for
++            # non-invertible/non-transcendental functions whose rewrite form is
++            # handed back to solve and eventually reaches _tsolve again.
++            if rewritten_eq != eq and rewritten_eq not in flags.get('tsolve_saw', ()):
++                return _vsolve(rewritten_eq, sym, **flags)
+     except NotImplementedError:
+         pass
+ 
+@@ -3635,4 +3671,4 @@ def unrad(eq, *syms, **flags):
+ 
+ # delayed imports
+ from sympy.solvers.bivariate import (
+-    bivariate_type, _solve_lambert, _filtered_gens)
++    bivariate_type, _solve_lambert, _filtered_gens)

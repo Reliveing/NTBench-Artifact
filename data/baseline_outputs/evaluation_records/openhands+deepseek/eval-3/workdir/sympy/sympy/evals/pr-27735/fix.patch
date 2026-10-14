@@ -1,0 +1,24 @@
+diff --git a/sympy/logic/algorithms/dpll2.py b/sympy/logic/algorithms/dpll2.py
+index 75115e01ef..c114b7cae2 100644
+--- a/sympy/logic/algorithms/dpll2.py
++++ b/sympy/logic/algorithms/dpll2.py
+@@ -238,6 +238,19 @@ def _find_model(self):
+                                     lit > 0 for lit in self.var_settings}
+                     else:
+                         self._simple_add_learned_clause(res[1])
++                        # Theory conflict: backtrack to before the conflicting
++                        # literals were assigned so the conflict clause can
++                        # guide the search away from the conflicting assignment.
++                        # Find the highest decision level among the conflicting
++                        # literals (the negations of what is in the conflict clause).
++                        conflict_lits = {-l for l in res[1]}
++                        max_level = 0
++                        for i, level in enumerate(self.levels[1:], start=1):
++                            if level.var_settings & conflict_lits:
++                                max_level = i
++                        # Backtrack to the level of the conflict (keep max_level)
++                        while len(self.levels) > max_level + 1:
++                            self._undo()
+ 
+                     while self._current_level.flipped:
+                         self._undo()

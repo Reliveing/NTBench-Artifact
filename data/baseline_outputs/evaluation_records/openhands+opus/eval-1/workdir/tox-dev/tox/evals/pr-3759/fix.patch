@@ -1,0 +1,63 @@
+diff --git a/docs/changelog/3760.bugfix.rst b/docs/changelog/3760.bugfix.rst
+new file mode 100644
+index 00000000..128a7920
+--- /dev/null
++++ b/docs/changelog/3760.bugfix.rst
+@@ -0,0 +1,3 @@
++Fix ``RecursionError`` when a ``set_env`` value in TOML format uses a substitution that triggers environment creation
++(e.g. ``{env_site_packages_dir}``) - the TOML loader now defers ``set_env`` substitutions until they are needed, matching
++the INI loader behavior - by :user:`gaborbernat`.
+diff --git a/src/tox/config/loader/toml/__init__.py b/src/tox/config/loader/toml/__init__.py
+index eb48936e..d66dcf3f 100644
+--- a/src/tox/config/loader/toml/__init__.py
++++ b/src/tox/config/loader/toml/__init__.py
+@@ -68,10 +68,18 @@ class TomlLoader(Loader[TomlTypes]):
+         raw: TomlTypes,
+         args: ConfigLoadArgs,
+     ) -> _T:
+-        exploded = Unroll(conf=conf, loader=self, args=args)(raw)
++        delay_replace = inspect.isclass(of_type) and issubclass(of_type, SetEnv)
++        # for set_env defer the string substitution so that values referencing e.g. {env_site_packages_dir}
++        # are only resolved on demand (avoids a recursion between set_env and environment creation)
++        exploded = Unroll(conf=conf, loader=self, args=args, ignore_str_replace=delay_replace)(raw)
+         result = self.to(exploded, of_type, factory)
+-        if inspect.isclass(of_type) and issubclass(of_type, SetEnv):
+-            result.use_replacer(lambda c, s: c, args=args)  # noqa: ARG005
++        if delay_replace:
++
++            def replacer(raw_: str, args_: ConfigLoadArgs) -> str:
++                unrolled = Unroll(conf=conf, loader=self, args=args_)(raw_)
++                return cast("str", unrolled)
++
++            result.use_replacer(replacer, args=args)
+         return result
+ 
+     def found_keys(self) -> set[str]:
+diff --git a/src/tox/config/loader/toml/_replace.py b/src/tox/config/loader/toml/_replace.py
+index a95bb2ec..4faa995b 100644
+--- a/src/tox/config/loader/toml/_replace.py
++++ b/src/tox/config/loader/toml/_replace.py
+@@ -21,17 +21,21 @@ if TYPE_CHECKING:
+ 
+ 
+ class Unroll:
+-    def __init__(self, conf: Config | None, loader: TomlLoader, args: ConfigLoadArgs) -> None:
++    def __init__(
++        self, conf: Config | None, loader: TomlLoader, args: ConfigLoadArgs, *, ignore_str_replace: bool = False
++    ) -> None:
+         self.conf = conf
+         self.loader = loader
+         self.args = args
++        self.ignore_str_replace = ignore_str_replace
+ 
+     def __call__(self, value: TomlTypes, depth: int = 0) -> TomlTypes:  # noqa: C901, PLR0912
+         """Replace all active tokens within value according to the config."""
+         depth += 1
+         MatchRecursionError.check(depth, value)
+         if isinstance(value, str):
+-            if self.conf is not None:  # core config does not support string substitution
++            # core config does not support string substitution; ignore_str_replace defers it (e.g. for set_env)
++            if self.conf is not None and not self.ignore_str_replace:
+                 reference = TomlReplaceLoader(self.conf, self.loader)
+                 value = replace(self.conf, reference, value, self.args)
+         elif isinstance(value, (int, float, bool)):

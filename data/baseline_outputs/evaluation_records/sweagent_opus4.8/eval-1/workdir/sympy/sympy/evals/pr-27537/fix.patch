@@ -1,0 +1,53 @@
+diff --git a/sympy/simplify/simplify.py b/sympy/simplify/simplify.py
+index 20cbe19669..dcb8cf3db4 100644
+--- a/sympy/simplify/simplify.py
++++ b/sympy/simplify/simplify.py
+@@ -1040,6 +1040,26 @@ def gooda(a):
+             return (a is not S.NegativeOne and  # -1 *could* go, but we disallow
+                 (a.is_extended_real or force and a.is_extended_real is not False))
+ 
++        def not_a_huge_power(base, exp):
++            # bool to tell whether ``base**exp`` can be formed without
++            # producing an unreasonably large explicit number; combining
++            # e.g. ``10**1000000000`` from ``1000000000*log(10)`` is not a
++            # simplification and can be prohibitively expensive to compute
++            if not (base.is_Number and exp.is_Number):
++                return True
++            try:
++                b = abs(base)
++                e = abs(exp)
++                if b in (S.Zero, S.One):
++                    return True
++                # estimate the number of digits of base**exp; if it would be
++                # very large, refuse to combine
++                from sympy import log as _log
++                size = float(e)*float(_log(b, 10))
++                return size < 1000
++            except (TypeError, ValueError):
++                return True
++
+         def goodlog(l):
+             # bool to tell whether log ``l``'s argument can combine with others
+             a = l.args[0]
+@@ -1067,6 +1087,21 @@ def goodlog(l):
+                         co.append(ai)
+                     else:
+                         ot.append(ai)
++                # do not combine a numeric coefficient into a log with a
++                # numeric argument if that would create an unreasonably large
++                # explicit power, e.g. 1000000000*log(10) -> log(10**1000000000)
++                if len(lo) == 1 and co:
++                    base = lo[0].args[0]
++                    newco = []
++                    for c in co:
++                        if not_a_huge_power(base, c):
++                            newco.append(c)
++                        else:
++                            ot.append(c)
++                    if not newco:
++                        other.append(a)
++                        continue
++                    co = newco
+                 if len(lo) > 1:
+                     logs.append((ot, co, lo))
+                 elif lo:

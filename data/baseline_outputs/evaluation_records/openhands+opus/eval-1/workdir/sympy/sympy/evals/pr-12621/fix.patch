@@ -1,0 +1,28 @@
+diff --git a/sympy/calculus/util.py b/sympy/calculus/util.py
+index 21d6e80a4d..361796b4c2 100644
+--- a/sympy/calculus/util.py
++++ b/sympy/calculus/util.py
+@@ -329,6 +329,7 @@ def periodicity(f, symbol, check=False):
+     """
+     from sympy import simplify, lcm_list
+     from sympy.functions.elementary.trigonometric import TrigonometricFunction
++    from sympy.functions.elementary.complexes import Abs
+     from sympy.solvers.decompogen import decompogen
+ 
+     orig_f = f
+@@ -344,7 +345,14 @@ def periodicity(f, symbol, check=False):
+         except NotImplementedError:
+             pass
+ 
+-    if f.is_Pow:
++    if isinstance(f, Abs):
++        arg = f.args[0]
++        if isinstance(arg, TrigonometricFunction):
++            period = arg.period(symbol)
++        else:
++            period = periodicity(arg, symbol)
++
++    elif f.is_Pow:
+         base, expo = f.args
+         base_has_sym = base.has(symbol)
+         expo_has_sym = expo.has(symbol)

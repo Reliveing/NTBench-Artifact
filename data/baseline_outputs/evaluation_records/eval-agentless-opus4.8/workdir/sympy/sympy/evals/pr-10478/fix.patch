@@ -1,0 +1,21 @@
+diff --git a/sympy/functions/combinatorial/factorials.py b/sympy/functions/combinatorial/factorials.py
+index ea9e5a5..736bd07 100644
+--- a/sympy/functions/combinatorial/factorials.py
++++ b/sympy/functions/combinatorial/factorials.py
+@@ -333,6 +333,10 @@ class factorial2(CombinatorialFunction):
+             if arg.is_infinite:
+                 return
+ 
++            # factorial2 is only defined for integers
++            if not arg.is_integer:
++                return
++
+             # This implementation is faster than the recursive one
+             # It also avoids "maximum recursion depth exceeded" runtime error
+             if arg.is_nonnegative:
+@@ -862,4 +866,4 @@ class binomial(CombinatorialFunction):
+         if n.is_integer and k.is_integer:
+             return True
+         elif k.is_integer is False:
+-            return False
++            return False

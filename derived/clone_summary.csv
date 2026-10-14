@@ -1,0 +1,10 @@
+framework,model,total,N/A,type-1,type-2,type-3
+Agentless,DeepSeek V4 Pro,20,6,3,0,11
+Agentless,GPT-5.5,26,6,3,0,17
+Agentless,Opus 4.8,24,2,6,0,16
+OpenHands,DeepSeek V4 Pro,103,25,10,0,68
+OpenHands,GPT-5.5,110,30,2,3,75
+OpenHands,Opus 4.8,111,23,20,3,65
+SWE-agent,DeepSeek V4 Pro,110,30,12,0,68
+SWE-agent,GPT-5.5,103,19,0,3,81
+SWE-agent,Opus 4.8,116,29,7,3,77

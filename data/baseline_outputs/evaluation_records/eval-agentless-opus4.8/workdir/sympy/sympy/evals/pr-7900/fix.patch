@@ -1,0 +1,19 @@
+diff --git a/sympy/core/power.py b/sympy/core/power.py
+index 6c6fb55..5b5cd91 100644
+--- a/sympy/core/power.py
++++ b/sympy/core/power.py
+@@ -248,7 +248,7 @@ class Pow(Expr):
+                             return S.NegativeOne**other*Pow(-b, e*other)
+                         if b.is_real is False:
+                             return Pow(b.conjugate()/C.Abs(b)**2, other)
+-                elif e.is_even:
++                elif e.is_even and e.is_Integer:
+                     if b.is_real:
+                         b = abs(b)
+                     if b.is_imaginary:
+@@ -1341,4 +1341,4 @@ class Pow(Expr):
+ from .add import Add
+ from .numbers import Integer
+ from .mul import Mul, _keep_coeff
+-from .symbol import Symbol, Dummy, symbols
++from .symbol import Symbol, Dummy, symbols

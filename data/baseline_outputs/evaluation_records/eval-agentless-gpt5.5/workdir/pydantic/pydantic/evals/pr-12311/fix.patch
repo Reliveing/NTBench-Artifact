@@ -1,0 +1,73 @@
+diff --git a/pydantic/json_schema.py b/pydantic/json_schema.py
+index f5cc325..d14e6c4 100644
+--- a/pydantic/json_schema.py
++++ b/pydantic/json_schema.py
+@@ -401,6 +401,12 @@ class GenerateJsonSchema:
+ 
+         ref = cast(JsonRef, json_schema.get('$ref'))
+         while ref is not None:  # may need to unpack multiple levels
++            # Custom JSON schema hooks can return self-contained schemas with their own
++            # `$defs` and local `$ref` values. Such references are not managed by this
++            # generator and therefore must not be resolved or unpacked here.
++            if ref not in self.json_to_defs_refs:
++                break
++
+             ref_json_schema = self.get_schema_from_definitions(ref)
+             if json_ref_counts[ref] == 1 and ref_json_schema is not None and len(json_schema) == 1:
+                 # "Unpack" the ref since this is the only reference and there are no sibling keys
+@@ -2361,14 +2367,15 @@ class GenerateJsonSchema:
+                     json_refs[json_ref] += 1
+                     if already_visited:
+                         return  # prevent recursion on a definition that was already visited
+-                    try:
+-                        defs_ref = self.json_to_defs_refs[json_ref]
++                    # `$ref` values supplied by custom JSON schema hooks are not
++                    # necessarily backed by Pydantic's definitions cache. In
++                    # particular, hooks may provide a self-contained `$defs` mapping.
++                    # Only recurse into definitions managed by this generator.
++                    defs_ref = self.json_to_defs_refs.get(json_ref)
++                    if defs_ref is not None:
+                         if defs_ref in self._core_defs_invalid_for_json_schema:
+                             raise self._core_defs_invalid_for_json_schema[defs_ref]
+                         _add_json_refs(self.definitions[defs_ref])
+-                    except KeyError:
+-                        if not json_ref.startswith(('http://', 'https://')):
+-                            raise
+ 
+                 for k, v in schema.items():
+                     if k == 'examples' and isinstance(v, list):
+@@ -2429,15 +2436,19 @@ class GenerateJsonSchema:
+         unvisited_json_refs = _get_all_json_refs(schema)
+         while unvisited_json_refs:
+             next_json_ref = unvisited_json_refs.pop()
+-            try:
+-                next_defs_ref = self.json_to_defs_refs[next_json_ref]
+-                if next_defs_ref in visited_defs_refs:
+-                    continue
+-                visited_defs_refs.add(next_defs_ref)
+-                unvisited_json_refs.update(_get_all_json_refs(self.definitions[next_defs_ref]))
+-            except KeyError:
+-                if not next_json_ref.startswith(('http://', 'https://')):
+-                    raise
++
++            # References produced by custom JSON schema hooks can target definitions
++            # owned by that custom schema rather than entries in `self.definitions`.
++            # Those definitions are retained in the custom schema itself, so they must
++            # not participate in Pydantic's internal definition garbage collection.
++            next_defs_ref = self.json_to_defs_refs.get(next_json_ref)
++            if next_defs_ref is None:
++                continue
++
++            if next_defs_ref in visited_defs_refs:
++                continue
++            visited_defs_refs.add(next_defs_ref)
++            unvisited_json_refs.update(_get_all_json_refs(self.definitions[next_defs_ref]))
+ 
+         self.definitions = {k: v for k, v in self.definitions.items() if k in visited_defs_refs}
+ 
+@@ -2776,4 +2787,4 @@ def _get_ser_schema_for_default_value(schema: CoreSchema) -> core_schema.PlainSe
+     ):
+         return ser_schema
+     if _core_utils.is_function_with_inner_schema(schema):
+-        return _get_ser_schema_for_default_value(schema['schema'])
++        return _get_ser_schema_for_default_value(schema['schema'])

@@ -1,0 +1,23 @@
+diff --git a/lib/matplotlib/ticker.py b/lib/matplotlib/ticker.py
+index a2be7cbd80..99445998f0 100644
+--- a/lib/matplotlib/ticker.py
++++ b/lib/matplotlib/ticker.py
+@@ -1679,8 +1679,18 @@ class MaxNLocator(Locator):
+         while True:
+             ticks = self._try_raw_ticks(vmin, vmax, nbins)
+             nticks = ((ticks <= vmax) & (ticks >= vmin)).sum()
++            # Some situations do not allow the requested number of ticks to
++            # be placed within the axis limits, no matter how many bins are
++            # used.  A typical example is an integer locator on an axis that
++            # spans less than ``min_n_ticks`` integers.  In such cases the
++            # ticks stop changing when ``nbins`` is increased, so we detect
++            # the lack of progress and break to avoid an infinite loop.
+             if nticks >= self._min_n_ticks:
+                 break
++            new_ticks = self._try_raw_ticks(vmin, vmax, nbins + 1)
++            if (len(new_ticks) == len(ticks)
++                    and np.allclose(new_ticks, ticks)):
++                break
+             nbins += 1
+ 
+         self._nbins_used = nbins  # Maybe useful for troubleshooting.

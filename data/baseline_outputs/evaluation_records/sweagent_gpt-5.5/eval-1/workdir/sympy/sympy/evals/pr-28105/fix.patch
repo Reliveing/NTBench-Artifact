@@ -1,0 +1,22 @@
+diff --git a/sympy/solvers/simplex.py b/sympy/solvers/simplex.py
+index f140268b79..60ac264dfa 100644
+--- a/sympy/solvers/simplex.py
++++ b/sympy/solvers/simplex.py
+@@ -323,9 +323,14 @@ def _simplex(A, B, C, D=None, dual=False):
+         _, c = min((X[i], i) for i in piv_cols) # Bland's rule
+ 
+         # Choose pivot row, r
+-        piv_rows = [_ for _ in range(A.rows) if A[_, c] > 0 and B[_] > 0]
+-        piv_rows.append(k)
+-        r = _choose_pivot_row(A, B, piv_rows, c, Y)
++        #
++        # Phase 1 is restoring feasibility.  The selected row k has a
++        # negative right hand side, and c was chosen from columns whose
++        # coefficient in that row is negative.  Pivoting on (k, c) makes
++        # that basic value nonnegative.  Using the Phase 2 ratio test here
++        # can pivot a different row and leave the same infeasible row to be
++        # selected again, causing oscillation or an invalid basis.
++        r = k
+ 
+         # check for oscillation
+         if (r, c) == last:

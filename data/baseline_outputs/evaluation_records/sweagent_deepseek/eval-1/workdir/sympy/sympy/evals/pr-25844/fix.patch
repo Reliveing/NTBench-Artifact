@@ -1,0 +1,17 @@
+--- a/home/sympy/sympy/core/mul.py	2026-04-24 09:24:04.864779620 +0000
++++ b/home/sympy/sympy/core/mul.py	2026-04-24 09:24:04.832777879 +0000
+@@ -581,9 +581,14 @@
+         i = 0  # steps through num_rat which may grow
+         while i < len(num_rat):
+             bi, ei = num_rat[i]
++            if bi is S.One:
++                i += 1
++                continue
+             grow = []
+             for j in range(i + 1, len(num_rat)):
+                 bj, ej = num_rat[j]
++                if bj is S.One:
++                    continue
+                 g = bi.gcd(bj)
+                 if g is not S.One:
+                     # 4**r1*6**r2 -> 2**(r1+r2)  *  2**r1 *  3**r2

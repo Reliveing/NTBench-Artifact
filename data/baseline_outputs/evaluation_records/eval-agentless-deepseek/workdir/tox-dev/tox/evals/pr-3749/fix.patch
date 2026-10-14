@@ -1,0 +1,34 @@
+diff --git a/src/tox/config/loader/replacer.py b/src/tox/config/loader/replacer.py
+index 18fe242..7da4c3a 100644
+--- a/src/tox/config/loader/replacer.py
++++ b/src/tox/config/loader/replacer.py
+@@ -240,13 +240,22 @@ def replace_pos_args(conf: Config, args: list[str], conf_args: ConfigLoadArgs) -
+     return ARG_DELIMITER.join(args) if pos_args is None else shell_cmd(pos_args)
+ 
+ 
++# Track which keys are currently being resolved to prevent infinite recursion
++_resolving_posargs = set()
++
+ def load_posargs(conf: Config, conf_args: ConfigLoadArgs) -> tuple[str, ...] | None:
+     to_path: Path | None = None
+     if conf_args.env_name is not None:  # pragma: no branch
+         env_conf = conf.get_env(conf_args.env_name)
+         try:
+             if env_conf["args_are_paths"]:  # pragma: no branch
+-                to_path = env_conf["change_dir"]
++                # Check if we're already resolving this key to prevent recursion
++                if "change_dir" not in _resolving_posargs:
++                    _resolving_posargs.add("change_dir")
++                    try:
++                        to_path = env_conf["change_dir"]
++                    finally:
++                        _resolving_posargs.remove("change_dir")
+         except KeyError:
+             pass
+     return conf.pos_args(to_path)
+@@ -296,4 +305,4 @@ __all__ = [
+     "load_posargs",
+     "replace",
+     "replace_env",
+-]
++]

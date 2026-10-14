@@ -1,0 +1,20 @@
+diff --git a/sympy/simplify/cse_main.py b/sympy/simplify/cse_main.py
+index d603560f59..a5d62aacbd 100644
+--- a/sympy/simplify/cse_main.py
++++ b/sympy/simplify/cse_main.py
+@@ -513,7 +513,14 @@ def _find_opts(expr):
+ 
+         if not isinstance(expr, MatrixExpr) and expr.could_extract_minus_sign():
+             neg_expr = -expr
+-            if not neg_expr.is_Atom:
++            # Normally ``neg_expr`` is a structurally different expression
++            # whose sign has been extracted from ``expr``.  Some expressions
++            # (notably those involving UnevaluatedExpr) cannot be negated
++            # without simply wrapping the original expression in ``-1*expr``.
++            # Creating an optimization substitution of ``expr`` in terms of
++            # such a ``neg_expr`` would be cyclic and can make tree rebuilding
++            # recurse indefinitely.
++            if not neg_expr.is_Atom and expr not in neg_expr.args:
+                 opt_subs[expr] = Unevaluated(Mul, (S.NegativeOne, neg_expr))
+                 seen_subexp.add(neg_expr)
+                 expr = neg_expr

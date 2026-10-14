@@ -1,0 +1,13 @@
+diff --git a/sympy/vector/basisdependent.py b/sympy/vector/basisdependent.py
+index 53e4efc0bf..8e03e2470b 100644
+--- a/sympy/vector/basisdependent.py
++++ b/sympy/vector/basisdependent.py
+@@ -269,6 +269,8 @@ def _new(cls, *args, **options):
+                 expr = arg
+             elif isinstance(arg, (Cross, Dot, Curl, Gradient)):
+                 extra_args.append(arg)
++            elif isinstance(arg, cls._expr_type):
++                return Mul(*args, **options)
+             else:
+                 measure_number *= arg
+         # Make sure incompatible types weren't multiplied

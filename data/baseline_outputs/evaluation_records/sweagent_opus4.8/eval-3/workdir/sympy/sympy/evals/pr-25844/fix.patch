@@ -1,0 +1,23 @@
+diff --git a/sympy/core/mul.py b/sympy/core/mul.py
+index 5704a3f4e9..7ac6ab0001 100644
+--- a/sympy/core/mul.py
++++ b/sympy/core/mul.py
+@@ -405,6 +405,18 @@ def flatten(cls, seq):
+                             elif b.is_negative:
+                                 neg1e += e
+                                 b = -b
++                            if b.is_Rational and not b.is_Integer:
++                                # split a non-integer rational base into its
++                                # integer numerator and denominator so that the
++                                # gcd-extraction logic below (which assumes
++                                # integer bases) does not run away, e.g.
++                                # (4/3)**(1/2) -> 4**(1/2)*3**(-1/2)
++                                bp, bq = b.as_numer_denom()
++                                if bp is not S.One:
++                                    pnum_rat.setdefault(bp, []).append(e)
++                                if bq is not S.One:
++                                    seq.append(Pow(bq, -e))
++                                continue
+                             if b is not S.One:
+                                 pnum_rat.setdefault(b, []).append(e)
+                             continue

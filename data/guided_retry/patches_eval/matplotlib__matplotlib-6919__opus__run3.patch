@@ -1,0 +1,22 @@
+diff --git a/lib/matplotlib/ticker.py b/lib/matplotlib/ticker.py
+index a2be7cbd80..e68f2e4f54 100644
+--- a/lib/matplotlib/ticker.py
++++ b/lib/matplotlib/ticker.py
+@@ -1676,11 +1676,17 @@ class MaxNLocator(Locator):
+         else:
+             nbins = self._nbins
+ 
++        prev_nticks = -1
+         while True:
+             ticks = self._try_raw_ticks(vmin, vmax, nbins)
+             nticks = ((ticks <= vmax) & (ticks >= vmin)).sum()
+             if nticks >= self._min_n_ticks:
+                 break
++            # If the number of ticks is not increasing, we're not making
++            # progress (e.g., integer ticks on a short axis). Stop trying.
++            if nticks == prev_nticks:
++                break
++            prev_nticks = nticks
+             nbins += 1
+ 
+         self._nbins_used = nbins  # Maybe useful for troubleshooting.

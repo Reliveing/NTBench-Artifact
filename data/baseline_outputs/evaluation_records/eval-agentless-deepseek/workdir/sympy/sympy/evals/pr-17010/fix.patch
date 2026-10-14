@@ -1,0 +1,16 @@
+diff --git a/sympy/functions/special/polynomials.py b/sympy/functions/special/polynomials.py
+index 361ba77..1822f52 100644
+--- a/sympy/functions/special/polynomials.py
++++ b/sympy/functions/special/polynomials.py
+@@ -602,6 +602,11 @@ class chebyshevu(OrthogonalPolynomial):
+                     # n can not be -1 here
+                     return S.Zero
+                 else:
++                    # Check if the transformed index also has a minus sign
++                    # to avoid infinite recursion
++                    if (-n - 2).could_extract_minus_sign():
++                        # Apply the transformation again to ensure termination
++                        return -chebyshevu(-(-n - 2) - 2, x)
+                     return -chebyshevu(-n - 2, x)
+             # We can evaluate for some special values of x
+             if x == S.Zero:

@@ -1,0 +1,40 @@
+diff --git a/aiohttp/compression_utils.py b/aiohttp/compression_utils.py
+index 0bc4a30d8..e353d1899 100644
+--- a/aiohttp/compression_utils.py
++++ b/aiohttp/compression_utils.py
+@@ -342,7 +342,34 @@ class ZSTDDecompressor(DecompressionBaseHandler):
+             if max_length == ZLIB_MAX_LENGTH_UNLIMITED
+             else max_length
+         )
+-        return self._obj.decompress(data, zstd_max_length)
++
++        chunks: list[bytes] = []
++        length = zstd_max_length
++
++        while True:
++            if self._obj.eof:
++                # A ZstdDecompressor stops at the end of a frame and raises
++                # EOFError when asked to process the next one. HTTP responses
++                # may contain multiple concatenated zstd frames, so start a
++                # fresh decompressor for the remaining data.
++                data = self._obj.unused_data + data
++                self._obj = ZstdDecompressor()
++                if not data:
++                    break
++
++            chunk = self._obj.decompress(data, length)
++            if chunk:
++                chunks.append(chunk)
++                if length != ZSTD_MAX_LENGTH_UNLIMITED:
++                    length -= len(chunk)
++                    if length == 0:
++                        break
++
++            data = b""
++            if not self._obj.eof:
++                break
++
++        return b"".join(chunks)
+ 
+     def flush(self) -> bytes:
+         return b""

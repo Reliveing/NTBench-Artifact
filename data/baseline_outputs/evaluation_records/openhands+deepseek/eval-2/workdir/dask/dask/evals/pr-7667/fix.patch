@@ -1,0 +1,15 @@
+diff --git a/dask/array/routines.py b/dask/array/routines.py
+index 1ed2602a0..698dd63a8 100644
+--- a/dask/array/routines.py
++++ b/dask/array/routines.py
+@@ -711,8 +711,8 @@ def bincount(x, weights=None, minlength=0, split_every=None):
+ 
+ @derived_from(np)
+ def digitize(a, bins, right=False):
+-    bins = asarray_safe(bins, like=meta_from_array(a))
+-    dtype = np.digitize(asarray_safe([0], like=bins), bins, right=False).dtype
++    bins = asarray_safe(bins, like=a)
++    dtype = np.digitize(np.array([0]), meta_from_array(bins), right=False).dtype
+     return a.map_blocks(np.digitize, dtype=dtype, bins=bins, right=right)
+ 
+ 

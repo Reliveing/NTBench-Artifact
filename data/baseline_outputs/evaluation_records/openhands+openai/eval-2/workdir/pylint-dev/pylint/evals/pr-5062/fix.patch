@@ -1,0 +1,196 @@
+diff --git a/pylint/checkers/similar.py b/pylint/checkers/similar.py
+index 9ff5a973b..8b110c738 100644
+--- a/pylint/checkers/similar.py
++++ b/pylint/checkers/similar.py
+@@ -29,22 +29,14 @@
+ # pylint: disable=redefined-builtin
+ """a similarities / code duplication command line tool and pylint checker
+ 
+-The algorithm is based on comparing the hash value of n successive lines of a file.
+-First the files are read and any line that doesn't fullfill requirement are removed (comments, docstrings...)
+-Those stripped lines are stored in the LineSet class which gives access to them.
+-Then each index of the stripped lines collection is associated with the hash of n successive entries of the stripped lines starting at the current index
+-(n is the minimum common lines option).
+-The common hashes between both linesets are then looked for. If there are matches, then the match indices in both linesets are stored and associated
+-with the corresponding couples (start line number/end line number) in both files.
+-This association is then postprocessed to handle the case of successive matches. For example if the minimum common lines setting is set to four, then
+-the hashes are computed with four lines. If one of match indices couple (12, 34) is the successor of another one (11, 33) then it means that there are
+-in fact five lines which are common.
+-Once postprocessed the values of association table are the result looked for, i.e start and end lines numbers of common lines in both files.
++The algorithm is based on comparing successive stripped lines of a file.
++First the files are read and any lines that don't fulfill requirements are
++removed (comments, docstrings...). Those stripped lines are stored in the LineSet
++class, which also indexes them for efficient lookup.
++Potential matches are then streamed and extended line-by-line, skipping already
++matched ranges to avoid materializing large candidate sets.
+ """
+-import copy
+ import functools
+-import itertools
+-import operator
+ import re
+ import sys
+ from collections import defaultdict
+@@ -54,7 +46,6 @@ from itertools import chain, groupby
+ from typing import (
+     Any,
+     Dict,
+-    FrozenSet,
+     Generator,
+     Iterable,
+     List,
+@@ -474,71 +465,52 @@ class Similar:
+     def _find_common(
+         self, lineset1: "LineSet", lineset2: "LineSet"
+     ) -> Generator[Commonality, None, None]:
+-        """
+-        Find similarities in the two given linesets.
+-
+-        This the core of the algorithm.
+-        The idea is to compute the hashes of a minimal number of successive lines of each lineset and then compare the hashes.
+-        Every match of such comparison is stored in a dict that links the couple of starting indices in both linesets to
+-        the couple of corresponding starting and ending lines in both files.
+-        Last regroups all successive couples in a bigger one. It allows to take into account common chunk of lines that have more
+-        than the minimal number of successive lines required.
+-        """
+-        hash_to_index_1: HashToIndex_T
+-        hash_to_index_2: HashToIndex_T
+-        index_to_lines_1: IndexToLines_T
+-        index_to_lines_2: IndexToLines_T
+-        hash_to_index_1, index_to_lines_1 = hash_lineset(lineset1, self.min_lines)
+-        hash_to_index_2, index_to_lines_2 = hash_lineset(lineset2, self.min_lines)
+-
+-        hash_1: FrozenSet[LinesChunk] = frozenset(hash_to_index_1.keys())
+-        hash_2: FrozenSet[LinesChunk] = frozenset(hash_to_index_2.keys())
+-
+-        common_hashes: Iterable[LinesChunk] = sorted(
+-            hash_1 & hash_2, key=lambda m: hash_to_index_1[m][0]
+-        )
+-
+-        # all_couples is a dict that links the couple of indices in both linesets that mark the beginning of
+-        # successive common lines, to the corresponding starting and ending number lines in both files
+-        all_couples: CplIndexToCplLines_T = {}
+-
+-        for c_hash in sorted(common_hashes, key=operator.attrgetter("_index")):
+-            for indices_in_linesets in itertools.product(
+-                hash_to_index_1[c_hash], hash_to_index_2[c_hash]
+-            ):
+-                index_1 = indices_in_linesets[0]
+-                index_2 = indices_in_linesets[1]
+-                all_couples[
+-                    LineSetStartCouple(index_1, index_2)
+-                ] = CplSuccessiveLinesLimits(
+-                    copy.copy(index_to_lines_1[index_1]),
+-                    copy.copy(index_to_lines_2[index_2]),
+-                    effective_cmn_lines_nb=self.min_lines,
+-                )
+-
+-        remove_successives(all_couples)
+-
+-        for cml_stripped_l, cmn_l in all_couples.items():
+-            start_index_1 = cml_stripped_l.fst_lineset_index
+-            start_index_2 = cml_stripped_l.snd_lineset_index
+-            nb_common_lines = cmn_l.effective_cmn_lines_nb
+-
+-            com = Commonality(
+-                cmn_lines_nb=nb_common_lines,
+-                fst_lset=lineset1,
+-                fst_file_start=cmn_l.first_file.start,
+-                fst_file_end=cmn_l.first_file.end,
+-                snd_lset=lineset2,
+-                snd_file_start=cmn_l.second_file.start,
+-                snd_file_end=cmn_l.second_file.end,
+-            )
+-
+-            eff_cmn_nb = filter_noncode_lines(
+-                lineset1, start_index_1, lineset2, start_index_2, nb_common_lines
+-            )
+-
+-            if eff_cmn_nb > self.min_lines:
+-                yield com
++        """Find similarities in the two given linesets."""
++        lines1 = lineset1.enumerate_stripped
++        lines2 = lineset2.enumerate_stripped
++        index1 = 0
++        stripped_lines1 = lineset1.stripped_lines
++        min_lines = self.min_lines
++        while index1 < len(stripped_lines1):
++            skip = 1
++            remaining_lines = len(stripped_lines1) - index1
++            for index2 in lineset2.find(stripped_lines1[index1].text):
++                num = 0
++                num_lines_with_content = 0
++                for num, ((_, line1), (_, line2)) in enumerate(
++                    zip(lines1(index1), lines2(index2))
++                ):
++                    if line1.text != line2.text:
++                        if num_lines_with_content > min_lines:
++                            yield Commonality(
++                                cmn_lines_nb=num,
++                                fst_lset=lineset1,
++                                fst_file_start=stripped_lines1[index1].line_number,
++                                fst_file_end=lineset1.get_line_number(index1 + num),
++                                snd_lset=lineset2,
++                                snd_file_start=lineset2[index2].line_number,
++                                snd_file_end=lineset2.get_line_number(index2 + num),
++                            )
++                        skip = max(skip, num)
++                        break
++                    if REGEX_FOR_LINES_WITH_CONTENT.match(line1.text):
++                        num_lines_with_content += 1
++                else:
++                    num += 1
++                    if num_lines_with_content > min_lines:
++                        yield Commonality(
++                            cmn_lines_nb=num,
++                            fst_lset=lineset1,
++                            fst_file_start=stripped_lines1[index1].line_number,
++                            fst_file_end=lineset1.get_line_number(index1 + num),
++                            snd_lset=lineset2,
++                            snd_file_start=lineset2[index2].line_number,
++                            snd_file_end=lineset2.get_line_number(index2 + num),
++                        )
++                    skip = max(skip, num)
++                if skip == remaining_lines:
++                    break
++            index1 += skip
+ 
+     def _iter_sims(self) -> Generator[Commonality, None, None]:
+         """iterate on similarities among all files, by making a cartesian
+@@ -681,6 +653,7 @@ class LineSet:
+         self._stripped_lines = stripped_lines(
+             lines, ignore_comments, ignore_docstrings, ignore_imports, ignore_signatures
+         )
++        self._index = self._mk_index()
+ 
+     def __str__(self):
+         return f"<Lineset for {self.name}>"
+@@ -702,6 +675,28 @@ class LineSet:
+             return False
+         return self.__dict__ == other.__dict__
+ 
++    def enumerate_stripped(self, start_at=0):
++        """Return an iterator on stripped lines, starting from a given index."""
++        for idx, line in enumerate(self._stripped_lines[start_at:], start=start_at):
++            yield idx, line
++
++    def find(self, stripped_line):
++        """Return positions of the given stripped line in this set."""
++        return self._index.get(stripped_line, ())
++
++    def _mk_index(self):
++        """Create the index for this set."""
++        index = defaultdict(list)
++        for line_number, line in enumerate(self._stripped_lines):
++            index[line.text].append(line_number)
++        return index
++
++    def get_line_number(self, index):
++        """Return the original line number for a stripped line index."""
++        if index < len(self._stripped_lines):
++            return self._stripped_lines[index].line_number
++        return self._stripped_lines[-1].line_number + 1
++
+     @property
+     def stripped_lines(self):
+         return self._stripped_lines

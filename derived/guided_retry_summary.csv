@@ -1,0 +1,5 @@
+initial_outcome,total,nontermination_or_recursion_retained,partial_f2p_with_p2f,success,terminated_but_f2p_failed
+O2,20,9,0,0,11
+O3,8,2,0,0,6
+O4,9,0,0,1,8
+O5,2,0,1,1,0

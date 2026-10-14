@@ -1,0 +1,36 @@
+diff --git a/src/tox/config/loader/replacer.py b/src/tox/config/loader/replacer.py
+index 18fe2422..d2c1b929 100644
+--- a/src/tox/config/loader/replacer.py
++++ b/src/tox/config/loader/replacer.py
+@@ -18,6 +18,7 @@ if TYPE_CHECKING:
+     from tox.config.loader.api import ConfigLoadArgs
+     from tox.config.main import Config
+     from tox.config.set_env import SetEnv
++    from tox.config.sets import EnvConfigSet
+ 
+ 
+ LOGGER = logging.getLogger(__name__)
+@@ -245,13 +246,22 @@ def load_posargs(conf: Config, conf_args: ConfigLoadArgs) -> tuple[str, ...] | N
+     if conf_args.env_name is not None:  # pragma: no branch
+         env_conf = conf.get_env(conf_args.env_name)
+         try:
+-            if env_conf["args_are_paths"]:  # pragma: no branch
++            if env_conf["args_are_paths"] and not _loads_current_change_dir(
++                env_conf, conf_args
++            ):  # pragma: no branch
+                 to_path = env_conf["change_dir"]
+         except KeyError:
+             pass
+     return conf.pos_args(to_path)
+ 
+ 
++def _loads_current_change_dir(env_conf: EnvConfigSet, conf_args: ConfigLoadArgs) -> bool:
++    change_dir_key = env_conf.primary_key("change_dir")
++    return conf_args.env_name == env_conf.env_name and any(
++        i.rsplit(".", 1)[-1] == change_dir_key for i in conf_args.chain
++    )
++
++
+ def replace_env(conf: Config | None, args: list[str], conf_args: ConfigLoadArgs) -> str:
+     if not args or not args[0]:
+         msg = "No variable name was supplied in {env} substitution"

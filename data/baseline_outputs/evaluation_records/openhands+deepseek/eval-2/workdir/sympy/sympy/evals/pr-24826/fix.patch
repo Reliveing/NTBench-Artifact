@@ -1,0 +1,13 @@
+diff --git a/sympy/core/expr.py b/sympy/core/expr.py
+index 7b3b7cc574..18594eb493 100644
+--- a/sympy/core/expr.py
++++ b/sympy/core/expr.py
+@@ -4071,6 +4071,8 @@ def doit(self, **hints):
+         else:
+             return self.args[0]
+ 
++    def _eval_is_commutative(self):
++        return self.args[0].is_commutative
+ 
+ 
+ def unchanged(func, *args):

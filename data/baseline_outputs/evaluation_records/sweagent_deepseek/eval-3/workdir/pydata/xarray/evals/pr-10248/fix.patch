@@ -1,0 +1,18 @@
+diff --git a/xarray/computation/arithmetic.py b/xarray/computation/arithmetic.py
+index 7c2058f9..fbcc026c 100644
+--- a/xarray/computation/arithmetic.py
++++ b/xarray/computation/arithmetic.py
+@@ -79,6 +79,13 @@ class SupportsArithmetic:
+                 "`.values`)."
+             )
+ 
++        # Convert xarray objects in kwargs (e.g., where) to numpy arrays
++        # to avoid recursion when ufuncs are called with xarray objects
++        # as keyword arguments.
++        for k, v in kwargs.items():
++            if k != "out" and isinstance(v, SupportsArithmetic):
++                kwargs[k] = np.asarray(v)
++
+         join = dataset_join = OPTIONS["arithmetic_join"]
+ 
+         return apply_ufunc(

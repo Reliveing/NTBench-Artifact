@@ -1,0 +1,54 @@
+Checking patch lib/matplotlib/tests/baseline_images/test_arrow_patches/connection_styles.png...
+error: cannot apply binary patch to 'lib/matplotlib/tests/baseline_images/test_arrow_patches/connection_styles.png' without full index line
+error: lib/matplotlib/tests/baseline_images/test_arrow_patches/connection_styles.png: patch does not apply
+Checking patch lib/matplotlib/tests/test_arrow_patches.py...
+Applied patch lib/matplotlib/tests/test_arrow_patches.py cleanly.
+Checking patch lib/matplotlib/bezier.py...
+Checking patch lib/matplotlib/patches.py...
+Checking patch lib/matplotlib/tests/test_arrow_patches.py...
+error: while searching for:
+import matplotlib.pyplot as plt
+from matplotlib.testing.decorators import image_comparison
+import matplotlib.patches as mpatches
+
+error: patch failed: lib/matplotlib/tests/test_arrow_patches.py:1
+error: while searching for:
+                                         arrowstyle=stylename,
+                                         mutation_scale=25)
+        ax.add_patch(patch)
+
+error: patch failed: lib/matplotlib/tests/test_arrow_patches.py:133
+Applied patch lib/matplotlib/bezier.py cleanly.
+Applied patch lib/matplotlib/patches.py cleanly.
+Applying patch lib/matplotlib/tests/test_arrow_patches.py with 2 rejects...
+Rejected hunk #1.
+Rejected hunk #2.
+============================= test session starts ==============================
+platform linux -- Python 3.6.15, pytest-3.10.1, py-1.11.0, pluggy-1.0.0 -- /usr/local/bin/python
+rootdir: /home/matplotlib, inifile: pytest.ini
+plugins: timeout-1.4.2
+timeout: 20.0s
+timeout method: signal
+timeout func_only: False
+collecting ... collected 10 items
+
+lib/matplotlib/tests/test_arrow_patches.py::test_fancyarrow[png] PASSED
+lib/matplotlib/tests/test_arrow_patches.py::test_fancyarrow[pdf] SKIPPED
+lib/matplotlib/tests/test_arrow_patches.py::test_fancyarrow[svg] SKIPPED
+lib/matplotlib/tests/test_arrow_patches.py::test_boxarrow[png] PASSED
+lib/matplotlib/tests/test_arrow_patches.py::test_fancyarrow_dpi_cor_100dpi[png] PASSED
+lib/matplotlib/tests/test_arrow_patches.py::test_fancyarrow_dpi_cor_200dpi[png] PASSED
+lib/matplotlib/tests/test_arrow_patches.py::test_fancyarrow_dash[png] PASSED
+lib/matplotlib/tests/test_arrow_patches.py::test_arrow_styles[png] PASSED
+lib/matplotlib/tests/test_arrow_patches.py::test_connection_styles[png] FAILED
+lib/matplotlib/tests/test_arrow_patches.py::test_invalid_intersection PASSED
+
+=================================== FAILURES ===================================
+_________________________ test_connection_styles[png] __________________________
+lib/matplotlib/testing/decorators.py:231: in copy_baseline
+    raise ImageComparisonFailure(reason)
+E   matplotlib.testing.exceptions.ImageComparisonFailure: Do not have baseline image /home/matplotlib/result_images/test_arrow_patches/connection_styles-expected.png because this file does not exist: /home/matplotlib/lib/matplotlib/tests/baseline_images/test_arrow_patches/connection_styles.png
+=========================== short test summary info ============================
+SKIP [1] /home/matplotlib/lib/matplotlib/testing/compare.py:313: Don't know how to convert pdf files to png
+SKIP [1] /home/matplotlib/lib/matplotlib/testing/compare.py:313: Don't know how to convert svg files to png
+================ 1 failed, 7 passed, 2 skipped in 20.46 seconds ================

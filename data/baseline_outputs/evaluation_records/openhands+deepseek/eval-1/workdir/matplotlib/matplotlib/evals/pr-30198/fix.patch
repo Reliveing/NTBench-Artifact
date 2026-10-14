@@ -1,0 +1,20 @@
+diff --git a/lib/matplotlib/path.py b/lib/matplotlib/path.py
+index a021706fb1..0c8e1baacc 100644
+--- a/lib/matplotlib/path.py
++++ b/lib/matplotlib/path.py
+@@ -281,7 +281,14 @@ class Path:
+         readonly, even if the source `Path` is.
+         """
+         # Deepcopying arrays (vertices, codes) strips the writeable=False flag.
+-        p = copy.deepcopy(super(), memo)
++        # Use object.__new__ to avoid infinite recursion that can be caused by
++        # copy.deepcopy(super()) on some CPython versions (see CPython #126817).
++        if memo is None:
++            memo = {}
++        p = object.__new__(self.__class__)
++        memo[id(self)] = p
++        for k, v in self.__dict__.items():
++            setattr(p, k, copy.deepcopy(v, memo))
+         p._readonly = False
+         return p
+ 

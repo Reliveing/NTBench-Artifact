@@ -1,0 +1,62 @@
+diff --git a/sklearn/svm/src/liblinear/tron.cpp b/sklearn/svm/src/liblinear/tron.cpp
+index ae1dae88da..7c9dcaf619 100644
+--- a/sklearn/svm/src/liblinear/tron.cpp
++++ b/sklearn/svm/src/liblinear/tron.cpp
+@@ -121,20 +121,21 @@ int TRON::tron(double *w)
+ 			if (gnorm <= eps*gnorm1)
+ 				break;
+ 		}
+-		if (f < -1.0e+32)
++		if (f < -1.0e+32 || isnan(f))
+ 		{
+-			info("WARNING: f < -1.0e+32\n");
++			info("WARNING: f=%g, f < -1.0e+32 or isnan\n", f);
+ 			break;
+ 		}
+-		if (fabs(actred) <= 0 && prered <= 0)
++		if ((fabs(actred) <= 0 && prered <= 0) || isnan(actred) || isnan(prered))
+ 		{
+-			info("WARNING: actred and prered <= 0\n");
++			info("WARNING: actred and prered <= 0 or isnan\n");
+ 			break;
+ 		}
+-		if (fabs(actred) <= 1.0e-12*fabs(f) &&
+-		    fabs(prered) <= 1.0e-12*fabs(f))
++		if ((fabs(actred) <= 1.0e-12*fabs(f) &&
++		     fabs(prered) <= 1.0e-12*fabs(f)) ||
++		    isnan(actred) || isnan(prered) || isnan(f))
+ 		{
+-			info("WARNING: actred and prered too small\n");
++			info("WARNING: actred and prered too small or isnan\n");
+ 			break;
+ 		}
+ 	}
+@@ -163,15 +164,27 @@ int TRON::trcg(double delta, double *g, double *s, double *r)
+ 	cgtol = 0.1 * blas->nrm2(n, g, inc);
+ 
+ 	int cg_iter = 0;
++	int max_cg_iter = n > 100 ? n : 100;
+ 	rTr = blas->dot(n, r, inc, r, inc);
+ 	while (1)
+ 	{
+ 		if (blas->nrm2(n, r, inc) <= cgtol)
+ 			break;
++		if (cg_iter >= max_cg_iter)
++		{
++			info("WARNING: CG reached max iterations\n");
++			break;
++		}
+ 		cg_iter++;
+ 		fun_obj->Hv(d, Hd);
+ 
+-		alpha = rTr / blas->dot(n, d, inc, Hd, inc);
++		double dHd = blas->dot(n, d, inc, Hd, inc);
++		if (dHd <= 0 || isnan(dHd) || isinf(dHd))
++		{
++			info("WARNING: dHd=%g, CG may not converge\n", dHd);
++			break;
++		}
++		alpha = rTr / dHd;
+ 		blas->axpy(n, alpha, d, inc, s, inc);
+ 		if (blas->nrm2(n, s, inc) > delta)
+ 		{

@@ -1,0 +1,32 @@
+diff --git a/sympy/integrals/manualintegrate.py b/sympy/integrals/manualintegrate.py
+index 50d75d5f92..c6527d2ae7 100644
+--- a/sympy/integrals/manualintegrate.py
++++ b/sympy/integrals/manualintegrate.py
+@@ -156,6 +156,12 @@ def possible_subterms(term):
+         new_integrand = test_subterm(u, u_diff)
+         if new_integrand is not False:
+             constant, new_integrand = new_integrand
++            # If u_diff is constant (u is a linear function of symbol),
++            # and the integrand is a product (Mul), the substitution just
++            # renames the variable without simplifying. Skip it to avoid
++            # infinite recursion with substitution_rule.
++            if u_diff.is_constant(symbol) and isinstance(integrand, sympy.Mul):
++                continue
+             substitution = (u, constant, new_integrand)
+             if substitution not in results:
+                 results.append(substitution)
+@@ -830,6 +836,14 @@ def rewrites_rule(integral):
+         rewritten = integrand.subs(1/sympy.cos(symbol), sympy.sec(symbol))
+         return RewriteRule(rewritten, integral_steps(rewritten, symbol), integrand, symbol)
+ 
++    # Use powsimp to combine powers with the same exponent, e.g.,
++    # 3**x * 5**(-x) -> (3/5)**x, to prevent infinite recursion in
++    # substitution_rule
++    if isinstance(integrand, sympy.Mul):
++        rewritten = sympy.powsimp(integrand)
++        if rewritten != integrand:
++            return RewriteRule(rewritten, integral_steps(rewritten, symbol), integrand, symbol)
++
+ def fallback_rule(integral):
+     return DontKnowRule(*integral)
+ 

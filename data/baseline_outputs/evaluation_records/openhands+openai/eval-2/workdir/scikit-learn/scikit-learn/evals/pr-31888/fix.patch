@@ -1,0 +1,133 @@
+diff --git a/sklearn/svm/_base.py b/sklearn/svm/_base.py
+index 6c8b981be5..5e1253aa0a 100644
+--- a/sklearn/svm/_base.py
++++ b/sklearn/svm/_base.py
+@@ -41,6 +41,28 @@ from sklearn.utils.validation import (
+ 
+ LIBSVM_IMPL = ["c_svc", "nu_svc", "one_class", "epsilon_svr", "nu_svr"]
+ 
++# Large input values can make liblinear's internal TRON solver overflow and
++# stall. The threshold is conservative: TRON can form products involving
++# squared feature values and gradients, so values above the fourth root of the
++# largest float64 are numerically unsafe.
++_LIBLINEAR_MAX_INPUT_VALUE = np.finfo(np.float64).max ** 0.25
++
++
++def _check_liblinear_large_input(X):
++    if sp.issparse(X):
++        max_val = np.max(np.abs(X.data)) if X.data.size else 0.0
++    else:
++        max_val = np.max(np.abs(X))
++
++    if max_val > _LIBLINEAR_MAX_INPUT_VALUE:
++        warnings.warn(
++            "The liblinear solver may fail to converge with features containing "
++            "large values. Consider preprocessing your data by scaling or "
++            "standardizing features with StandardScaler or MinMaxScaler.",
++            ConvergenceWarning,
++            stacklevel=2,
++        )
++
+ 
+ def _one_vs_one_coef(dual_coef, n_support, support_vectors):
+     """Generate primal coefficients from dual coefficients
+@@ -1228,6 +1250,8 @@ def _fit_liblinear(
+     if sp.issparse(X):
+         _check_large_sparse(X)
+ 
++    _check_liblinear_large_input(X)
++
+     # LibLinear wants targets as doubles, even for classification
+     y_ind = np.asarray(y_ind, dtype=np.float64).ravel()
+     y_ind = np.require(y_ind, requirements="W")
+diff --git a/sklearn/svm/src/liblinear/tron.cpp b/sklearn/svm/src/liblinear/tron.cpp
+index ae1dae88da..6e8c2bafaa 100644
+--- a/sklearn/svm/src/liblinear/tron.cpp
++++ b/sklearn/svm/src/liblinear/tron.cpp
+@@ -166,14 +166,39 @@ int TRON::trcg(double delta, double *g, double *s, double *r)
+ 	rTr = blas->dot(n, r, inc, r, inc);
+ 	while (1)
+ 	{
+-		if (blas->nrm2(n, r, inc) <= cgtol)
++		double rnorm = blas->nrm2(n, r, inc);
++		if (!isfinite(rnorm))
++		{
++			info("WARNING: non-finite residual norm in TRON\n");
++			break;
++		}
++		if (rnorm <= cgtol)
+ 			break;
+ 		cg_iter++;
+ 		fun_obj->Hv(d, Hd);
+ 
+-		alpha = rTr / blas->dot(n, d, inc, Hd, inc);
++		double dHd = blas->dot(n, d, inc, Hd, inc);
++		if (!isfinite(dHd) || dHd == 0)
++		{
++			info("WARNING: non-finite or zero Hessian product in TRON\n");
++			break;
++		}
++		alpha = rTr / dHd;
++		if (!isfinite(alpha))
++		{
++			info("WARNING: non-finite step size in TRON\n");
++			break;
++		}
+ 		blas->axpy(n, alpha, d, inc, s, inc);
+-		if (blas->nrm2(n, s, inc) > delta)
++		double snorm = blas->nrm2(n, s, inc);
++		if (!isfinite(snorm))
++		{
++			info("WARNING: non-finite step norm in TRON\n");
++			for (i=0; i<n; i++)
++				s[i] = 0;
++			break;
++		}
++		if (snorm > delta)
+ 		{
+ 			info("cg reaches trust region boundary\n");
+ 			alpha = -alpha;
+@@ -184,10 +209,25 @@ int TRON::trcg(double delta, double *g, double *s, double *r)
+ 			double dtd = blas->dot(n, d, inc, d, inc);
+ 			double dsq = delta*delta;
+ 			double rad = sqrt(std*std + dtd*(dsq-sts));
++			if (!isfinite(std) || !isfinite(sts) || !isfinite(dtd) ||
++			    !isfinite(rad) || dtd == 0)
++			{
++				info("WARNING: non-finite trust region boundary in TRON\n");
++				for (i=0; i<n; i++)
++					s[i] = 0;
++				break;
++			}
+ 			if (std >= 0)
+ 				alpha = (dsq - sts)/(std + rad);
+ 			else
+ 				alpha = (rad - std)/dtd;
++			if (!isfinite(alpha))
++			{
++				info("WARNING: non-finite boundary step size in TRON\n");
++				for (i=0; i<n; i++)
++					s[i] = 0;
++				break;
++			}
+ 			blas->axpy(n, alpha, d, inc, s, inc);
+ 			alpha = -alpha;
+ 			blas->axpy(n, alpha, Hd, inc, r, inc);
+@@ -196,7 +236,17 @@ int TRON::trcg(double delta, double *g, double *s, double *r)
+ 		alpha = -alpha;
+ 		blas->axpy(n, alpha, Hd, inc, r, inc);
+ 		rnewTrnew = blas->dot(n, r, inc, r, inc);
++		if (!isfinite(rnewTrnew) || rTr == 0)
++		{
++			info("WARNING: non-finite residual update in TRON\n");
++			break;
++		}
+ 		beta = rnewTrnew/rTr;
++		if (!isfinite(beta))
++		{
++			info("WARNING: non-finite conjugate gradient update in TRON\n");
++			break;
++		}
+ 		blas->scal(n, beta, d, inc);
+ 		blas->axpy(n, 1.0, r, inc, d, inc);
+ 		rTr = rnewTrnew;

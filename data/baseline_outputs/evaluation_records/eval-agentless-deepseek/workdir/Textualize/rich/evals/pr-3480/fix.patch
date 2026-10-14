@@ -1,0 +1,13 @@
+diff --git a/rich/text.py b/rich/text.py
+index 69e19b6..1039a6d 100644
+--- a/rich/text.py
++++ b/rich/text.py
+@@ -990,6 +990,8 @@ class Text(JupyterMixin):
+                     raise ValueError(
+                         "style must not be set when appending Text instance"
+                     )
++                if text is self:
++                    text = self.copy()
+                 text_length = self._length
+                 if text.style:
+                     self._spans.append(

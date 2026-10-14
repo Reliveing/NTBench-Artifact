@@ -1,0 +1,18 @@
+diff --git a/sympy/solvers/solvers.py b/sympy/solvers/solvers.py
+index b7d66bbefd..edde30a992 100644
+--- a/sympy/solvers/solvers.py
++++ b/sympy/solvers/solvers.py
+@@ -3009,8 +3009,12 @@ def _invert(eq, *symbols, **kwargs):
+ 
+     lhs = eq
+     if eq.args:
+-        # make sure we are working with flat eq
++        # make sure we are working with flat eq. This can evaluate
++        # unevaluated expressions like y + x - y, so check again whether
++        # any symbols of interest remain before trying to invert.
+         lhs = eq.func(*eq.args)
++        if not lhs.free_symbols & set(symbols):
++            return lhs, S.Zero
+     rhs = S.Zero
+     while True:
+         was = lhs

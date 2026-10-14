@@ -1,0 +1,42 @@
+diff --git a/sympy/concrete/summations.py b/sympy/concrete/summations.py
+index 23c5d73caf..29b559ea44 100644
+--- a/sympy/concrete/summations.py
++++ b/sympy/concrete/summations.py
+@@ -1139,6 +1139,19 @@ def _eval_sum_hyper(f, i, a):
+     return f.subs(i, 0)*hyperexpand(h), h.convergence_statement
+ 
+ 
++def _eval_sum_hyper_cond_false(cond):
++    if cond == False:
++        return True
++    if cond == True:
++        return False
++    if isinstance(cond, And) and len(cond.free_symbols) == 1:
++        try:
++            return cond.as_set() == S.EmptySet
++        except NotImplementedError:
++            pass
++    return False
++
++
+ def eval_sum_hyper(f, i_a_b):
+     from sympy.logic.boolalg import And
+ 
+@@ -1162,7 +1175,7 @@ def eval_sum_hyper(f, i_a_b):
+                 return None
+             (res1, cond1), (res2, cond2) = res1, res2
+             cond = And(cond1, cond2)
+-            if cond == False:
++            if _eval_sum_hyper_cond_false(cond):
+                 return None
+             return Piecewise((res1 - res2, cond), (old_sum, True))
+ 
+@@ -1174,7 +1187,7 @@ def eval_sum_hyper(f, i_a_b):
+         res1, cond1 = res1
+         res2, cond2 = res2
+         cond = And(cond1, cond2)
+-        if cond == False:
++        if _eval_sum_hyper_cond_false(cond):
+             return None
+         return Piecewise((res1 + res2, cond), (old_sum, True))
+ 

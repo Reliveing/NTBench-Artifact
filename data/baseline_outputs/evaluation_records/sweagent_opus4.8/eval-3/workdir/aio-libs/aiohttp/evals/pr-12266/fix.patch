@@ -1,0 +1,44 @@
+diff --git a/aiohttp/compression_utils.py b/aiohttp/compression_utils.py
+index 0bc4a30d8..b19cdf3d8 100644
+--- a/aiohttp/compression_utils.py
++++ b/aiohttp/compression_utils.py
+@@ -342,7 +342,38 @@ class ZSTDDecompressor(DecompressionBaseHandler):
+             if max_length == ZLIB_MAX_LENGTH_UNLIMITED
+             else max_length
+         )
+-        return self._obj.decompress(data, zstd_max_length)
++
++        # ``ZstdDecompressor`` does not transparently handle inputs containing
++        # multiple concatenated frames: once a frame ends the object reaches
++        # its end-of-frame state and refuses further input (raising
++        # "Already at the end of a Zstandard frame"). Loop over the frames,
++        # creating a fresh decompressor for each subsequent frame, so that
++        # responses split across several zstd frames decode correctly.
++        chunks: list[bytes] = []
++        remaining = zstd_max_length
++        data = bytes(data)
++        while True:
++            # A previous frame ended; start a new decompressor for the data
++            # left over in ``unused_data`` (the beginning of the next frame).
++            if self._obj.eof:
++                data = self._obj.unused_data + data
++                self._obj = ZstdDecompressor()
++
++            chunks.append(self._obj.decompress(data, remaining))
++            data = b""
++
++            if remaining != ZSTD_MAX_LENGTH_UNLIMITED:
++                remaining = zstd_max_length - sum(len(c) for c in chunks)
++                # Stop if we have hit the requested output limit; the caller
++                # is responsible for treating this as an error if needed.
++                if remaining <= 0:
++                    break
++
++            # Continue only if another frame follows in the current input.
++            if not (self._obj.eof and self._obj.unused_data):
++                break
++
++        return b"".join(chunks)
+ 
+     def flush(self) -> bytes:
+         return b""

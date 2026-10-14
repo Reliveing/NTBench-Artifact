@@ -1,0 +1,109 @@
+diff --git a/sympy/integrals/manualintegrate.py b/sympy/integrals/manualintegrate.py
+index 50d75d5f92..d57043ca77 100644
+--- a/sympy/integrals/manualintegrate.py
++++ b/sympy/integrals/manualintegrate.py
+@@ -755,6 +755,7 @@ def substitution_rule(integral):
+     if substitutions:
+         ways = []
+         for u_func, c, substituted in substitutions:
++            substituted = sympy.powsimp(substituted.expand())
+             subrule = integral_steps(substituted, u_var)
+             if contains_dont_know(subrule):
+                 continue
+@@ -815,6 +816,19 @@ def substitution_rule(integral):
+         or isinstance(integrand, sympy.Mul)),
+     lambda integrand, symbol: integrand.expand())
+ 
++def exp_product_rule(integral):
++    integrand, symbol = integral
++    if not any(symbol not in term.base.free_symbols and
++               symbol in term.exp.free_symbols
++               for term in integrand.atoms(sympy.Pow)):
++        return
++
++    rewritten = sympy.powsimp(integrand.expand())
++    if rewritten != integrand:
++        substep = integral_steps(rewritten, symbol)
++        if substep and not contains_dont_know(substep):
++            return RewriteRule(rewritten, substep, integrand, symbol)
++
+ def derivative_rule(integral):
+     variables = integral[0].args[1:]
+ 
+@@ -912,39 +926,43 @@ def _integral_is_subclass(integral):
+             return k and issubclass(k, klasses)
+         return _integral_is_subclass
+ 
+-    result = do_one(
+-        null_safe(switch(key, {
+-            sympy.Pow: do_one(null_safe(power_rule), null_safe(inverse_trig_rule)),
+-            sympy.Symbol: power_rule,
+-            sympy.exp: exp_rule,
+-            sympy.Add: add_rule,
+-            sympy.Mul: do_one(null_safe(mul_rule), null_safe(trig_product_rule), \
+-                null_safe(heaviside_rule)),
+-            sympy.Derivative: derivative_rule,
+-            TrigonometricFunction: trig_rule,
+-            sympy.Heaviside: heaviside_rule,
+-            sympy.Number: constant_rule
+-        })),
+-        do_one(
+-            null_safe(trig_rule),
+-            null_safe(alternatives(
+-                rewrites_rule,
+-                substitution_rule,
+-                condition(
+-                    integral_is_subclass(sympy.Mul, sympy.Pow),
+-                    partial_fractions_rule),
+-                condition(
+-                    integral_is_subclass(sympy.Mul, sympy.log, sympy.atan, sympy.asin, sympy.acos),
+-                    parts_rule),
+-                condition(
+-                    integral_is_subclass(sympy.Mul, sympy.Pow),
+-                    distribute_expand_rule),
+-                trig_powers_products_rule
+-            )),
+-            null_safe(trig_substitution_rule)
+-        ),
+-        fallback_rule)(integral)
+-    del _integral_cache[cachekey]
++    try:
++        result = do_one(
++            null_safe(switch(key, {
++                sympy.Pow: do_one(null_safe(power_rule), null_safe(inverse_trig_rule)),
++                sympy.Symbol: power_rule,
++                sympy.exp: exp_rule,
++                sympy.Add: add_rule,
++                sympy.Mul: do_one(null_safe(mul_rule), null_safe(trig_product_rule), \
++                    null_safe(heaviside_rule)),
++                sympy.Derivative: derivative_rule,
++                TrigonometricFunction: trig_rule,
++                sympy.Heaviside: heaviside_rule,
++                sympy.Number: constant_rule
++            })),
++            do_one(
++                null_safe(trig_rule),
++                null_safe(alternatives(
++                    rewrites_rule,
++                    exp_product_rule,
++                    substitution_rule,
++                    condition(
++                        integral_is_subclass(sympy.Mul, sympy.Pow),
++                        partial_fractions_rule),
++                    condition(
++                        integral_is_subclass(sympy.Mul, sympy.log, sympy.atan, sympy.asin, sympy.acos),
++                        parts_rule),
++                    condition(
++                        integral_is_subclass(sympy.Mul, sympy.Pow),
++                        distribute_expand_rule),
++                    trig_powers_products_rule
++                )),
++                null_safe(trig_substitution_rule)
++            ),
++            fallback_rule)(integral)
++    finally:
++        if cachekey in _integral_cache:
++            del _integral_cache[cachekey]
+     return result
+ 
+ @evaluates(ConstantRule)

@@ -1,0 +1,41 @@
+diff --git a/sklearn/svm/src/liblinear/tron.cpp b/sklearn/svm/src/liblinear/tron.cpp
+index ae1dae88da..949703a0d0 100644
+--- a/sklearn/svm/src/liblinear/tron.cpp
++++ b/sklearn/svm/src/liblinear/tron.cpp
+@@ -152,7 +152,7 @@ int TRON::trcg(double delta, double *g, double *s, double *r)
+ 	int n = fun_obj->get_nr_variable();
+ 	double *d = new double[n];
+ 	double *Hd = new double[n];
+-	double rTr, rnewTrnew, alpha, beta, cgtol;
++	double rTr, rnewTrnew, alpha, beta, cgtol, d_Hd;
+ 
+ 	for (i=0; i<n; i++)
+ 	{
+@@ -164,14 +164,26 @@ int TRON::trcg(double delta, double *g, double *s, double *r)
+ 
+ 	int cg_iter = 0;
+ 	rTr = blas->dot(n, r, inc, r, inc);
++	int max_cg_iter = max(n, 100);
+ 	while (1)
+ 	{
+ 		if (blas->nrm2(n, r, inc) <= cgtol)
+ 			break;
+ 		cg_iter++;
++		if (cg_iter > max_cg_iter)
++		{
++			info("WARNING: CG reached max number of iterations\n");
++			break;
++		}
+ 		fun_obj->Hv(d, Hd);
+ 
+-		alpha = rTr / blas->dot(n, d, inc, Hd, inc);
++		d_Hd = blas->dot(n, d, inc, Hd, inc);
++		if (d_Hd <= 0 || !isfinite(d_Hd))
++		{
++			info("WARNING: d'Hd is 0 or not finite\n");
++			break;
++		}
++		alpha = rTr / d_Hd;
+ 		blas->axpy(n, alpha, d, inc, s, inc);
+ 		if (blas->nrm2(n, s, inc) > delta)
+ 		{

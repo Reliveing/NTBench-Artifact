@@ -1,0 +1,117 @@
+============================= test session starts ==============================
+platform linux -- Python 3.10.19, pytest-6.2.5, py-1.11.0, pluggy-1.6.0
+benchmark: 3.4.1 (defaults: timer=time.perf_counter disable_gc=False min_rounds=5 min_time=0.000005 max_time=1.0 calibration_precision=10 warmup=False warmup_iterations=100000)
+rootdir: /home/pylint, configfile: setup.cfg
+plugins: profiling-1.8.1, forked-1.6.0, benchmark-3.4.1, xdist-2.5.0, cov-2.12.1
+collected 19 items
+
+tests/test_regr.py ..................F                                   [100%]
+
+=================================== FAILURES ===================================
+_____ test_hang[/home/pylint/tests/regrtest_data/hang/pkg4972.string-30.0] _____
+
+finalize_linter = Checker 'master' (responsible for 'F0001', 'F0002', 'F0010', 'I0001', 'I0010', 'I0011', 'I0013', 'I0020', 'I0021', 'I0022', 'E0001', 'E0011', 'E0012', 'E0013')
+fname = '/home/pylint/tests/regrtest_data/hang/pkg4972.string', timeout_s = 30.0
+
+    @pytest.mark.slow
+    @pytest.mark.serial
+    @pytest.mark.skipif(not hasattr(signal, "setitimer"), reason="Assumes POSIX signals")
+    @pytest.mark.parametrize(
+        "fname,timeout_s",
+        [
+            (join(REGR_DATA, "hang", "pkg4972.string"), 30.0),
+        ],
+    )
+    def test_hang(finalize_linter, fname: str, timeout_s: float) -> None:
+        with timeout(timeout_s):
+>           finalize_linter.check(fname)
+
+tests/test_regr.py:169: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+pylint/lint/pylinter.py:970: in check
+    self._check_files(
+pylint/lint/pylinter.py:1008: in _check_files
+    self._check_file(get_ast, check_astroid_module, file)
+pylint/lint/pylinter.py:1043: in _check_file
+    check_astroid_module(ast_node)
+pylint/lint/pylinter.py:1180: in check_astroid_module
+    retval = self._check_astroid_module(
+pylint/lint/pylinter.py:1227: in _check_astroid_module
+    walker.walk(node)
+pylint/utils/ast_walker.py:78: in walk
+    self.walk(child)
+pylint/utils/ast_walker.py:75: in walk
+    callback(astroid)
+pylint/checkers/design_analysis.py:425: in visit_classdef
+    parents = _get_parents(
+pylint/checkers/design_analysis.py:270: in _get_parents
+    to_explore.extend(parent.ancestors(recurs=False))
+/usr/local/lib/python3.10/site-packages/astroid/nodes/scoped_nodes.py:2365: in ancestors
+    for baseobj in stmt.infer(context):
+/usr/local/lib/python3.10/site-packages/astroid/nodes/node_ng.py:91: in infer
+    if self._explicit_inference is not None:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+_signum = 14
+_frame = <frame at 0x5e1600ac7400, file '/usr/local/lib/python3.10/site-packages/astroid/nodes/node_ng.py', line 91, code infer>
+
+    def _handle(_signum, _frame):
+>       pytest.fail("timed out")
+E       Failed: timed out
+
+tests/test_regr.py:149: Failed
+=============================== warnings summary ===============================
+../../usr/local/lib/python3.10/site-packages/astroid/interpreter/_import/util.py:6
+  /usr/local/lib/python3.10/site-packages/astroid/interpreter/_import/util.py:6: DeprecationWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html
+    import pkg_resources
+
+../../usr/local/lib/python3.10/site-packages/astroid/node_classes.py:90
+  /usr/local/lib/python3.10/site-packages/astroid/node_classes.py:90: DeprecationWarning: The 'astroid.node_classes' module is deprecated and will be replaced by 'astroid.nodes' in astroid 3.0.0
+    warnings.warn(
+
+../../usr/local/lib/python3.10/site-packages/astroid/scoped_nodes.py:26
+  /usr/local/lib/python3.10/site-packages/astroid/scoped_nodes.py:26: DeprecationWarning: The 'astroid.scoped_nodes' module is deprecated and will be replaced by 'astroid.nodes' in astroid 3.0.0
+    warnings.warn(
+
+tests/test_regr.py:158
+  /home/pylint/tests/test_regr.py:158: PytestUnknownMarkWarning: Unknown pytest.mark.slow - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/mark.html
+    @pytest.mark.slow
+
+tests/test_regr.py:159
+  /home/pylint/tests/test_regr.py:159: PytestUnknownMarkWarning: Unknown pytest.mark.serial - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/mark.html
+    @pytest.mark.serial
+
+tests/test_regr.py: 22 warnings
+  /home/pylint/pylint/message/message.py:67: DeprecationWarning: In pylint 3.0, Messages will only accept a MessageLocationTuple as location parameter
+    warn(
+
+tests/test_regr.py::test_crash[/home/pylint/tests/regrtest_data/import_assign.py]
+tests/test_regr.py::test_crash[/home/pylint/tests/regrtest_data/special_attr_scope_lookup_crash.py]
+tests/test_regr.py::test_crash[/home/pylint/tests/regrtest_data/try_finally_disable_msg_crash]
+tests/test_regr.py::test_hang[/home/pylint/tests/regrtest_data/hang/pkg4972.string-30.0]
+  /home/pylint/pylint/lint/pylinter.py:951: DeprecationWarning: In pylint 3.0, the checkers check function will only accept sequence of string
+    warnings.warn(
+
+-- Docs: https://docs.pytest.org/en/stable/warnings.html
+==================================== PASSES ====================================
+=========================== short test summary info ============================
+PASSED tests/test_regr.py::test_package[file_name0-<lambda>]
+PASSED tests/test_regr.py::test_package[file_name1-<lambda>]
+PASSED tests/test_regr.py::test_package[file_name2-<lambda>]
+PASSED tests/test_regr.py::test_package[file_name3-<lambda>]
+PASSED tests/test_regr.py::test_package[file_name4-<lambda>]
+PASSED tests/test_regr.py::test_package[file_name5-<lambda>]
+PASSED tests/test_regr.py::test_package[file_name6-<lambda>]
+PASSED tests/test_regr.py::test_package[file_name7-<lambda>]
+PASSED tests/test_regr.py::test_package[file_name8-<lambda>]
+PASSED tests/test_regr.py::test_crash[/home/pylint/tests/regrtest_data/import_assign.py]
+PASSED tests/test_regr.py::test_crash[/home/pylint/tests/regrtest_data/special_attr_scope_lookup_crash.py]
+PASSED tests/test_regr.py::test_crash[/home/pylint/tests/regrtest_data/try_finally_disable_msg_crash]
+PASSED tests/test_regr.py::test_descriptor_crash[application_crash.py]
+PASSED tests/test_regr.py::test_descriptor_crash[try_finally_disable_msg_crash.py]
+PASSED tests/test_regr.py::test_descriptor_crash[descriptor_crash.py]
+PASSED tests/test_regr.py::test_descriptor_crash[special_attr_scope_lookup_crash.py]
+PASSED tests/test_regr.py::test_check_package___init__
+PASSED tests/test_regr.py::test_pylint_config_attr
+FAILED tests/test_regr.py::test_hang[/home/pylint/tests/regrtest_data/hang/pkg4972.string-30.0]
+================== 1 failed, 18 passed, 31 warnings in 33.65s ==================

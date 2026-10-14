@@ -1,0 +1,19 @@
+diff --git a/numpy/core/arrayprint.py b/numpy/core/arrayprint.py
+index 987589dbe1..82508497a3 100644
+--- a/numpy/core/arrayprint.py
++++ b/numpy/core/arrayprint.py
+@@ -1421,8 +1421,13 @@ def array_str(a, max_line_width=None, precision=None, suppress_small=None):
+     # the str of 0d arrays is a special case: It should appear like a scalar,
+     # so floats are not truncated by `precision`, and strings are not wrapped
+     # in quotes. So we return the str of the scalar value.
++    #
++    # Use the base ndarray implementation to get the scalar value, since
++    # subclasses may override __getitem__ and return a 0d array (or another
++    # array-like object) instead of a scalar, which can lead to infinite
++    # recursion when converting to str.
+     if a.shape == ():
+-        return str(a[()])
++        return str(ndarray.__getitem__(a, ()))
+ 
+     return array2string(a, max_line_width, precision, suppress_small, ' ', "")
+ 

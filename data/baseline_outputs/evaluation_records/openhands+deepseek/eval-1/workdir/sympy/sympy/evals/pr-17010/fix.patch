@@ -1,0 +1,13 @@
+diff --git a/sympy/functions/special/polynomials.py b/sympy/functions/special/polynomials.py
+index 361ba77c20..9416109d8b 100644
+--- a/sympy/functions/special/polynomials.py
++++ b/sympy/functions/special/polynomials.py
+@@ -1093,7 +1093,7 @@ def eval(cls, n, x):
+             # L_{n}(-x)  --->  exp(-x) * L_{-n-1}(x)
+             # L_{-n}(x)  --->  exp(x) * L_{n-1}(-x)
+             if n.could_extract_minus_sign():
+-                return exp(x) * laguerre(n - 1, -x)
++                return exp(x) * laguerre(-n - 1, -x)
+             # We can evaluate for some special values of x
+             if x == S.Zero:
+                 return S.One

@@ -1,0 +1,24 @@
+diff --git a/sympy/vector/basisdependent.py b/sympy/vector/basisdependent.py
+index 53e4efc0bf..32a34b84f4 100644
+--- a/sympy/vector/basisdependent.py
++++ b/sympy/vector/basisdependent.py
+@@ -267,6 +267,9 @@ def _new(cls, *args, **options):
+             elif isinstance(arg, cls._add_func):
+                 count += 1
+                 expr = arg
++            elif isinstance(arg, cls._expr_type):
++                count += 1
++                expr = arg
+             elif isinstance(arg, (Cross, Dot, Curl, Gradient)):
+                 extra_args.append(arg)
+             else:
+@@ -287,6 +290,9 @@ def _new(cls, *args, **options):
+                        x in expr.args]
+             return cls._add_func(*newargs)
+ 
++        if not hasattr(expr, '_base_instance'):
++            return Mul(measure_number, expr, *extra_args, **options)
++
+         obj = super().__new__(cls, measure_number,
+                               expr._base_instance,
+                               *extra_args,

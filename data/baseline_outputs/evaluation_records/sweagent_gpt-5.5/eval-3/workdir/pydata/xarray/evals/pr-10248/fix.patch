@@ -1,0 +1,19 @@
+diff --git a/xarray/computation/arithmetic.py b/xarray/computation/arithmetic.py
+index 7c2058f9..ac815b72 100644
+--- a/xarray/computation/arithmetic.py
++++ b/xarray/computation/arithmetic.py
+@@ -79,6 +79,14 @@ class SupportsArithmetic:
+                 "`.values`)."
+             )
+ 
++        for key, value in kwargs.items():
++            if (
++                key != "out"
++                and isinstance(value, SupportsArithmetic)
++                and hasattr(value, "data")
++            ):
++                kwargs[key] = value.data
++
+         join = dataset_join = OPTIONS["arithmetic_join"]
+ 
+         return apply_ufunc(

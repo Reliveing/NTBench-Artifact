@@ -1,0 +1,37 @@
+diff --git a/xarray/computation/arithmetic.py b/xarray/computation/arithmetic.py
+index 7c2058f9..e504d2c0 100644
+--- a/xarray/computation/arithmetic.py
++++ b/xarray/computation/arithmetic.py
+@@ -81,6 +81,14 @@ class SupportsArithmetic:
+ 
+         join = dataset_join = OPTIONS["arithmetic_join"]
+ 
++        # Replace any xarray objects in kwargs (like `where`) with their
++        # underlying array values to avoid recursion when the ufunc is
++        # applied to the extracted data.
++        kwargs = {
++            key: value.data if isinstance(value, SupportsArithmetic) else value
++            for key, value in kwargs.items()
++        }
++
+         return apply_ufunc(
+             ufunc,
+             *inputs,
+diff --git a/xarray/namedarray/utils.py b/xarray/namedarray/utils.py
+index 96060730..b7e16338 100644
+--- a/xarray/namedarray/utils.py
++++ b/xarray/namedarray/utils.py
+@@ -62,11 +62,11 @@ def module_available(module: str, minversion: str | None = None) -> bool:
+ 
+ def is_dask_collection(x: object) -> TypeGuard[DaskCollection]:
+     if module_available("dask"):
+-        from dask.base import is_dask_collection
++        from dask.base import is_dask_collection as _dask_is_dask_collection
+ 
+         # use is_dask_collection function instead of dask.typing.DaskCollection
+         # see https://github.com/pydata/xarray/pull/8241#discussion_r1476276023
+-        return is_dask_collection(x)
++        return _dask_is_dask_collection(x)
+     return False
+ 
+ 

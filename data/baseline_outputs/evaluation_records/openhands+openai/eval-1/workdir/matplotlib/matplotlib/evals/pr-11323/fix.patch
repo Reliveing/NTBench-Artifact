@@ -1,0 +1,99 @@
+diff --git a/lib/matplotlib/patches.py b/lib/matplotlib/patches.py
+index a6120d6450..75c98e67f6 100644
+--- a/lib/matplotlib/patches.py
++++ b/lib/matplotlib/patches.py
+@@ -3130,17 +3130,87 @@ class ArrowStyle(_Style):
+         @staticmethod
+         def ensure_quadratic_bezier(path):
+             """
+-            Some ArrowStyle class only works with a simple quadratic Bezier
+-            curve (created with Arc3Connetion or Angle3Connector). This static
+-            method is to check if the provided path is a simple quadratic
+-            Bezier curve and returns its control points if true.
++            Some ArrowStyle classes only work with a simple quadratic Bezier
++            curve.  If the provided path is not one, approximate it by a
++            quadratic Bezier curve and return its control points.
+             """
+             segments = list(path.iter_segments())
+-            if (len(segments) != 2 or segments[0][1] != Path.MOVETO or
+-                    segments[1][1] != Path.CURVE3):
++            if (len(segments) == 2 and segments[0][1] == Path.MOVETO and
++                    segments[1][1] == Path.CURVE3):
++                return [*segments[0][0], *segments[1][0]]
++
++            def raise_not_quadratic():
+                 raise ValueError(
+                     "'path' is not a valid quadratic Bezier curve")
+-            return [*segments[0][0], *segments[1][0]]
++
++            if not segments or segments[0][1] != Path.MOVETO:
++                raise_not_quadratic()
++
++            points = [segments[0][0][-2:]]
++            current = points[0]
++            first_tangent = None
++            last_tangent = None
++
++            for ctl_points, code in segments[1:]:
++                if code == Path.MOVETO:
++                    raise_not_quadratic()
++                if code == Path.CLOSEPOLY:
++                    continue
++
++                end = ctl_points[-2:]
++                if code in [Path.CURVE3, Path.CURVE4]:
++                    start_tangent = ctl_points[:2]
++                    end_tangent = ctl_points[-4:-2]
++                else:
++                    start_tangent = end
++                    end_tangent = current
++
++                if first_tangent is None:
++                    if np.any(start_tangent != current):
++                        first_tangent = start_tangent
++                    elif np.any(end != current):
++                        first_tangent = end
++
++                if np.any(end_tangent != end):
++                    last_tangent = end_tangent
++                elif np.any(current != end):
++                    last_tangent = current
++
++                points.append(end)
++                current = end
++
++            if len(points) < 2:
++                raise_not_quadratic()
++
++            start = points[0]
++            end = points[-1]
++
++            def get_midpoint_control():
++                if len(points) == 2:
++                    mid = (start + end) / 2
++                else:
++                    mid = points[len(points) // 2]
++                return (4 * mid - start - end) / 2
++
++            if first_tangent is None or last_tangent is None:
++                control = get_midpoint_control()
++            else:
++                dx1, dy1 = first_tangent - start
++                dx2, dy2 = last_tangent - end
++                norm1 = np.hypot(dx1, dy1)
++                norm2 = np.hypot(dx2, dy2)
++                cross = dx1 * dy2 - dy1 * dx2
++                if (norm1 == 0 or norm2 == 0 or
++                        abs(cross) <= 1e-5 * norm1 * norm2):
++                    control = get_midpoint_control()
++                else:
++                    try:
++                        control = get_intersection(start[0], start[1], dx1, dy1,
++                                                   end[0], end[1], dx2, dy2)
++                    except ValueError:
++                        control = get_midpoint_control()
++
++            return [*start, *control, *end]
+ 
+         def transmute(self, path, mutation_size, linewidth):
+             """

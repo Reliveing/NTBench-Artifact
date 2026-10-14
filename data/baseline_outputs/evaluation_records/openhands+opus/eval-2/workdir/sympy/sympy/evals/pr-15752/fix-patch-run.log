@@ -1,0 +1,61 @@
+Obtaining file:///home/sympy
+  Preparing metadata (setup.py): started
+  Preparing metadata (setup.py): finished with status 'done'
+Requirement already satisfied: mpmath>=0.19 in /usr/local/lib/python3.8/site-packages (from sympy==1.4.dev0) (1.3.0)
+Installing collected packages: sympy
+  Attempting uninstall: sympy
+    Found existing installation: sympy 1.4.dev0
+    Uninstalling sympy-1.4.dev0:
+      Successfully uninstalled sympy-1.4.dev0
+  DEPRECATION: Legacy editable install of sympy==1.4.dev0 from file:///home/sympy (setup.py develop) is deprecated. pip 25.1 will enforce this behaviour change. A possible replacement is to add a pyproject.toml or enable --use-pep517, and use setuptools >= 64. If the resulting installation is not behaving as expected, try using --config-settings editable_mode=compat. Please consult the setuptools documentation for more information. Discussion can be found at https://github.com/pypa/pip/issues/11457
+  Running setup.py develop for sympy
+Successfully installed sympy
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+============================= test session starts ==============================
+collecting ... collected 8 items
+
+sympy/solvers/tests/test_recurr.py::test_rsolve_poly PASSED              [ 12%]
+sympy/solvers/tests/test_recurr.py::test_rsolve_ratio PASSED             [ 25%]
+sympy/solvers/tests/test_recurr.py::test_rsolve_hyper PASSED             [ 37%]
+sympy/solvers/tests/test_recurr.py::test_rsolve_bulk PASSED              [ 50%]
+sympy/solvers/tests/test_recurr.py::test_rsolve PASSED                   [ 62%]
+sympy/solvers/tests/test_recurr.py::test_rsolve_raises PASSED            [ 75%]
+sympy/solvers/tests/test_recurr.py::test_issue_6844 PASSED               [ 87%]
+sympy/solvers/tests/test_recurr.py::test_issue_15751 PASSED              [100%]
+
+=============================== warnings summary ===============================
+sympy/solvers/diophantine.py:3188
+  /home/sympy/sympy/solvers/diophantine.py:3188: SyntaxWarning: "is" with a literal. Did you mean "=="?
+    if feasible is 1:  # it's prime and k == 2
+
+sympy/plotting/plot.py:520
+  /home/sympy/sympy/plotting/plot.py:520: SyntaxWarning: "is" with a literal. Did you mean "=="?
+    if self.xscale is 'log':
+
+sympy/plotting/plot.py:540
+  /home/sympy/sympy/plotting/plot.py:540: SyntaxWarning: "is" with a literal. Did you mean "=="?
+    if self.xscale is 'log':
+
+sympy/plotting/plot.py:553
+  /home/sympy/sympy/plotting/plot.py:553: SyntaxWarning: "is" with a literal. Did you mean "=="?
+    if self.xscale is 'log':
+
+sympy/plotting/plot.py:560
+  /home/sympy/sympy/plotting/plot.py:560: SyntaxWarning: "is" with a literal. Did you mean "=="?
+    if self.xscale is 'log':
+
+sympy/solvers/tests/test_recurr.py::test_rsolve_hyper
+  /home/sympy/sympy/polys/agca/modules.py:351: SyntaxWarning: "is" with a literal. Did you mean "=="?
+    elif elem is 0:
+
+-- Docs: https://docs.pytest.org/en/stable/warnings.html
+=========================== short test summary info ============================
+PASSED sympy/solvers/tests/test_recurr.py::test_rsolve_poly
+PASSED sympy/solvers/tests/test_recurr.py::test_rsolve_ratio
+PASSED sympy/solvers/tests/test_recurr.py::test_rsolve_hyper
+PASSED sympy/solvers/tests/test_recurr.py::test_rsolve_bulk
+PASSED sympy/solvers/tests/test_recurr.py::test_rsolve
+PASSED sympy/solvers/tests/test_recurr.py::test_rsolve_raises
+PASSED sympy/solvers/tests/test_recurr.py::test_issue_6844
+PASSED sympy/solvers/tests/test_recurr.py::test_issue_15751
+======================== 8 passed, 6 warnings in 12.77s ========================

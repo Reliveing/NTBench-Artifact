@@ -1,0 +1,22 @@
+diff --git a/dask/dataframe/multi.py b/dask/dataframe/multi.py
+index 278d434..35575ef 100644
+--- a/dask/dataframe/multi.py
++++ b/dask/dataframe/multi.py
+@@ -739,6 +739,11 @@ def pair_partitions(L, R):
+     """
+     result = []
+ 
++    # Empty dataframes can have entirely missing divisions. Comparisons
++    # against those divisions do not advance either partition pointer.
++    if R and all(division is None or pd.isna(division) for division in R):
++        return [[(0, None, None)] for _ in range(len(L) - 1)]
++
+     n, m = len(L) - 1, len(R) - 1
+     i, j = 0, -1
+     while j + 1 < m and R[j + 1] <= L[i]:
+@@ -1533,4 +1538,4 @@ def _recursive_pairwise_outer_join(
+             ],
+             **merge_options,
+         )
+-        return merged_ddf
++        return merged_ddf

@@ -1,0 +1,10 @@
+framework,model_column_prefix,runs_per_instance,successes,outcomes,pass_at_1_percent,solved_instances,empirical_pass_at_3_percent
+Agentless,deepseek,1,20,53,37.74,20,
+Agentless,gpt5.5,1,26,53,49.06,26,
+Agentless,opus4.8,1,24,53,45.28,24,
+OpenHands,deepseekv4pro,3,103,159,64.78,40,75.47
+OpenHands,gpt5.5,3,110,159,69.18,39,73.58
+OpenHands,opus4.8,3,111,159,69.81,42,79.25
+mini-swe-agent,deepseekv4pro,3,110,159,69.18,39,73.58
+mini-swe-agent,gpt5.5,3,103,159,64.78,37,69.81
+mini-swe-agent,opus4.8,3,116,159,72.96,40,75.47

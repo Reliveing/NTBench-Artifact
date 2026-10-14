@@ -1,0 +1,19 @@
+{
+  "coded_rows": 390,
+  "exact_csv_failure_key_match": true,
+  "duplicate_keys": 0,
+  "invalid_codes": 0,
+  "total_by_outcome": {
+    "O3": 100,
+    "O2": 134,
+    "O4": 120,
+    "O5": 11,
+    "O1": 22,
+    "U": 3
+  },
+  "evidence_basis": {
+    "static_patch": 275,
+    "recorded_runtime": 113,
+    "absence_record": 2
+  }
+}

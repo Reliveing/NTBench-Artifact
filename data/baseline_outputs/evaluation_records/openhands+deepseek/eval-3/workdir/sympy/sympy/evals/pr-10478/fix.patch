@@ -1,0 +1,24 @@
+diff --git a/sympy/functions/combinatorial/factorials.py b/sympy/functions/combinatorial/factorials.py
+index ea9e5a5ec0..577962b81c 100644
+--- a/sympy/functions/combinatorial/factorials.py
++++ b/sympy/functions/combinatorial/factorials.py
+@@ -339,14 +339,15 @@ def eval(cls, arg):
+                 if arg.is_even:
+                     k = arg / 2
+                     return 2 ** k * factorial(k)
++                if arg.is_odd:
++                    return factorial(arg) / factorial2(arg - 1)
++                return
+ 
+-                return factorial(arg) / factorial2(arg - 1)
+-
++            if arg.is_odd:
++                return arg * (S.NegativeOne) ** ((1 - arg) / 2) / factorial2(-arg)
+             if arg.is_even:
+                 raise ValueError("argument must be nonnegative or odd")
+ 
+-            return arg * (S.NegativeOne) ** ((1 - arg) / 2) / factorial2(-arg)
+-
+     def _eval_is_even(self):
+         # Double factorial is even for every positive even input
+         n = self.args[0]

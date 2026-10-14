@@ -1,0 +1,36 @@
+diff --git a/src/tox/config/loader/convert.py b/src/tox/config/loader/convert.py
+index 8078809..1cdad8e 100644
+--- a/src/tox/config/loader/convert.py
++++ b/src/tox/config/loader/convert.py
+@@ -39,6 +39,13 @@ class Convert(ABC, Generic[T]):
+         ):
+             return self._to_typing(raw, of_type, factory)
+         if isclass(of_type):
++            from tox.config.set_env import SetEnv  # noqa: PLC0415
++
++            if issubclass(of_type, SetEnv) and factory is not None:
++                # SetEnv defers substitution resolution internally; passing the raw
++                # value (without eagerly unrolling nested substitutions) avoids a
++                # recursion when values reference e.g. {env_site_packages_dir}.
++                return cast("V", factory(raw))
+             if issubclass(of_type, Path):
+                 return cast("V", self.to_path(raw))
+             if issubclass(of_type, bool):
+@@ -199,4 +206,4 @@ class Convert(ABC, Generic[T]):
+ __all__ = [
+     "Convert",
+     "Factory",
+-]
++]
+diff --git a/src/tox/config/set_env.py b/src/tox/config/set_env.py
+index bbd3b35..76bc046 100644
+--- a/src/tox/config/set_env.py
++++ b/src/tox/config/set_env.py
+@@ -73,6 +73,7 @@ class SetEnv:
+             else:
+                 self._raw[key] = value
+                 keys_after_file.add(key)
++        self.changed = False
+ 
+     @staticmethod
+     def _is_file_line(line: str) -> bool:

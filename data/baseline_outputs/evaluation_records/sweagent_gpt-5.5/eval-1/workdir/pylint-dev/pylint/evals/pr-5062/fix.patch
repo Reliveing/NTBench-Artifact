@@ -1,0 +1,44 @@
+diff --git a/pylint/lint/parallel.py b/pylint/lint/parallel.py
+index 1896fc95f..ee1a0cec8 100644
+--- a/pylint/lint/parallel.py
++++ b/pylint/lint/parallel.py
+@@ -121,6 +121,17 @@ def check_parallel(linter, jobs, files: Iterable[FileItem], arguments=None):
+     This splits the work filestream-by-filestream. If you need to do work across
+     multiple files, as in the similarity-checker, then inherit from MapReduceMixin and
+     implement the map/reduce mixin functionality"""
++    linter.open()
++    files = tuple(files)
++    if not files:
++        return
++
++    # Avoid creating more worker processes than there are files to lint. This can
++    # happen when ``jobs`` is auto-detected from the number of CPUs, which can be
++    # much larger than the actual workload. Extra processes do no useful work and
++    # can make pylint appear to hang while they initialize.
++    jobs = min(jobs, len(files))
++
+     # The reporter does not need to be passed to worker processes, i.e. the reporter does
+     original_reporter = linter.reporter
+     linter.reporter = None
+@@ -136,7 +147,7 @@ def check_parallel(linter, jobs, files: Iterable[FileItem], arguments=None):
+     # can be set back here on the parent process so that results get stored into
+     # correct reporter
+     linter.set_reporter(original_reporter)
+-    linter.open()
++    pool_closed = False
+     try:
+         all_stats = []
+         all_mapreduce_data = collections.defaultdict(list)
+@@ -162,8 +173,11 @@ def check_parallel(linter, jobs, files: Iterable[FileItem], arguments=None):
+             all_stats.append(stats)
+             all_mapreduce_data[worker_idx].append(mapreduce_data)
+             linter.msg_status |= msg_status
+-    finally:
+         pool.close()
++        pool_closed = True
++    finally:
++        if not pool_closed:
++            pool.terminate()
+         pool.join()
+ 
+     _merge_mapreduce_data(linter, all_mapreduce_data)

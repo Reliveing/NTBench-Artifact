@@ -1,0 +1,79 @@
+diff --git a/sympy/polys/polyroots.py b/sympy/polys/polyroots.py
+index 4def1312eb..918ee6404e 100644
+--- a/sympy/polys/polyroots.py
++++ b/sympy/polys/polyroots.py
+@@ -1093,33 +1093,50 @@ def _try_heuristics(f):
+             for r in roots_fun(f):
+                 _update_dict(result, zeros, r, 1)
+         else:
+-            _, factors = Poly(f.as_expr()).factor_list()
+-            if len(factors) == 1 and f.degree() == 2:
+-                for r in roots_quadratic(f):
+-                    _update_dict(result, zeros, r, 1)
+-            else:
+-                if len(factors) == 1 and factors[0][1] == 1:
+-                    if f.get_domain().is_EX:
+-                        res = to_rational_coeffs(f)
+-                        if res:
+-                            if res[0] is None:
+-                                translate_x, f = res[2:]
++            n = f.degree()
++            if n > 5:
++                # Before trying functional decomposition, check whether a
++                # translation makes this a binomial.  Decomposing shifted
++                # binomials like (x - a)**n - b can create very large nested
++                # radical expressions for n > 5 whereas roots_binomial gives
++                # the roots directly.
++                shift = -f.nth(n - 1)/(n*f.LC())
++
++                if shift:
++                    shifted = f.shift(shift)
++
++                    if shifted.length() == 2:
++                        for r in roots_binomial(shifted):
++                            _update_dict(result, zeros, r + shift, 1)
++
++            if not result:
++                _, factors = Poly(f.as_expr()).factor_list()
++                if len(factors) == 1 and f.degree() == 2:
++                    for r in roots_quadratic(f):
++                        _update_dict(result, zeros, r, 1)
++                else:
++                    if len(factors) == 1 and factors[0][1] == 1:
++                        if f.get_domain().is_EX:
++                            res = to_rational_coeffs(f)
++                            if res:
++                                if res[0] is None:
++                                    translate_x, f = res[2:]
++                                else:
++                                    rescale_x, f = res[1], res[-1]
++                                result = roots(f)
++                                if not result:
++                                    for currentroot in _try_decompose(f):
++                                        _update_dict(result, zeros, currentroot, 1)
+                             else:
+-                                rescale_x, f = res[1], res[-1]
+-                            result = roots(f)
+-                            if not result:
+-                                for currentroot in _try_decompose(f):
+-                                    _update_dict(result, zeros, currentroot, 1)
++                                for r in _try_heuristics(f):
++                                    _update_dict(result, zeros, r, 1)
+                         else:
+-                            for r in _try_heuristics(f):
+-                                _update_dict(result, zeros, r, 1)
++                            for currentroot in _try_decompose(f):
++                                _update_dict(result, zeros, currentroot, 1)
+                     else:
+-                        for currentroot in _try_decompose(f):
+-                            _update_dict(result, zeros, currentroot, 1)
+-                else:
+-                    for currentfactor, k in factors:
+-                        for r in _try_heuristics(Poly(currentfactor, f.gen, field=True)):
+-                            _update_dict(result, zeros, r, k)
++                        for currentfactor, k in factors:
++                            for r in _try_heuristics(Poly(currentfactor, f.gen, field=True)):
++                                _update_dict(result, zeros, r, k)
+ 
+     if coeff is not S.One:
+         _result, result, = result, {}

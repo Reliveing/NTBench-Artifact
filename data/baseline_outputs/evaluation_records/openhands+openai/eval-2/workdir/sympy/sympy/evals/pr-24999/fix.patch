@@ -1,0 +1,17 @@
+diff --git a/sympy/core/mod.py b/sympy/core/mod.py
+index 86e04850be..301f91386e 100644
+--- a/sympy/core/mod.py
++++ b/sympy/core/mod.py
+@@ -64,6 +64,12 @@ def number_eval(p, q):
+                 return S.NaN
+             if p is S.Zero or p in (q, -q) or (p.is_integer and q == 1):
+                 return S.Zero
++            if q == 1 and p.is_integer is None:
++                den = p.as_numer_denom()[1]
++                if den.is_zero is False:
++                    p_cancel = p.cancel()
++                    if p_cancel != p and p_cancel.is_integer:
++                        return S.Zero
+ 
+             if q.is_Number:
+                 if p.is_Number:

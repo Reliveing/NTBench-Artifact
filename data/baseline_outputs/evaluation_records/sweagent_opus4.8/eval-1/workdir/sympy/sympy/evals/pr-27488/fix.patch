@@ -1,0 +1,40 @@
+diff --git a/sympy/vector/dyadic.py b/sympy/vector/dyadic.py
+index 980c6e6dad..5fbc4eaeec 100644
+--- a/sympy/vector/dyadic.py
++++ b/sympy/vector/dyadic.py
+@@ -30,6 +30,14 @@ class Dyadic(BasisDependent):
+     _base_func: type[Dyadic]
+     zero: DyadicZero
+ 
++    def __new__(cls, *args, **kwargs):
++        if cls is Dyadic:
++            raise TypeError(
++                "Dyadic cannot be instantiated directly. Use a subclass "
++                "such as BaseDyadic, DyadicAdd, DyadicMul or DyadicZero."
++            )
++        return super().__new__(cls, *args, **kwargs)
++
+     @property
+     def components(self):
+         """
+diff --git a/sympy/vector/vector.py b/sympy/vector/vector.py
+index 77ee9bfa9f..45313e8cfe 100644
+--- a/sympy/vector/vector.py
++++ b/sympy/vector/vector.py
+@@ -37,6 +37,16 @@ class Vector(BasisDependent):
+ 
+     kind: VectorKind = VectorKind()
+ 
++    def __new__(cls, *args, **kwargs):
++        if cls is Vector:
++            raise TypeError(
++                "Vector cannot be instantiated directly. Use a subclass "
++                "such as BaseVector, VectorAdd, VectorMul or VectorZero, "
++                "or build vectors from a coordinate system's base vectors "
++                "(e.g. CoordSys3D)."
++            )
++        return super().__new__(cls, *args, **kwargs)
++
+     @property
+     def components(self):
+         """

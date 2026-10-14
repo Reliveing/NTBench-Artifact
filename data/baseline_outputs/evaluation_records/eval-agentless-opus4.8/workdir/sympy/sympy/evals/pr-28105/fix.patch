@@ -1,0 +1,45 @@
+diff --git a/sympy/solvers/simplex.py b/sympy/solvers/simplex.py
+index f140268..d3fbba9 100644
+--- a/sympy/solvers/simplex.py
++++ b/sympy/solvers/simplex.py
+@@ -301,6 +301,9 @@ def _simplex(A, B, C, D=None, dual=False):
+     ## keep track of last pivot row and column
+     last = None
+ 
++    ## keep track of seen tableaux to detect cycling
++    seen = set()
++
+     while True:
+         B = M[:-1, -1]
+         A = M[:-1, :-1]
+@@ -327,6 +330,13 @@ def _simplex(A, B, C, D=None, dual=False):
+         piv_rows.append(k)
+         r = _choose_pivot_row(A, B, piv_rows, c, Y)
+ 
++        # check for cycling by remembering the tableau states we've seen
++        state = tuple(M)
++        if state in seen:
++            last = True
++            break
++        seen.add(state)
++
+         # check for oscillation
+         if (r, c) == last:
+             # Not sure what to do here; it looks like there will be
+@@ -398,6 +408,10 @@ def _simplex(A, B, C, D=None, dual=False):
+     return -M[-1, -1], argmax, argmin_dual
+ 
+ 
++def _find_feasible(M, X, Y, n, m):
++    pass
++
++
+ ## routines that use _simplex or support those that do
+ 
+ 
+@@ -1101,4 +1115,4 @@ def show_linprog(c, A=None, b=None, A_eq=None, b_eq=None, bounds=None):
+             c.append(x[i]>=lo)
+         if hi is not None:
+             c.append(x[i]<=hi)
+-    return f,c
++    return f,c

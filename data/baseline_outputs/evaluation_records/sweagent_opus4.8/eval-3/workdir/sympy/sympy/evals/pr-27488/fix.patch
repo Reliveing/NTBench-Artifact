@@ -1,0 +1,42 @@
+diff --git a/sympy/vector/dyadic.py b/sympy/vector/dyadic.py
+index 980c6e6dad..cf99b658a5 100644
+--- a/sympy/vector/dyadic.py
++++ b/sympy/vector/dyadic.py
+@@ -30,6 +30,16 @@ class Dyadic(BasisDependent):
+     _base_func: type[Dyadic]
+     zero: DyadicZero
+ 
++    def __new__(cls, *args, **kwargs):
++        if cls is Dyadic:
++            raise TypeError(
++                "Dyadic is an abstract base class and cannot be "
++                "instantiated directly. To construct a dyadic, take the "
++                "outer product of base vectors, e.g. "
++                "``C = CoordSys3D('C'); C.i.outer(C.j)``."
++            )
++        return super().__new__(cls, *args, **kwargs)
++
+     @property
+     def components(self):
+         """
+diff --git a/sympy/vector/vector.py b/sympy/vector/vector.py
+index 77ee9bfa9f..51b137cfd7 100644
+--- a/sympy/vector/vector.py
++++ b/sympy/vector/vector.py
+@@ -37,6 +37,16 @@ class Vector(BasisDependent):
+ 
+     kind: VectorKind = VectorKind()
+ 
++    def __new__(cls, *args, **kwargs):
++        if cls is Vector:
++            raise TypeError(
++                "Vector is an abstract base class and cannot be "
++                "instantiated directly. To construct a vector, use a "
++                "coordinate system's base vectors, e.g. "
++                "``C = CoordSys3D('C'); a*C.i + b*C.j + c*C.k``."
++            )
++        return super().__new__(cls, *args, **kwargs)
++
+     @property
+     def components(self):
+         """

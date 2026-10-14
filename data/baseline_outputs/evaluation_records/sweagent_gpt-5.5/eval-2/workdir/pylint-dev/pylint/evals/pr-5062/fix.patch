@@ -1,0 +1,25 @@
+diff --git a/pylint/lint/parallel.py b/pylint/lint/parallel.py
+index 1896fc95f..ebd93d1a1 100644
+--- a/pylint/lint/parallel.py
++++ b/pylint/lint/parallel.py
+@@ -137,6 +137,7 @@ def check_parallel(linter, jobs, files: Iterable[FileItem], arguments=None):
+     # correct reporter
+     linter.set_reporter(original_reporter)
+     linter.open()
++    pool_closed = False
+     try:
+         all_stats = []
+         all_mapreduce_data = collections.defaultdict(list)
+@@ -162,8 +163,11 @@ def check_parallel(linter, jobs, files: Iterable[FileItem], arguments=None):
+             all_stats.append(stats)
+             all_mapreduce_data[worker_idx].append(mapreduce_data)
+             linter.msg_status |= msg_status
+-    finally:
+         pool.close()
++        pool_closed = True
++    finally:
++        if not pool_closed:
++            pool.terminate()
+         pool.join()
+ 
+     _merge_mapreduce_data(linter, all_mapreduce_data)

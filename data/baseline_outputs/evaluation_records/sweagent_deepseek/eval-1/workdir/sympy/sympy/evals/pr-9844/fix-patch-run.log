@@ -1,0 +1,354 @@
+Obtaining file:///home/sympy
+  Preparing metadata (setup.py): started
+  Preparing metadata (setup.py): finished with status 'done'
+Requirement already satisfied: mpmath>=0.19 in /usr/local/lib/python3.8/site-packages (from sympy==0.7.7.dev0) (1.3.0)
+Installing collected packages: sympy
+  Attempting uninstall: sympy
+    Found existing installation: sympy 0.7.7.dev0
+    Uninstalling sympy-0.7.7.dev0:
+      Successfully uninstalled sympy-0.7.7.dev0
+  DEPRECATION: Legacy editable install of sympy==0.7.7.dev0 from file:///home/sympy (setup.py develop) is deprecated. pip 25.1 will enforce this behaviour change. A possible replacement is to add a pyproject.toml or enable --use-pep517, and use setuptools >= 64. If the resulting installation is not behaving as expected, try using --config-settings editable_mode=compat. Please consult the setuptools documentation for more information. Discussion can be found at https://github.com/pypa/pip/issues/11457
+  Running setup.py develop for sympy
+Successfully installed sympy
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+============================= test session starts ==============================
+collecting ... collected 18 items
+
+sympy/integrals/tests/test_manual.py::test_find_substitutions PASSED     [  5%]
+sympy/integrals/tests/test_manual.py::test_manualintegrate_polynomials PASSED [ 11%]
+sympy/integrals/tests/test_manual.py::test_manualintegrate_exponentials PASSED [ 16%]
+sympy/integrals/tests/test_manual.py::test_manualintegrate_parts PASSED  [ 22%]
+sympy/integrals/tests/test_manual.py::test_manualintegrate_trigonometry PASSED [ 27%]
+sympy/integrals/tests/test_manual.py::test_manualintegrate_trigpowers PASSED [ 33%]
+sympy/integrals/tests/test_manual.py::test_manualintegrate_inversetrig PASSED [ 38%]
+sympy/integrals/tests/test_manual.py::test_manualintegrate_trig_substitution PASSED [ 44%]
+sympy/integrals/tests/test_manual.py::test_manualintegrate_rational PASSED [ 50%]
+sympy/integrals/tests/test_manual.py::test_manualintegrate_derivative PASSED [ 55%]
+sympy/integrals/tests/test_manual.py::test_manualintegrate_Heaviside PASSED [ 61%]
+sympy/integrals/tests/test_manual.py::test_issue_6799 PASSED             [ 66%]
+sympy/integrals/tests/test_manual.py::test_issue_3796 PASSED             [ 72%]
+sympy/integrals/tests/test_manual.py::test_manual_true PASSED            [ 77%]
+sympy/integrals/tests/test_manual.py::test_issue_6746 PASSED             [ 83%]
+sympy/integrals/tests/test_manual.py::test_issue_2850 PASSED             [ 88%]
+sympy/integrals/tests/test_manual.py::test_issue_9841 PASSED             [ 94%]
+sympy/integrals/tests/test_manual.py::test_constant_independent_of_symbol PASSED [100%]
+
+=============================== warnings summary ===============================
+sympy/core/facts.py:3
+  /home/sympy/sympy/core/facts.py:3: DeprecationWarning: invalid escape sequence \_
+    """This is rule-based deduction system for SymPy
+
+sympy/core/expr.py:2194
+  /home/sympy/sympy/core/expr.py:2194: DeprecationWarning: invalid escape sequence \*
+    """
+
+sympy/core/evalf.py:1434
+  /home/sympy/sympy/core/evalf.py:1434: DeprecationWarning: invalid escape sequence \*
+    """
+
+sympy/utilities/misc.py:23
+  /home/sympy/sympy/utilities/misc.py:23: DeprecationWarning: invalid escape sequence \ 
+    """Return a cut-and-pastable string that, when printed, is equivalent
+
+sympy/utilities/runtests.py:525
+  /home/sympy/sympy/utilities/runtests.py:525: DeprecationWarning: invalid escape sequence \*
+    """
+
+sympy/utilities/runtests.py:1298
+  /home/sympy/sympy/utilities/runtests.py:1298: DeprecationWarning: invalid escape sequence \*
+    """
+
+sympy/utilities/runtests.py:1545
+  /home/sympy/sympy/utilities/runtests.py:1545: DeprecationWarning: invalid escape sequence \d
+    matches = re.findall("line \d+", name)
+
+sympy/utilities/runtests.py:1753
+  /home/sympy/sympy/utilities/runtests.py:1753: DeprecationWarning: invalid escape sequence \s
+    want = re.sub('(?m)^%s\s*?$' % re.escape(pdoctest.BLANKLINE_MARKER),
+
+sympy/utilities/runtests.py:1757
+  /home/sympy/sympy/utilities/runtests.py:1757: DeprecationWarning: invalid escape sequence \s
+    got = re.sub('(?m)^\s*?$', '', got)
+
+sympy/core/function.py:1676
+  /home/sympy/sympy/core/function.py:1676: DeprecationWarning: invalid escape sequence \s
+    """
+
+sympy/core/function.py:106: 196 warnings
+sympy/integrals/tests/test_manual.py: 7 warnings
+  /home/sympy/sympy/core/function.py:106: DeprecationWarning: inspect.getargspec() is deprecated since Python 3.0, use inspect.signature() or inspect.getfullargspec()
+    evalargspec = inspect.getargspec(cls.eval)
+
+sympy/core/symbol.py:333
+  /home/sympy/sympy/core/symbol.py:333: DeprecationWarning: invalid escape sequence \,
+    """
+
+sympy/core/symbol.py:452
+  /home/sympy/sympy/core/symbol.py:452: DeprecationWarning: invalid escape sequence \,
+    literals = ['\,', '\:', '\ ']
+
+sympy/core/symbol.py:452
+  /home/sympy/sympy/core/symbol.py:452: DeprecationWarning: invalid escape sequence \:
+    literals = ['\,', '\:', '\ ']
+
+sympy/core/symbol.py:452
+  /home/sympy/sympy/core/symbol.py:452: DeprecationWarning: invalid escape sequence \ 
+    literals = ['\,', '\:', '\ ']
+
+sympy/polys/polyoptions.py:404
+  /home/sympy/sympy/polys/polyoptions.py:404: DeprecationWarning: invalid escape sequence \d
+    _re_realfield = re.compile("^(R|RR)(_(\d+))?$")
+
+sympy/polys/polyoptions.py:405
+  /home/sympy/sympy/polys/polyoptions.py:405: DeprecationWarning: invalid escape sequence \d
+    _re_complexfield = re.compile("^(C|CC)(_(\d+))?$")
+
+sympy/polys/polyoptions.py:406
+  /home/sympy/sympy/polys/polyoptions.py:406: DeprecationWarning: invalid escape sequence \(
+    _re_finitefield = re.compile("^(FF|GF)\((\d+)\)$")
+
+sympy/polys/polyoptions.py:407
+  /home/sympy/sympy/polys/polyoptions.py:407: DeprecationWarning: invalid escape sequence \[
+    _re_polynomial = re.compile("^(Z|ZZ|Q|QQ)\[(.+)\]$")
+
+sympy/polys/polyoptions.py:408
+  /home/sympy/sympy/polys/polyoptions.py:408: DeprecationWarning: invalid escape sequence \(
+    _re_fraction = re.compile("^(Z|ZZ|Q|QQ)\((.+)\)$")
+
+sympy/polys/polyoptions.py:409
+  /home/sympy/sympy/polys/polyoptions.py:409: DeprecationWarning: invalid escape sequence \<
+    _re_algebraic = re.compile("^(Q|QQ)\<(.+)\>$")
+
+sympy/ntheory/factor_.py:1508
+  /home/sympy/sympy/ntheory/factor_.py:1508: DeprecationWarning: invalid escape sequence \s
+    """
+
+sympy/ntheory/factor_.py:1574
+  /home/sympy/sympy/ntheory/factor_.py:1574: DeprecationWarning: invalid escape sequence \p
+    """
+
+sympy/ntheory/factor_.py:1671
+  /home/sympy/sympy/ntheory/factor_.py:1671: DeprecationWarning: invalid escape sequence \s
+    """
+
+sympy/polys/fglmtools.py:106
+  /home/sympy/sympy/polys/fglmtools.py:106: DeprecationWarning: invalid escape sequence \m
+    """
+
+sympy/polys/fglmtools.py:132
+  /home/sympy/sympy/polys/fglmtools.py:132: DeprecationWarning: invalid escape sequence \l
+    """
+
+sympy/polys/domains/domain.py:384
+  /home/sympy/sympy/polys/domains/domain.py:384: DeprecationWarning: invalid escape sequence \d
+    """Returns an algebraic field, i.e. `K(\\alpha, \dots)`. """
+
+sympy/printing/pretty/pretty.py:469
+  /home/sympy/sympy/printing/pretty/pretty.py:469: DeprecationWarning: invalid escape sequence \%
+    lines.append("\%s`" % (' '*(w - 1)))
+
+sympy/printing/pretty/pretty.py:1498
+  /home/sympy/sympy/printing/pretty/pretty.py:1498: DeprecationWarning: invalid escape sequence \ 
+    delimiter = ' \ '
+
+sympy/printing/str.py:658
+  /home/sympy/sympy/printing/str.py:658: DeprecationWarning: invalid escape sequence \ 
+    return ' \ '.join(self._print(set) for set in expr.args)
+
+sympy/printing/pretty/pretty_symbology.py:568
+  /home/sympy/sympy/printing/pretty/pretty_symbology.py:568: DeprecationWarning: invalid escape sequence \_
+    'G': (3, 0, 3, 1, ' __\n/__\n\_|')
+
+sympy/printing/latex.py:612
+  /home/sympy/sympy/printing/latex.py:612: DeprecationWarning: invalid escape sequence \o
+    '''
+
+sympy/printing/latex.py:630
+  /home/sympy/sympy/printing/latex.py:630: DeprecationWarning: invalid escape sequence \s
+    '''
+
+sympy/printing/latex.py:1362
+  /home/sympy/sympy/printing/latex.py:1362: DeprecationWarning: invalid escape sequence \d
+    return "%s^\dag" % self._print(mat)
+
+sympy/printing/latex.py:1385
+  /home/sympy/sympy/printing/latex.py:1385: DeprecationWarning: invalid escape sequence \c
+    return ' \circ '.join(map(parens, expr.args))
+
+sympy/printing/latex.py:1492
+  /home/sympy/sympy/printing/latex.py:1492: DeprecationWarning: invalid escape sequence \l
+    printset = next(it), next(it), '\ldots', s._last_element
+
+sympy/printing/latex.py:1507
+  /home/sympy/sympy/printing/latex.py:1507: DeprecationWarning: invalid escape sequence \l
+    printset.append('\ldots')
+
+sympy/printing/latex.py:1503
+  /home/sympy/sympy/printing/latex.py:1503: DeprecationWarning: invalid escape sequence \l
+    printset = ('\ldots', s.coeff(stop - 3), s.coeff(stop - 2),
+
+sympy/printing/latex.py:1582
+  /home/sympy/sympy/printing/latex.py:1582: DeprecationWarning: invalid escape sequence \l
+    return self._print_Add(s.truncate()) + self._print(' + \ldots')
+
+sympy/printing/tableform.py:10
+  /home/sympy/sympy/printing/tableform.py:10: DeprecationWarning: invalid escape sequence \e
+    """
+
+sympy/sets/sets.py:166
+  /home/sympy/sympy/sets/sets.py:166: DeprecationWarning: invalid escape sequence \ 
+    """
+
+sympy/sets/sets.py:1522
+  /home/sympy/sympy/sets/sets.py:1522: DeprecationWarning: invalid escape sequence \{
+    """Represents the set difference or relative complement of a set with
+
+sympy/functions/elementary/exponential.py:454
+  /home/sympy/sympy/functions/elementary/exponential.py:454: DeprecationWarning: invalid escape sequence \l
+    """
+
+sympy/functions/elementary/exponential.py:478
+  /home/sympy/sympy/functions/elementary/exponential.py:478: DeprecationWarning: invalid escape sequence \l
+    """
+
+sympy/functions/elementary/exponential.py:566
+  /home/sympy/sympy/functions/elementary/exponential.py:566: DeprecationWarning: invalid escape sequence \l
+    """
+
+sympy/functions/elementary/exponential.py:746
+  /home/sympy/sympy/functions/elementary/exponential.py:746: DeprecationWarning: invalid escape sequence \e
+    """
+
+sympy/functions/elementary/trigonometric.py:2282
+  /home/sympy/sympy/functions/elementary/trigonometric.py:2282: DeprecationWarning: invalid escape sequence \s
+    """
+
+sympy/simplify/radsimp.py:632
+  /home/sympy/sympy/simplify/radsimp.py:632: DeprecationWarning: invalid escape sequence \/
+    """
+
+sympy/simplify/ratsimp.py:107
+  /home/sympy/sympy/simplify/ratsimp.py:107: DeprecationWarning: invalid escape sequence \e
+    """
+
+sympy/series/order.py:328
+  /home/sympy/sympy/series/order.py:328: DeprecationWarning: invalid escape sequence \*
+    """
+
+sympy/series/sequences.py:837
+  /home/sympy/sympy/series/sequences.py:837: DeprecationWarning: invalid escape sequence \*
+    """Represents term-wise multiplication of sequences.
+
+sympy/tensor/indexed.py:1
+  /home/sympy/sympy/tensor/indexed.py:1: DeprecationWarning: invalid escape sequence \_
+    """Module that defines indexed objects
+
+sympy/series/formal.py:186
+  /home/sympy/sympy/series/formal.py:186: DeprecationWarning: invalid escape sequence \s
+    """Generates simple DE.
+
+sympy/concrete/expr_with_intlimits.py:16
+  /home/sympy/sympy/concrete/expr_with_intlimits.py:16: DeprecationWarning: invalid escape sequence \m
+    """
+
+sympy/solvers/solvers.py:360
+  /home/sympy/sympy/solvers/solvers.py:360: DeprecationWarning: invalid escape sequence \ 
+    """
+
+sympy/integrals/meijerint.py:717
+  /home/sympy/sympy/integrals/meijerint.py:717: DeprecationWarning: invalid escape sequence \i
+    """
+
+sympy/integrals/meijerint.py:834
+  /home/sympy/sympy/integrals/meijerint.py:834: DeprecationWarning: invalid escape sequence \i
+    """
+
+sympy/integrals/meijerint.py:1998
+  /home/sympy/sympy/integrals/meijerint.py:1998: DeprecationWarning: invalid escape sequence \i
+    """
+
+sympy/integrals/transforms.py:1715
+  /home/sympy/sympy/integrals/transforms.py:1715: DeprecationWarning: invalid escape sequence \i
+    """
+
+sympy/solvers/recurr.py:1
+  /home/sympy/sympy/solvers/recurr.py:1: DeprecationWarning: invalid escape sequence \d
+    """
+
+sympy/solvers/recurr.py:72
+  /home/sympy/sympy/solvers/recurr.py:72: DeprecationWarning: invalid escape sequence \o
+    """
+
+sympy/solvers/recurr.py:350
+  /home/sympy/sympy/solvers/recurr.py:350: DeprecationWarning: invalid escape sequence \o
+    """
+
+sympy/solvers/recurr.py:461
+  /home/sympy/sympy/solvers/recurr.py:461: DeprecationWarning: invalid escape sequence \o
+    """
+
+sympy/solvers/recurr.py:663
+  /home/sympy/sympy/solvers/recurr.py:663: DeprecationWarning: invalid escape sequence \o
+    """
+
+sympy/solvers/solveset.py:189
+  /home/sympy/sympy/solvers/solveset.py:189: DeprecationWarning: invalid escape sequence \_
+    """ Inverts a complex valued function.
+
+sympy/solvers/solveset.py:821
+  /home/sympy/sympy/solvers/solveset.py:821: DeprecationWarning: invalid escape sequence \_
+    """Solves a given inequality or equation with set as output
+
+sympy/plotting/plot.py:28
+  /home/sympy/sympy/plotting/plot.py:28: DeprecationWarning: Using or importing the ABCs from 'collections' instead of from 'collections.abc' is deprecated since Python 3.3, and in 3.10 it will stop working
+    from collections import Callable
+
+sympy/interactive/printing.py:241
+  /home/sympy/sympy/interactive/printing.py:241: DeprecationWarning: invalid escape sequence \/
+    """
+
+sympy/interactive/session.py:314
+  /home/sympy/sympy/interactive/session.py:314: DeprecationWarning: invalid escape sequence \/
+    """
+
+sympy/integrals/tests/test_manual.py::test_issue_6799
+  /home/sympy/sympy/integrals/rationaltools.py:173: DeprecationWarning: invalid escape sequence \ 
+    """
+
+sympy/integrals/tests/test_manual.py::test_issue_6799
+  /home/sympy/sympy/integrals/rationaltools.py:304: DeprecationWarning: invalid escape sequence \ 
+    """
+
+sympy/integrals/tests/test_manual.py::test_issue_6799
+  /home/sympy/sympy/integrals/prde.py:578: DeprecationWarning: invalid escape sequence \ 
+    """
+
+sympy/integrals/tests/test_manual.py::test_issue_6799
+  /home/sympy/sympy/integrals/prde.py:679: DeprecationWarning: invalid escape sequence \ 
+    """
+
+sympy/integrals/tests/test_manual.py::test_issue_3796
+  /home/sympy/sympy/assumptions/sathandlers.py:3: DeprecationWarning: Using or importing the ABCs from 'collections' instead of from 'collections.abc' is deprecated since Python 3.3, and in 3.10 it will stop working
+    from collections import MutableMapping, defaultdict
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+PASSED sympy/integrals/tests/test_manual.py::test_find_substitutions
+PASSED sympy/integrals/tests/test_manual.py::test_manualintegrate_polynomials
+PASSED sympy/integrals/tests/test_manual.py::test_manualintegrate_exponentials
+PASSED sympy/integrals/tests/test_manual.py::test_manualintegrate_parts
+PASSED sympy/integrals/tests/test_manual.py::test_manualintegrate_trigonometry
+PASSED sympy/integrals/tests/test_manual.py::test_manualintegrate_trigpowers
+PASSED sympy/integrals/tests/test_manual.py::test_manualintegrate_inversetrig
+PASSED sympy/integrals/tests/test_manual.py::test_manualintegrate_trig_substitution
+PASSED sympy/integrals/tests/test_manual.py::test_manualintegrate_rational
+PASSED sympy/integrals/tests/test_manual.py::test_manualintegrate_derivative
+PASSED sympy/integrals/tests/test_manual.py::test_manualintegrate_Heaviside
+PASSED sympy/integrals/tests/test_manual.py::test_issue_6799
+PASSED sympy/integrals/tests/test_manual.py::test_issue_3796
+PASSED sympy/integrals/tests/test_manual.py::test_manual_true
+PASSED sympy/integrals/tests/test_manual.py::test_issue_6746
+PASSED sympy/integrals/tests/test_manual.py::test_issue_2850
+PASSED sympy/integrals/tests/test_manual.py::test_issue_9841
+PASSED sympy/integrals/tests/test_manual.py::test_constant_independent_of_symbol
+====================== 18 passed, 276 warnings in 18.60s =======================

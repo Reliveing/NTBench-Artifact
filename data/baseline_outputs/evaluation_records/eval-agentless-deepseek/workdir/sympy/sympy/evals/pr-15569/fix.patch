@@ -1,0 +1,19 @@
+diff --git a/sympy/series/limits.py b/sympy/series/limits.py
+index de5731c..3447d6d 100644
+--- a/sympy/series/limits.py
++++ b/sympy/series/limits.py
+@@ -233,13 +233,6 @@ class Limit(Expr):
+             if r is None:
+                 return self
+         except NotImplementedError:
+-            # Trying finding limits of sequences
+-            if hints.get('sequence', True) and z0 is S.Infinity:
+-                trials = hints.get('trials', 5)
+-                r = limit_seq(e, z, trials)
+-                if r is None:
+-                    raise NotImplementedError()
+-            else:
+-                raise NotImplementedError()
++            raise NotImplementedError()
+ 
+         return r

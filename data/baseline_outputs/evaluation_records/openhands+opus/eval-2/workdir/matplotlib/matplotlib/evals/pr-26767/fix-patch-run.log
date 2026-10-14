@@ -1,0 +1,161 @@
+Using pip 26.0.1 from /usr/local/lib/python3.11/site-packages/pip (python 3.11)
+Obtaining file:///home/matplotlib
+  Installing build dependencies: started
+  Running command installing build dependencies
+  Using pip 26.0.1 from /usr/local/lib/python3.11/site-packages/pip (python 3.11)
+  Collecting certifi>=2020.06.20
+    Obtaining dependency information for certifi>=2020.06.20 from https://files.pythonhosted.org/packages/0b/a7/71ac2cff56fec219ed242bb11b8efb69fcc4bec75db06fb7bfe35de520e6/certifi-2026.7.22-py3-none-any.whl.metadata
+    Downloading certifi-2026.7.22-py3-none-any.whl.metadata (2.5 kB)
+    Link requires a different Python (3.11.14 not in: '>=3.7,<3.11'): https://files.pythonhosted.org/packages/3a/be/650f9c091ef71cb01d735775d554e068752d3ff63d7943b26316dc401749/numpy-1.21.2.zip (from https://pypi.org/simple/numpy/) (requires-python:>=3.7,<3.11)
+    Link requires a different Python (3.11.14 not in: '>=3.7,<3.11'): https://files.pythonhosted.org/packages/5f/d6/ad58ded26556eaeaa8c971e08b6466f17c4ac4d786cd3d800e26ce59cc01/numpy-1.21.3.zip (from https://pypi.org/simple/numpy/) (requires-python:>=3.7,<3.11)
+    Link requires a different Python (3.11.14 not in: '>=3.7,<3.11'): https://files.pythonhosted.org/packages/fb/48/b0708ebd7718a8933f0d3937513ef8ef2f4f04529f1f66ca86d873043921/numpy-1.21.4.zip (from https://pypi.org/simple/numpy/) (requires-python:>=3.7,<3.11)
+    Link requires a different Python (3.11.14 not in: '>=3.7,<3.11'): https://files.pythonhosted.org/packages/c2/a8/a924a09492bdfee8c2ec3094d0a13f2799800b4fdc9c890738aeeb12c72e/numpy-1.21.5.zip (from https://pypi.org/simple/numpy/) (requires-python:>=3.7,<3.11)
+    Link requires a different Python (3.11.14 not in: '>=3.7,<3.11'): https://files.pythonhosted.org/packages/45/b7/de7b8e67f2232c26af57c205aaad29fe17754f793404f59c8a730c7a191a/numpy-1.21.6.zip (from https://pypi.org/simple/numpy/) (requires-python:>=3.7,<3.11)
+    Link requires a different Python (3.11.14 not in: '>=3.12'): https://files.pythonhosted.org/packages/d3/e1/f2fe8f6113a657a1da83b358b16755e528a602c6976a43724a88f42b482a/numpy-2.5.0rc1.tar.gz (from https://pypi.org/simple/numpy/) (requires-python:>=3.12)
+    Link requires a different Python (3.11.14 not in: '>=3.12'): https://files.pythonhosted.org/packages/e7/05/3d27272d30698dc0ecb7fdfaa41ad70303b444f81722bb99bce1d818638a/numpy-2.5.0.tar.gz (from https://pypi.org/simple/numpy/) (requires-python:>=3.12)
+    Link requires a different Python (3.11.14 not in: '>=3.12'): https://files.pythonhosted.org/packages/22/fd/89965aa4ac08c74998539fcbf24fa3540f3e15237fbeb6bcf9c908f4aade/numpy-2.5.1.tar.gz (from https://pypi.org/simple/numpy/) (requires-python:>=3.12)
+    Link requires a different Python (3.11.14 not in: '>=3.12'): https://files.pythonhosted.org/packages/9a/80/db0b4559e57ec36362bedbb05530a87fafbcb6067708c946967a41d449e7/numpy-2.5.2.tar.gz (from https://pypi.org/simple/numpy/) (requires-python:>=3.12)
+  Collecting numpy>=1.25
+    Obtaining dependency information for numpy>=1.25 from https://files.pythonhosted.org/packages/02/03/74fe2a4cb3817d94d86402f2506554130a2f01414e299b5a843e5a8a957f/numpy-2.4.6-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata
+    Downloading numpy-2.4.6-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (6.6 kB)
+  Collecting pybind11>=2.6
+    Obtaining dependency information for pybind11>=2.6 from https://files.pythonhosted.org/packages/33/fd/8762f7ee3e4e4be6d1d846cffb4916dd9bb02b2f800d3603718a0efe494c/pybind11-3.1.0-py3-none-any.whl.metadata
+    Downloading pybind11-3.1.0-py3-none-any.whl.metadata (10 kB)
+  Collecting setuptools>=42
+    Obtaining dependency information for setuptools>=42 from https://files.pythonhosted.org/packages/95/9c/c510029fc6ef33a6275cd2c5d3cecd6613dfd6aa401d57c54f1c18852ccf/setuptools-84.0.0-py3-none-any.whl.metadata
+    Downloading setuptools-84.0.0-py3-none-any.whl.metadata (6.6 kB)
+  Collecting setuptools_scm>=7
+    Obtaining dependency information for setuptools_scm>=7 from https://files.pythonhosted.org/packages/c3/b4/02ac1d9833b882c87b3a4e82703e70eac4ab33d0d15fb123e60bb01f3bc1/setuptools_scm-10.2.1-py3-none-any.whl.metadata
+    Downloading setuptools_scm-10.2.1-py3-none-any.whl.metadata (6.7 kB)
+  Collecting vcs-versioning<3,>=2.0.0.dev0 (from setuptools_scm>=7)
+    Obtaining dependency information for vcs-versioning<3,>=2.0.0.dev0 from https://files.pythonhosted.org/packages/7a/26/7d2b738d2b7e177e729932dbdf1ebfa57c98846777a87a864130cc1e196b/vcs_versioning-2.2.4-py3-none-any.whl.metadata
+    Downloading vcs_versioning-2.2.4-py3-none-any.whl.metadata (1.7 kB)
+  Collecting packaging>=20 (from setuptools_scm>=7)
+    Obtaining dependency information for packaging>=20 from https://files.pythonhosted.org/packages/63/34/ba1c580383c9eada3711951fef0795c80b829a078d72188184bcab9dd527/packaging-26.3-py3-none-any.whl.metadata
+    Downloading packaging-26.3-py3-none-any.whl.metadata (3.5 kB)
+  Downloading certifi-2026.7.22-py3-none-any.whl (136 kB)
+  Downloading numpy-2.4.6-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (16.9 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 16.9/16.9 MB 3.6 MB/s  0:00:04
+  Downloading pybind11-3.1.0-py3-none-any.whl (319 kB)
+  Downloading setuptools-84.0.0-py3-none-any.whl (818 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 818.2/818.2 kB 566.9 kB/s  0:00:01
+  Downloading setuptools_scm-10.2.1-py3-none-any.whl (29 kB)
+  Downloading vcs_versioning-2.2.4-py3-none-any.whl (109 kB)
+  Downloading packaging-26.3-py3-none-any.whl (129 kB)
+  Installing collected packages: setuptools, pybind11, packaging, numpy, certifi, vcs-versioning, setuptools_scm
+    Creating /tmp/pip-build-env-tf809y22/overlay/bin
+    changing mode of /tmp/pip-build-env-tf809y22/overlay/bin/pybind11-config to 755
+    changing mode of /tmp/pip-build-env-tf809y22/overlay/bin/f2py to 755
+    changing mode of /tmp/pip-build-env-tf809y22/overlay/bin/numpy-config to 755
+    changing mode of /tmp/pip-build-env-tf809y22/overlay/bin/vcs-versioning to 755
+    changing mode of /tmp/pip-build-env-tf809y22/overlay/bin/setuptools-scm to 755
+
+  Successfully installed certifi-2026.7.22 numpy-2.4.6 packaging-26.3 pybind11-3.1.0 setuptools-84.0.0 setuptools_scm-10.2.1 vcs-versioning-2.2.4
+  WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+  Installing build dependencies: finished with status 'done'
+  Checking if build backend supports build_editable: started
+  Running command Checking if build backend supports build_editable
+  Checking if build backend supports build_editable: finished with status 'done'
+  Getting requirements to build editable: started
+  Running command Getting requirements to build editable
+
+  Edit mplsetup.cfg to change the build options; suppress output with --quiet.
+
+  BUILDING MATPLOTLIB
+        python: yes [3.11.14 (main, Dec 30 2025, 00:42:31) [GCC 14.2.0]]
+      platform: yes [linux]
+         tests: no  [skipping due to configuration]
+        macosx: no  [Mac OS-X only]
+
+  Traceback (most recent call last):
+    File "/usr/local/lib/python3.11/site-packages/pip/_vendor/pyproject_hooks/_in_process/_in_process.py", line 389, in <module>
+      main()
+    File "/usr/local/lib/python3.11/site-packages/pip/_vendor/pyproject_hooks/_in_process/_in_process.py", line 373, in main
+      json_out["return_val"] = hook(**hook_input["kwargs"])
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    File "/usr/local/lib/python3.11/site-packages/pip/_vendor/pyproject_hooks/_in_process/_in_process.py", line 157, in get_requires_for_build_editable
+      return hook(config_settings)
+             ^^^^^^^^^^^^^^^^^^^^^
+    File "/tmp/pip-build-env-tf809y22/overlay/lib/python3.11/site-packages/setuptools/build_meta.py", line 481, in get_requires_for_build_editable
+      return self.get_requires_for_build_wheel(config_settings)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    File "/tmp/pip-build-env-tf809y22/overlay/lib/python3.11/site-packages/setuptools/build_meta.py", line 333, in get_requires_for_build_wheel
+      return self._get_build_requires(config_settings, requirements=[])
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    File "/tmp/pip-build-env-tf809y22/overlay/lib/python3.11/site-packages/setuptools/build_meta.py", line 301, in _get_build_requires
+      self.run_setup()
+    File "/tmp/pip-build-env-tf809y22/overlay/lib/python3.11/site-packages/setuptools/build_meta.py", line 317, in run_setup
+      exec(code, locals())  # noqa: S102 # exec is intentional here
+      ^^^^^^^^^^^^^^^^^^^^
+    File "<string>", line 279, in <module>
+    File "/tmp/pip-build-env-tf809y22/overlay/lib/python3.11/site-packages/setuptools/__init__.py", line 117, in setup
+      return distutils.core.setup(**attrs)  # type: ignore[return-value]
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    File "/tmp/pip-build-env-tf809y22/overlay/lib/python3.11/site-packages/setuptools/_distutils/core.py", line 130, in setup
+      _setup_distribution = dist = klass(attrs)
+                                   ^^^^^^^^^^^^
+    File "/tmp/pip-build-env-tf809y22/overlay/lib/python3.11/site-packages/setuptools/dist.py", line 321, in __init__
+      _Distribution.__init__(self, dist_attrs)
+    File "/tmp/pip-build-env-tf809y22/overlay/lib/python3.11/site-packages/setuptools/_distutils/dist.py", line 338, in __init__
+      self.finalize_options()
+    File "/tmp/pip-build-env-tf809y22/overlay/lib/python3.11/site-packages/setuptools/dist.py", line 790, in finalize_options
+      ep(self)
+    File "/tmp/pip-build-env-tf809y22/overlay/lib/python3.11/site-packages/setuptools/dist.py", line 810, in _finalize_setup_keywords
+      ep.load()(self, ep.name, value)
+    File "/usr/local/lib/python3.11/contextlib.py", line 81, in inner
+      return func(*args, **kwds)
+             ^^^^^^^^^^^^^^^^^^^
+    File "/tmp/pip-build-env-tf809y22/overlay/lib/python3.11/site-packages/setuptools_scm/_integration/setuptools.py", line 220, in version_keyword
+      result.apply(dist)
+    File "/tmp/pip-build-env-tf809y22/overlay/lib/python3.11/site-packages/setuptools_scm/_integration/version_inference.py", line 185, in apply
+      data = infer_version_with_config(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    File "/tmp/pip-build-env-tf809y22/overlay/lib/python3.11/site-packages/setuptools_scm/_integration/version_inference.py", line 119, in infer_version_with_config
+      scm_version = workdir.get_scm_version()
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^
+    File "/tmp/pip-build-env-tf809y22/overlay/lib/python3.11/site-packages/vcs_versioning/_backends/_git.py", line 243, in get_scm_version
+      return _git_parse_inner(config, self, pre_parse=effective_pre_parse)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    File "/tmp/pip-build-env-tf809y22/overlay/lib/python3.11/site-packages/vcs_versioning/_backends/_git.py", line 433, in _git_parse_inner
+      version = version_from_describe(wd, config, describe_command)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    File "/tmp/pip-build-env-tf809y22/overlay/lib/python3.11/site-packages/vcs_versioning/_backends/_git.py", line 414, in version_from_describe
+      describe_res = wd.default_describe()
+                     ^^^^^^^^^^^^^^^^^^^^^
+    File "/tmp/pip-build-env-tf809y22/overlay/lib/python3.11/site-packages/vcs_versioning/_backends/_git.py", line 235, in default_describe
+      return self.run_git(cmd[1:])
+             ^^^^^^^^^^^^^^^^^^^^^
+    File "/tmp/pip-build-env-tf809y22/overlay/lib/python3.11/site-packages/vcs_versioning/_backends/_git.py", line 96, in run_git
+      return run_git(
+             ^^^^^^^^
+    File "/tmp/pip-build-env-tf809y22/overlay/lib/python3.11/site-packages/vcs_versioning/_backends/_git.py", line 78, in run_git
+      return _run(
+             ^^^^^
+    File "/tmp/pip-build-env-tf809y22/overlay/lib/python3.11/site-packages/vcs_versioning/_run_cmd.py", line 158, in run
+      res = subprocess.run(
+            ^^^^^^^^^^^^^^^
+    File "/usr/local/lib/python3.11/subprocess.py", line 550, in run
+      stdout, stderr = process.communicate(input, timeout=timeout)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    File "/usr/local/lib/python3.11/subprocess.py", line 1209, in communicate
+      stdout, stderr = self._communicate(input, endtime, timeout)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    File "/usr/local/lib/python3.11/subprocess.py", line 2116, in _communicate
+      self._check_timeout(endtime, orig_timeout, stdout, stderr)
+    File "/usr/local/lib/python3.11/subprocess.py", line 1253, in _check_timeout
+      raise TimeoutExpired(
+  subprocess.TimeoutExpired: Command '['git', '--git-dir', '/home/matplotlib/.git', 'describe', '--dirty', '--tags', '--long', '--abbrev=40', '--match', '*[0-9]*']' timed out after 40 seconds
+  error: subprocess-exited-with-error
+  
+  × Getting requirements to build editable did not run successfully.
+  │ exit code: 1
+  ╰─> No available output.
+  
+  note: This error originates from a subprocess, and is likely not a problem with pip.
+  full command: /usr/local/bin/python3.11 /usr/local/lib/python3.11/site-packages/pip/_vendor/pyproject_hooks/_in_process/_in_process.py get_requires_for_build_editable /tmp/tmp8t57ao_z
+  cwd: /home/matplotlib
+  Getting requirements to build editable: finished with status 'error'
+
+[notice] A new release of pip is available: 26.0.1 -> 26.2.1
+[notice] To update, run: pip install --upgrade pip
+ERROR: Failed to build 'file:///home/matplotlib' when getting requirements to build editable

@@ -1,0 +1,19 @@
+diff --git a/sympy/calculus/util.py b/sympy/calculus/util.py
+index 21d6e80..12fac12 100644
+--- a/sympy/calculus/util.py
++++ b/sympy/calculus/util.py
+@@ -381,7 +381,7 @@ def periodicity(f, symbol, check=False):
+             for index, g in enumerate(reversed(g_s)):
+                 start_index = num_of_gs - 1 - index
+                 g = compogen(g_s[start_index:], symbol)
+-                if g != f:
++                if g not in (orig_f, f):
+                     period = periodicity(g, symbol)
+                     if period is None:
+                         continue
+@@ -1190,4 +1190,4 @@ class AccumulationBounds(AtomicExpr):
+ 
+ 
+ # setting an alias for AccumulationBounds
+-AccumBounds = AccumulationBounds
++AccumBounds = AccumulationBounds

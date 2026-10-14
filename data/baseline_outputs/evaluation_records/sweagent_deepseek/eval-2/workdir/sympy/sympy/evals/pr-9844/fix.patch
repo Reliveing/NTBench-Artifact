@@ -1,0 +1,31 @@
+diff --git a/sympy/integrals/manualintegrate.py b/sympy/integrals/manualintegrate.py
+index 50d75d5f92..9cb41c1164 100644
+--- a/sympy/integrals/manualintegrate.py
++++ b/sympy/integrals/manualintegrate.py
+@@ -152,6 +152,17 @@ def possible_subterms(term):
+     for u in possible_subterms(integrand):
+         if u == symbol:
+             continue
++
++        # If u is a linear function of symbol (like c*symbol + d),
++        # check that xreplace works, i.e., u captures all occurrences of symbol.
++        # If symbol still appears after xreplace, this substitution would only
++        # work via solving (renaming) and doesn't actually simplify the integrand.
++        if u.diff(symbol).is_constant() and u.diff(symbol, 2) == 0:
++            u_diff = manual_diff(u, symbol)
++            dummy = sympy.Dummy('tmp')
++            if symbol in (integrand / u_diff).xreplace({u: dummy}).free_symbols:
++                continue
++
+         u_diff = manual_diff(u, symbol)
+         new_integrand = test_subterm(u, u_diff)
+         if new_integrand is not False:
+@@ -813,7 +824,7 @@ def substitution_rule(integral):
+         all(arg.is_Pow or arg.is_polynomial(symbol) for arg in integrand.args)
+         or isinstance(integrand, sympy.Pow)
+         or isinstance(integrand, sympy.Mul)),
+-    lambda integrand, symbol: integrand.expand())
++    lambda integrand, symbol: sympy.powsimp(integrand.expand()))
+ 
+ def derivative_rule(integral):
+     variables = integral[0].args[1:]

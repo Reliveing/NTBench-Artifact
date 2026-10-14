@@ -1,0 +1,15 @@
+diff --git a/sympy/functions/special/singularity_functions.py b/sympy/functions/special/singularity_functions.py
+index a69026e6e6..dee3912d58 100644
+--- a/sympy/functions/special/singularity_functions.py
++++ b/sympy/functions/special/singularity_functions.py
+@@ -218,7 +218,9 @@ def _eval_as_leading_term(self, x, logx, cdir):
+             return S.Zero if cdir == -1 else S.One
+         elif shift.is_positive:
+             return shift**n
+-        return S.Zero
++        elif shift.is_extended_negative:
++            return S.Zero
++        return self
+ 
+     def _eval_nseries(self, x, n, logx=None, cdir=0):
+         z, a, n = self.args

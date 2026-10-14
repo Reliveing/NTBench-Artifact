@@ -1,0 +1,40 @@
+diff --git a/rich/text.py b/rich/text.py
+index 69e19b64..4fcae0c9 100644
+--- a/rich/text.py
++++ b/rich/text.py
+@@ -991,6 +991,9 @@ class Text(JupyterMixin):
+                         "style must not be set when appending Text instance"
+                     )
+                 text_length = self._length
++                text_spans = (
++                    text._spans[:] if self._spans is text._spans else text._spans
++                )
+                 if text.style:
+                     self._spans.append(
+                         _Span(text_length, text_length + len(text), text.style)
+@@ -998,7 +1001,7 @@ class Text(JupyterMixin):
+                 self._text.append(text.plain)
+                 self._spans.extend(
+                     _Span(start + text_length, end + text_length, style)
+-                    for start, end, style in text._spans
++                    for start, end, style in text_spans
+                 )
+                 self._length += len(text)
+         return self
+@@ -1015,12 +1018,15 @@ class Text(JupyterMixin):
+         """
+         _Span = Span
+         text_length = self._length
++        text_spans = (
++            text._spans[:] if self._spans is text._spans else text._spans
++        )
+         if text.style:
+             self._spans.append(_Span(text_length, text_length + len(text), text.style))
+         self._text.append(text.plain)
+         self._spans.extend(
+             _Span(start + text_length, end + text_length, style)
+-            for start, end, style in text._spans
++            for start, end, style in text_spans
+         )
+         self._length += len(text)
+         return self

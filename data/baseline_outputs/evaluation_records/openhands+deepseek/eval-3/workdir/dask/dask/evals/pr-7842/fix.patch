@@ -1,0 +1,25 @@
+diff --git a/dask/dataframe/multi.py b/dask/dataframe/multi.py
+index 278d434ac..0b0a14d98 100644
+--- a/dask/dataframe/multi.py
++++ b/dask/dataframe/multi.py
+@@ -756,8 +756,18 @@ def pair_partitions(L, R):
+ 
+         J.append((partition, lower, upper))
+ 
+-        i1 = i + 1 if j + 1 == m or (i + 1 < n and R[j + 1] >= L[i + 1]) else i
+-        j1 = j + 1 if i + 1 == n or (j + 1 < m and L[i + 1] >= R[j + 1]) else j
++        i1 = (
++            i + 1
++            if j + 1 == m
++            or (i + 1 < n and (pd.isna(R[j + 1]) or R[j + 1] >= L[i + 1]))
++            else i
++        )
++        j1 = (
++            j + 1
++            if i + 1 == n
++            or (j + 1 < m and (pd.isna(R[j + 1]) or L[i + 1] >= R[j + 1]))
++            else j
++        )
+         if i1 > i:
+             result.append(J)
+             J = []

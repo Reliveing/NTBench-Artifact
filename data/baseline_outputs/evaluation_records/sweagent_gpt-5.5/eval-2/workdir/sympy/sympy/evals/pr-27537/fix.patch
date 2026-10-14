@@ -1,0 +1,44 @@
+diff --git a/sympy/simplify/simplify.py b/sympy/simplify/simplify.py
+index 20cbe19669..075d894e25 100644
+--- a/sympy/simplify/simplify.py
++++ b/sympy/simplify/simplify.py
+@@ -1083,6 +1083,17 @@ def goodlog(l):
+         if not logs and all(len(log1[k]) == 1 and log1[k][0] == [] for k in log1):
+             return rv
+ 
++        def _pow_as_log_arg(a, e):
++            # In a*log(x) -> log(x**a), avoid evaluating very large
++            # explicit numerical powers. For instance, evaluating
++            # 10**1000000000 here can dominate (or prevent completion of)
++            # higher level routines such as simplify/solve although the
++            # unevaluated power is sufficient for log combination.
++            if (a.is_number and e.is_Integer
++                    and abs(e.p).bit_length() > 12):
++                return Pow(a, e, evaluate=False)
++            return a**e
++
+         # collapse multi-logs as far as possible in a canonical way
+         # TODO: see if x*log(a)+x*log(a)*log(b) -> x*log(a)*(1+log(b))?
+         # -- in this case, it's unambiguous, but if it were were a log(c) in
+@@ -1091,10 +1102,10 @@ def goodlog(l):
+         # let the user decide
+         for o, e, l in logs:
+             l = list(ordered(l))
+-            e = log(l.pop(0).args[0]**Mul(*e))
++            e = log(_pow_as_log_arg(l.pop(0).args[0], Mul(*e)))
+             while l:
+                 li = l.pop(0)
+-                e = log(li.args[0]**e)
++                e = log(_pow_as_log_arg(li.args[0], e))
+             c, l = Mul(*o), e
+             if isinstance(l, log):  # it should be, but check to be sure
+                 log1[(c,)].append(([], l))
+@@ -1104,7 +1115,7 @@ def goodlog(l):
+         # logs that have the same coefficient can multiply
+         for k in list(log1.keys()):
+             log1[Mul(*k)] = log(logcombine(Mul(*[
+-                l.args[0]**Mul(*c) for c, l in log1.pop(k)]),
++                _pow_as_log_arg(l.args[0], Mul(*c)) for c, l in log1.pop(k)]),
+                 force=force), evaluate=False)
+ 
+         # logs that have oppositely signed coefficients can divide

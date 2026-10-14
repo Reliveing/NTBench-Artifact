@@ -1,0 +1,218 @@
+diff --git a/sympy/solvers/simplex.py b/sympy/solvers/simplex.py
+index f140268b79..8beeb62968 100644
+--- a/sympy/solvers/simplex.py
++++ b/sympy/solvers/simplex.py
+@@ -68,7 +68,7 @@
+ from sympy.core.symbol import Dummy
+ from sympy.core.sorting import ordered
+ from sympy.functions.elementary.complexes import sign
+-from sympy.matrices.dense import Matrix, zeros
++from sympy.matrices.dense import Matrix, ones, zeros
+ from sympy.solvers.solveset import linear_eq_to_matrix
+ from sympy.utilities.iterables import numbered_symbols
+ from sympy.utilities.misc import filldedent
+@@ -153,6 +153,55 @@ def _choose_pivot_row(A, B, candidate_rows, pivot_col, Y):
+     return min(candidate_rows, key=lambda i: (B[i] / A[i, pivot_col], Y[i]))
+ 
+ 
++def _simplex_iterate(M, X, Y):
++    # Pivot from a feasible solution to an optimal one.
++    n = M.cols - 1
++    m = M.rows - 1
++
++    while True:
++        B = M[:-1, -1]
++        A = M[:-1, :-1]
++        C = M[-1, :-1]
++
++        # Choose a pivot column, c
++        piv_cols = [_ for _ in range(n) if C[_] < 0]
++        if not piv_cols:
++            break
++        _, c = min((X[i], i) for i in piv_cols)  # Bland's rule
++
++        # Choose a pivot row, r
++        piv_rows = [_ for _ in range(m) if A[_, c] > 0]
++        if not piv_rows:
++            raise UnboundedLPError(filldedent("""
++                Objective function can assume
++                arbitrarily large values!"""))
++        r = _choose_pivot_row(A, B, piv_rows, c, Y)
++
++        M = _pivot(M, r, c)
++        X[c], Y[r] = Y[r], X[c]
++
++    return M, X, Y
++
++
++def _restore_objective(M, C, D, X, Y):
++    # Restore the original objective row for the current basis.
++    n = M.cols - 1
++    m = M.rows - 1
++    row = zeros(1, n + 1)
++
++    for i, (v, j) in enumerate(X):
++        if v == False:
++            row[i] = C[j]
++    row[-1] = D[0]
++
++    for i, (v, j) in enumerate(Y):
++        if v == False:
++            row -= C[j]*M[i, :]
++
++    M[m, :] = row
++    return M
++
++
+ def _simplex(A, B, C, D=None, dual=False):
+     """Return ``(o, x, y)`` obtained from the two-phase simplex method
+     using Bland's rule: ``o`` is the minimum value of primal,
+@@ -296,84 +345,60 @@ def _simplex(A, B, C, D=None, dual=False):
+     X = [(False, j) for j in range(n)]
+     Y = [(True, i) for i in range(m)]
+ 
+-    # Phase 1: find a feasible solution or determine none exist
+-
+-    ## keep track of last pivot row and column
+-    last = None
+-
+-    while True:
+-        B = M[:-1, -1]
+-        A = M[:-1, :-1]
+-        if all(B[i] >= 0 for i in range(B.rows)):
+-            # We have found a feasible solution
+-            break
+-
+-        # Find k: first row with a negative rightmost entry
+-        for k in range(B.rows):
+-            if B[k] < 0:
+-                break  # use current value of k below
+-        else:
+-            pass  # error will raise below
+-
+-        # Choose pivot column, c
+-        piv_cols = [_ for _ in range(A.cols) if A[k, _] < 0]
+-        if not piv_cols:
++    # Phase 1: find a feasible solution or determine none exist.
++    # If any right hand side is negative, introduce a single
++    # artificial variable, x0, with constraints A*x - x0 <= B.
++    # Minimizing x0 gives a feasible basis for the original problem
++    # exactly when the minimum value is zero.
++    if m and any(M[i, -1] < 0 for i in range(m)):
++        k = min(range(m), key=lambda i: M[i, -1])
++        M = Matrix([[M[:-1, :-1], -ones(m, 1), M[:-1, -1]],
++                    [zeros(1, n), Matrix([[1]]), Matrix([[0]])]])
++        X.append((False, n))
++
++        # Make the artificial variable basic in a row with a negative
++        # right hand side. Since its coefficient is -1, this pivot makes
++        # all right hand sides nonnegative and gives a feasible starting
++        # basis for the auxiliary problem.
++        M = _pivot(M, k, n)
++        X[n], Y[k] = Y[k], X[n]
++
++        M, X, Y = _simplex_iterate(M, X, Y)
++        if -M[-1, -1] != 0:
+             raise InfeasibleLPError(filldedent("""
+                 The constraint set is empty!"""))
+-        _, c = min((X[i], i) for i in piv_cols) # Bland's rule
+-
+-        # Choose pivot row, r
+-        piv_rows = [_ for _ in range(A.rows) if A[_, c] > 0 and B[_] > 0]
+-        piv_rows.append(k)
+-        r = _choose_pivot_row(A, B, piv_rows, c, Y)
+ 
+-        # check for oscillation
+-        if (r, c) == last:
+-            # Not sure what to do here; it looks like there will be
+-            # oscillations; see o1 test added at this commit to
+-            # see a system with no solution and the o2 for one
+-            # with a solution. In the case of o2, the solution
+-            # from linprog is the same as the one from lpmin, but
+-            # the matrices created in the lpmin case are different
+-            # than those created without replacements in linprog and
+-            # the matrices in the linprog case lead to oscillations.
+-            # If the matrices could be re-written in linprog like
+-            # lpmin does, this behavior could be avoided and then
+-            # perhaps the oscillating case would only occur when
+-            # there is no solution. For now, the output is checked
+-            # before exit if oscillations were detected and an
+-            # error is raised there if the solution was invalid.
+-            #
+-            # cf section 6 of Ferguson for a non-cycling modification
+-            last = True
+-            break
+-        last = r, c
+-
+-        M = _pivot(M, r, c)
+-        X[c], Y[r] = Y[r], X[c]
++        # Drop the artificial variable. Its value is zero at a
++        # feasible solution, so if it is still basic then either it can
++        # be pivoted out or its row is redundant.
++        art = (False, n)
++        for i, var in enumerate(Y):
++            if var == art:
++                for j, x in enumerate(X):
++                    if x != art and M[i, j] != 0:
++                        M = _pivot(M, i, j)
++                        X[j], Y[i] = Y[i], X[j]
++                        break
++                else:
++                    rows = [j for j in range(M.rows) if j != i]
++                    M = M[rows, :]
++                    Y.pop(i)
++                break
++
++        art_col = None
++        for i, var in enumerate(X):
++            if var == art:
++                art_col = i
++                break
++        if art_col is not None:
++            keep = [i for i in range(M.cols) if i != art_col]
++            M = M[:, keep]
++            X.pop(art_col)
++
++        M = _restore_objective(M, C, D, X, Y)
+ 
+     # Phase 2: from a feasible solution, pivot to optimal
+-    while True:
+-        B = M[:-1, -1]
+-        A = M[:-1, :-1]
+-        C = M[-1, :-1]
+-
+-        # Choose a pivot column, c
+-        piv_cols = [_ for _ in range(n) if C[_] < 0]
+-        if not piv_cols:
+-            break
+-        _, c = min((X[i], i) for i in piv_cols)  # Bland's rule
+-
+-        # Choose a pivot row, r
+-        piv_rows = [_ for _ in range(m) if A[_, c] > 0]
+-        if not piv_rows:
+-            raise UnboundedLPError(filldedent("""
+-                Objective function can assume
+-                arbitrarily large values!"""))
+-        r = _choose_pivot_row(A, B, piv_rows, c, Y)
+-
+-        M = _pivot(M, r, c)
+-        X[c], Y[r] = Y[r], X[c]
++    M, X, Y = _simplex_iterate(M, X, Y)
+ 
+     argmax = [None] * n
+     argmin_dual = [None] * m
+@@ -390,11 +415,9 @@ def _simplex(A, B, C, D=None, dual=False):
+         else:
+             argmax[n] = M[i, -1]
+ 
+-    if last and not all(i >= 0 for i in argmax + argmin_dual):
+-        raise InfeasibleLPError(filldedent("""
+-            Oscillating system led to invalid solution.
+-            If you believe there was a valid solution, please
+-            report this as a bug."""))
++    argmax = [S.Zero if i is None else i for i in argmax]
++    argmin_dual = [S.Zero if i is None else i for i in argmin_dual]
++
+     return -M[-1, -1], argmax, argmin_dual
+ 
+ 

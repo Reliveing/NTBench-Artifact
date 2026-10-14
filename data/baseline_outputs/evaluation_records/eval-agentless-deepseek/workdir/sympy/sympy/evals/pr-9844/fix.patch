@@ -1,0 +1,90 @@
+diff --git a/sympy/integrals/manualintegrate.py b/sympy/integrals/manualintegrate.py
+index 50d75d5..a4bf740 100644
+--- a/sympy/integrals/manualintegrate.py
++++ b/sympy/integrals/manualintegrate.py
+@@ -337,6 +337,69 @@ def mul_rule(integral):
+             integral_steps(f, symbol),
+             integrand, symbol)
+ 
++    # Handle case where we have (a**x + b**x + ...) / c**x
++    # which can be rewritten as (a/c)**x + (b/c)**x + ...
++    if isinstance(integrand, sympy.Mul):
++        # Separate numerator and denominator
++        num, den = integrand.as_numer_denom()
++        if den != 1 and symbol in den.free_symbols:
++            # Check if denominator is of form c**x
++            den_base, den_exp = den.as_base_exp()
++            if symbol not in den_base.free_symbols and den_exp == symbol:
++                # Numerator is a sum of exponentials?
++                if isinstance(num, sympy.Add):
++                    terms = num.args
++                    if all(isinstance(term, sympy.Pow) for term in terms):
++                        # All terms are powers - check if each is of form a**x
++                        rewritten_terms = []
++                        valid = True
++                        for term in terms:
++                            base, exp = term.as_base_exp()
++                            if exp == symbol and symbol not in base.free_symbols:
++                                # Rewrite (a**x) / (c**x) as (a/c)**x
++                                new_base = base / den_base
++                                rewritten_terms.append(new_base**symbol)
++                            else:
++                                valid = False
++                                break
++                        if valid and rewritten_terms:
++                            rewritten = sympy.Add(*rewritten_terms)
++                            return RewriteRule(rewritten, integral_steps(rewritten, symbol), integrand, symbol)
++
++    # Check if we have a sum of exponentials divided by an exponential
++    # e.g., (3**x + 4**x) / 5**x -> (3/5)**x + (4/5)**x
++    if isinstance(integrand, sympy.Mul):
++        # Try to rewrite as sum of exponentials
++        num, den = integrand.as_numer_denom()
++        if den != 1 and symbol in den.free_symbols:
++            den_base, den_exp = den.as_base_exp()
++            if symbol not in den_base.free_symbols and den_exp == symbol:
++                # Denominator is c**x
++                if isinstance(num, sympy.Add):
++                    terms = num.args
++                    # Check if all terms are exponentials with base constant and exp = symbol
++                    all_exponentials = all(
++                        isinstance(term, sympy.Pow) and 
++                        term.args[1] == symbol and 
++                        symbol not in term.args[0].free_symbols
++                        for term in terms
++                    )
++                    if all_exponentials:
++                        rewritten_terms = []
++                        for term in terms:
++                            base, exp = term.as_base_exp()
++                            new_base = base / den_base
++                            rewritten_terms.append(new_base**symbol)
++                        rewritten = sympy.Add(*rewritten_terms)
++                        return RewriteRule(rewritten, integral_steps(rewritten, symbol), integrand, symbol)
++                elif isinstance(num, sympy.Pow):
++                    # Single exponential divided by another
++                    base, exp = num.as_base_exp()
++                    if exp == symbol and symbol not in base.free_symbols:
++                        new_base = base / den_base
++                        rewritten = new_base**symbol
++                        return RewriteRule(rewritten, integral_steps(rewritten, symbol), integrand, symbol)
++
+ def _parts_rule(integrand, symbol):
+     # LIATE rule:
+     # log, inverse trig, algebraic (polynomial), trigonometric, exponential
+@@ -941,7 +1004,8 @@ def integral_steps(integrand, symbol, **options):
+                     distribute_expand_rule),
+                 trig_powers_products_rule
+             )),
+-            null_safe(trig_substitution_rule)
++            null_safe(trig_substitution_rule),
++            null_safe(mul_rule)  # Try mul_rule again for rewriting exponentials
+         ),
+         fallback_rule)(integral)
+     del _integral_cache[cachekey]
+@@ -1142,4 +1206,4 @@ def manualintegrate(f, var):
+     sympy.integrals.integrals.Integral.doit
+     sympy.integrals.integrals.Integral
+     """
+-    return _manualintegrate(integral_steps(f, var))
++    return _manualintegrate(integral_steps(f, var))

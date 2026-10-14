@@ -1,0 +1,26 @@
+diff --git a/numpy/random/_generator.pyx b/numpy/random/_generator.pyx
+index d7c1879e7a..c0b327bba0 100644
+--- a/numpy/random/_generator.pyx
++++ b/numpy/random/_generator.pyx
+@@ -3021,6 +3021,21 @@ def negative_binomial(self, n, p, size=None):
+         ...    print(i, "wells drilled, probability of one success =", probability)
+ 
+         """
++        # Convert inputs to arrays to validate max_lam constraint
++        p_arr = <np.ndarray>np.PyArray_FROM_OTF(p, np.NPY_DOUBLE, np.NPY_ALIGNED)
++        n_arr = <np.ndarray>np.PyArray_FROM_OTF(n, np.NPY_DOUBLE, np.NPY_ALIGNED)
++        
++        # Check that n and p are valid first
++        check_array_constraint(n_arr, 'n', CONS_POSITIVE_NOT_NAN)
++        check_array_constraint(p_arr, 'p', CONS_BOUNDED_GT_0_1)
++        
++        # Check that the choice of negative_binomial parameters won't result in a
++        # call to the poisson distribution function with a value of lam too large.
++        # The effective lambda for the internal poisson call is n * (1 - p) / p.
++        max_lam_arr = <np.ndarray>np.PyArray_FROM_OTF(
++            n_arr * (1.0 - p_arr) / p_arr, np.NPY_DOUBLE, np.NPY_ALIGNED)
++        check_array_constraint(max_lam_arr, 'n * (1 - p) / p', CONS_POISSON)
++
+         return disc(&random_negative_binomial, &self._bitgen, size, self.lock, 2, 0,
+                     n, 'n', CONS_POSITIVE_NOT_NAN,
+                     p, 'p', CONS_BOUNDED_GT_0_1,

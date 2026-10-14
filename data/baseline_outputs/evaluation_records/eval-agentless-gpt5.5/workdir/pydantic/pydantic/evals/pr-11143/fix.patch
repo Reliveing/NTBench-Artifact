@@ -1,0 +1,23 @@
+diff --git a/pydantic/_internal/_model_construction.py b/pydantic/_internal/_model_construction.py
+index aed979b..3be3507 100644
+--- a/pydantic/_internal/_model_construction.py
++++ b/pydantic/_internal/_model_construction.py
+@@ -292,6 +292,12 @@ class ModelMetaclass(ABCMeta):
+                 assert set(base_params) <= param_dict.keys(), assert_err_msg
+                 new_base_args = tuple(param_dict[param] for param in base_params)
+                 new_base = base[new_base_args]  # type: ignore
++
++                # Recursive generic references are schema placeholders, not valid
++                # Python classes, and cannot be included in the generated MRO.
++                if not isinstance(new_base, type):
++                    return original_mro
++
+                 new_mro.append(new_base)
+ 
+                 indexed_origins.add(base_origin or base)
+@@ -851,4 +857,4 @@ def default_ignored_types() -> tuple[type[Any], ...]:
+     if sys.version_info >= (3, 12):
+         ignored_types.append(typing.TypeAliasType)
+ 
+-    return tuple(ignored_types)
++    return tuple(ignored_types)

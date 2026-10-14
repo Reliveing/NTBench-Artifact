@@ -1,0 +1,58 @@
+diff --git a/sympy/simplify/simplify.py b/sympy/simplify/simplify.py
+index 20cbe19669..f4712aea53 100644
+--- a/sympy/simplify/simplify.py
++++ b/sympy/simplify/simplify.py
+@@ -1045,6 +1045,14 @@ def goodlog(l):
+             a = l.args[0]
+             return a.is_positive or force and a.is_nonpositive is not False
+ 
++        def powarg(base, exp):
++            if (base.is_Rational and exp.is_Integer and exp.is_positive
++                    and exp != 1):
++                bits = max(abs(base.p).bit_length(), base.q.bit_length())
++                if exp > 10000//bits:
++                    return None
++            return base**exp
++
+         other = []
+         logs = []
+         log1 = defaultdict(list)
+@@ -1090,11 +1098,16 @@ def goodlog(l):
+         # by log(c). So for now, just leave this alone; it's probably better to
+         # let the user decide
+         for o, e, l in logs:
++            term = Mul(*(o + e + l))
+             l = list(ordered(l))
+-            e = log(l.pop(0).args[0]**Mul(*e))
++            arg = powarg(l.pop(0).args[0], Mul(*e))
++            if arg is None:
++                other.append(term)
++                continue
++            e = log(arg)
+             while l:
+                 li = l.pop(0)
+-                e = log(li.args[0]**e)
++                e = log(powarg(li.args[0], e))
+             c, l = Mul(*o), e
+             if isinstance(l, log):  # it should be, but check to be sure
+                 log1[(c,)].append(([], l))
+@@ -1103,9 +1116,16 @@ def goodlog(l):
+ 
+         # logs that have the same coefficient can multiply
+         for k in list(log1.keys()):
+-            log1[Mul(*k)] = log(logcombine(Mul(*[
+-                l.args[0]**Mul(*c) for c, l in log1.pop(k)]),
+-                force=force), evaluate=False)
++            terms = []
++            for c, l in log1.pop(k):
++                arg = powarg(l.args[0], Mul(*c))
++                if arg is None:
++                    other.append(Mul(*(list(k) + c + [l])))
++                else:
++                    terms.append(arg)
++            if terms:
++                log1[Mul(*k)] = log(logcombine(Mul(*terms),
++                    force=force), evaluate=False)
+ 
+         # logs that have oppositely signed coefficients can divide
+         for k in ordered(list(log1.keys())):

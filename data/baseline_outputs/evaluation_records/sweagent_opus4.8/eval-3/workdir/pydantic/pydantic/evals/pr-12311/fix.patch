@@ -1,0 +1,90 @@
+diff --git a/pydantic/json_schema.py b/pydantic/json_schema.py
+index f5cc325be..aa83a56f9 100644
+--- a/pydantic/json_schema.py
++++ b/pydantic/json_schema.py
+@@ -460,6 +460,68 @@ class GenerateJsonSchema:
+                 json_schema = ref_json_schema
+             return json_schema
+ 
++        def hoist_defs(json_schema: JsonSchemaValue) -> JsonSchemaValue:
++            """Hoist any inline ``$defs`` (e.g. returned from a custom ``__get_pydantic_json_schema__``)
++            into the top-level ``self.definitions``.
++
++            The inline definitions are given unique internal definition refs (to avoid collisions with
++            other definitions), while registering the original names as the preferred remapping choices.
++            This way, the standard definitions-remapping logic will restore the original names when there
++            is no collision, and disambiguate them otherwise.
++            """
++            inline_defs = json_schema.get('$defs')
++            if not isinstance(inline_defs, dict):
++                return json_schema
++
++            # Build a mapping from the original inline defs ref name to a unique internal defs ref name.
++            # We always use a distinct internal name (suffixed) so that the standard remapping logic has
++            # a guaranteed-unique fallback, while still preferring the original name when there's no collision.
++            remapped: dict[str, DefsRef] = {}
++            for name in inline_defs:
++                base = self.normalize_name(name)
++                self._collision_counter[base] += 1
++                unique_name = DefsRef(f'{base}--{self._collision_counter[base]}')
++                while (
++                    unique_name in self._prioritized_defsref_choices
++                    or unique_name in self.definitions
++                    or unique_name in remapped.values()
++                ):
++                    self._collision_counter[base] += 1
++                    unique_name = DefsRef(f'{base}--{self._collision_counter[base]}')
++                remapped[name] = unique_name
++
++            def remap_refs(obj: Any) -> Any:
++                # Inline `$defs` are always referenced using the default `#/$defs/{name}` template,
++                # regardless of the (possibly custom) `self.ref_template`. When registering the hoisted
++                # definitions, we rewrite these to use `self.ref_template` so they are picked up by the
++                # final definitions remapping.
++                if isinstance(obj, dict):
++                    new_obj: dict[str, Any] = {}
++                    for k, v in obj.items():
++                        if k == '$ref' and isinstance(v, str):
++                            for orig, new in remapped.items():
++                                if v == DEFAULT_REF_TEMPLATE.format(model=orig):
++                                    v = self.ref_template.format(model=new)
++                                    break
++                        new_obj[k] = remap_refs(v)
++                    return new_obj
++                elif isinstance(obj, list):
++                    return [remap_refs(v) for v in obj]
++                return obj
++
++            for name, def_schema in inline_defs.items():
++                defs_ref = remapped[name]
++                self.definitions[defs_ref] = remap_refs(def_schema)
++                json_ref = JsonRef(self.ref_template.format(model=defs_ref))
++                self.json_to_defs_refs[json_ref] = defs_ref
++                # Prefer the original name when remapping, falling back to the unique internal name.
++                preferred = DefsRef(self.normalize_name(name))
++                self._prioritized_defsref_choices[defs_ref] = [preferred, defs_ref]
++
++            json_schema = {k: v for k, v in json_schema.items() if k != '$defs'}
++            json_schema = remap_refs(json_schema)
++            return json_schema
++
+         def handler_func(schema_or_field: CoreSchemaOrField) -> JsonSchemaValue:
+             """Generate a JSON schema based on the input schema.
+ 
+@@ -539,6 +601,7 @@ class GenerateJsonSchema:
+                 js_modify_function: GetJsonSchemaFunction = js_modify_function,
+             ) -> JsonSchemaValue:
+                 json_schema = js_modify_function(schema_or_field, current_handler)
++                json_schema = hoist_defs(json_schema)
+                 if _core_utils.is_core_schema(schema_or_field):
+                     json_schema = populate_defs(schema_or_field, json_schema)
+                 original_schema = current_handler.resolve_ref_schema(json_schema)
+@@ -556,7 +619,7 @@ class GenerateJsonSchema:
+                 current_handler: GetJsonSchemaHandler = current_handler,
+                 js_modify_function: GetJsonSchemaFunction = js_modify_function,
+             ) -> JsonSchemaValue:
+-                return js_modify_function(schema_or_field, current_handler)
++                return hoist_defs(js_modify_function(schema_or_field, current_handler))
+ 
+             current_handler = _schema_generation_shared.GenerateJsonSchemaHandler(self, new_handler_func)
+ 

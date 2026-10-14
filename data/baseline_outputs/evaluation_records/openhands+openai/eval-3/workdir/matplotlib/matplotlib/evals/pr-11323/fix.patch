@@ -1,0 +1,22 @@
+diff --git a/lib/matplotlib/patches.py b/lib/matplotlib/patches.py
+index a6120d6450..51a209733a 100644
+--- a/lib/matplotlib/patches.py
++++ b/lib/matplotlib/patches.py
+@@ -3893,7 +3893,7 @@ class FancyArrowPatch(Patch):
+     @docstring.dedent_interpd
+     def __init__(self, posA=None, posB=None,
+                  path=None,
+-                 arrowstyle="simple",
++                 arrowstyle="->",
+                  arrow_transmuter=None,
+                  connectionstyle="arc3",
+                  connector=None,
+@@ -3926,7 +3926,7 @@ class FancyArrowPatch(Patch):
+             drawn along this path and *patchA*, *patchB*, *shrinkA*, and
+             *shrinkB* are ignored.
+ 
+-        arrowstyle : str or ArrowStyle, optional (default: 'simple')
++        arrowstyle : str or ArrowStyle, optional (default: '->')
+             Describes how the fancy arrow will be
+             drawn. It can be string of the available arrowstyle names,
+             with optional comma-separated attributes, or an

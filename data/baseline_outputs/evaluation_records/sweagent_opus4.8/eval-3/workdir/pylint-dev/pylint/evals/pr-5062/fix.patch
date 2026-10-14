@@ -1,0 +1,121 @@
+diff --git a/ChangeLog b/ChangeLog
+index c79d44cca..c645dc80a 100644
+--- a/ChangeLog
++++ b/ChangeLog
+@@ -25,6 +25,11 @@ Release date: TBA
+ 
+   Closes #5019
+ 
++* Fixed a performance issue in the similarity checker (``duplicate-code``) that could
++  make ``pylint`` appear to hang, particularly when run with ``--jobs`` on projects
++  containing many similar lines. The per-lineset hashes are now computed only once
++  instead of once for every pair of files.
++
+ * Fix regression for ``unspecified-encoding`` with ``pathlib.Path.read_text()``
+ 
+   Closes #5029
+diff --git a/pylint/checkers/similar.py b/pylint/checkers/similar.py
+index 9ff5a973b..94e53b109 100644
+--- a/pylint/checkers/similar.py
++++ b/pylint/checkers/similar.py
+@@ -41,7 +41,6 @@ the hashes are computed with four lines. If one of match indices couple (12, 34)
+ in fact five lines which are common.
+ Once postprocessed the values of association table are the result looked for, i.e start and end lines numbers of common lines in both files.
+ """
+-import copy
+ import functools
+ import itertools
+ import operator
+@@ -299,6 +298,9 @@ def remove_successives(all_couples: CplIndexToCplLines_T) -> None:
+     """
+     couple: LineSetStartCouple
+     for couple in tuple(all_couples.keys()):
++        if couple not in all_couples:
++            # The couple was already merged into a previous, contiguous couple
++            continue
+         to_remove = []
+         test = couple.increment(Index(1))
+         while test in all_couples:
+@@ -309,10 +311,7 @@ def remove_successives(all_couples: CplIndexToCplLines_T) -> None:
+             test = test.increment(Index(1))
+ 
+         for target in to_remove:
+-            try:
+-                all_couples.pop(target)
+-            except KeyError:
+-                pass
++            all_couples.pop(target, None)
+ 
+ 
+ def filter_noncode_lines(
+@@ -374,6 +373,10 @@ class Similar:
+         self.ignore_imports = ignore_imports
+         self.ignore_signatures = ignore_signatures
+         self.linesets: List["LineSet"] = []
++        # Cache of per-lineset hashes computed by ``_find_common``, keyed by the
++        # id of the lineset. It is reset at the beginning of each full
++        # computation (see ``_iter_sims``).
++        self._hashes_cache: Dict[int, Tuple[HashToIndex_T, IndexToLines_T]] = {}
+ 
+     def append_stream(
+         self, streamid: str, stream: STREAM_TYPES, encoding: Optional[str] = None
+@@ -488,8 +491,8 @@ class Similar:
+         hash_to_index_2: HashToIndex_T
+         index_to_lines_1: IndexToLines_T
+         index_to_lines_2: IndexToLines_T
+-        hash_to_index_1, index_to_lines_1 = hash_lineset(lineset1, self.min_lines)
+-        hash_to_index_2, index_to_lines_2 = hash_lineset(lineset2, self.min_lines)
++        hash_to_index_1, index_to_lines_1 = self._get_hashes(lineset1)
++        hash_to_index_2, index_to_lines_2 = self._get_hashes(lineset2)
+ 
+         hash_1: FrozenSet[LinesChunk] = frozenset(hash_to_index_1.keys())
+         hash_2: FrozenSet[LinesChunk] = frozenset(hash_to_index_2.keys())
+@@ -508,11 +511,13 @@ class Similar:
+             ):
+                 index_1 = indices_in_linesets[0]
+                 index_2 = indices_in_linesets[1]
++                lines_1 = index_to_lines_1[index_1]
++                lines_2 = index_to_lines_2[index_2]
+                 all_couples[
+                     LineSetStartCouple(index_1, index_2)
+                 ] = CplSuccessiveLinesLimits(
+-                    copy.copy(index_to_lines_1[index_1]),
+-                    copy.copy(index_to_lines_2[index_2]),
++                    SuccessiveLinesLimits(start=lines_1.start, end=lines_1.end),
++                    SuccessiveLinesLimits(start=lines_2.start, end=lines_2.end),
+                     effective_cmn_lines_nb=self.min_lines,
+                 )
+ 
+@@ -540,10 +545,32 @@ class Similar:
+             if eff_cmn_nb > self.min_lines:
+                 yield com
+ 
++    def _get_hashes(
++        self, lineset: "LineSet"
++    ) -> Tuple[HashToIndex_T, IndexToLines_T]:
++        """Return (and cache) the hashes for a given lineset.
++
++        The hashes only depend on the lineset content and ``self.min_lines`` so
++        they can be computed once per lineset instead of once per pair of
++        linesets. This avoids recomputing them ``len(self.linesets) - 1`` times
++        which was a serious performance bottleneck (leading to what looked like
++        a hang) on projects containing a lot of similar lines.
++        """
++        cached = self._hashes_cache.get(id(lineset))
++        if cached is None:
++            cached = hash_lineset(lineset, self.min_lines)
++            self._hashes_cache[id(lineset)] = cached
++        return cached
++
+     def _iter_sims(self) -> Generator[Commonality, None, None]:
+         """iterate on similarities among all files, by making a cartesian
+         product
+         """
++        # The hashes computed by ``_find_common`` only depend on the lineset and
++        # ``self.min_lines``. Reset the cache before each full computation so
++        # that it does not grow indefinitely and always reflects the current
++        # linesets.
++        self._hashes_cache = {}
+         for idx, lineset in enumerate(self.linesets[:-1]):
+             for lineset2 in self.linesets[idx + 1 :]:
+                 yield from self._find_common(lineset, lineset2)

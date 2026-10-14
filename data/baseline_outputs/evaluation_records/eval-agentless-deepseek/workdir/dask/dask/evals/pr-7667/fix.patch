@@ -1,0 +1,23 @@
+diff --git a/dask/array/creation.py b/dask/array/creation.py
+index 9df5d67..1686be8 100644
+--- a/dask/array/creation.py
++++ b/dask/array/creation.py
+@@ -295,6 +295,12 @@ def linspace(
+ 
+     chunks = normalize_chunks(chunks, (num,), dtype=dtype)
+ 
++    # Handle dask arrays for start and stop by computing them
++    if isinstance(start, Array):
++        start = start.compute()
++    if isinstance(stop, Array):
++        stop = stop.compute()
++
+     range_ = stop - start
+ 
+     div = (num - 1) if endpoint else num
+@@ -1178,4 +1184,4 @@ def pad(array, pad_width, mode="constant", **kwargs):
+     elif mode in ["reflect", "symmetric", "wrap"]:
+         return pad_reuse(array, pad_width, mode, **kwargs)
+ 
+-    assert False, "unreachable"
++    assert False, "unreachable"

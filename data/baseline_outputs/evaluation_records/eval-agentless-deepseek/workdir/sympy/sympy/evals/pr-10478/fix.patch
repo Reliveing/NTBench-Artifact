@@ -1,0 +1,37 @@
+diff --git a/sympy/functions/combinatorial/factorials.py b/sympy/functions/combinatorial/factorials.py
+index ea9e5a5..a40c90a 100644
+--- a/sympy/functions/combinatorial/factorials.py
++++ b/sympy/functions/combinatorial/factorials.py
+@@ -335,17 +335,18 @@ class factorial2(CombinatorialFunction):
+ 
+             # This implementation is faster than the recursive one
+             # It also avoids "maximum recursion depth exceeded" runtime error
+-            if arg.is_nonnegative:
+-                if arg.is_even:
+-                    k = arg / 2
+-                    return 2 ** k * factorial(k)
++            if arg.is_integer:
++                if arg.is_nonnegative:
++                    if arg.is_even:
++                        k = arg / 2
++                        return 2 ** k * factorial(k)
+ 
+-                return factorial(arg) / factorial2(arg - 1)
++                    return factorial(arg) / factorial2(arg - 1)
+ 
+-            if arg.is_even:
+-                raise ValueError("argument must be nonnegative or odd")
++                if arg.is_even:
++                    raise ValueError("argument must be nonnegative or odd")
+ 
+-            return arg * (S.NegativeOne) ** ((1 - arg) / 2) / factorial2(-arg)
++                return arg * (S.NegativeOne) ** ((1 - arg) / 2) / factorial2(-arg)
+ 
+     def _eval_is_even(self):
+         # Double factorial is even for every positive even input
+@@ -862,4 +863,4 @@ class binomial(CombinatorialFunction):
+         if n.is_integer and k.is_integer:
+             return True
+         elif k.is_integer is False:
+-            return False
++            return False

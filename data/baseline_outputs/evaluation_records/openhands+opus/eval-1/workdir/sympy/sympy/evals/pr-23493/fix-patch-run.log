@@ -1,0 +1,72 @@
+Obtaining file:///home/sympy
+  Installing build dependencies: started
+  Installing build dependencies: finished with status 'done'
+  Checking if build backend supports build_editable: started
+  Checking if build backend supports build_editable: finished with status 'done'
+  Getting requirements to build editable: started
+  Getting requirements to build editable: finished with status 'done'
+  Preparing editable metadata (pyproject.toml): started
+  Preparing editable metadata (pyproject.toml): finished with status 'done'
+Requirement already satisfied: mpmath>=0.19 in /usr/local/lib/python3.11/site-packages (from sympy==1.11.dev0) (1.4.1)
+Building wheels for collected packages: sympy
+  Building editable for sympy (pyproject.toml): started
+  Building editable for sympy (pyproject.toml): finished with status 'done'
+  Created wheel for sympy: filename=sympy-1.11.dev0-0.editable-py3-none-any.whl size=30037 sha256=04b2436f86947bff41e48e9bd7d7ae944c3088935c82bd94e6fdb5f59fd72380
+  Stored in directory: /tmp/pip-ephem-wheel-cache-npe3stam/wheels/af/22/61/2ece34a734d21005537313f7f88a33ef281f3770719986eb88
+Successfully built sympy
+Installing collected packages: sympy
+  Attempting uninstall: sympy
+    Found existing installation: sympy 1.11.dev0
+    Uninstalling sympy-1.11.dev0:
+      Successfully uninstalled sympy-1.11.dev0
+Successfully installed sympy-1.11.dev0
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+
+[notice] A new release of pip is available: 26.0.1 -> 26.2.1
+[notice] To update, run: pip install --upgrade pip
+============================= test session starts ==============================
+collecting ... collected 7 items
+
+sympy/calculus/tests/test_singularities.py::test_singularities PASSED    [ 14%]
+sympy/calculus/tests/test_singularities.py::test_is_increasing PASSED    [ 28%]
+sympy/calculus/tests/test_singularities.py::test_is_strictly_increasing PASSED [ 42%]
+sympy/calculus/tests/test_singularities.py::test_is_decreasing PASSED    [ 57%]
+sympy/calculus/tests/test_singularities.py::test_is_strictly_decreasing PASSED [ 71%]
+sympy/calculus/tests/test_singularities.py::test_is_monotonic PASSED     [ 85%]
+sympy/calculus/tests/test_singularities.py::test_issue_23401 PASSED      [100%]
+
+=============================== warnings summary ===============================
+../../usr/local/lib/python3.11/site-packages/mpmath/ctx_mp.py:35
+  /usr/local/lib/python3.11/site-packages/mpmath/ctx_mp.py:35: DeprecationWarning: mpnumeric is deprecated
+    warnings.warn(f"{name} is deprecated", DeprecationWarning)
+
+../../usr/local/lib/python3.11/site-packages/mpmath/rational.py:4
+../../usr/local/lib/python3.11/site-packages/mpmath/rational.py:4
+../../usr/local/lib/python3.11/site-packages/mpmath/rational.py:4
+  /usr/local/lib/python3.11/site-packages/mpmath/rational.py:4: DeprecationWarning: the rational private module is deprecated
+    warnings.warn("the rational private module is deprecated",
+
+sympy/calculus/tests/test_singularities.py::test_singularities
+  /usr/local/lib/python3.11/site-packages/mpmath/libmp/libintmath.py:75: DeprecationWarning: bitcount function is deprecated
+    warnings.warn("bitcount function is deprecated",
+
+sympy/calculus/tests/test_singularities.py::test_issue_23401
+sympy/calculus/tests/test_singularities.py::test_issue_23401
+sympy/calculus/tests/test_singularities.py::test_issue_23401
+sympy/calculus/tests/test_singularities.py::test_issue_23401
+sympy/calculus/tests/test_singularities.py::test_issue_23401
+sympy/calculus/tests/test_singularities.py::test_issue_23401
+sympy/calculus/tests/test_singularities.py::test_issue_23401
+  /usr/local/lib/python3.11/site-packages/mpmath/calculus/polynomials.py:177: DeprecationWarning: Descending (wrt powers) order of polynomial coefficients is deprecated, please adapt you code to use ascending order, asc=True.
+    warnings.warn("Descending (wrt powers) order of polynomial "
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+PASSED sympy/calculus/tests/test_singularities.py::test_singularities
+PASSED sympy/calculus/tests/test_singularities.py::test_is_increasing
+PASSED sympy/calculus/tests/test_singularities.py::test_is_strictly_increasing
+PASSED sympy/calculus/tests/test_singularities.py::test_is_decreasing
+PASSED sympy/calculus/tests/test_singularities.py::test_is_strictly_decreasing
+PASSED sympy/calculus/tests/test_singularities.py::test_is_monotonic
+PASSED sympy/calculus/tests/test_singularities.py::test_issue_23401
+======================== 7 passed, 12 warnings in 3.29s ========================

@@ -1,0 +1,33 @@
+diff --git a/sympy/matrices/dense.py b/sympy/matrices/dense.py
+index d21ffb52ea..ab57e9be9d 100644
+--- a/sympy/matrices/dense.py
++++ b/sympy/matrices/dense.py
+@@ -1043,7 +1043,7 @@ def symarray(prefix, shape, **kwargs):  # pragma: no cover
+ # Functions
+ ###############
+ 
+-def casoratian(seqs, n, zero=True):
++def casoratian(seqs, n, zero=True, method='berkowitz'):
+     """Given linear difference operator L of order 'k' and homogeneous
+        equation Ly = 0 we want to compute kernel of L, which is a set
+        of 'k' sequences: a(n), b(n), ... z(n).
+@@ -1072,6 +1072,10 @@ def casoratian(seqs, n, zero=True):
+        >>> casoratian([2**n, factorial(n)], n) != 0
+        True
+ 
++
++       The determinant is evaluated with ``method``. The default uses the
++       Berkowitz algorithm to avoid excessive expansion in symbolic cases.
++
+     """
+     from .dense import Matrix
+ 
+@@ -1084,7 +1088,7 @@ def casoratian(seqs, n, zero=True):
+ 
+     k = len(seqs)
+ 
+-    return Matrix(k, k, f).det()
++    return Matrix(k, k, f).det(method=method)
+ 
+ 
+ def eye(*args, **kwargs):

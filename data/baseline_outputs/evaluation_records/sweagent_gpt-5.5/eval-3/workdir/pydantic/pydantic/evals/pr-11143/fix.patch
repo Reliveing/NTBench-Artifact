@@ -1,0 +1,21 @@
+diff --git a/pydantic/_internal/_model_construction.py b/pydantic/_internal/_model_construction.py
+index aed979bbf..08c10c9b4 100644
+--- a/pydantic/_internal/_model_construction.py
++++ b/pydantic/_internal/_model_construction.py
+@@ -292,6 +292,16 @@ class ModelMetaclass(ABCMeta):
+                 assert set(base_params) <= param_dict.keys(), assert_err_msg
+                 new_base_args = tuple(param_dict[param] for param in base_params)
+                 new_base = base[new_base_args]  # type: ignore
++
++                # Parametrizing a generic base while constructing the MRO of a parametrized
++                # subclass can recurse back to a type currently being built. In that case
++                # BaseModel.__class_getitem__ returns a PydanticRecursiveRef placeholder,
++                # which is valid for schema generation but not as an entry in __mro__.
++                # Fall back to the real (unparametrized) base class so type creation gets
++                # a valid MRO; the concrete parametrization is represented by ``cls``.
++                if not isinstance(new_base, type):
++                    new_base = base
++
+                 new_mro.append(new_base)
+ 
+                 indexed_origins.add(base_origin or base)

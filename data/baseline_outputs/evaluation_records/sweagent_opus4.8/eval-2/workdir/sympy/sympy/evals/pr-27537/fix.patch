@@ -1,0 +1,49 @@
+diff --git a/sympy/simplify/simplify.py b/sympy/simplify/simplify.py
+index 20cbe19669..bb96917a94 100644
+--- a/sympy/simplify/simplify.py
++++ b/sympy/simplify/simplify.py
+@@ -1045,6 +1045,23 @@ def goodlog(l):
+             a = l.args[0]
+             return a.is_positive or force and a.is_nonpositive is not False
+ 
++        def hugepow(b, e):
++            # bool to tell whether ``b**e`` would be an astronomically large
++            # number and therefore should not be created (e.g. by moving a
++            # large coefficient inside ``log(b)``).  Building such a power
++            # -- for instance ``10**10000000`` -- is exact but extremely slow
++            # and the result is not a useful simplification.
++            if not (b.is_Rational and e.is_Rational):
++                return False
++            # (rough) number of bits needed to store the base
++            base_bits = max(abs(b.p).bit_length(), abs(b.q).bit_length())
++            if base_bits <= 1:
++                # base is 0, 1 or -1: powers never grow
++                return False
++            # (rough) number of times the base is multiplied
++            exp = abs(e.p)//e.q
++            return base_bits*exp > 100000
++
+         other = []
+         logs = []
+         log1 = defaultdict(list)
+@@ -1069,7 +1086,7 @@ def goodlog(l):
+                         ot.append(ai)
+                 if len(lo) > 1:
+                     logs.append((ot, co, lo))
+-                elif lo:
++                elif lo and not hugepow(lo[0].args[0], Mul(*co)):
+                     log1[tuple(ot)].append((co, lo[0]))
+                 else:
+                     other.append(a)
+@@ -1091,6 +1108,11 @@ def goodlog(l):
+         # let the user decide
+         for o, e, l in logs:
+             l = list(ordered(l))
++            # if moving the coefficient inside the first log would create an
++            # astronomically large number, leave this term uncombined
++            if hugepow(l[0].args[0], Mul(*e)):
++                other.append(Mul(*o)*Mul(*e)*Mul(*l))
++                continue
+             e = log(l.pop(0).args[0]**Mul(*e))
+             while l:
+                 li = l.pop(0)

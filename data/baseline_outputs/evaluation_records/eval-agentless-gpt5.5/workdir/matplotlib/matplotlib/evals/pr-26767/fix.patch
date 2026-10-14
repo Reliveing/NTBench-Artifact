@@ -1,0 +1,38 @@
+diff --git a/lib/matplotlib/collections.py b/lib/matplotlib/collections.py
+index 81db24d..243f85e 100644
+--- a/lib/matplotlib/collections.py
++++ b/lib/matplotlib/collections.py
+@@ -2087,7 +2087,11 @@ class _MeshData:
+         `~.RendererBase.draw_gouraud_triangles`.
+         """
+         if isinstance(coordinates, np.ma.MaskedArray):
+-            p = coordinates.data
++            # Masked coordinates must not be forwarded to the renderer.  In
++            # particular, polar/log transforms can mask or generate NaNs for
++            # points outside the valid radial range; passing those NaNs to
++            # draw_gouraud_triangles can crash some backends.
++            p = coordinates.filled(np.nan)
+         else:
+             p = coordinates
+ 
+@@ -2119,7 +2123,14 @@ class _MeshData:
+             c_c, c_d, c_center,
+             c_d, c_a, c_center,
+         ], axis=2).reshape((-1, 3, 4))
++
++        # Triangles with masked colors are represented by a NaN center alpha.
++        # Also reject any triangle with non-finite vertices or colors; these
++        # can be produced by transforms, e.g. polar log data outside rlim, and
++        # must not be passed down to renderer implementations.
+         tmask = np.isnan(colors[..., 2, 3])
++        tmask |= ~np.isfinite(triangles).all(axis=(1, 2))
++        tmask |= ~np.isfinite(colors).all(axis=(1, 2))
+         return triangles[~tmask], colors[~tmask]
+ 
+ 
+@@ -2391,4 +2402,4 @@ class PolyQuadMesh(_MeshData, PolyCollection):
+             # Setting an array of a polycollection required
+             # compressing the array
+             return np.ma.compressed(A)
+-        return A
++        return A

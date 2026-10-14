@@ -1,0 +1,24 @@
+diff --git a/sympy/core/expr.py b/sympy/core/expr.py
+index 0d13b65958..74bba4cbcf 100644
+--- a/sympy/core/expr.py
++++ b/sympy/core/expr.py
+@@ -3260,11 +3260,16 @@ def _eval_lseries(self, x, logx=None, cdir=0):
+         while 1:
+             while 1:
+                 n += 1
+-                series = self._eval_nseries(x, n=n, logx=logx, cdir=cdir).removeO()
+-                if e != series:
++                series = self._eval_nseries(x, n=n, logx=logx, cdir=cdir)
++                if e != series.removeO():
+                     break
+-                if (series - self).cancel() is S.Zero:
++                if (series.removeO() - self).cancel() is S.Zero:
+                     return
++                # If the series does not have an Order term, then the
++                # result is exact and cannot be further expanded.
++                if series.getO() is None:
++                    return
++            series = series.removeO()
+             yield series - e
+             e = series
+ 

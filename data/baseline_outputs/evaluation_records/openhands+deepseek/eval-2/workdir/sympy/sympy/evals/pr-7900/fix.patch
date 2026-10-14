@@ -1,0 +1,14 @@
+diff --git a/sympy/solvers/solvers.py b/sympy/solvers/solvers.py
+index 9bc2b7b3a5..c56adfa70e 100644
+--- a/sympy/solvers/solvers.py
++++ b/sympy/solvers/solvers.py
+@@ -704,7 +704,8 @@ def _sympified_list(w):
+ 
+         # if we can split it into real and imaginary parts then do so
+         freei = f[i].free_symbols
+-        if freei and all(s.is_real or s.is_imaginary for s in freei):
++        if freei and all(s.is_real or s.is_imaginary for s in freei) and \
++                (f[i].has(S.ImaginaryUnit) or any(s.is_imaginary for s in freei)):
+             fr, fi = f[i].as_real_imag()
+             if fr and fi and not any(i.has(re, im, arg) for i in (fr, fi)) \
+                     and fr != fi:

@@ -1,0 +1,22 @@
+diff --git a/pydantic/json_schema.py b/pydantic/json_schema.py
+index f5cc325be..6d863015e 100644
+--- a/pydantic/json_schema.py
++++ b/pydantic/json_schema.py
+@@ -2367,7 +2367,7 @@ class GenerateJsonSchema:
+                             raise self._core_defs_invalid_for_json_schema[defs_ref]
+                         _add_json_refs(self.definitions[defs_ref])
+                     except KeyError:
+-                        if not json_ref.startswith(('http://', 'https://')):
++                        if not json_ref.startswith(('http://', 'https://', '#/$defs/')):
+                             raise
+ 
+                 for k, v in schema.items():
+@@ -2436,7 +2436,7 @@ class GenerateJsonSchema:
+                 visited_defs_refs.add(next_defs_ref)
+                 unvisited_json_refs.update(_get_all_json_refs(self.definitions[next_defs_ref]))
+             except KeyError:
+-                if not next_json_ref.startswith(('http://', 'https://')):
++                if not next_json_ref.startswith(('http://', 'https://', '#/$defs/')):
+                     raise
+ 
+         self.definitions = {k: v for k, v in self.definitions.items() if k in visited_defs_refs}

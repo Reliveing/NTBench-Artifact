@@ -1,0 +1,24 @@
+{
+  "judge_model": "gpt-5.6-sol",
+  "reasoning_effort": "high",
+  "prompt_source": "ARiSE-Lab/understanding-apr-agents run_clone_detection_claude4.py",
+  "unit": "one CSV=1 successful run",
+  "total_records": 723,
+  "classification_counts": {
+    "type-1": 63,
+    "type-2": 12,
+    "type-3": 478,
+    "N/A": 170
+  },
+  "counts": {
+    "Agentless / DeepSeek V4 Pro": 20,
+    "Agentless / GPT-5.5": 26,
+    "Agentless / Opus 4.8": 24,
+    "OpenHands / DeepSeek V4 Pro": 103,
+    "OpenHands / GPT-5.5": 110,
+    "OpenHands / Opus 4.8": 111,
+    "SWE-agent / DeepSeek V4 Pro": 110,
+    "SWE-agent / GPT-5.5": 103,
+    "SWE-agent / Opus 4.8": 116
+  }
+}

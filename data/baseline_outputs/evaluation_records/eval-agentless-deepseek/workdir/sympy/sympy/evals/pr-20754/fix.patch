@@ -1,0 +1,40 @@
+diff --git a/sympy/core/mul.py b/sympy/core/mul.py
+index 5fb540a..b78bf64 100644
+--- a/sympy/core/mul.py
++++ b/sympy/core/mul.py
+@@ -1866,8 +1866,10 @@ class Mul(Expr, AssocOp):
+             coeff, exp = S.One, S.Zero
+             for factor in Mul.make_args(term):
+                 if factor.has(x):
+-                    base, exp = factor.as_base_exp()
+-                    if base != x:
++                    base, factor_exp = factor.as_base_exp()
++                    if base == x:
++                        exp += factor_exp
++                    else:
+                         try:
+                             return term.leadterm(x)
+                         except ValueError:
+@@ -1888,13 +1890,14 @@ class Mul(Expr, AssocOp):
+ 
+             n0 = sum(t[1] for t in ords)
+             facs = []
++            n_adj = n
+             for t, m in ords:
+-                n1 = ceiling(n - n0 + m)
++                n1 = ceiling(n_adj - n0 + m)
+                 s = t.nseries(x, n=n1, logx=logx, cdir=cdir)
+                 ns = s.getn()
+                 if ns is not None:
+                     if ns < n1:  # less than expected
+-                        n -= n1 - ns    # reduce n
++                        n_adj -= n1 - ns    # reduce n
+                 facs.append(s.removeO())
+ 
+         except (ValueError, NotImplementedError, TypeError, AttributeError):
+@@ -2095,4 +2098,4 @@ def expand_2arg(e):
+ 
+ from .numbers import Rational
+ from .power import Pow
+-from .add import Add, _addsort, _unevaluated_Add
++from .add import Add, _addsort, _unevaluated_Add

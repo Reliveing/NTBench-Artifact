@@ -1,0 +1,21 @@
+diff --git a/sympy/vector/basisdependent.py b/sympy/vector/basisdependent.py
+index 53e4efc..d9fb020 100644
+--- a/sympy/vector/basisdependent.py
++++ b/sympy/vector/basisdependent.py
+@@ -270,7 +270,9 @@ class BasisDependentMul(BasisDependent, Mul):
+             elif isinstance(arg, (Cross, Dot, Curl, Gradient)):
+                 extra_args.append(arg)
+             else:
+-                measure_number *= arg
++                # Use Mul directly to avoid invoking __rmul__ on scalar,
++                # which can cause infinite recursion with Python numbers
++                measure_number = Mul(measure_number, arg)
+         # Make sure incompatible types weren't multiplied
+         if count > 1:
+             raise ValueError("Invalid multiplication")
+@@ -371,4 +373,4 @@ class BasisDependentZero(BasisDependent):
+         return self
+ 
+     def _sympystr(self, printer):
+-        return '0'
++        return '0'

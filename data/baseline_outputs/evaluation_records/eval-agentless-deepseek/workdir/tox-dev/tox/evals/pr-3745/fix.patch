@@ -1,0 +1,20 @@
+diff --git a/src/tox/provision.py b/src/tox/provision.py
+index c7d9a90..b1574c1 100644
+--- a/src/tox/provision.py
++++ b/src/tox/provision.py
+@@ -129,6 +129,9 @@ def provision(state: State) -> int | bool:
+ def _get_missing(requires: list[Requirement]) -> list[tuple[Requirement, str | None]]:
+     missing: list[tuple[Requirement, str | None]] = []
+     for package in requires:
++        # Skip requirements whose environment markers don't match the current environment
++        if package.marker is not None and not package.marker.evaluate():
++            continue
+         package_name = canonicalize_name(package.name)
+         try:
+             dist = distribution(package_name)
+@@ -156,4 +159,4 @@ def run_provision(name: str, state: State) -> int:
+         msg = f"cannot provision tox environment {tox_env.conf['env_name']} because {exception}"
+         raise HandledError(msg) from exception
+     finally:
+-        tox_env.teardown()
++        tox_env.teardown()

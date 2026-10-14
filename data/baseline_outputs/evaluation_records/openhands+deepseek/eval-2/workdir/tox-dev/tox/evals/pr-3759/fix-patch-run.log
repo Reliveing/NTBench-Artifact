@@ -1,0 +1,66 @@
+3.11: internal error
+Traceback (most recent call last):
+  File "/home/tox/src/tox/session/cmd/run/single.py", line 50, in _evaluate
+    tox_env.setup()
+  File "/home/tox/src/tox/tox_env/api.py", line 291, in setup
+    self._setup_env()
+  File "/home/tox/src/tox/tox_env/python/runner.py", line 109, in _setup_env
+    super()._setup_env()
+  File "/home/tox/src/tox/tox_env/python/api.py", line 246, in _setup_env
+    self.ensure_python_env()
+  File "/home/tox/src/tox/tox_env/python/api.py", line 250, in ensure_python_env
+    conf = self.python_cache()
+           ^^^^^^^^^^^^^^^^^^^
+  File "/home/tox/src/tox/tox_env/python/virtual_env/api.py", line 86, in python_cache
+    base = super().python_cache()
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/tox/src/tox/tox_env/python/api.py", line 287, in python_cache
+    "version_info": list(self.base_python.version_info),
+                         ^^^^^^^^^^^^^^^^
+  File "/home/tox/src/tox/tox_env/python/api.py", line 297, in base_python
+    self._base_python = self._get_python(base_pythons)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/tox/src/tox/tox_env/python/virtual_env/api.py", line 148, in _get_python
+    interpreter = self.creator.interpreter
+                  ^^^^^^^^^^^^
+  File "/home/tox/src/tox/tox_env/python/virtual_env/api.py", line 140, in creator
+    return self.session.creator
+           ^^^^^^^^^^^^
+  File "/home/tox/src/tox/tox_env/python/virtual_env/api.py", line 115, in session
+    env = self.virtualenv_env_vars()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/tox/src/tox/tox_env/python/virtual_env/api.py", line 125, in virtualenv_env_vars
+    env = self.environment_variables.copy()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/tox/src/tox/tox_env/python/virtual_env/api.py", line 191, in environment_variables
+    environment_variables = super().environment_variables
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/tox/src/tox/tox_env/runner.py", line 205, in environment_variables
+    environment_variables = super().environment_variables
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/tox/src/tox/tox_env/api.py", line 375, in environment_variables
+    set_env: SetEnv = self.conf["set_env"]
+                      ~~~~~~~~~^^^^^^^^^^^
+  File "/home/tox/src/tox/config/sets.py", line 150, in __getitem__
+    return self.load(item)
+           ^^^^^^^^^^^^^^^
+  File "/home/tox/src/tox/config/sets.py", line 162, in load
+    return config_definition.__call__(self._conf, self.loaders, ConfigLoadArgs(chain, self.name, self.env_name))  # noqa: PLC2801
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/tox/src/tox/config/of_type.py", line 113, in __call__
+    value = loader.load(primary_key, self.of_type, self.factory, conf, args, all_keys=alias_keys)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/tox/src/tox/config/loader/api.py", line 153, in load
+    converted = self.build(alias, of_type, factory, conf, raw, args)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/tox/src/tox/config/loader/toml/__init__.py", line 79, in build
+    result = self.to(prepared, of_type, factory)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/tox/src/tox/config/loader/convert.py", line 56, in to
+    return factory(raw)
+           ^^^^^^^^^^^^
+  File "/home/tox/src/tox/config/sets.py", line 290, in set_env_factory
+    raise TypeError(raw)
+TypeError: {'COVERAGE_FILE': {'replace': 'env', 'name': 'COVERAGE_FILE', 'default': '{work_dir}{/}.coverage.{env_name}'}, 'COVERAGE_FILECOVERAGE_PROCESS_START': '{tox_root}{/}pyproject.toml'}
+  3.11: FAIL code 2 (0.01 seconds)
+  evaluation failed :( (0.39 seconds)

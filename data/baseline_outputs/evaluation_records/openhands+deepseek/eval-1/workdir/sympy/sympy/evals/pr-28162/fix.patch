@@ -1,0 +1,61 @@
+diff --git a/sympy/functions/special/singularity_functions.py b/sympy/functions/special/singularity_functions.py
+index a69026e6e6..919f79487d 100644
+--- a/sympy/functions/special/singularity_functions.py
++++ b/sympy/functions/special/singularity_functions.py
+@@ -218,7 +218,11 @@ def _eval_as_leading_term(self, x, logx, cdir):
+             return S.Zero if cdir == -1 else S.One
+         elif shift.is_positive:
+             return shift**n
+-        return S.Zero
++        elif shift.is_negative:
++            return S.Zero
++        elif shift.is_zero:
++            return S.Zero**n
++        return shift**n
+ 
+     def _eval_nseries(self, x, n, logx=None, cdir=0):
+         z, a, n = self.args
+diff --git a/sympy/physics/continuum_mechanics/beam.py b/sympy/physics/continuum_mechanics/beam.py
+index 7e575dd562..9e382e210c 100644
+--- a/sympy/physics/continuum_mechanics/beam.py
++++ b/sympy/physics/continuum_mechanics/beam.py
+@@ -1899,10 +1899,11 @@ def solve_for_ild_reactions(self, value, *reactions):
+         C3 = Symbol('C3')
+         C4 = Symbol('C4')
+ 
+-        shear_curve = limit(shear_force, x, l) - value*(SingularityFunction(a, 0, 0) - SingularityFunction(a, l, 0))
+-        moment_curve = (limit(bending_moment, x, l) - value * (l * SingularityFunction(a, 0, 0)
+-                                                               - SingularityFunction(a, 0, 1)
+-                                                               + SingularityFunction(a, l, 1)))
++        shear_curve = (limit(shear_force, x, l) - value*(SingularityFunction(a, 0, 0)
++                     - SingularityFunction(a, l, 0)) + value)
++        moment_curve = (limit(bending_moment, x, l) - value*(l*SingularityFunction(a, 0, 0)
++                        - SingularityFunction(a, 0, 1) + SingularityFunction(a, l, 1))
++                        + value*(l - a))
+ 
+         shear_force_eqs = []
+         bending_moment_eqs = []
+@@ -2090,7 +2091,7 @@ def solve_for_ild_shear(self, distance, value, *reactions):
+ 
+         shear_force, _ = self._solve_for_ild_equations(value)
+ 
+-        shear_curve1 = value - limit(shear_force, x, distance)
++        shear_curve1 = - limit(shear_force, x, distance)
+         shear_curve2 = (limit(shear_force, x, l) - limit(shear_force, x, distance)) - value
+ 
+         for reaction in reactions:
+@@ -2236,10 +2237,12 @@ def solve_for_ild_moment(self, distance, value, *reactions):
+         _, moment = self._solve_for_ild_equations(value)
+ 
+         moment_curve1 = value*(distance * SingularityFunction(a, 0, 0) - SingularityFunction(a, 0, 1)
+-                               + SingularityFunction(a, distance, 1)) - limit(moment, x, distance)
++                               + SingularityFunction(a, distance, 1)) - limit(moment, x, distance) \
++                        - value*(distance - a)
+         moment_curve2 = (limit(moment, x, l)-limit(moment, x, distance)
+                          - value * (l * SingularityFunction(a, 0, 0) - SingularityFunction(a, 0, 1)
+-                                    + SingularityFunction(a, l, 1)))
++                                    + SingularityFunction(a, l, 1))
++                         + value*(l - a) - value*(distance - a))
+ 
+         for reaction in reactions:
+             moment_curve1 = moment_curve1.subs(reaction, self._ild_reactions[reaction])

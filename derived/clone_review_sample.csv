@@ -1,0 +1,2808 @@
+sample_id,record_id,instance_id,framework,model,run,agent_patch,developer_patch
+CR-01,Agentless|DeepSeek V4 Pro|single|numpy__numpy-26192,numpy__numpy-26192,Agentless,DeepSeek V4 Pro,single,"diff --git a/numpy/_core/numeric.py b/numpy/_core/numeric.py
+index 429620d..d5116ce 100644
+--- a/numpy/_core/numeric.py
++++ b/numpy/_core/numeric.py
+@@ -2142,7 +2142,7 @@ def base_repr(number, base=2, padding=0):
+     elif base < 2:
+         raise ValueError(""Bases less than 2 not handled in base_repr."")
+ 
+-    num = abs(number)
++    num = abs(int(number))
+     res = []
+     while num:
+         res.append(digits[num % base])
+","diff --git a/numpy/_core/numeric.py b/numpy/_core/numeric.py
+index 429620da5359..d5116cee2756 100644
+--- a/numpy/_core/numeric.py
++++ b/numpy/_core/numeric.py
+@@ -2142,7 +2142,7 @@ def base_repr(number, base=2, padding=0):
+     elif base < 2:
+         raise ValueError(""Bases less than 2 not handled in base_repr."")
+ 
+-    num = abs(number)
++    num = abs(int(number))
+     res = []
+     while num:
+         res.append(digits[num % base])
+"
+CR-02,Agentless|DeepSeek V4 Pro|single|sympy__sympy-21487,sympy__sympy-21487,Agentless,DeepSeek V4 Pro,single,"diff --git a/sympy/functions/special/bessel.py b/sympy/functions/special/bessel.py
+index c57b2da..18cf731 100644
+--- a/sympy/functions/special/bessel.py
++++ b/sympy/functions/special/bessel.py
+@@ -82,7 +82,7 @@ class BesselBase(Function):
+ 
+     def _eval_expand_func(self, **hints):
+         nu, z, f = self.order, self.argument, self.__class__
+-        if nu.is_extended_real:
++        if nu.is_extended_real and nu.is_finite:
+             if (nu - 1).is_extended_positive:
+                 return (-self._a*self._b*f(nu - 2, z)._eval_expand_func() +
+                         2*self._a*(nu - 1)*f(nu - 1, z)._eval_expand_func()/z)
+@@ -1943,4 +1943,4 @@ class marcumq(Function):
+ 
+     def _eval_is_zero(self):
+         if all(arg.is_zero for arg in self.args):
+-            return True
++            return True
+","diff --git a/sympy/functions/special/bessel.py b/sympy/functions/special/bessel.py
+index c57b2dadb7c3..0a145d768f69 100644
+--- a/sympy/functions/special/bessel.py
++++ b/sympy/functions/special/bessel.py
+@@ -82,11 +82,11 @@ def _eval_is_meromorphic(self, x, a):
+ 
+     def _eval_expand_func(self, **hints):
+         nu, z, f = self.order, self.argument, self.__class__
+-        if nu.is_extended_real:
+-            if (nu - 1).is_extended_positive:
++        if nu.is_real:
++            if (nu - 1).is_positive:
+                 return (-self._a*self._b*f(nu - 2, z)._eval_expand_func() +
+                         2*self._a*(nu - 1)*f(nu - 1, z)._eval_expand_func()/z)
+-            elif (nu + 1).is_extended_negative:
++            elif (nu + 1).is_negative:
+                 return (2*self._b*(nu + 1)*f(nu + 1, z)._eval_expand_func()/z -
+                         self._a*self._b*f(nu + 2, z)._eval_expand_func())
+         return self
+"
+CR-03,Agentless|DeepSeek V4 Pro|single|sympy__sympy-23493,sympy__sympy-23493,Agentless,DeepSeek V4 Pro,single,"diff --git a/sympy/calculus/util.py b/sympy/calculus/util.py
+index 4f6ada0..f65dc99 100644
+--- a/sympy/calculus/util.py
++++ b/sympy/calculus/util.py
+@@ -428,6 +428,10 @@ def periodicity(f, symbol, check=False):
+     if symbol not in f.free_symbols:
+         return S.Zero
+ 
++    # Rational functions are aperiodic
++    if f.is_rational_function(symbol):
++        return None
++
+     if isinstance(f, TrigonometricFunction):
+         try:
+             period = f.period(symbol)
+@@ -840,4 +844,4 @@ def minimum(f, symbol, domain=S.Reals):
+ 
+         return function_range(f, symbol, domain).inf
+     else:
+-        raise ValueError(""%s is not a valid symbol."" % symbol)
++        raise ValueError(""%s is not a valid symbol."" % symbol)
+","diff --git a/sympy/calculus/util.py b/sympy/calculus/util.py
+index 4f6ada07f123..fc2910b8e777 100644
+--- a/sympy/calculus/util.py
++++ b/sympy/calculus/util.py
+@@ -480,7 +480,7 @@ def _check(orig_f, period):
+ 
+     elif f.is_Mul:
+         coeff, g = f.as_independent(symbol, as_Add=False)
+-        if isinstance(g, TrigonometricFunction) or coeff is not S.One:
++        if isinstance(g, TrigonometricFunction) or coeff != 1:
+             period = periodicity(g, symbol)
+ 
+         else:
+"
+CR-04,Agentless|GPT-5.5|single|aio-libs__aiohttp-10151,aio-libs__aiohttp-10151,Agentless,GPT-5.5,single,"diff --git a/aiohttp/web_protocol.py b/aiohttp/web_protocol.py
+index 0bffc84..f3e1560 100644
+--- a/aiohttp/web_protocol.py
++++ b/aiohttp/web_protocol.py
+@@ -487,7 +487,7 @@ class RequestHandler(BaseProtocol, Generic[_Request]):
+         loop = self._loop
+         now = loop.time()
+         close_time = self._next_keepalive_close_time
+-        if now <= close_time:
++        if now < close_time:
+             # Keep alive close check fired too early, reschedule
+             self._keepalive_handle = loop.call_at(close_time, self._process_keepalive)
+             return
+@@ -768,4 +768,4 @@ class RequestHandler(BaseProtocol, Generic[_Request]):
+                 request, err_info.status, err_info.exc, err_info.message
+             )
+ 
+-        return handler
++        return handler
+","diff --git a/CHANGES/10149.misc.rst b/CHANGES/10149.misc.rst
+new file mode 100644
+index 00000000000..61765a50fcf
+--- /dev/null
++++ b/CHANGES/10149.misc.rst
+@@ -0,0 +1,4 @@
++Fixed an infinite loop that can occur when using aiohttp in combination
++with `async-solipsism`_ -- by :user:`bmerry`.
++
++.. _async-solipsism: https://github.com/bmerry/async-solipsism
+diff --git a/aiohttp/web_protocol.py b/aiohttp/web_protocol.py
+index 0bffc849817..3d76fc1f1d7 100644
+--- a/aiohttp/web_protocol.py
++++ b/aiohttp/web_protocol.py
+@@ -487,7 +487,7 @@ def _process_keepalive(self) -> None:
+         loop = self._loop
+         now = loop.time()
+         close_time = self._next_keepalive_close_time
+-        if now <= close_time:
++        if now < close_time:
+             # Keep alive close check fired too early, reschedule
+             self._keepalive_handle = loop.call_at(close_time, self._process_keepalive)
+             return
+"
+CR-05,Agentless|GPT-5.5|single|sympy__sympy-14404,sympy__sympy-14404,Agentless,GPT-5.5,single,"diff --git a/sympy/functions/elementary/trigonometric.py b/sympy/functions/elementary/trigonometric.py
+index ea6a4de..4dcf91f 100644
+--- a/sympy/functions/elementary/trigonometric.py
++++ b/sympy/functions/elementary/trigonometric.py
+@@ -257,6 +257,9 @@ class sin(TrigonometricFunction):
+     def eval(cls, arg):
+         from sympy.calculus import AccumBounds
+         from sympy.sets.setexpr import SetExpr
++        if arg is S.ComplexInfinity:
++            return S.NaN
++
+         if arg.is_Number:
+             if arg is S.NaN:
+                 return S.NaN
+@@ -529,6 +532,9 @@ class cos(TrigonometricFunction):
+         from sympy.functions.special.polynomials import chebyshevt
+         from sympy.calculus.util import AccumBounds
+         from sympy.sets.setexpr import SetExpr
++        if arg is S.ComplexInfinity:
++            return S.NaN
++
+         if arg.is_Number:
+             if arg is S.NaN:
+                 return S.NaN
+@@ -2928,4 +2934,4 @@ class atan2(InverseTrigonometricFunction):
+     def _eval_evalf(self, prec):
+         y, x = self.args
+         if x.is_real and y.is_real:
+-            super(atan2, self)._eval_evalf(prec)
++            super(atan2, self)._eval_evalf(prec)
+","diff --git a/sympy/core/power.py b/sympy/core/power.py
+index bd4bb7ae156c..db3aa0856414 100644
+--- a/sympy/core/power.py
++++ b/sympy/core/power.py
+@@ -1087,7 +1087,8 @@ def as_real_imag(self, deep=True, **hints):
+                 if re.is_Number and im.is_Number:
+                     # We can be more efficient in this case
+                     expr = expand_multinomial(self.base**exp)
+-                    return expr.as_real_imag()
++                    if expr != self:
++                        return expr.as_real_imag()
+ 
+                 expr = poly(
+                     (a + b)**exp)  # a = re, b = im; expr = (a + b*I)**exp
+@@ -1097,7 +1098,8 @@ def as_real_imag(self, deep=True, **hints):
+                 if re.is_Number and im.is_Number:
+                     # We can be more efficient in this case
+                     expr = expand_multinomial((re + im*S.ImaginaryUnit)**-exp)
+-                    return expr.as_real_imag()
++                    if expr != self:
++                        return expr.as_real_imag()
+ 
+                 expr = poly((a + b)**-exp)
+ 
+"
+CR-06,Agentless|GPT-5.5|single|sympy__sympy-21487,sympy__sympy-21487,Agentless,GPT-5.5,single,"diff --git a/sympy/functions/special/bessel.py b/sympy/functions/special/bessel.py
+index c57b2da..18cf731 100644
+--- a/sympy/functions/special/bessel.py
++++ b/sympy/functions/special/bessel.py
+@@ -82,7 +82,7 @@ class BesselBase(Function):
+ 
+     def _eval_expand_func(self, **hints):
+         nu, z, f = self.order, self.argument, self.__class__
+-        if nu.is_extended_real:
++        if nu.is_extended_real and nu.is_finite:
+             if (nu - 1).is_extended_positive:
+                 return (-self._a*self._b*f(nu - 2, z)._eval_expand_func() +
+                         2*self._a*(nu - 1)*f(nu - 1, z)._eval_expand_func()/z)
+@@ -1943,4 +1943,4 @@ class marcumq(Function):
+ 
+     def _eval_is_zero(self):
+         if all(arg.is_zero for arg in self.args):
+-            return True
++            return True
+","diff --git a/sympy/functions/special/bessel.py b/sympy/functions/special/bessel.py
+index c57b2dadb7c3..0a145d768f69 100644
+--- a/sympy/functions/special/bessel.py
++++ b/sympy/functions/special/bessel.py
+@@ -82,11 +82,11 @@ def _eval_is_meromorphic(self, x, a):
+ 
+     def _eval_expand_func(self, **hints):
+         nu, z, f = self.order, self.argument, self.__class__
+-        if nu.is_extended_real:
+-            if (nu - 1).is_extended_positive:
++        if nu.is_real:
++            if (nu - 1).is_positive:
+                 return (-self._a*self._b*f(nu - 2, z)._eval_expand_func() +
+                         2*self._a*(nu - 1)*f(nu - 1, z)._eval_expand_func()/z)
+-            elif (nu + 1).is_extended_negative:
++            elif (nu + 1).is_negative:
+                 return (2*self._b*(nu + 1)*f(nu + 1, z)._eval_expand_func()/z -
+                         self._a*self._b*f(nu + 2, z)._eval_expand_func())
+         return self
+"
+CR-07,Agentless|Opus 4.8|single|dask__dask-7667,dask__dask-7667,Agentless,Opus 4.8,single,"diff --git a/dask/array/creation.py b/dask/array/creation.py
+index 9df5d67..7d8d8c6 100644
+--- a/dask/array/creation.py
++++ b/dask/array/creation.py
+@@ -249,6 +249,9 @@ def _get_like_function_shapes_chunks(a, chunks, shape):
+     return shape, chunks
+ 
+ 
++from dask.base import compute, is_dask_collection
++
++
+ def linspace(
+     start, stop, num=50, endpoint=True, retstep=False, chunks=""auto"", dtype=None
+ ):
+@@ -293,6 +296,11 @@ def linspace(
+     if dtype is None:
+         dtype = np.linspace(0, 1, 1).dtype
+ 
++    if is_dask_collection(start):
++        (start,) = compute(start)
++    if is_dask_collection(stop):
++        (stop,) = compute(stop)
++
+     chunks = normalize_chunks(chunks, (num,), dtype=dtype)
+ 
+     range_ = stop - start
+@@ -1178,4 +1186,4 @@ def pad(array, pad_width, mode=""constant"", **kwargs):
+     elif mode in [""reflect"", ""symmetric"", ""wrap""]:
+         return pad_reuse(array, pad_width, mode, **kwargs)
+ 
+-    assert False, ""unreachable""
++    assert False, ""unreachable""
+","diff --git a/dask/array/chunk.py b/dask/array/chunk.py
+index 8a98e961550..48439b36f68 100644
+--- a/dask/array/chunk.py
++++ b/dask/array/chunk.py
+@@ -265,6 +265,18 @@ def arange(start, stop, step, length, dtype, like=None):
+     return res[:-1] if len(res) > length else res
+ 
+ 
++def linspace(start, stop, num, endpoint=True, dtype=None):
++    from .core import Array
++
++    if isinstance(start, Array):
++        start = start.compute()
++
++    if isinstance(stop, Array):
++        stop = stop.compute()
++
++    return np.linspace(start, stop, num, endpoint=endpoint, dtype=dtype)
++
++
+ def astype(x, astype_dtype=None, **kwargs):
+     return x.astype(astype_dtype, **kwargs)
+ 
+diff --git a/dask/array/creation.py b/dask/array/creation.py
+index 9df5d674be9..69c384c2e91 100644
+--- a/dask/array/creation.py
++++ b/dask/array/creation.py
+@@ -309,7 +309,7 @@ def linspace(
+         bs_space = bs - 1 if endpoint else bs
+         blockstop = blockstart + (bs_space * step)
+         task = (
+-            partial(np.linspace, endpoint=endpoint, dtype=dtype),
++            partial(chunk.linspace, endpoint=endpoint, dtype=dtype),
+             blockstart,
+             blockstop,
+             bs,
+"
+CR-08,Agentless|Opus 4.8|single|sympy__sympy-21032,sympy__sympy-21032,Agentless,Opus 4.8,single,"diff --git a/sympy/solvers/solveset.py b/sympy/solvers/solveset.py
+index 34fa8f0..563dc56 100644
+--- a/sympy/solvers/solveset.py
++++ b/sympy/solvers/solveset.py
+@@ -851,9 +851,9 @@ def _has_rational_power(expr, symbol):
+         return _has_rational_power(pattern_match[a], symbol)
+ 
+ 
+-def _solve_radical(f, symbol, solveset_solver):
++def _solve_radical(f, unradf, symbol, solveset_solver):
+     """""" Helper function to solve equations with radicals """"""
+-    res = unrad(f)
++    res = unradf
+     eq, cov = res if res else (f, [])
+     if not cov:
+         result = solveset_solver(eq, symbol) - \
+@@ -1078,10 +1078,9 @@ def _solveset(f, symbol, domain, _check=False):
+         elif isinstance(rhs_s, FiniteSet):
+             for equation in [lhs - rhs for rhs in rhs_s]:
+                 if equation == f:
+-                    if any(_has_rational_power(g, symbol)[0]
+-                           for g in equation.args) or _has_rational_power(
+-                           equation, symbol)[0]:
+-                        result += _solve_radical(equation,
++                    u = unrad(f)
++                    if u:
++                        result += _solve_radical(equation, u,
+                                                  symbol,
+                                                  solver)
+                     elif equation.has(Abs):
+@@ -3555,4 +3554,4 @@ def nonlinsolve(system, *symbols):
+         # Use `substitution` method for the system
+         result = substitution(
+             polys_expr + nonpolys, symbols, exclude=denominators)
+-        return result
++        return result
+","diff --git a/sympy/solvers/solvers.py b/sympy/solvers/solvers.py
+index 65e1ef0d2edf..06d30cbdea09 100644
+--- a/sympy/solvers/solvers.py
++++ b/sympy/solvers/solvers.py
+@@ -3296,7 +3296,7 @@ def _take(d, take_int_pow):
+ 
+     eq = _mexpand(eq, recursive=True)
+     if eq.is_number:
+-        return
++        return eq, []
+ 
+     syms = set(syms) or eq.free_symbols
+     poly = eq.as_poly()
+"
+CR-09,Agentless|Opus 4.8|single|sympy__sympy-9493,sympy__sympy-9493,Agentless,Opus 4.8,single,"diff --git a/sympy/core/numbers.py b/sympy/core/numbers.py
+index d1e4f02..be363a0 100644
+--- a/sympy/core/numbers.py
++++ b/sympy/core/numbers.py
+@@ -2467,6 +2467,8 @@ class Infinity(with_metaclass(Singleton, Number)):
+             return S.Zero
+         if expt is S.NaN:
+             return S.NaN
++        if expt is S.ComplexInfinity:
++            return S.NaN
+ 
+         if expt.is_number:
+             return self**expt.evalf()
+@@ -3483,4 +3485,4 @@ from .power import Pow, integer_nthroot
+ from .mul import Mul
+ Mul.identity = One()
+ from .add import Add
+-Add.identity = Zero()
++Add.identity = Zero()
+","diff --git a/sympy/core/numbers.py b/sympy/core/numbers.py
+index d1e4f02f4727..22d6dc94e817 100644
+--- a/sympy/core/numbers.py
++++ b/sympy/core/numbers.py
+@@ -2467,6 +2467,8 @@ def _eval_power(self, expt):
+             return S.Zero
+         if expt is S.NaN:
+             return S.NaN
++        if expt is S.ComplexInfinity:
++            return S.NaN
+ 
+         if expt.is_number:
+             return self**expt.evalf()
+"
+CR-10,OpenHands|DeepSeek V4 Pro|eval-1|sympy__sympy-9844,sympy__sympy-9844,OpenHands,DeepSeek V4 Pro,eval-1,"diff --git a/sympy/integrals/manualintegrate.py b/sympy/integrals/manualintegrate.py
+index 50d75d5f92..f0f2172f8a 100644
+--- a/sympy/integrals/manualintegrate.py
++++ b/sympy/integrals/manualintegrate.py
+@@ -149,9 +149,30 @@ def possible_subterms(term):
+             return r
+         return []
+ 
++    def _count_constant_base_pows(expr):
++        """"""Count Pow terms with constant bases (w.r.t. symbol) in expr.""""""
++        if isinstance(expr, sympy.Pow):
++            if expr.args[0].is_constant(symbol):
++                return 1
++        count = 0
++        if hasattr(expr, 'args'):
++            for arg in expr.args:
++                count += _count_constant_base_pows(arg)
++        return count
++
+     for u in possible_subterms(integrand):
+         if u == symbol:
+             continue
++        # Skip linear homogeneous subterms with numeric coefficient
++        # (c*symbol where c is a Number) when the integrand contains
++        # at least two constant-base powers. Such substitutions don't
++        # simplify the integrand and can cause cyclic substitutions.
++        if u.is_polynomial(symbol):
++            poly = u.as_poly(symbol)
++            if (poly.degree() == 1 and poly.TC() == 0 and
++                    poly.LC().is_Number and
++                    _count_constant_base_pows(integrand) >= 2):
++                continue
+         u_diff = manual_diff(u, symbol)
+         new_integrand = test_subterm(u, u_diff)
+         if new_integrand is not False:
+@@ -813,7 +834,7 @@ def substitution_rule(integral):
+         all(arg.is_Pow or arg.is_polynomial(symbol) for arg in integrand.args)
+         or isinstance(integrand, sympy.Pow)
+         or isinstance(integrand, sympy.Mul)),
+-    lambda integrand, symbol: integrand.expand())
++    lambda integrand, symbol: sympy.powsimp(integrand.expand()))
+ 
+ def derivative_rule(integral):
+     variables = integral[0].args[1:]
+","diff --git a/sympy/integrals/manualintegrate.py b/sympy/integrals/manualintegrate.py
+index 50d75d5f920b..566c331e9448 100644
+--- a/sympy/integrals/manualintegrate.py
++++ b/sympy/integrals/manualintegrate.py
+@@ -150,7 +150,7 @@ def possible_subterms(term):
+         return []
+ 
+     for u in possible_subterms(integrand):
+-        if u == symbol:
++        if u == symbol or u == -symbol:
+             continue
+         u_diff = manual_diff(u, symbol)
+         new_integrand = test_subterm(u, u_diff)
+"
+CR-11,OpenHands|DeepSeek V4 Pro|eval-2|numpy__numpy-26192,numpy__numpy-26192,OpenHands,DeepSeek V4 Pro,eval-2,"diff --git a/numpy/_core/numeric.py b/numpy/_core/numeric.py
+index 429620da53..d5116cee27 100644
+--- a/numpy/_core/numeric.py
++++ b/numpy/_core/numeric.py
+@@ -2142,7 +2142,7 @@ def base_repr(number, base=2, padding=0):
+     elif base < 2:
+         raise ValueError(""Bases less than 2 not handled in base_repr."")
+ 
+-    num = abs(number)
++    num = abs(int(number))
+     res = []
+     while num:
+         res.append(digits[num % base])
+","diff --git a/numpy/_core/numeric.py b/numpy/_core/numeric.py
+index 429620da5359..d5116cee2756 100644
+--- a/numpy/_core/numeric.py
++++ b/numpy/_core/numeric.py
+@@ -2142,7 +2142,7 @@ def base_repr(number, base=2, padding=0):
+     elif base < 2:
+         raise ValueError(""Bases less than 2 not handled in base_repr."")
+ 
+-    num = abs(number)
++    num = abs(int(number))
+     res = []
+     while num:
+         res.append(digits[num % base])
+"
+CR-12,OpenHands|DeepSeek V4 Pro|eval-2|sympy__sympy-14404,sympy__sympy-14404,OpenHands,DeepSeek V4 Pro,eval-2,"diff --git a/sympy/core/power.py b/sympy/core/power.py
+index bd4bb7ae15..10f9b59892 100644
+--- a/sympy/core/power.py
++++ b/sympy/core/power.py
+@@ -1086,7 +1086,7 @@ def as_real_imag(self, deep=True, **hints):
+             if exp >= 0:
+                 if re.is_Number and im.is_Number:
+                     # We can be more efficient in this case
+-                    expr = expand_multinomial(self.base**exp)
++                    expr = expand_multinomial((re + im*S.ImaginaryUnit)**exp)
+                     return expr.as_real_imag()
+ 
+                 expr = poly(
+","diff --git a/sympy/core/power.py b/sympy/core/power.py
+index bd4bb7ae156c..db3aa0856414 100644
+--- a/sympy/core/power.py
++++ b/sympy/core/power.py
+@@ -1087,7 +1087,8 @@ def as_real_imag(self, deep=True, **hints):
+                 if re.is_Number and im.is_Number:
+                     # We can be more efficient in this case
+                     expr = expand_multinomial(self.base**exp)
+-                    return expr.as_real_imag()
++                    if expr != self:
++                        return expr.as_real_imag()
+ 
+                 expr = poly(
+                     (a + b)**exp)  # a = re, b = im; expr = (a + b*I)**exp
+@@ -1097,7 +1098,8 @@ def as_real_imag(self, deep=True, **hints):
+                 if re.is_Number and im.is_Number:
+                     # We can be more efficient in this case
+                     expr = expand_multinomial((re + im*S.ImaginaryUnit)**-exp)
+-                    return expr.as_real_imag()
++                    if expr != self:
++                        return expr.as_real_imag()
+ 
+                 expr = poly((a + b)**-exp)
+ 
+"
+CR-13,OpenHands|DeepSeek V4 Pro|eval-2|sympy__sympy-15752,sympy__sympy-15752,OpenHands,DeepSeek V4 Pro,eval-2,"diff --git a/sympy/matrices/dense.py b/sympy/matrices/dense.py
+index d21ffb52ea..18a0e8ca9b 100644
+--- a/sympy/matrices/dense.py
++++ b/sympy/matrices/dense.py
+@@ -1084,7 +1084,7 @@ def casoratian(seqs, n, zero=True):
+ 
+     k = len(seqs)
+ 
+-    return Matrix(k, k, f).det()
++    return Matrix(k, k, f).det(method='berkowitz')
+ 
+ 
+ def eye(*args, **kwargs):
+","diff --git a/sympy/matrices/matrices.py b/sympy/matrices/matrices.py
+index ba5d3a75c909..ce53653cc5f2 100644
+--- a/sympy/matrices/matrices.py
++++ b/sympy/matrices/matrices.py
+@@ -211,7 +211,7 @@ def bareiss(mat, cumm=1):
+             def entry(i, j):
+                 ret = (pivot_val*tmp_mat[i, j + 1] - mat[pivot_pos, j + 1]*tmp_mat[i, 0]) / cumm
+                 if not ret.is_Atom:
+-                    cancel(ret)
++                    return cancel(ret)
+                 return ret
+ 
+             return sign*bareiss(self._new(mat.rows - 1, mat.cols - 1, entry), pivot_val)
+"
+CR-14,OpenHands|DeepSeek V4 Pro|eval-3|sympy__sympy-21487,sympy__sympy-21487,OpenHands,DeepSeek V4 Pro,eval-3,"diff --git a/sympy/functions/special/bessel.py b/sympy/functions/special/bessel.py
+index c57b2dadb7..afc2bac963 100644
+--- a/sympy/functions/special/bessel.py
++++ b/sympy/functions/special/bessel.py
+@@ -82,7 +82,7 @@ def _eval_is_meromorphic(self, x, a):
+ 
+     def _eval_expand_func(self, **hints):
+         nu, z, f = self.order, self.argument, self.__class__
+-        if nu.is_extended_real:
++        if nu.is_extended_real and not nu.is_infinite:
+             if (nu - 1).is_extended_positive:
+                 return (-self._a*self._b*f(nu - 2, z)._eval_expand_func() +
+                         2*self._a*(nu - 1)*f(nu - 1, z)._eval_expand_func()/z)
+","diff --git a/sympy/functions/special/bessel.py b/sympy/functions/special/bessel.py
+index c57b2dadb7c3..0a145d768f69 100644
+--- a/sympy/functions/special/bessel.py
++++ b/sympy/functions/special/bessel.py
+@@ -82,11 +82,11 @@ def _eval_is_meromorphic(self, x, a):
+ 
+     def _eval_expand_func(self, **hints):
+         nu, z, f = self.order, self.argument, self.__class__
+-        if nu.is_extended_real:
+-            if (nu - 1).is_extended_positive:
++        if nu.is_real:
++            if (nu - 1).is_positive:
+                 return (-self._a*self._b*f(nu - 2, z)._eval_expand_func() +
+                         2*self._a*(nu - 1)*f(nu - 1, z)._eval_expand_func()/z)
+-            elif (nu + 1).is_extended_negative:
++            elif (nu + 1).is_negative:
+                 return (2*self._b*(nu + 1)*f(nu + 1, z)._eval_expand_func()/z -
+                         self._a*self._b*f(nu + 2, z)._eval_expand_func())
+         return self
+"
+CR-15,OpenHands|DeepSeek V4 Pro|eval-3|sympy__sympy-24999,sympy__sympy-24999,OpenHands,DeepSeek V4 Pro,eval-3,"diff --git a/sympy/solvers/solvers.py b/sympy/solvers/solvers.py
+index fcc7e13c31..b0b3038e14 100644
+--- a/sympy/solvers/solvers.py
++++ b/sympy/solvers/solvers.py
+@@ -2771,7 +2771,8 @@ def equal(expr1, expr2):
+ 
+         rewrite = lhs.rewrite(exp)
+         if rewrite != lhs:
+-            return _vsolve(rewrite - rhs, sym, **flags)
++            if not lhs.is_Function or rewrite.func != lhs.func:
++                return _vsolve(rewrite - rhs, sym, **flags)
+     except NotImplementedError:
+         pass
+ 
+","diff --git a/sympy/solvers/solvers.py b/sympy/solvers/solvers.py
+index fcc7e13c3179..3a86454b242f 100644
+--- a/sympy/solvers/solvers.py
++++ b/sympy/solvers/solvers.py
+@@ -42,6 +42,7 @@
+     separatevars)
+ from sympy.simplify.sqrtdenest import sqrt_depth
+ from sympy.simplify.fu import TR1, TR2i
++from sympy.strategies.rl import rebuild
+ from sympy.matrices.common import NonInvertibleMatrixError
+ from sympy.matrices import Matrix, zeros
+ from sympy.polys import roots, cancel, factor, Poly
+@@ -2770,6 +2771,7 @@ def equal(expr1, expr2):
+                 return _vsolve(lhs.args[0] - rhs*exp(rhs), sym, **flags)
+ 
+         rewrite = lhs.rewrite(exp)
++        rewrite = rebuild(rewrite) # avoid rewrites involving evaluate=False
+         if rewrite != lhs:
+             return _vsolve(rewrite - rhs, sym, **flags)
+     except NotImplementedError:
+"
+CR-16,OpenHands|GPT-5.5|eval-1|dask__dask-7667,dask__dask-7667,OpenHands,GPT-5.5,eval-1,"diff --git a/dask/array/creation.py b/dask/array/creation.py
+index 9df5d674b..a2ab91f36 100644
+--- a/dask/array/creation.py
++++ b/dask/array/creation.py
+@@ -8,6 +8,7 @@ import numpy as np
+ from tlz import accumulate, sliding_window
+ 
+ from ..base import tokenize
++from ..delayed import unpack_collections
+ from ..highlevelgraph import HighLevelGraph
+ from ..utils import derived_from
+ from . import chunk
+@@ -303,20 +304,28 @@ def linspace(
+     name = ""linspace-"" + tokenize((start, stop, num, endpoint, chunks, dtype))
+ 
+     dsk = {}
++    dependencies = []
+     blockstart = start
+ 
+     for i, bs in enumerate(chunks[0]):
+         bs_space = bs - 1 if endpoint else bs
+         blockstop = blockstart + (bs_space * step)
++        (blockstart_ref, blockstop_ref), deps = unpack_collections(
++            [blockstart, blockstop]
++        )
++        dependencies.extend(deps)
+         task = (
+             partial(np.linspace, endpoint=endpoint, dtype=dtype),
+-            blockstart,
+-            blockstop,
++            blockstart_ref,
++            blockstop_ref,
+             bs,
+         )
+         blockstart = blockstart + (step * bs)
+         dsk[(name, i)] = task
+ 
++    if dependencies:
++        dsk = HighLevelGraph.from_collections(name, dsk, dependencies=dependencies)
++
+     if retstep:
+         return Array(dsk, name, chunks, dtype=dtype), step
+     else:
+diff --git a/dask/array/routines.py b/dask/array/routines.py
+index 1ed2602a0..15444c86c 100644
+--- a/dask/array/routines.py
++++ b/dask/array/routines.py
+@@ -711,8 +711,11 @@ def bincount(x, weights=None, minlength=0, split_every=None):
+ 
+ @derived_from(np)
+ def digitize(a, bins, right=False):
+-    bins = asarray_safe(bins, like=meta_from_array(a))
+-    dtype = np.digitize(asarray_safe([0], like=bins), bins, right=False).dtype
++    if is_dask_collection(bins):
++        dtype = np.digitize([0], [0], right=False).dtype
++    else:
++        bins = asarray_safe(bins, like=meta_from_array(a))
++        dtype = np.digitize(asarray_safe([0], like=bins), bins, right=False).dtype
+     return a.map_blocks(np.digitize, dtype=dtype, bins=bins, right=right)
+ 
+ 
+","diff --git a/dask/array/chunk.py b/dask/array/chunk.py
+index 8a98e961550..48439b36f68 100644
+--- a/dask/array/chunk.py
++++ b/dask/array/chunk.py
+@@ -265,6 +265,18 @@ def arange(start, stop, step, length, dtype, like=None):
+     return res[:-1] if len(res) > length else res
+ 
+ 
++def linspace(start, stop, num, endpoint=True, dtype=None):
++    from .core import Array
++
++    if isinstance(start, Array):
++        start = start.compute()
++
++    if isinstance(stop, Array):
++        stop = stop.compute()
++
++    return np.linspace(start, stop, num, endpoint=endpoint, dtype=dtype)
++
++
+ def astype(x, astype_dtype=None, **kwargs):
+     return x.astype(astype_dtype, **kwargs)
+ 
+diff --git a/dask/array/creation.py b/dask/array/creation.py
+index 9df5d674be9..69c384c2e91 100644
+--- a/dask/array/creation.py
++++ b/dask/array/creation.py
+@@ -309,7 +309,7 @@ def linspace(
+         bs_space = bs - 1 if endpoint else bs
+         blockstop = blockstart + (bs_space * step)
+         task = (
+-            partial(np.linspace, endpoint=endpoint, dtype=dtype),
++            partial(chunk.linspace, endpoint=endpoint, dtype=dtype),
+             blockstart,
+             blockstop,
+             bs,
+"
+CR-17,OpenHands|GPT-5.5|eval-2|matplotlib__matplotlib-30198,matplotlib__matplotlib-30198,OpenHands,GPT-5.5,eval-2,"diff --git a/lib/matplotlib/path.py b/lib/matplotlib/path.py
+index a021706fb1..c5d3da6a10 100644
+--- a/lib/matplotlib/path.py
++++ b/lib/matplotlib/path.py
+@@ -281,7 +281,11 @@ class Path:
+         readonly, even if the source `Path` is.
+         """"""
+         # Deepcopying arrays (vertices, codes) strips the writeable=False flag.
+-        p = copy.deepcopy(super(), memo)
++        if memo is None:
++            memo = {}
++        p = self.__class__.__new__(self.__class__)
++        memo[id(self)] = p
++        p.__dict__ = copy.deepcopy(self.__dict__, memo)
+         p._readonly = False
+         return p
+ 
+","diff --git a/lib/matplotlib/path.py b/lib/matplotlib/path.py
+index a021706fb1e5..f65ade669167 100644
+--- a/lib/matplotlib/path.py
++++ b/lib/matplotlib/path.py
+@@ -275,17 +275,37 @@ def copy(self):
+         """"""
+         return copy.copy(self)
+ 
+-    def __deepcopy__(self, memo=None):
++    def __deepcopy__(self, memo):
+         """"""
+         Return a deepcopy of the `Path`.  The `Path` will not be
+         readonly, even if the source `Path` is.
+         """"""
+         # Deepcopying arrays (vertices, codes) strips the writeable=False flag.
+-        p = copy.deepcopy(super(), memo)
++        cls = type(self)
++        memo[id(self)] = p = cls.__new__(cls)
++
++        for k, v in self.__dict__.items():
++            setattr(p, k, copy.deepcopy(v, memo))
++
+         p._readonly = False
+         return p
+ 
+-    deepcopy = __deepcopy__
++    def deepcopy(self, memo=None):
++        """"""
++        Return a deep copy of the `Path`.  The `Path` will not be readonly,
++        even if the source `Path` is.
++
++        Parameters
++        ----------
++        memo : dict, optional
++            A dictionary to use for memoizing, passed to `copy.deepcopy`.
++
++        Returns
++        -------
++        Path
++            A deep copy of the `Path`, but not readonly.
++        """"""
++        return copy.deepcopy(self, memo)
+ 
+     @classmethod
+     def make_compound_path_from_polys(cls, XY):
+diff --git a/lib/matplotlib/path.pyi b/lib/matplotlib/path.pyi
+index 464fc6d9a912..8a5a5c03792e 100644
+--- a/lib/matplotlib/path.pyi
++++ b/lib/matplotlib/path.pyi
+@@ -44,8 +44,8 @@ class Path:
+     @property
+     def readonly(self) -> bool: ...
+     def copy(self) -> Path: ...
+-    def __deepcopy__(self, memo: dict[int, Any] | None = ...) -> Path: ...
+-    deepcopy = __deepcopy__
++    def __deepcopy__(self, memo: dict[int, Any]) -> Path: ...
++    def deepcopy(self, memo: dict[int, Any] | None = None) -> Path: ...
+ 
+     @classmethod
+     def make_compound_path_from_polys(cls, XY: ArrayLike) -> Path: ...
+diff --git a/lib/matplotlib/transforms.py b/lib/matplotlib/transforms.py
+index 7228f05bcf9e..350113c56170 100644
+--- a/lib/matplotlib/transforms.py
++++ b/lib/matplotlib/transforms.py
+@@ -35,7 +35,6 @@
+ # `np.minimum` instead of the builtin `min`, and likewise for `max`.  This is
+ # done so that `nan`s are propagated, instead of being silently dropped.
+ 
+-import copy
+ import functools
+ import itertools
+ import textwrap
+@@ -139,7 +138,9 @@ def __setstate__(self, data_dict):
+             for k, v in self._parents.items() if v is not None}
+ 
+     def __copy__(self):
+-        other = copy.copy(super())
++        cls = type(self)
++        other = cls.__new__(cls)
++        other.__dict__.update(self.__dict__)
+         # If `c = a + b; a1 = copy(a)`, then modifications to `a1` do not
+         # propagate back to `c`, i.e. we need to clear the parents of `a1`.
+         other._parents = {}
+"
+CR-18,OpenHands|GPT-5.5|eval-2|sympy__sympy-15855,sympy__sympy-15855,OpenHands,GPT-5.5,eval-2,"diff --git a/sympy/concrete/summations.py b/sympy/concrete/summations.py
+index 23c5d73caf..54fdd8e815 100644
+--- a/sympy/concrete/summations.py
++++ b/sympy/concrete/summations.py
+@@ -1139,6 +1139,17 @@ def _eval_sum_hyper(f, i, a):
+     return f.subs(i, 0)*hyperexpand(h), h.convergence_statement
+ 
+ 
++def _has_empty_convergence_condition(cond):
++    if cond == False:
++        return True
++    if cond == True:
++        return False
++    try:
++        return cond.as_set() is S.EmptySet
++    except NotImplementedError:
++        return False
++
++
+ def eval_sum_hyper(f, i_a_b):
+     from sympy.logic.boolalg import And
+ 
+@@ -1162,7 +1173,7 @@ def eval_sum_hyper(f, i_a_b):
+                 return None
+             (res1, cond1), (res2, cond2) = res1, res2
+             cond = And(cond1, cond2)
+-            if cond == False:
++            if _has_empty_convergence_condition(cond):
+                 return None
+             return Piecewise((res1 - res2, cond), (old_sum, True))
+ 
+@@ -1174,7 +1185,7 @@ def eval_sum_hyper(f, i_a_b):
+         res1, cond1 = res1
+         res2, cond2 = res2
+         cond = And(cond1, cond2)
+-        if cond == False:
++        if _has_empty_convergence_condition(cond):
+             return None
+         return Piecewise((res1 + res2, cond), (old_sum, True))
+ 
+","diff --git a/sympy/concrete/summations.py b/sympy/concrete/summations.py
+index 55dbba7de50c..cfa279cfd73f 100644
+--- a/sympy/concrete/summations.py
++++ b/sympy/concrete/summations.py
+@@ -1175,7 +1175,7 @@ def eval_sum_hyper(f, i_a_b):
+         res1, cond1 = res1
+         res2, cond2 = res2
+         cond = And(cond1, cond2)
+-        if cond == False:
++        if cond == False or cond.as_set() == S.EmptySet:
+             return None
+         return Piecewise((res1 + res2, cond), (old_sum, True))
+ 
+"
+CR-19,OpenHands|GPT-5.5|eval-2|sympy__sympy-23493,sympy__sympy-23493,OpenHands,GPT-5.5,eval-2,"diff --git a/sympy/calculus/util.py b/sympy/calculus/util.py
+index 4f6ada07f1..34e7708327 100644
+--- a/sympy/calculus/util.py
++++ b/sympy/calculus/util.py
+@@ -480,7 +480,7 @@ def _check(orig_f, period):
+ 
+     elif f.is_Mul:
+         coeff, g = f.as_independent(symbol, as_Add=False)
+-        if isinstance(g, TrigonometricFunction) or coeff is not S.One:
++        if isinstance(g, TrigonometricFunction) or coeff != S.One:
+             period = periodicity(g, symbol)
+ 
+         else:
+","diff --git a/sympy/calculus/util.py b/sympy/calculus/util.py
+index 4f6ada07f123..fc2910b8e777 100644
+--- a/sympy/calculus/util.py
++++ b/sympy/calculus/util.py
+@@ -480,7 +480,7 @@ def _check(orig_f, period):
+ 
+     elif f.is_Mul:
+         coeff, g = f.as_independent(symbol, as_Add=False)
+-        if isinstance(g, TrigonometricFunction) or coeff is not S.One:
++        if isinstance(g, TrigonometricFunction) or coeff != 1:
+             period = periodicity(g, symbol)
+ 
+         else:
+"
+CR-20,OpenHands|GPT-5.5|eval-2|sympy__sympy-7900,sympy__sympy-7900,OpenHands,GPT-5.5,eval-2,"diff --git a/sympy/solvers/solvers.py b/sympy/solvers/solvers.py
+index 9bc2b7b3a5..166ef828ee 100644
+--- a/sympy/solvers/solvers.py
++++ b/sympy/solvers/solvers.py
+@@ -704,7 +704,8 @@ def _sympified_list(w):
+ 
+         # if we can split it into real and imaginary parts then do so
+         freei = f[i].free_symbols
+-        if freei and all(s.is_real or s.is_imaginary for s in freei):
++        if freei and all(s.is_real or s.is_imaginary for s in freei) and (
++                f[i].has(S.ImaginaryUnit) or any(s.is_imaginary for s in freei)):
+             fr, fi = f[i].as_real_imag()
+             if fr and fi and not any(i.has(re, im, arg) for i in (fr, fi)) \
+                     and fr != fi:
+","diff --git a/sympy/solvers/solvers.py b/sympy/solvers/solvers.py
+index 9bc2b7b3a5cf..7b6dce0811e1 100644
+--- a/sympy/solvers/solvers.py
++++ b/sympy/solvers/solvers.py
+@@ -706,8 +706,10 @@ def _sympified_list(w):
+         freei = f[i].free_symbols
+         if freei and all(s.is_real or s.is_imaginary for s in freei):
+             fr, fi = f[i].as_real_imag()
+-            if fr and fi and not any(i.has(re, im, arg) for i in (fr, fi)) \
+-                    and fr != fi:
++            # accept as long as new re, im, arg or atan2 are not introduced
++            had = f[i].atoms(re, im, arg, atan2)
++            if fr and fi and fr != fi and not any(
++                    i.atoms(re, im, arg, atan2) - had for i in (fr, fi)):
+                 if bare_f:
+                     bare_f = False
+                 f[i: i + 1] = [fr, fi]
+"
+CR-21,OpenHands|GPT-5.5|eval-2|sympy__sympy-9493,sympy__sympy-9493,OpenHands,GPT-5.5,eval-2,"diff --git a/sympy/core/numbers.py b/sympy/core/numbers.py
+index d1e4f02f47..22d6dc94e8 100644
+--- a/sympy/core/numbers.py
++++ b/sympy/core/numbers.py
+@@ -2467,6 +2467,8 @@ def _eval_power(self, expt):
+             return S.Zero
+         if expt is S.NaN:
+             return S.NaN
++        if expt is S.ComplexInfinity:
++            return S.NaN
+ 
+         if expt.is_number:
+             return self**expt.evalf()
+","diff --git a/sympy/core/numbers.py b/sympy/core/numbers.py
+index d1e4f02f4727..22d6dc94e817 100644
+--- a/sympy/core/numbers.py
++++ b/sympy/core/numbers.py
+@@ -2467,6 +2467,8 @@ def _eval_power(self, expt):
+             return S.Zero
+         if expt is S.NaN:
+             return S.NaN
++        if expt is S.ComplexInfinity:
++            return S.NaN
+ 
+         if expt.is_number:
+             return self**expt.evalf()
+"
+CR-22,OpenHands|GPT-5.5|eval-3|dask__dask-7667,dask__dask-7667,OpenHands,GPT-5.5,eval-3,"diff --git a/dask/array/creation.py b/dask/array/creation.py
+index 9df5d674b..db9bb873f 100644
+--- a/dask/array/creation.py
++++ b/dask/array/creation.py
+@@ -8,6 +8,7 @@ import numpy as np
+ from tlz import accumulate, sliding_window
+ 
+ from ..base import tokenize
++from ..delayed import unpack_collections
+ from ..highlevelgraph import HighLevelGraph
+ from ..utils import derived_from
+ from . import chunk
+@@ -249,6 +250,16 @@ def _get_like_function_shapes_chunks(a, chunks, shape):
+     return shape, chunks
+ 
+ 
++def _linspace_block(start, stop, num, blockstart, bs, endpoint=True, dtype=None):
++    range_ = stop - start
++    div = (num - 1) if endpoint else num
++    step = float(range_) / div
++    blockstart = start + (step * blockstart)
++    bs_space = bs - 1 if endpoint else bs
++    blockstop = blockstart + (bs_space * step)
++    return np.linspace(blockstart, blockstop, bs, endpoint=endpoint, dtype=dtype)
++
++
+ def linspace(
+     start, stop, num=50, endpoint=True, retstep=False, chunks=""auto"", dtype=None
+ ):
+@@ -295,14 +306,40 @@ def linspace(
+ 
+     chunks = normalize_chunks(chunks, (num,), dtype=dtype)
+ 
++    name = ""linspace-"" + tokenize((start, stop, num, endpoint, chunks, dtype))
++
++    (start_ref, stop_ref), deps = unpack_collections([start, stop])
++
++    dsk = {}
++    if deps:
++        blockstart = 0
++        for i, bs in enumerate(chunks[0]):
++            task = (
++                _linspace_block,
++                start_ref,
++                stop_ref,
++                num,
++                blockstart,
++                bs,
++                endpoint,
++                dtype,
++            )
++            blockstart += bs
++            dsk[(name, i)] = task
++
++        graph = HighLevelGraph.from_collections(name, dsk, dependencies=deps)
++        result = Array(graph, name, chunks, dtype=dtype)
++        if retstep:
++            div = (num - 1) if endpoint else num
++            return result, (stop - start) / div
++        else:
++            return result
++
+     range_ = stop - start
+ 
+     div = (num - 1) if endpoint else num
+     step = float(range_) / div
+ 
+-    name = ""linspace-"" + tokenize((start, stop, num, endpoint, chunks, dtype))
+-
+-    dsk = {}
+     blockstart = start
+ 
+     for i, bs in enumerate(chunks[0]):
+@@ -317,10 +354,11 @@ def linspace(
+         blockstart = blockstart + (step * bs)
+         dsk[(name, i)] = task
+ 
++    result = Array(dsk, name, chunks, dtype=dtype)
+     if retstep:
+-        return Array(dsk, name, chunks, dtype=dtype), step
++        return result, step
+     else:
+-        return Array(dsk, name, chunks, dtype=dtype)
++        return result
+ 
+ 
+ def arange(*args, **kwargs):
+","diff --git a/dask/array/chunk.py b/dask/array/chunk.py
+index 8a98e961550..48439b36f68 100644
+--- a/dask/array/chunk.py
++++ b/dask/array/chunk.py
+@@ -265,6 +265,18 @@ def arange(start, stop, step, length, dtype, like=None):
+     return res[:-1] if len(res) > length else res
+ 
+ 
++def linspace(start, stop, num, endpoint=True, dtype=None):
++    from .core import Array
++
++    if isinstance(start, Array):
++        start = start.compute()
++
++    if isinstance(stop, Array):
++        stop = stop.compute()
++
++    return np.linspace(start, stop, num, endpoint=endpoint, dtype=dtype)
++
++
+ def astype(x, astype_dtype=None, **kwargs):
+     return x.astype(astype_dtype, **kwargs)
+ 
+diff --git a/dask/array/creation.py b/dask/array/creation.py
+index 9df5d674be9..69c384c2e91 100644
+--- a/dask/array/creation.py
++++ b/dask/array/creation.py
+@@ -309,7 +309,7 @@ def linspace(
+         bs_space = bs - 1 if endpoint else bs
+         blockstop = blockstart + (bs_space * step)
+         task = (
+-            partial(np.linspace, endpoint=endpoint, dtype=dtype),
++            partial(chunk.linspace, endpoint=endpoint, dtype=dtype),
+             blockstart,
+             blockstop,
+             bs,
+"
+CR-23,OpenHands|GPT-5.5|eval-3|sympy__sympy-23493,sympy__sympy-23493,OpenHands,GPT-5.5,eval-3,"diff --git a/sympy/calculus/util.py b/sympy/calculus/util.py
+index 4f6ada07f1..34e7708327 100644
+--- a/sympy/calculus/util.py
++++ b/sympy/calculus/util.py
+@@ -480,7 +480,7 @@ def _check(orig_f, period):
+ 
+     elif f.is_Mul:
+         coeff, g = f.as_independent(symbol, as_Add=False)
+-        if isinstance(g, TrigonometricFunction) or coeff is not S.One:
++        if isinstance(g, TrigonometricFunction) or coeff != S.One:
+             period = periodicity(g, symbol)
+ 
+         else:
+","diff --git a/sympy/calculus/util.py b/sympy/calculus/util.py
+index 4f6ada07f123..fc2910b8e777 100644
+--- a/sympy/calculus/util.py
++++ b/sympy/calculus/util.py
+@@ -480,7 +480,7 @@ def _check(orig_f, period):
+ 
+     elif f.is_Mul:
+         coeff, g = f.as_independent(symbol, as_Add=False)
+-        if isinstance(g, TrigonometricFunction) or coeff is not S.One:
++        if isinstance(g, TrigonometricFunction) or coeff != 1:
+             period = periodicity(g, symbol)
+ 
+         else:
+"
+CR-24,OpenHands|Opus 4.8|eval-1|sympy__sympy-10478,sympy__sympy-10478,OpenHands,Opus 4.8,eval-1,"diff --git a/sympy/functions/combinatorial/factorials.py b/sympy/functions/combinatorial/factorials.py
+index ea9e5a5ec0..d65d9dc018 100644
+--- a/sympy/functions/combinatorial/factorials.py
++++ b/sympy/functions/combinatorial/factorials.py
+@@ -330,8 +330,8 @@ def eval(cls, arg):
+         # TODO: extend this to complex numbers?
+ 
+         if arg.is_Number:
+-            if arg.is_infinite:
+-                return
++            if not arg.is_Integer:
++                raise ValueError(""argument must be nonnegative integer or negative odd integer"")
+ 
+             # This implementation is faster than the recursive one
+             # It also avoids ""maximum recursion depth exceeded"" runtime error
+@@ -342,10 +342,10 @@ def eval(cls, arg):
+ 
+                 return factorial(arg) / factorial2(arg - 1)
+ 
+-            if arg.is_even:
+-                raise ValueError(""argument must be nonnegative or odd"")
++            if arg.is_odd:
++                return arg * (S.NegativeOne) ** ((1 - arg) / 2) / factorial2(-arg)
+ 
+-            return arg * (S.NegativeOne) ** ((1 - arg) / 2) / factorial2(-arg)
++            raise ValueError(""argument must be nonnegative integer or negative odd integer"")
+ 
+     def _eval_is_even(self):
+         # Double factorial is even for every positive even input
+","diff --git a/sympy/functions/combinatorial/factorials.py b/sympy/functions/combinatorial/factorials.py
+index ea9e5a5ec0c5..48ea1755559f 100644
+--- a/sympy/functions/combinatorial/factorials.py
++++ b/sympy/functions/combinatorial/factorials.py
+@@ -330,8 +330,8 @@ def eval(cls, arg):
+         # TODO: extend this to complex numbers?
+ 
+         if arg.is_Number:
+-            if arg.is_infinite:
+-                return
++            if not arg.is_Integer:
++                raise ValueError(""argument must be nonnegative integer or negative odd integer"")
+ 
+             # This implementation is faster than the recursive one
+             # It also avoids ""maximum recursion depth exceeded"" runtime error
+@@ -339,13 +339,13 @@ def eval(cls, arg):
+                 if arg.is_even:
+                     k = arg / 2
+                     return 2 ** k * factorial(k)
+-
+                 return factorial(arg) / factorial2(arg - 1)
+ 
+-            if arg.is_even:
+-                raise ValueError(""argument must be nonnegative or odd"")
+ 
+-            return arg * (S.NegativeOne) ** ((1 - arg) / 2) / factorial2(-arg)
++            if arg.is_odd:
++                return arg * (S.NegativeOne) ** ((1 - arg) / 2) / factorial2(-arg)
++            raise ValueError(""argument must be nonnegative integer or negative odd integer"")
++
+ 
+     def _eval_is_even(self):
+         # Double factorial is even for every positive even input
+"
+CR-25,OpenHands|Opus 4.8|eval-1|sympy__sympy-15418,sympy__sympy-15418,OpenHands,Opus 4.8,eval-1,"diff --git a/sympy/solvers/solvers.py b/sympy/solvers/solvers.py
+index b7d66bbefd..f974f1a868 100644
+--- a/sympy/solvers/solvers.py
++++ b/sympy/solvers/solvers.py
+@@ -3032,9 +3032,21 @@ def _invert(eq, *symbols, **kwargs):
+                 if indep is S.One:
+                     break
+ 
++                # if the equation has collapsed to a symbol-independent
++                # value (e.g. after cancellation the lhs became 0) then
++                # there is nothing more to invert; stop to avoid dividing
++                # by a zero independent part
++                if dep is S.Zero:
++                    break
++
+                 lhs = dep
+                 rhs /= indep
+ 
++        # dep and indep in the last iteration; if the equation
++        # collapsed to a trivial (symbol-independent) constant, stop
++        if lhs.is_zero:
++            break
++
+         # collect like-terms in symbols
+         if lhs.is_Add:
+             terms = {}
+","diff --git a/sympy/solvers/solvers.py b/sympy/solvers/solvers.py
+index b7d66bbefd21..6717b4cfd7a8 100644
+--- a/sympy/solvers/solvers.py
++++ b/sympy/solvers/solvers.py
+@@ -2999,6 +2999,9 @@ def _invert(eq, *symbols, **kwargs):
+ 
+     """"""
+     eq = sympify(eq)
++    if eq.args:
++        # make sure we are working with flat eq
++        eq = eq.func(*eq.args)
+     free = eq.free_symbols
+     if not symbols:
+         symbols = free
+@@ -3008,9 +3011,6 @@ def _invert(eq, *symbols, **kwargs):
+     dointpow = bool(kwargs.get('integer_power', False))
+ 
+     lhs = eq
+-    if eq.args:
+-        # make sure we are working with flat eq
+-        lhs = eq.func(*eq.args)
+     rhs = S.Zero
+     while True:
+         was = lhs
+"
+CR-26,OpenHands|Opus 4.8|eval-2|aio-libs__aiohttp-10151,aio-libs__aiohttp-10151,OpenHands,Opus 4.8,eval-2,"diff --git a/CHANGES/10149.bugfix.rst b/CHANGES/10149.bugfix.rst
+new file mode 100644
+index 000000000..78821566c
+--- /dev/null
++++ b/CHANGES/10149.bugfix.rst
+@@ -0,0 +1,3 @@
++Fixed an infinite loop that can occur when using aiohttp in combination with `async-solipsism`_ -- by :user:`bmerry`.
++
++.. _async-solipsism: https://github.com/bmerry/async-solipsism
+diff --git a/aiohttp/web_protocol.py b/aiohttp/web_protocol.py
+index 0bffc8498..3d76fc1f1 100644
+--- a/aiohttp/web_protocol.py
++++ b/aiohttp/web_protocol.py
+@@ -487,7 +487,7 @@ class RequestHandler(BaseProtocol, Generic[_Request]):
+         loop = self._loop
+         now = loop.time()
+         close_time = self._next_keepalive_close_time
+-        if now <= close_time:
++        if now < close_time:
+             # Keep alive close check fired too early, reschedule
+             self._keepalive_handle = loop.call_at(close_time, self._process_keepalive)
+             return
+","diff --git a/CHANGES/10149.misc.rst b/CHANGES/10149.misc.rst
+new file mode 100644
+index 00000000000..61765a50fcf
+--- /dev/null
++++ b/CHANGES/10149.misc.rst
+@@ -0,0 +1,4 @@
++Fixed an infinite loop that can occur when using aiohttp in combination
++with `async-solipsism`_ -- by :user:`bmerry`.
++
++.. _async-solipsism: https://github.com/bmerry/async-solipsism
+diff --git a/aiohttp/web_protocol.py b/aiohttp/web_protocol.py
+index 0bffc849817..3d76fc1f1d7 100644
+--- a/aiohttp/web_protocol.py
++++ b/aiohttp/web_protocol.py
+@@ -487,7 +487,7 @@ def _process_keepalive(self) -> None:
+         loop = self._loop
+         now = loop.time()
+         close_time = self._next_keepalive_close_time
+-        if now <= close_time:
++        if now < close_time:
+             # Keep alive close check fired too early, reschedule
+             self._keepalive_handle = loop.call_at(close_time, self._process_keepalive)
+             return
+"
+CR-27,OpenHands|Opus 4.8|eval-2|sympy__sympy-14404,sympy__sympy-14404,OpenHands,Opus 4.8,eval-2,"diff --git a/sympy/core/power.py b/sympy/core/power.py
+index bd4bb7ae15..10f9b59892 100644
+--- a/sympy/core/power.py
++++ b/sympy/core/power.py
+@@ -1086,7 +1086,7 @@ def as_real_imag(self, deep=True, **hints):
+             if exp >= 0:
+                 if re.is_Number and im.is_Number:
+                     # We can be more efficient in this case
+-                    expr = expand_multinomial(self.base**exp)
++                    expr = expand_multinomial((re + im*S.ImaginaryUnit)**exp)
+                     return expr.as_real_imag()
+ 
+                 expr = poly(
+","diff --git a/sympy/core/power.py b/sympy/core/power.py
+index bd4bb7ae156c..db3aa0856414 100644
+--- a/sympy/core/power.py
++++ b/sympy/core/power.py
+@@ -1087,7 +1087,8 @@ def as_real_imag(self, deep=True, **hints):
+                 if re.is_Number and im.is_Number:
+                     # We can be more efficient in this case
+                     expr = expand_multinomial(self.base**exp)
+-                    return expr.as_real_imag()
++                    if expr != self:
++                        return expr.as_real_imag()
+ 
+                 expr = poly(
+                     (a + b)**exp)  # a = re, b = im; expr = (a + b*I)**exp
+@@ -1097,7 +1098,8 @@ def as_real_imag(self, deep=True, **hints):
+                 if re.is_Number and im.is_Number:
+                     # We can be more efficient in this case
+                     expr = expand_multinomial((re + im*S.ImaginaryUnit)**-exp)
+-                    return expr.as_real_imag()
++                    if expr != self:
++                        return expr.as_real_imag()
+ 
+                 expr = poly((a + b)**-exp)
+ 
+"
+CR-28,OpenHands|Opus 4.8|eval-2|sympy__sympy-15855,sympy__sympy-15855,OpenHands,Opus 4.8,eval-2,"diff --git a/sympy/concrete/summations.py b/sympy/concrete/summations.py
+index 23c5d73caf..e5ced8eaab 100644
+--- a/sympy/concrete/summations.py
++++ b/sympy/concrete/summations.py
+@@ -1176,6 +1176,11 @@ def eval_sum_hyper(f, i_a_b):
+         cond = And(cond1, cond2)
+         if cond == False:
+             return None
++        try:
++            if cond.as_set() == S.EmptySet:
++                return None
++        except NotImplementedError:
++            pass
+         return Piecewise((res1 + res2, cond), (old_sum, True))
+ 
+     # Now b == oo, a != -oo
+","diff --git a/sympy/concrete/summations.py b/sympy/concrete/summations.py
+index 55dbba7de50c..cfa279cfd73f 100644
+--- a/sympy/concrete/summations.py
++++ b/sympy/concrete/summations.py
+@@ -1175,7 +1175,7 @@ def eval_sum_hyper(f, i_a_b):
+         res1, cond1 = res1
+         res2, cond2 = res2
+         cond = And(cond1, cond2)
+-        if cond == False:
++        if cond == False or cond.as_set() == S.EmptySet:
+             return None
+         return Piecewise((res1 + res2, cond), (old_sum, True))
+ 
+"
+CR-29,OpenHands|Opus 4.8|eval-3|aio-libs__aiohttp-10151,aio-libs__aiohttp-10151,OpenHands,Opus 4.8,eval-3,"diff --git a/CHANGES/10154.bugfix.rst b/CHANGES/10154.bugfix.rst
+new file mode 100644
+index 000000000..f4fa25ad0
+--- /dev/null
++++ b/CHANGES/10154.bugfix.rst
+@@ -0,0 +1,4 @@
++Fixed an infinite loop that can occur when using aiohttp in combination with
++`async-solipsism`_ -- by :user:`bmerry`.
++
++.. _async-solipsism: https://github.com/bmerry/async-solipsism
+diff --git a/aiohttp/web_protocol.py b/aiohttp/web_protocol.py
+index 0bffc8498..3d76fc1f1 100644
+--- a/aiohttp/web_protocol.py
++++ b/aiohttp/web_protocol.py
+@@ -487,7 +487,7 @@ class RequestHandler(BaseProtocol, Generic[_Request]):
+         loop = self._loop
+         now = loop.time()
+         close_time = self._next_keepalive_close_time
+-        if now <= close_time:
++        if now < close_time:
+             # Keep alive close check fired too early, reschedule
+             self._keepalive_handle = loop.call_at(close_time, self._process_keepalive)
+             return
+","diff --git a/CHANGES/10149.misc.rst b/CHANGES/10149.misc.rst
+new file mode 100644
+index 00000000000..61765a50fcf
+--- /dev/null
++++ b/CHANGES/10149.misc.rst
+@@ -0,0 +1,4 @@
++Fixed an infinite loop that can occur when using aiohttp in combination
++with `async-solipsism`_ -- by :user:`bmerry`.
++
++.. _async-solipsism: https://github.com/bmerry/async-solipsism
+diff --git a/aiohttp/web_protocol.py b/aiohttp/web_protocol.py
+index 0bffc849817..3d76fc1f1d7 100644
+--- a/aiohttp/web_protocol.py
++++ b/aiohttp/web_protocol.py
+@@ -487,7 +487,7 @@ def _process_keepalive(self) -> None:
+         loop = self._loop
+         now = loop.time()
+         close_time = self._next_keepalive_close_time
+-        if now <= close_time:
++        if now < close_time:
+             # Keep alive close check fired too early, reschedule
+             self._keepalive_handle = loop.call_at(close_time, self._process_keepalive)
+             return
+"
+CR-30,OpenHands|Opus 4.8|eval-3|sympy__sympy-15752,sympy__sympy-15752,OpenHands,Opus 4.8,eval-3,"diff --git a/sympy/matrices/dense.py b/sympy/matrices/dense.py
+index d21ffb52ea..18a0e8ca9b 100644
+--- a/sympy/matrices/dense.py
++++ b/sympy/matrices/dense.py
+@@ -1084,7 +1084,7 @@ def casoratian(seqs, n, zero=True):
+ 
+     k = len(seqs)
+ 
+-    return Matrix(k, k, f).det()
++    return Matrix(k, k, f).det(method='berkowitz')
+ 
+ 
+ def eye(*args, **kwargs):
+","diff --git a/sympy/matrices/matrices.py b/sympy/matrices/matrices.py
+index ba5d3a75c909..ce53653cc5f2 100644
+--- a/sympy/matrices/matrices.py
++++ b/sympy/matrices/matrices.py
+@@ -211,7 +211,7 @@ def bareiss(mat, cumm=1):
+             def entry(i, j):
+                 ret = (pivot_val*tmp_mat[i, j + 1] - mat[pivot_pos, j + 1]*tmp_mat[i, 0]) / cumm
+                 if not ret.is_Atom:
+-                    cancel(ret)
++                    return cancel(ret)
+                 return ret
+ 
+             return sign*bareiss(self._new(mat.rows - 1, mat.cols - 1, entry), pivot_val)
+"
+CR-31,SWE-agent|DeepSeek V4 Pro|eval-1|sympy__sympy-17329,sympy__sympy-17329,SWE-agent,DeepSeek V4 Pro,eval-1,"diff --git a/sympy/calculus/util.py b/sympy/calculus/util.py
+index 50feb12d2d..350feda473 100644
+--- a/sympy/calculus/util.py
++++ b/sympy/calculus/util.py
+@@ -213,7 +213,11 @@ def function_range(f, symbol, domain):
+             if not iterable(solution):
+                 raise NotImplementedError('Unable to find critical points for {}'.format(f))
+ 
+-            critical_points += solution
++            if solution.is_FiniteSet:
++                critical_points += solution
++            else:
++                raise NotImplementedError(
++                    'Unable to find critical points for {}'.format(f))
+ 
+             for critical_point in critical_points:
+                 vals += FiniteSet(f.subs(symbol, critical_point))
+","diff --git a/sympy/calculus/util.py b/sympy/calculus/util.py
+index 90fce092429f..728d17fbe5f1 100644
+--- a/sympy/calculus/util.py
++++ b/sympy/calculus/util.py
+@@ -10,6 +10,7 @@
+ from sympy.polys.rationaltools import together
+ from sympy.sets.sets import (Interval, Intersection, FiniteSet, Union,
+                              Complement, EmptySet)
++from sympy.sets.fancysets import ImageSet
+ from sympy.simplify.radsimp import denom
+ from sympy.solvers.inequalities import solve_univariate_inequality
+ from sympy.utilities import filldedent
+@@ -211,7 +212,11 @@ def function_range(f, symbol, domain):
+             solution = solveset(f.diff(symbol), symbol, interval)
+ 
+             if not iterable(solution):
+-                raise NotImplementedError('Unable to find critical points for {}'.format(f))
++                raise NotImplementedError(
++                        'Unable to find critical points for {}'.format(f))
++            if isinstance(solution, ImageSet):
++                raise NotImplementedError(
++                        'Infinite number of critical points for {}'.format(f))
+ 
+             critical_points += solution
+ 
+"
+CR-32,SWE-agent|DeepSeek V4 Pro|eval-3|numpy__numpy-26192,numpy__numpy-26192,SWE-agent,DeepSeek V4 Pro,eval-3,"diff --git a/numpy/_core/numeric.py b/numpy/_core/numeric.py
+index 429620da53..d933b1968b 100644
+--- a/numpy/_core/numeric.py
++++ b/numpy/_core/numeric.py
+@@ -2142,6 +2142,7 @@ def base_repr(number, base=2, padding=0):
+     elif base < 2:
+         raise ValueError(""Bases less than 2 not handled in base_repr."")
+ 
++    number = operator.index(number)
+     num = abs(number)
+     res = []
+     while num:
+","diff --git a/numpy/_core/numeric.py b/numpy/_core/numeric.py
+index 429620da5359..d5116cee2756 100644
+--- a/numpy/_core/numeric.py
++++ b/numpy/_core/numeric.py
+@@ -2142,7 +2142,7 @@ def base_repr(number, base=2, padding=0):
+     elif base < 2:
+         raise ValueError(""Bases less than 2 not handled in base_repr."")
+ 
+-    num = abs(number)
++    num = abs(int(number))
+     res = []
+     while num:
+         res.append(digits[num % base])
+"
+CR-33,SWE-agent|DeepSeek V4 Pro|eval-3|sympy__sympy-14404,sympy__sympy-14404,SWE-agent,DeepSeek V4 Pro,eval-3,"diff --git a/sympy/core/power.py b/sympy/core/power.py
+index bd4bb7ae15..db3aa08564 100644
+--- a/sympy/core/power.py
++++ b/sympy/core/power.py
+@@ -1087,7 +1087,8 @@ def as_real_imag(self, deep=True, **hints):
+                 if re.is_Number and im.is_Number:
+                     # We can be more efficient in this case
+                     expr = expand_multinomial(self.base**exp)
+-                    return expr.as_real_imag()
++                    if expr != self:
++                        return expr.as_real_imag()
+ 
+                 expr = poly(
+                     (a + b)**exp)  # a = re, b = im; expr = (a + b*I)**exp
+@@ -1097,7 +1098,8 @@ def as_real_imag(self, deep=True, **hints):
+                 if re.is_Number and im.is_Number:
+                     # We can be more efficient in this case
+                     expr = expand_multinomial((re + im*S.ImaginaryUnit)**-exp)
+-                    return expr.as_real_imag()
++                    if expr != self:
++                        return expr.as_real_imag()
+ 
+                 expr = poly((a + b)**-exp)
+ 
+","diff --git a/sympy/core/power.py b/sympy/core/power.py
+index bd4bb7ae156c..db3aa0856414 100644
+--- a/sympy/core/power.py
++++ b/sympy/core/power.py
+@@ -1087,7 +1087,8 @@ def as_real_imag(self, deep=True, **hints):
+                 if re.is_Number and im.is_Number:
+                     # We can be more efficient in this case
+                     expr = expand_multinomial(self.base**exp)
+-                    return expr.as_real_imag()
++                    if expr != self:
++                        return expr.as_real_imag()
+ 
+                 expr = poly(
+                     (a + b)**exp)  # a = re, b = im; expr = (a + b*I)**exp
+@@ -1097,7 +1098,8 @@ def as_real_imag(self, deep=True, **hints):
+                 if re.is_Number and im.is_Number:
+                     # We can be more efficient in this case
+                     expr = expand_multinomial((re + im*S.ImaginaryUnit)**-exp)
+-                    return expr.as_real_imag()
++                    if expr != self:
++                        return expr.as_real_imag()
+ 
+                 expr = poly((a + b)**-exp)
+ 
+"
+CR-34,SWE-agent|DeepSeek V4 Pro|eval-3|sympy__sympy-21032,sympy__sympy-21032,SWE-agent,DeepSeek V4 Pro,eval-3,"diff --git a/sympy/solvers/solveset.py b/sympy/solvers/solveset.py
+index 34fa8f03bf..c7db40340d 100644
+--- a/sympy/solvers/solveset.py
++++ b/sympy/solvers/solveset.py
+@@ -851,11 +851,13 @@ def _has_rational_power(expr, symbol):
+         return _has_rational_power(pattern_match[a], symbol)
+ 
+ 
+-def _solve_radical(f, symbol, solveset_solver):
++def _solve_radical(f, symbol, solveset_solver, domain=S.Complexes):
+     """""" Helper function to solve equations with radicals """"""
+     res = unrad(f)
+     eq, cov = res if res else (f, [])
+     if not cov:
++        if res is None:
++            return ConditionSet(symbol, Eq(f, 0), domain)
+         result = solveset_solver(eq, symbol) - \
+             Union(*[solveset_solver(g, symbol) for g in denoms(f, symbol)])
+     else:
+@@ -1083,7 +1085,8 @@ def _solveset(f, symbol, domain, _check=False):
+                            equation, symbol)[0]:
+                         result += _solve_radical(equation,
+                                                  symbol,
+-                                                 solver)
++                                                 solver,
++                                                 domain)
+                     elif equation.has(Abs):
+                         result += _solve_abs(f, symbol, domain)
+                     else:
+","diff --git a/sympy/solvers/solvers.py b/sympy/solvers/solvers.py
+index 65e1ef0d2edf..06d30cbdea09 100644
+--- a/sympy/solvers/solvers.py
++++ b/sympy/solvers/solvers.py
+@@ -3296,7 +3296,7 @@ def _take(d, take_int_pow):
+ 
+     eq = _mexpand(eq, recursive=True)
+     if eq.is_number:
+-        return
++        return eq, []
+ 
+     syms = set(syms) or eq.free_symbols
+     poly = eq.as_poly()
+"
+CR-35,SWE-agent|DeepSeek V4 Pro|eval-3|sympy__sympy-24826,sympy__sympy-24826,SWE-agent,DeepSeek V4 Pro,eval-3,"diff --git a/sympy/core/expr.py b/sympy/core/expr.py
+index 7b3b7cc574..ff88f19fb7 100644
+--- a/sympy/core/expr.py
++++ b/sympy/core/expr.py
+@@ -4071,6 +4071,9 @@ def doit(self, **hints):
+         else:
+             return self.args[0]
+ 
++    def _eval_is_commutative(self):
++        return self.args[0].is_commutative
++
+ 
+ 
+ def unchanged(func, *args):
+diff --git a/sympy/simplify/cse_main.py b/sympy/simplify/cse_main.py
+index d603560f59..0008d72915 100644
+--- a/sympy/simplify/cse_main.py
++++ b/sympy/simplify/cse_main.py
+@@ -563,7 +563,8 @@ def _find_opts(expr):
+                         new_obj = m.func(c_mul, *nc, evaluate=False)
+                     else:
+                         new_obj = m.func(c_mul, m.func(*nc), evaluate=False)
+-                opt_subs[m] = new_obj
++                if new_obj != m:
++                    opt_subs[m] = new_obj
+             if len(c) > 1:
+                 commutative_muls.add(c_mul)
+ 
+@@ -685,6 +686,13 @@ def _rebuild(expr):
+         else:
+             args = expr.args
+ 
++        # Guard against infinite recursion when opt_subs creates a cycle
++        # (e.g., expr -> -1*(-expr) where -expr contains expr).
++        # Add orig_expr to subs temporarily with a placeholder to break cycles.
++        # Only do this for non-Unevaluated expressions, as Unevaluated objects
++        # are internal wrappers that must be unwrapped.
++        if not isinstance(orig_expr, Unevaluated) and orig_expr not in subs:
++            subs[orig_expr] = orig_expr  # placeholder, will be updated if eliminated
+         new_args = list(map(_rebuild, args))
+         if isinstance(expr, Unevaluated) or new_args != args:
+             new_expr = expr.func(*new_args)
+","diff --git a/sympy/simplify/cse_main.py b/sympy/simplify/cse_main.py
+index d603560f5992..3b7a2d966520 100644
+--- a/sympy/simplify/cse_main.py
++++ b/sympy/simplify/cse_main.py
+@@ -512,7 +512,14 @@ def _find_opts(expr):
+         list(map(_find_opts, expr.args))
+ 
+         if not isinstance(expr, MatrixExpr) and expr.could_extract_minus_sign():
+-            neg_expr = -expr
++            # XXX -expr does not always work rigorously for some expressions
++            # containing UnevaluatedExpr.
++            # https://github.com/sympy/sympy/issues/24818
++            if isinstance(expr, Add):
++                neg_expr = Add(*(-i for i in expr.args))
++            else:
++                neg_expr = -expr
++
+             if not neg_expr.is_Atom:
+                 opt_subs[expr] = Unevaluated(Mul, (S.NegativeOne, neg_expr))
+                 seen_subexp.add(neg_expr)
+"
+CR-36,SWE-agent|DeepSeek V4 Pro|eval-3|tox-dev__tox-3749,tox-dev__tox-3749,SWE-agent,DeepSeek V4 Pro,eval-3,"diff --git a/src/tox/config/loader/replacer.py b/src/tox/config/loader/replacer.py
+index 18fe2422..880c6e8c 100644
+--- a/src/tox/config/loader/replacer.py
++++ b/src/tox/config/loader/replacer.py
+@@ -246,7 +246,10 @@ def load_posargs(conf: Config, conf_args: ConfigLoadArgs) -> tuple[str, ...] | N
+         env_conf = conf.get_env(conf_args.env_name)
+         try:
+             if env_conf[""args_are_paths""]:  # pragma: no branch
+-                to_path = env_conf[""change_dir""]
++                try:
++                    to_path = env_conf.load(""change_dir"", chain=conf_args.chain)
++                except CircularChainError:
++                    pass
+         except KeyError:
+             pass
+     return conf.pos_args(to_path)
+","diff --git a/docs/changelog/3062.bugfix.rst b/docs/changelog/3062.bugfix.rst
+new file mode 100644
+index 0000000000..05f620ea42
+--- /dev/null
++++ b/docs/changelog/3062.bugfix.rst
+@@ -0,0 +1,1 @@
++Using ``{posargs}`` in ``change_dir`` no longer causes a ``RecursionError`` - by :user:`gaborbernat`.
+diff --git a/src/tox/config/loader/replacer.py b/src/tox/config/loader/replacer.py
+index 18fe242289..5cd060f09f 100644
+--- a/src/tox/config/loader/replacer.py
++++ b/src/tox/config/loader/replacer.py
+@@ -245,13 +245,17 @@ def load_posargs(conf: Config, conf_args: ConfigLoadArgs) -> tuple[str, ...] | N
+     if conf_args.env_name is not None:  # pragma: no branch
+         env_conf = conf.get_env(conf_args.env_name)
+         try:
+-            if env_conf[""args_are_paths""]:  # pragma: no branch
++            if env_conf[""args_are_paths""] and not _loading_change_dir(conf_args):  # pragma: no branch
+                 to_path = env_conf[""change_dir""]
+         except KeyError:
+             pass
+     return conf.pos_args(to_path)
+ 
+ 
++def _loading_change_dir(conf_args: ConfigLoadArgs) -> bool:
++    return any(entry.endswith("".change_dir"") for entry in conf_args.chain)
++
++
+ def replace_env(conf: Config | None, args: list[str], conf_args: ConfigLoadArgs) -> str:
+     if not args or not args[0]:
+         msg = ""No variable name was supplied in {env} substitution""
+"
+CR-37,SWE-agent|GPT-5.5|eval-1|pydata__xarray-10248,pydata__xarray-10248,SWE-agent,GPT-5.5,eval-1,"diff --git a/xarray/computation/arithmetic.py b/xarray/computation/arithmetic.py
+index 7c2058f9..ac815b72 100644
+--- a/xarray/computation/arithmetic.py
++++ b/xarray/computation/arithmetic.py
+@@ -79,6 +79,14 @@ class SupportsArithmetic:
+                 ""`.values`).""
+             )
+ 
++        for key, value in kwargs.items():
++            if (
++                key != ""out""
++                and isinstance(value, SupportsArithmetic)
++                and hasattr(value, ""data"")
++            ):
++                kwargs[key] = value.data
++
+         join = dataset_join = OPTIONS[""arithmetic_join""]
+ 
+         return apply_ufunc(
+","diff --git a/xarray/computation/apply_ufunc.py b/xarray/computation/apply_ufunc.py
+index 50c3ed4bbd8..41f4adb5fd5 100644
+--- a/xarray/computation/apply_ufunc.py
++++ b/xarray/computation/apply_ufunc.py
+@@ -30,10 +30,7 @@
+ from xarray.core.formatting import limit_lines
+ from xarray.core.indexes import Index, filter_indexes_from_coords
+ from xarray.core.options import _get_keep_attrs
+-from xarray.core.utils import (
+-    is_dict_like,
+-    result_name,
+-)
++from xarray.core.utils import is_dict_like, result_name
+ from xarray.core.variable import Variable
+ from xarray.namedarray.parallelcompat import get_chunked_array_type
+ from xarray.namedarray.pycompat import is_chunked_array
+@@ -1212,6 +1209,8 @@ def apply_ufunc(
+             dask_gufunc_kwargs.setdefault(""output_sizes"", output_sizes)
+ 
+     if kwargs:
++        if ""where"" in kwargs and isinstance(kwargs[""where""], DataArray):
++            kwargs[""where""] = kwargs[""where""].data  # type:ignore[index]
+         func = functools.partial(func, **kwargs)
+ 
+     if keep_attrs is None:
+"
+CR-38,SWE-agent|GPT-5.5|eval-1|sympy__sympy-23493,sympy__sympy-23493,SWE-agent,GPT-5.5,eval-1,"diff --git a/sympy/calculus/util.py b/sympy/calculus/util.py
+index 4f6ada07f1..34e7708327 100644
+--- a/sympy/calculus/util.py
++++ b/sympy/calculus/util.py
+@@ -480,7 +480,7 @@ def _check(orig_f, period):
+ 
+     elif f.is_Mul:
+         coeff, g = f.as_independent(symbol, as_Add=False)
+-        if isinstance(g, TrigonometricFunction) or coeff is not S.One:
++        if isinstance(g, TrigonometricFunction) or coeff != S.One:
+             period = periodicity(g, symbol)
+ 
+         else:
+","diff --git a/sympy/calculus/util.py b/sympy/calculus/util.py
+index 4f6ada07f123..fc2910b8e777 100644
+--- a/sympy/calculus/util.py
++++ b/sympy/calculus/util.py
+@@ -480,7 +480,7 @@ def _check(orig_f, period):
+ 
+     elif f.is_Mul:
+         coeff, g = f.as_independent(symbol, as_Add=False)
+-        if isinstance(g, TrigonometricFunction) or coeff is not S.One:
++        if isinstance(g, TrigonometricFunction) or coeff != 1:
+             period = periodicity(g, symbol)
+ 
+         else:
+"
+CR-39,SWE-agent|GPT-5.5|eval-1|sympy__sympy-9029,sympy__sympy-9029,SWE-agent,GPT-5.5,eval-1,"diff --git a/sympy/polys/rootoftools.py b/sympy/polys/rootoftools.py
+index 3c5f4cb28f..13f0a4f577 100644
+--- a/sympy/polys/rootoftools.py
++++ b/sympy/polys/rootoftools.py
+@@ -595,7 +595,13 @@ def _eval_evalf(self, prec):
+                     if self.is_real:
+                         if (a < root < b):
+                             break
+-                    elif (ax < root.real < bx and ay < root.imag < by):
++                    elif (ax <= root.real <= bx and ay <= root.imag <= by):
++                        # The numerical approximation can lie exactly on the
++                        # boundary of a complex isolating interval (e.g. a
++                        # purely imaginary root has real part on an interval
++                        # edge).  Such a root is still contained in the
++                        # isolating rectangle; requiring strict containment can
++                        # make refinement preserve the boundary indefinitely.
+                         break
+                 except ValueError:
+                     pass
+","diff --git a/sympy/polys/rootoftools.py b/sympy/polys/rootoftools.py
+index 3c5f4cb28f1c..c7b97fe9ab13 100644
+--- a/sympy/polys/rootoftools.py
++++ b/sympy/polys/rootoftools.py
+@@ -593,9 +593,9 @@ def _eval_evalf(self, prec):
+                     # case and the interval will then be tightened -- and
+                     # eventually the root will be found.
+                     if self.is_real:
+-                        if (a < root < b):
++                        if (a <= root <= b):
+                             break
+-                    elif (ax < root.real < bx and ay < root.imag < by):
++                    elif (ax <= root.real <= bx and ay <= root.imag <= by):
+                         break
+                 except ValueError:
+                     pass
+"
+CR-40,SWE-agent|GPT-5.5|eval-1|sympy__sympy-9844,sympy__sympy-9844,SWE-agent,GPT-5.5,eval-1,"diff --git a/sympy/integrals/manualintegrate.py b/sympy/integrals/manualintegrate.py
+index 50d75d5f92..7213ff79e1 100644
+--- a/sympy/integrals/manualintegrate.py
++++ b/sympy/integrals/manualintegrate.py
+@@ -808,6 +808,26 @@ def substitution_rule(integral):
+     lambda integrand, symbol: integrand.is_rational_function(),
+     lambda integrand, symbol: integrand.apart(symbol))
+ 
++def _symbol_in_constant_base_power(integrand, symbol):
++    for power in integrand.find(sympy.Pow):
++        base, exp = power.as_base_exp()
++        if symbol not in base.free_symbols and symbol in exp.free_symbols:
++            return True
++    return False
++
++powsimp_rule = rewriter(
++    lambda integrand, symbol: (
++        isinstance(integrand, (sympy.Mul, sympy.Pow)) and
++        _symbol_in_constant_base_power(integrand, symbol)),
++    lambda integrand, symbol: sympy.powsimp(integrand))
++
++exp_distribute_expand_rule = rewriter(
++    lambda integrand, symbol: (
++        isinstance(integrand, sympy.Mul) and
++        any(isinstance(arg, sympy.Add) for arg in integrand.args) and
++        _symbol_in_constant_base_power(integrand, symbol)),
++    lambda integrand, symbol: integrand.expand())
++
+ distribute_expand_rule = rewriter(
+     lambda integrand, symbol: (
+         all(arg.is_Pow or arg.is_polynomial(symbol) for arg in integrand.args)
+@@ -912,39 +932,46 @@ def _integral_is_subclass(integral):
+             return k and issubclass(k, klasses)
+         return _integral_is_subclass
+ 
+-    result = do_one(
+-        null_safe(switch(key, {
+-            sympy.Pow: do_one(null_safe(power_rule), null_safe(inverse_trig_rule)),
+-            sympy.Symbol: power_rule,
+-            sympy.exp: exp_rule,
+-            sympy.Add: add_rule,
+-            sympy.Mul: do_one(null_safe(mul_rule), null_safe(trig_product_rule), \
+-                null_safe(heaviside_rule)),
+-            sympy.Derivative: derivative_rule,
+-            TrigonometricFunction: trig_rule,
+-            sympy.Heaviside: heaviside_rule,
+-            sympy.Number: constant_rule
+-        })),
+-        do_one(
+-            null_safe(trig_rule),
+-            null_safe(alternatives(
+-                rewrites_rule,
+-                substitution_rule,
+-                condition(
+-                    integral_is_subclass(sympy.Mul, sympy.Pow),
+-                    partial_fractions_rule),
+-                condition(
+-                    integral_is_subclass(sympy.Mul, sympy.log, sympy.atan, sympy.asin, sympy.acos),
+-                    parts_rule),
+-                condition(
+-                    integral_is_subclass(sympy.Mul, sympy.Pow),
+-                    distribute_expand_rule),
+-                trig_powers_products_rule
+-            )),
+-            null_safe(trig_substitution_rule)
+-        ),
+-        fallback_rule)(integral)
+-    del _integral_cache[cachekey]
++    try:
++        result = do_one(
++            null_safe(switch(key, {
++                sympy.Pow: do_one(null_safe(power_rule), null_safe(inverse_trig_rule),
++                                  null_safe(powsimp_rule)),
++                sympy.Symbol: power_rule,
++                sympy.exp: exp_rule,
++                sympy.Add: add_rule,
++                sympy.Mul: do_one(null_safe(mul_rule), null_safe(trig_product_rule), \
++                    null_safe(heaviside_rule), null_safe(powsimp_rule),
++                    null_safe(exp_distribute_expand_rule)),
++                sympy.Derivative: derivative_rule,
++                TrigonometricFunction: trig_rule,
++                sympy.Heaviside: heaviside_rule,
++                sympy.Number: constant_rule
++            })),
++            do_one(
++                null_safe(trig_rule),
++                null_safe(alternatives(
++                    rewrites_rule,
++                    substitution_rule,
++                    condition(
++                        integral_is_subclass(sympy.Mul, sympy.Pow),
++                        partial_fractions_rule),
++                    condition(
++                        integral_is_subclass(sympy.Mul, sympy.log, sympy.atan, sympy.asin, sympy.acos),
++                        parts_rule),
++                    condition(
++                        integral_is_subclass(sympy.Mul, sympy.Pow),
++                        distribute_expand_rule),
++                    condition(
++                        integral_is_subclass(sympy.Mul, sympy.Pow),
++                        powsimp_rule),
++                    trig_powers_products_rule
++                )),
++                null_safe(trig_substitution_rule)
++            ),
++            fallback_rule)(integral)
++    finally:
++        del _integral_cache[cachekey]
+     return result
+ 
+ @evaluates(ConstantRule)
+","diff --git a/sympy/integrals/manualintegrate.py b/sympy/integrals/manualintegrate.py
+index 50d75d5f920b..566c331e9448 100644
+--- a/sympy/integrals/manualintegrate.py
++++ b/sympy/integrals/manualintegrate.py
+@@ -150,7 +150,7 @@ def possible_subterms(term):
+         return []
+ 
+     for u in possible_subterms(integrand):
+-        if u == symbol:
++        if u == symbol or u == -symbol:
+             continue
+         u_diff = manual_diff(u, symbol)
+         new_integrand = test_subterm(u, u_diff)
+"
+CR-41,SWE-agent|GPT-5.5|eval-2|sympy__sympy-23493,sympy__sympy-23493,SWE-agent,GPT-5.5,eval-2,"diff --git a/sympy/calculus/util.py b/sympy/calculus/util.py
+index 4f6ada07f1..34e7708327 100644
+--- a/sympy/calculus/util.py
++++ b/sympy/calculus/util.py
+@@ -480,7 +480,7 @@ def _check(orig_f, period):
+ 
+     elif f.is_Mul:
+         coeff, g = f.as_independent(symbol, as_Add=False)
+-        if isinstance(g, TrigonometricFunction) or coeff is not S.One:
++        if isinstance(g, TrigonometricFunction) or coeff != S.One:
+             period = periodicity(g, symbol)
+ 
+         else:
+","diff --git a/sympy/calculus/util.py b/sympy/calculus/util.py
+index 4f6ada07f123..fc2910b8e777 100644
+--- a/sympy/calculus/util.py
++++ b/sympy/calculus/util.py
+@@ -480,7 +480,7 @@ def _check(orig_f, period):
+ 
+     elif f.is_Mul:
+         coeff, g = f.as_independent(symbol, as_Add=False)
+-        if isinstance(g, TrigonometricFunction) or coeff is not S.One:
++        if isinstance(g, TrigonometricFunction) or coeff != 1:
+             period = periodicity(g, symbol)
+ 
+         else:
+"
+CR-42,SWE-agent|GPT-5.5|eval-3|Textualize__rich-3480,Textualize__rich-3480,SWE-agent,GPT-5.5,eval-3,"diff --git a/rich/text.py b/rich/text.py
+index 69e19b64..26c22caa 100644
+--- a/rich/text.py
++++ b/rich/text.py
+@@ -991,16 +991,20 @@ class Text(JupyterMixin):
+                         ""style must not be set when appending Text instance""
+                     )
+                 text_length = self._length
+-                if text.style:
++                append_plain = text.plain
++                append_length = len(text)
++                append_style = text.style
++                append_spans = text._spans[:]
++                if append_style:
+                     self._spans.append(
+-                        _Span(text_length, text_length + len(text), text.style)
++                        _Span(text_length, text_length + append_length, append_style)
+                     )
+-                self._text.append(text.plain)
++                self._text.append(append_plain)
+                 self._spans.extend(
+                     _Span(start + text_length, end + text_length, style)
+-                    for start, end, style in text._spans
++                    for start, end, style in append_spans
+                 )
+-                self._length += len(text)
++                self._length += append_length
+         return self
+ 
+     def append_text(self, text: ""Text"") -> ""Text"":
+@@ -1015,14 +1019,20 @@ class Text(JupyterMixin):
+         """"""
+         _Span = Span
+         text_length = self._length
+-        if text.style:
+-            self._spans.append(_Span(text_length, text_length + len(text), text.style))
+-        self._text.append(text.plain)
++        append_plain = text.plain
++        append_length = len(text)
++        append_style = text.style
++        append_spans = text._spans[:]
++        if append_style:
++            self._spans.append(
++                _Span(text_length, text_length + append_length, append_style)
++            )
++        self._text.append(append_plain)
+         self._spans.extend(
+             _Span(start + text_length, end + text_length, style)
+-            for start, end, style in text._spans
++            for start, end, style in append_spans
+         )
+-        self._length += len(text)
++        self._length += append_length
+         return self
+ 
+     def append_tokens(
+","diff --git a/CHANGELOG.md b/CHANGELOG.md
+index e14bd69a65..63116cf011 100644
+--- a/CHANGELOG.md
++++ b/CHANGELOG.md
+@@ -5,6 +5,11 @@ All notable changes to this project will be documented in this file.
+ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+ 
++## Unreleased
++
++### Fixed
++
++- Fixed infinite loop when appending Text to same instance https://github.com/Textualize/rich/pull/3480
+ 
+ ## [13.8.0] - 2024-08-26
+ 
+diff --git a/rich/text.py b/rich/text.py
+index 69e19b6454..1f53533642 100644
+--- a/rich/text.py
++++ b/rich/text.py
+@@ -998,7 +998,7 @@ def append(
+                 self._text.append(text.plain)
+                 self._spans.extend(
+                     _Span(start + text_length, end + text_length, style)
+-                    for start, end, style in text._spans
++                    for start, end, style in text._spans.copy()
+                 )
+                 self._length += len(text)
+         return self
+@@ -1020,7 +1020,7 @@ def append_text(self, text: ""Text"") -> ""Text"":
+         self._text.append(text.plain)
+         self._spans.extend(
+             _Span(start + text_length, end + text_length, style)
+-            for start, end, style in text._spans
++            for start, end, style in text._spans.copy()
+         )
+         self._length += len(text)
+         return self
+"
+CR-43,SWE-agent|Opus 4.8|eval-1|scikit-learn__scikit-learn-28165,scikit-learn__scikit-learn-28165,SWE-agent,Opus 4.8,eval-1,"diff --git a/sklearn/cluster/_k_means_common.pyx b/sklearn/cluster/_k_means_common.pyx
+index 151af55076..3f8b795ac5 100644
+--- a/sklearn/cluster/_k_means_common.pyx
++++ b/sklearn/cluster/_k_means_common.pyx
+@@ -184,22 +184,42 @@ cpdef void _relocate_empty_clusters_dense(
+         return
+ 
+     cdef:
++        int n_samples = X.shape[0]
+         int n_features = X.shape[1]
+ 
+         floating[::1] distances = ((np.asarray(X) - np.asarray(centers_old)[labels])**2).sum(axis=1)
+-        int[::1] far_from_centers = np.argpartition(distances, -n_empty)[:-n_empty-1:-1].astype(np.int32)
++        # Sort samples by decreasing distance to their assigned center. Samples
++        # far from their center are the best candidates to be relocated into an
++        # empty cluster.
++        int[::1] far_from_centers = np.argsort(distances)[::-1].astype(np.int32)
++        # Number of samples currently assigned to each cluster. It is used to
++        # make sure we never empty a cluster while relocating samples, which
++        # could otherwise lead to an infinite loop.
++        int[::1] samples_in_cluster = np.bincount(
++            np.asarray(labels), minlength=centers_old.shape[0]).astype(np.int32)
+ 
+         int new_cluster_id, old_cluster_id, far_idx, idx, k
++        int candidate_idx = 0
+         floating weight
+ 
+     for idx in range(n_empty):
+ 
+         new_cluster_id = empty_clusters[idx]
+ 
+-        far_idx = far_from_centers[idx]
+-        weight = sample_weight[far_idx]
++        # Find the next candidate sample that is not the only sample of its
++        # cluster, so that relocating it does not create a new empty cluster.
++        while candidate_idx < n_samples:
++            far_idx = far_from_centers[candidate_idx]
++            old_cluster_id = labels[far_idx]
++            candidate_idx += 1
++            if samples_in_cluster[old_cluster_id] > 1:
++                break
++        else:
++            # No suitable candidate found; leave the remaining empty clusters
++            # as they are.
++            break
+ 
+-        old_cluster_id = labels[far_idx]
++        weight = sample_weight[far_idx]
+ 
+         for k in range(n_features):
+             centers_new[old_cluster_id, k] -= X[far_idx, k] * weight
+@@ -207,6 +227,8 @@ cpdef void _relocate_empty_clusters_dense(
+ 
+         weight_in_clusters[new_cluster_id] = weight
+         weight_in_clusters[old_cluster_id] -= weight
++        samples_in_cluster[old_cluster_id] -= 1
++        samples_in_cluster[new_cluster_id] += 1
+ 
+ 
+ cpdef void _relocate_empty_clusters_sparse(
+@@ -242,19 +264,38 @@ cpdef void _relocate_empty_clusters_sparse(
+             centers_old[j], centers_squared_norms[j], True)
+ 
+     cdef:
+-        int[::1] far_from_centers = np.argpartition(distances, -n_empty)[:-n_empty-1:-1].astype(np.int32)
++        # Sort samples by decreasing distance to their assigned center. Samples
++        # far from their center are the best candidates to be relocated into an
++        # empty cluster.
++        int[::1] far_from_centers = np.argsort(distances)[::-1].astype(np.int32)
++        # Number of samples currently assigned to each cluster. It is used to
++        # make sure we never empty a cluster while relocating samples, which
++        # could otherwise lead to an infinite loop.
++        int[::1] samples_in_cluster = np.bincount(
++            np.asarray(labels), minlength=centers_old.shape[0]).astype(np.int32)
+ 
+         int new_cluster_id, old_cluster_id, far_idx, idx
++        int candidate_idx = 0
+         floating weight
+ 
+     for idx in range(n_empty):
+ 
+         new_cluster_id = empty_clusters[idx]
+ 
+-        far_idx = far_from_centers[idx]
+-        weight = sample_weight[far_idx]
++        # Find the next candidate sample that is not the only sample of its
++        # cluster, so that relocating it does not create a new empty cluster.
++        while candidate_idx < n_samples:
++            far_idx = far_from_centers[candidate_idx]
++            old_cluster_id = labels[far_idx]
++            candidate_idx += 1
++            if samples_in_cluster[old_cluster_id] > 1:
++                break
++        else:
++            # No suitable candidate found; leave the remaining empty clusters
++            # as they are.
++            break
+ 
+-        old_cluster_id = labels[far_idx]
++        weight = sample_weight[far_idx]
+ 
+         for k in range(X_indptr[far_idx], X_indptr[far_idx + 1]):
+             centers_new[old_cluster_id, X_indices[k]] -= X_data[k] * weight
+@@ -262,6 +303,8 @@ cpdef void _relocate_empty_clusters_sparse(
+ 
+         weight_in_clusters[new_cluster_id] = weight
+         weight_in_clusters[old_cluster_id] -= weight
++        samples_in_cluster[old_cluster_id] -= 1
++        samples_in_cluster[new_cluster_id] += 1
+ 
+ 
+ cdef void _average_centers(
+","diff --git a/doc/whats_new/v1.4.rst b/doc/whats_new/v1.4.rst
+index c674a8619e076..ee47bae7b1f5b 100644
+--- a/doc/whats_new/v1.4.rst
++++ b/doc/whats_new/v1.4.rst
+@@ -20,6 +20,9 @@ Changelog
+   :pr:`28121` by :user:`Pietro Peterlongo <pietroppeter>` and
+   :user:`Yao Xiao <Charlie-XIAO>`.
+ 
++- |Fix| Avoid infinite loop in :class:`cluster.KMeans` when the number of clusters is
++  larger than the number of non-duplicate samples.
++  :pr:`28165` by :user:`Jérémie du Boisberranger <jeremiedbb>`.
+ 
+ .. _changes_1_4:
+ 
+diff --git a/sklearn/cluster/_k_means_common.pyx b/sklearn/cluster/_k_means_common.pyx
+index 151af55076b7b..7c9c1bb54eaae 100644
+--- a/sklearn/cluster/_k_means_common.pyx
++++ b/sklearn/cluster/_k_means_common.pyx
+@@ -192,6 +192,11 @@ cpdef void _relocate_empty_clusters_dense(
+         int new_cluster_id, old_cluster_id, far_idx, idx, k
+         floating weight
+ 
++    if np.max(distances) == 0:
++        # Happens when there are more clusters than non-duplicate samples. Relocating
++        # is pointless in this case.
++        return
++
+     for idx in range(n_empty):
+ 
+         new_cluster_id = empty_clusters[idx]
+@@ -241,6 +246,11 @@ cpdef void _relocate_empty_clusters_sparse(
+             X_indices[X_indptr[i]: X_indptr[i + 1]],
+             centers_old[j], centers_squared_norms[j], True)
+ 
++    if np.max(distances) == 0:
++        # Happens when there are more clusters than non-duplicate samples. Relocating
++        # is pointless in this case.
++        return
++
+     cdef:
+         int[::1] far_from_centers = np.argpartition(distances, -n_empty)[:-n_empty-1:-1].astype(np.int32)
+ 
+@@ -274,12 +284,18 @@ cdef void _average_centers(
+         int n_features = centers.shape[1]
+         int j, k
+         floating alpha
++        int argmax_weight = np.argmax(weight_in_clusters)
+ 
+     for j in range(n_clusters):
+         if weight_in_clusters[j] > 0:
+             alpha = 1.0 / weight_in_clusters[j]
+             for k in range(n_features):
+                 centers[j, k] *= alpha
++        else:
++            # For convenience, we avoid setting empty clusters at the origin but place
++            # them at the location of the biggest cluster.
++            for k in range(n_features):
++                centers[j, k] = centers[argmax_weight, k]
+ 
+ 
+ cdef void _center_shift(
+"
+CR-44,SWE-agent|Opus 4.8|eval-2|numpy__numpy-26022,numpy__numpy-26022,SWE-agent,Opus 4.8,eval-2,"diff --git a/numpy/_core/src/multiarray/item_selection.c b/numpy/_core/src/multiarray/item_selection.c
+index 7f7d8394d6..088f3bfa74 100644
+--- a/numpy/_core/src/multiarray/item_selection.c
++++ b/numpy/_core/src/multiarray/item_selection.c
+@@ -423,6 +423,13 @@ PyArray_PutTo(PyArrayObject *self, PyObject* values0, PyObject *indices0,
+     dest = PyArray_DATA(self);
+     itemsize = PyArray_ITEMSIZE(self);
+ 
++    if (max_item == 0 && ni != 0) {
++        /* Index error, since that is the usual error for raise mode */
++        PyErr_SetString(PyExc_IndexError,
++                    ""cannot replace elements of an empty array"");
++        goto fail;
++    }
++
+     int has_references = PyDataType_REFCHK(PyArray_DESCR(self));
+ 
+     if (!has_references) {
+","diff --git a/numpy/_core/src/multiarray/item_selection.c b/numpy/_core/src/multiarray/item_selection.c
+index 7f7d8394d6f3..37e33c28a944 100644
+--- a/numpy/_core/src/multiarray/item_selection.c
++++ b/numpy/_core/src/multiarray/item_selection.c
+@@ -394,6 +394,11 @@ PyArray_PutTo(PyArrayObject *self, PyObject* values0, PyObject *indices0,
+         goto fail;
+     }
+     ni = PyArray_SIZE(indices);
++    if ((ni > 0) && (PyArray_Size((PyObject *)self) == 0)) {
++        PyErr_SetString(PyExc_IndexError, 
++                        ""cannot replace elements of an empty array"");
++        return NULL;
++    }
+     Py_INCREF(PyArray_DESCR(self));
+     values = (PyArrayObject *)PyArray_FromAny(values0, PyArray_DESCR(self), 0, 0,
+                               NPY_ARRAY_DEFAULT | NPY_ARRAY_FORCECAST, NULL);
+"
+CR-45,SWE-agent|Opus 4.8|eval-2|numpy__numpy-26192,numpy__numpy-26192,SWE-agent,Opus 4.8,eval-2,"diff --git a/numpy/_core/numeric.py b/numpy/_core/numeric.py
+index 429620da53..d5116cee27 100644
+--- a/numpy/_core/numeric.py
++++ b/numpy/_core/numeric.py
+@@ -2142,7 +2142,7 @@ def base_repr(number, base=2, padding=0):
+     elif base < 2:
+         raise ValueError(""Bases less than 2 not handled in base_repr."")
+ 
+-    num = abs(number)
++    num = abs(int(number))
+     res = []
+     while num:
+         res.append(digits[num % base])
+","diff --git a/numpy/_core/numeric.py b/numpy/_core/numeric.py
+index 429620da5359..d5116cee2756 100644
+--- a/numpy/_core/numeric.py
++++ b/numpy/_core/numeric.py
+@@ -2142,7 +2142,7 @@ def base_repr(number, base=2, padding=0):
+     elif base < 2:
+         raise ValueError(""Bases less than 2 not handled in base_repr."")
+ 
+-    num = abs(number)
++    num = abs(int(number))
+     res = []
+     while num:
+         res.append(digits[num % base])
+"
+CR-46,SWE-agent|Opus 4.8|eval-2|pydantic__pydantic-12799,pydantic__pydantic-12799,SWE-agent,Opus 4.8,eval-2,"diff --git a/pydantic/main.py b/pydantic/main.py
+index 26fc876a0..2db64681b 100644
+--- a/pydantic/main.py
++++ b/pydantic/main.py
+@@ -8,6 +8,7 @@ from __future__ import annotations as _annotations
+ 
+ import operator
+ import sys
++import threading
+ import types
+ import warnings
+ from collections.abc import Generator, Mapping
+@@ -79,6 +80,21 @@ IncEx: TypeAlias = Union[set[int], set[str], Mapping[int, Union['IncEx', bool]],
+ _object_setattr = _model_construction.object_setattr
+ 
+ 
++class _EqComparisonState(threading.local):
++    """"""Thread-local state used to break reference cycles while comparing models for equality.
++
++    ``stack`` holds the ``(id(self), id(other))`` pairs of the models that are currently being
++    compared in the current thread. It is used by ``BaseModel.__eq__`` to detect (and short-circuit)
++    cycles created by models that (indirectly) reference themselves.
++    """"""
++
++    def __init__(self) -> None:
++        self.stack: set[tuple[int, int]] = set()
++
++
++_EQ_COMPARISON_STACK = _EqComparisonState()
++
++
+ def _check_frozen(model_cls: type[BaseModel], name: str, value: Any) -> None:
+     if model_cls.model_config.get('frozen'):
+         error_type = 'frozen_instance'
+@@ -1174,40 +1190,57 @@ class BaseModel(metaclass=_model_construction.ModelMetaclass):
+                 ):
+                     return False
+ 
+-                # We only want to compare pydantic fields but ignoring fields is costly.
+-                # We'll perform a fast check first, and fallback only when needed
+-                # See GH-7444 and GH-7825 for rationale and a performance benchmark
+-
+-                # First, do the fast (and sometimes faulty) __dict__ comparison
+-                if self.__dict__ == other.__dict__:
+-                    # If the check above passes, then pydantic fields are equal, we can return early
++                # If the two objects are the very same instance, they are trivially equal. This is both a performance
++                # optimization and a first line of defense against infinite recursion for self-referencing models.
++                if self is other:
+                     return True
+ 
+-                # We don't want to trigger unnecessary costly filtering of __dict__ on all unequal objects, so we return
+-                # early if there are no keys to ignore (we would just return False later on anyway)
+-                model_fields = type(self).__pydantic_fields__.keys()
+-                if self.__dict__.keys() <= model_fields and other.__dict__.keys() <= model_fields:
+-                    return False
+-
+-                # If we reach here, there are non-pydantic-fields keys, mapped to unequal values, that we need to ignore
+-                # Resort to costly filtering of the __dict__ objects
+-                # We use operator.itemgetter because it is much faster than dict comprehensions
+-                # NOTE: Contrary to standard python class and instances, when the Model class has a default value for an
+-                # attribute and the model instance doesn't have a corresponding attribute, accessing the missing attribute
+-                # raises an error in BaseModel.__getattr__ instead of returning the class attribute
+-                # So we can use operator.itemgetter() instead of operator.attrgetter()
+-                getter = operator.itemgetter(*model_fields) if model_fields else lambda _: _utils._SENTINEL
++                # Models can (indirectly) reference themselves, in which case the field comparisons below would recurse
++                # forever. We keep track of the pairs of objects that are currently being compared and short-circuit to
++                # `True` when we encounter the same pair again: reaching a pair that is already being compared means that
++                # this branch of the comparison is (so far) consistent, so it should not make the objects unequal.
++                comparison_stack = _EQ_COMPARISON_STACK.stack
++                comparison_key = (id(self), id(other))
++                if comparison_key in comparison_stack:
++                    return True
++                comparison_stack.add(comparison_key)
+                 try:
+-                    return getter(self.__dict__) == getter(other.__dict__)
+-                except KeyError:
+-                    # In rare cases (such as when using the deprecated BaseModel.copy() method),
+-                    # the __dict__ may not contain all model fields, which is how we can get here.
+-                    # getter(self.__dict__) is much faster than any 'safe' method that accounts
+-                    # for missing keys, and wrapping it in a `try` doesn't slow things down much
+-                    # in the common case.
+-                    self_fields_proxy = _utils.SafeGetItemProxy(self.__dict__)
+-                    other_fields_proxy = _utils.SafeGetItemProxy(other.__dict__)
+-                    return getter(self_fields_proxy) == getter(other_fields_proxy)
++                    # We only want to compare pydantic fields but ignoring fields is costly.
++                    # We'll perform a fast check first, and fallback only when needed
++                    # See GH-7444 and GH-7825 for rationale and a performance benchmark
++
++                    # First, do the fast (and sometimes faulty) __dict__ comparison
++                    if self.__dict__ == other.__dict__:
++                        # If the check above passes, then pydantic fields are equal, we can return early
++                        return True
++
++                    # We don't want to trigger unnecessary costly filtering of __dict__ on all unequal objects, so we
++                    # return early if there are no keys to ignore (we would just return False later on anyway)
++                    model_fields = type(self).__pydantic_fields__.keys()
++                    if self.__dict__.keys() <= model_fields and other.__dict__.keys() <= model_fields:
++                        return False
++
++                    # If we reach here, there are non-pydantic-fields keys, mapped to unequal values, that we need to
++                    # ignore. Resort to costly filtering of the __dict__ objects
++                    # We use operator.itemgetter because it is much faster than dict comprehensions
++                    # NOTE: Contrary to standard python class and instances, when the Model class has a default value for
++                    # an attribute and the model instance doesn't have a corresponding attribute, accessing the missing
++                    # attribute raises an error in BaseModel.__getattr__ instead of returning the class attribute
++                    # So we can use operator.itemgetter() instead of operator.attrgetter()
++                    getter = operator.itemgetter(*model_fields) if model_fields else lambda _: _utils._SENTINEL
++                    try:
++                        return getter(self.__dict__) == getter(other.__dict__)
++                    except KeyError:
++                        # In rare cases (such as when using the deprecated BaseModel.copy() method),
++                        # the __dict__ may not contain all model fields, which is how we can get here.
++                        # getter(self.__dict__) is much faster than any 'safe' method that accounts
++                        # for missing keys, and wrapping it in a `try` doesn't slow things down much
++                        # in the common case.
++                        self_fields_proxy = _utils.SafeGetItemProxy(self.__dict__)
++                        other_fields_proxy = _utils.SafeGetItemProxy(other.__dict__)
++                        return getter(self_fields_proxy) == getter(other_fields_proxy)
++                finally:
++                    comparison_stack.discard(comparison_key)
+ 
+             # other instance is not a BaseModel
+             else:
+","diff --git a/pydantic/main.py b/pydantic/main.py
+index 26fc876a008..d0f668024da 100644
+--- a/pydantic/main.py
++++ b/pydantic/main.py
+@@ -8,6 +8,7 @@
+ 
+ import operator
+ import sys
++import threading
+ import types
+ import warnings
+ from collections.abc import Generator, Mapping
+@@ -116,6 +117,9 @@ def _private_setattr_handler(model: BaseModel, name: str, val: Any) -> None:
+ }
+ 
+ 
++_eq_recursion_guard: threading.local = threading.local()
++
++
+ class BaseModel(metaclass=_model_construction.ModelMetaclass):
+     """"""!!! abstract ""Usage Documentation""
+         [Models](../concepts/models.md)
+@@ -1160,59 +1164,77 @@ def __setstate__(self, state: dict[Any, Any]) -> None:
+ 
+         def __eq__(self, other: Any) -> bool:
+             if isinstance(other, BaseModel):
+-                # When comparing instances of generic types for equality, as long as all field values are equal,
+-                # only require their generic origin types to be equal, rather than exact type equality.
+-                # This prevents headaches like MyGeneric(x=1) != MyGeneric[Any](x=1).
+-                self_type = self.__pydantic_generic_metadata__['origin'] or self.__class__
+-                other_type = other.__pydantic_generic_metadata__['origin'] or other.__class__
+-
+-                # Perform common checks first
+-                if not (
+-                    self_type == other_type
+-                    and getattr(self, '__pydantic_private__', None) == getattr(other, '__pydantic_private__', None)
+-                    and self.__pydantic_extra__ == other.__pydantic_extra__
+-                ):
+-                    return False
+-
+-                # We only want to compare pydantic fields but ignoring fields is costly.
+-                # We'll perform a fast check first, and fallback only when needed
+-                # See GH-7444 and GH-7825 for rationale and a performance benchmark
+-
+-                # First, do the fast (and sometimes faulty) __dict__ comparison
+-                if self.__dict__ == other.__dict__:
+-                    # If the check above passes, then pydantic fields are equal, we can return early
++                # Guard against infinite recursion when models have circular references
++                # (e.g., a.child = a). We use a thread-local set of (id, id) pairs to
++                # track comparisons already in progress. If we encounter the same pair
++                # again, we treat them as equal to break the cycle — matching Python's
++                # own behavior for recursive containers like lists and dicts.
++                # See GH-10630.
++                pair_key = (id(self), id(other))
++                active_comparisons: set[tuple[int, int]] = getattr(_eq_recursion_guard, 'active', None) or set()
++                if pair_key in active_comparisons:
+                     return True
+-
+-                # We don't want to trigger unnecessary costly filtering of __dict__ on all unequal objects, so we return
+-                # early if there are no keys to ignore (we would just return False later on anyway)
+-                model_fields = type(self).__pydantic_fields__.keys()
+-                if self.__dict__.keys() <= model_fields and other.__dict__.keys() <= model_fields:
+-                    return False
+-
+-                # If we reach here, there are non-pydantic-fields keys, mapped to unequal values, that we need to ignore
+-                # Resort to costly filtering of the __dict__ objects
+-                # We use operator.itemgetter because it is much faster than dict comprehensions
+-                # NOTE: Contrary to standard python class and instances, when the Model class has a default value for an
+-                # attribute and the model instance doesn't have a corresponding attribute, accessing the missing attribute
+-                # raises an error in BaseModel.__getattr__ instead of returning the class attribute
+-                # So we can use operator.itemgetter() instead of operator.attrgetter()
+-                getter = operator.itemgetter(*model_fields) if model_fields else lambda _: _utils._SENTINEL
++                _eq_recursion_guard.active = active_comparisons
++                active_comparisons.add(pair_key)
+                 try:
+-                    return getter(self.__dict__) == getter(other.__dict__)
+-                except KeyError:
+-                    # In rare cases (such as when using the deprecated BaseModel.copy() method),
+-                    # the __dict__ may not contain all model fields, which is how we can get here.
+-                    # getter(self.__dict__) is much faster than any 'safe' method that accounts
+-                    # for missing keys, and wrapping it in a `try` doesn't slow things down much
+-                    # in the common case.
+-                    self_fields_proxy = _utils.SafeGetItemProxy(self.__dict__)
+-                    other_fields_proxy = _utils.SafeGetItemProxy(other.__dict__)
+-                    return getter(self_fields_proxy) == getter(other_fields_proxy)
++                    return self._eq_impl(other)
++                finally:
++                    active_comparisons.discard(pair_key)
+ 
+             # other instance is not a BaseModel
+             else:
+                 return NotImplemented  # delegate to the other item in the comparison
+ 
++        def _eq_impl(self, other: Any) -> bool:
++            # When comparing instances of generic types for equality, as long as all field values are equal,
++            # only require their generic origin types to be equal, rather than exact type equality.
++            # This prevents headaches like MyGeneric(x=1) != MyGeneric[Any](x=1).
++            self_type = self.__pydantic_generic_metadata__['origin'] or self.__class__
++            other_type = other.__pydantic_generic_metadata__['origin'] or other.__class__
++
++            # Perform common checks first
++            if not (
++                self_type == other_type
++                and getattr(self, '__pydantic_private__', None) == getattr(other, '__pydantic_private__', None)
++                and self.__pydantic_extra__ == other.__pydantic_extra__
++            ):
++                return False
++
++            # We only want to compare pydantic fields but ignoring fields is costly.
++            # We'll perform a fast check first, and fallback only when needed
++            # See GH-7444 and GH-7825 for rationale and a performance benchmark
++
++            # First, do the fast (and sometimes faulty) __dict__ comparison
++            if self.__dict__ == other.__dict__:
++                # If the check above passes, then pydantic fields are equal, we can return early
++                return True
++
++            # We don't want to trigger unnecessary costly filtering of __dict__ on all unequal objects, so we return
++            # early if there are no keys to ignore (we would just return False later on anyway)
++            model_fields = type(self).__pydantic_fields__.keys()
++            if self.__dict__.keys() <= model_fields and other.__dict__.keys() <= model_fields:
++                return False
++
++            # If we reach here, there are non-pydantic-fields keys, mapped to unequal values, that we need to ignore
++            # Resort to costly filtering of the __dict__ objects
++            # We use operator.itemgetter because it is much faster than dict comprehensions
++            # NOTE: Contrary to standard python class and instances, when the Model class has a default value for an
++            # attribute and the model instance doesn't have a corresponding attribute, accessing the missing attribute
++            # raises an error in BaseModel.__getattr__ instead of returning the class attribute
++            # So we can use operator.itemgetter() instead of operator.attrgetter()
++            getter = operator.itemgetter(*model_fields) if model_fields else lambda _: _utils._SENTINEL
++            try:
++                return getter(self.__dict__) == getter(other.__dict__)
++            except KeyError:
++                # In rare cases (such as when using the deprecated BaseModel.copy() method),
++                # the __dict__ may not contain all model fields, which is how we can get here.
++                # getter(self.__dict__) is much faster than any 'safe' method that accounts
++                # for missing keys, and wrapping it in a `try` doesn't slow things down much
++                # in the common case.
++                self_fields_proxy = _utils.SafeGetItemProxy(self.__dict__)
++                other_fields_proxy = _utils.SafeGetItemProxy(other.__dict__)
++                return getter(self_fields_proxy) == getter(other_fields_proxy)
++
+     if TYPE_CHECKING:
+         # We put `__init_subclass__` in a TYPE_CHECKING block because, even though we want the type-checking benefits
+         # described in the signature of `__init_subclass__` below, we don't want to modify the default behavior of
+"
+CR-47,SWE-agent|Opus 4.8|eval-2|scikit-learn__scikit-learn-21271,scikit-learn__scikit-learn-21271,SWE-agent,Opus 4.8,eval-2,"diff --git a/sklearn/cluster/_spectral.py b/sklearn/cluster/_spectral.py
+index f96a11c177..ba71a56c11 100644
+--- a/sklearn/cluster/_spectral.py
++++ b/sklearn/cluster/_spectral.py
+@@ -138,6 +138,7 @@ def discretize(
+     # If there is an exception we try to randomize and rerun SVD again
+     # do this max_svd_restarts times.
+     while (svd_restarts < max_svd_restarts) and not has_converged:
++        svd_restarts += 1
+ 
+         # Initialize first column of rotation matrix with a row of the
+         # eigenvectors
+@@ -172,7 +173,6 @@ def discretize(
+ 
+             try:
+                 U, S, Vh = np.linalg.svd(t_svd)
+-                svd_restarts += 1
+             except LinAlgError:
+                 print(""SVD did not converge, randomizing and trying again"")
+                 break
+","diff --git a/doc/whats_new/v1.0.rst b/doc/whats_new/v1.0.rst
+index e85b423728cea..e5af4edfe3ae4 100644
+--- a/doc/whats_new/v1.0.rst
++++ b/doc/whats_new/v1.0.rst
+@@ -12,6 +12,13 @@ Version 1.0.2
+ Changelog
+ ---------
+ 
++:mod:`sklearn.cluster`
++......................
++
++- |Fix| Fixed an infinite loop in :func:`cluster.SpectralClustering` by
++  moving an iteration counter from try to except.
++  :pr:`21271` by :user:`Tyler Martin <martintb>`
++
+ :mod:`sklearn.decomposition`
+ ............................
+ 
+@@ -28,7 +35,6 @@ Changelog
+   descriptions in the generated HTML. :pr:`21493` by
+   :user:`Aurélien Geron <ageron>`.
+ 
+-
+ .. _changes_1_0_1:
+ 
+ Version 1.0.1
+diff --git a/sklearn/cluster/_spectral.py b/sklearn/cluster/_spectral.py
+index f96a11c177c8a..9e755769f6294 100644
+--- a/sklearn/cluster/_spectral.py
++++ b/sklearn/cluster/_spectral.py
+@@ -172,8 +172,8 @@ def discretize(
+ 
+             try:
+                 U, S, Vh = np.linalg.svd(t_svd)
+-                svd_restarts += 1
+             except LinAlgError:
++                svd_restarts += 1
+                 print(""SVD did not converge, randomizing and trying again"")
+                 break
+ 
+"
+CR-48,SWE-agent|Opus 4.8|eval-2|sympy__sympy-23175,sympy__sympy-23175,SWE-agent,Opus 4.8,eval-2,"diff --git a/sympy/polys/galoistools.py b/sympy/polys/galoistools.py
+index cbf1af6e6d..f851472fe2 100644
+--- a/sympy/polys/galoistools.py
++++ b/sympy/polys/galoistools.py
+@@ -1876,7 +1876,8 @@ def gf_edf_zassenhaus(f, n, p, K):
+     ==========
+ 
+     .. [1] [Gathen99]_
+-    .. [2] [Geddes92]_
++    .. [2] [Geddes92]_ Algorithm 8.9
++    .. [3] [Cohen93]_ Algorithm 3.4.8
+ 
+     """"""
+     factors = [f]
+@@ -1888,18 +1889,20 @@ def gf_edf_zassenhaus(f, n, p, K):
+     if p != 2:
+         b = gf_frobenius_monomial_base(f, p, K)
+ 
++    t = [K.one, K.zero]
+     while len(factors) < N:
+-        r = gf_random(2*n - 1, p, K)
+-
+         if p == 2:
+-            h = r
++            h = r = t
+ 
+-            for i in range(0, 2**(n*N - 1)):
++            for i in range(n - 1):
+                 r = gf_pow_mod(r, 2, f, p, K)
+                 h = gf_add(h, r, p, K)
+ 
+             g = gf_gcd(f, h, p, K)
++            t += [K.zero, K.zero]
+         else:
++            r = gf_random(2*n - 1, p, K)
++
+             h = _gf_pow_pnm1d2(r, n, f, b, p, K)
+             g = gf_gcd(f, gf_sub_ground(h, K.one, p, K), p, K)
+ 
+","diff --git a/sympy/polys/galoistools.py b/sympy/polys/galoistools.py
+index cbf1af6e6de0..2d0e733ff033 100644
+--- a/sympy/polys/galoistools.py
++++ b/sympy/polys/galoistools.py
+@@ -1872,11 +1872,18 @@ def gf_edf_zassenhaus(f, n, p, K):
+        >>> gf_edf_zassenhaus([1,1,1,1], 1, 5, ZZ)
+        [[1, 1], [1, 2], [1, 3]]
+ 
++    Notes
++    =====
++
++    The case p == 2 is handled by Cohen's Algorithm 3.4.8. The case p odd is
++    as in Geddes Algorithm 8.9 (or Cohen's Algorithm 3.4.6).
++
+     References
+     ==========
+ 
+     .. [1] [Gathen99]_
+-    .. [2] [Geddes92]_
++    .. [2] [Geddes92]_ Algorithm 8.9
++    .. [3] [Cohen93]_ Algorithm 3.4.8
+ 
+     """"""
+     factors = [f]
+@@ -1888,18 +1895,19 @@ def gf_edf_zassenhaus(f, n, p, K):
+     if p != 2:
+         b = gf_frobenius_monomial_base(f, p, K)
+ 
++    t = [K.one, K.zero]
+     while len(factors) < N:
+-        r = gf_random(2*n - 1, p, K)
+-
+         if p == 2:
+-            h = r
++            h = r = t
+ 
+-            for i in range(0, 2**(n*N - 1)):
++            for i in range(n - 1):
+                 r = gf_pow_mod(r, 2, f, p, K)
+                 h = gf_add(h, r, p, K)
+ 
+             g = gf_gcd(f, h, p, K)
++            t += [K.zero, K.zero]
+         else:
++            r = gf_random(2 * n - 1, p, K)
+             h = _gf_pow_pnm1d2(r, n, f, b, p, K)
+             g = gf_gcd(f, gf_sub_ground(h, K.one, p, K), p, K)
+ 
+"
+CR-49,SWE-agent|Opus 4.8|eval-3|sympy__sympy-23175,sympy__sympy-23175,SWE-agent,Opus 4.8,eval-3,"diff --git a/sympy/polys/galoistools.py b/sympy/polys/galoistools.py
+index cbf1af6e6d..f851472fe2 100644
+--- a/sympy/polys/galoistools.py
++++ b/sympy/polys/galoistools.py
+@@ -1876,7 +1876,8 @@ def gf_edf_zassenhaus(f, n, p, K):
+     ==========
+ 
+     .. [1] [Gathen99]_
+-    .. [2] [Geddes92]_
++    .. [2] [Geddes92]_ Algorithm 8.9
++    .. [3] [Cohen93]_ Algorithm 3.4.8
+ 
+     """"""
+     factors = [f]
+@@ -1888,18 +1889,20 @@ def gf_edf_zassenhaus(f, n, p, K):
+     if p != 2:
+         b = gf_frobenius_monomial_base(f, p, K)
+ 
++    t = [K.one, K.zero]
+     while len(factors) < N:
+-        r = gf_random(2*n - 1, p, K)
+-
+         if p == 2:
+-            h = r
++            h = r = t
+ 
+-            for i in range(0, 2**(n*N - 1)):
++            for i in range(n - 1):
+                 r = gf_pow_mod(r, 2, f, p, K)
+                 h = gf_add(h, r, p, K)
+ 
+             g = gf_gcd(f, h, p, K)
++            t += [K.zero, K.zero]
+         else:
++            r = gf_random(2*n - 1, p, K)
++
+             h = _gf_pow_pnm1d2(r, n, f, b, p, K)
+             g = gf_gcd(f, gf_sub_ground(h, K.one, p, K), p, K)
+ 
+","diff --git a/sympy/polys/galoistools.py b/sympy/polys/galoistools.py
+index cbf1af6e6de0..2d0e733ff033 100644
+--- a/sympy/polys/galoistools.py
++++ b/sympy/polys/galoistools.py
+@@ -1872,11 +1872,18 @@ def gf_edf_zassenhaus(f, n, p, K):
+        >>> gf_edf_zassenhaus([1,1,1,1], 1, 5, ZZ)
+        [[1, 1], [1, 2], [1, 3]]
+ 
++    Notes
++    =====
++
++    The case p == 2 is handled by Cohen's Algorithm 3.4.8. The case p odd is
++    as in Geddes Algorithm 8.9 (or Cohen's Algorithm 3.4.6).
++
+     References
+     ==========
+ 
+     .. [1] [Gathen99]_
+-    .. [2] [Geddes92]_
++    .. [2] [Geddes92]_ Algorithm 8.9
++    .. [3] [Cohen93]_ Algorithm 3.4.8
+ 
+     """"""
+     factors = [f]
+@@ -1888,18 +1895,19 @@ def gf_edf_zassenhaus(f, n, p, K):
+     if p != 2:
+         b = gf_frobenius_monomial_base(f, p, K)
+ 
++    t = [K.one, K.zero]
+     while len(factors) < N:
+-        r = gf_random(2*n - 1, p, K)
+-
+         if p == 2:
+-            h = r
++            h = r = t
+ 
+-            for i in range(0, 2**(n*N - 1)):
++            for i in range(n - 1):
+                 r = gf_pow_mod(r, 2, f, p, K)
+                 h = gf_add(h, r, p, K)
+ 
+             g = gf_gcd(f, h, p, K)
++            t += [K.zero, K.zero]
+         else:
++            r = gf_random(2 * n - 1, p, K)
+             h = _gf_pow_pnm1d2(r, n, f, b, p, K)
+             g = gf_gcd(f, gf_sub_ground(h, K.one, p, K), p, K)
+ 
+"
+CR-50,SWE-agent|Opus 4.8|eval-3|sympy__sympy-25844,sympy__sympy-25844,SWE-agent,Opus 4.8,eval-3,"diff --git a/sympy/core/mul.py b/sympy/core/mul.py
+index 5704a3f4e9..7ac6ab0001 100644
+--- a/sympy/core/mul.py
++++ b/sympy/core/mul.py
+@@ -405,6 +405,18 @@ def flatten(cls, seq):
+                             elif b.is_negative:
+                                 neg1e += e
+                                 b = -b
++                            if b.is_Rational and not b.is_Integer:
++                                # split a non-integer rational base into its
++                                # integer numerator and denominator so that the
++                                # gcd-extraction logic below (which assumes
++                                # integer bases) does not run away, e.g.
++                                # (4/3)**(1/2) -> 4**(1/2)*3**(-1/2)
++                                bp, bq = b.as_numer_denom()
++                                if bp is not S.One:
++                                    pnum_rat.setdefault(bp, []).append(e)
++                                if bq is not S.One:
++                                    seq.append(Pow(bq, -e))
++                                continue
+                             if b is not S.One:
+                                 pnum_rat.setdefault(b, []).append(e)
+                             continue
+","diff --git a/sympy/core/mul.py b/sympy/core/mul.py
+index 5704a3f4e900..660accba6067 100644
+--- a/sympy/core/mul.py
++++ b/sympy/core/mul.py
+@@ -581,6 +581,9 @@ def _gather(c_powers):
+         i = 0  # steps through num_rat which may grow
+         while i < len(num_rat):
+             bi, ei = num_rat[i]
++            if bi == 1:
++                i += 1
++                continue
+             grow = []
+             for j in range(i + 1, len(num_rat)):
+                 bj, ej = num_rat[j]
+"

@@ -1,0 +1,38 @@
+diff --git a/xarray/computation/arithmetic.py b/xarray/computation/arithmetic.py
+index 7c2058f9..1c8fbe29 100644
+--- a/xarray/computation/arithmetic.py
++++ b/xarray/computation/arithmetic.py
+@@ -46,6 +46,7 @@ class SupportsArithmetic:
+ 
+         # See the docstring example for numpy.lib.mixins.NDArrayOperatorsMixin.
+         out = kwargs.get("out", ())
++        where = kwargs.get("where", None)
+         for x in inputs + out:
+             if not is_duck_array(x) and not isinstance(
+                 x, self._HANDLED_TYPES + (SupportsArithmetic,)
+@@ -81,10 +82,23 @@ class SupportsArithmetic:
+ 
+         join = dataset_join = OPTIONS["arithmetic_join"]
+ 
++        if isinstance(where, SupportsArithmetic):
++            ufunc_kwargs = kwargs.copy()
++            ufunc_kwargs.pop("where")
++            inputs = inputs + (where,)
++
++            def func(*args):
++                *args, where = args
++                return ufunc(*args, **ufunc_kwargs, where=where)
++
++            kwargs = {}
++        else:
++            func = ufunc
++
+         return apply_ufunc(
+-            ufunc,
++            func,
+             *inputs,
+-            input_core_dims=((),) * ufunc.nin,
++            input_core_dims=((),) * len(inputs),
+             output_core_dims=((),) * ufunc.nout,
+             join=join,
+             dataset_join=dataset_join,

@@ -1,0 +1,67 @@
+diff --git a/sympy/simplify/simplify.py b/sympy/simplify/simplify.py
+index 20cbe19669..3b56d60df3 100644
+--- a/sympy/simplify/simplify.py
++++ b/sympy/simplify/simplify.py
+@@ -984,6 +984,36 @@ def _nthroot_solve(p, n, prec):
+                 return sol
+ 
+ 
++def _log_pow_is_too_big(base, exp):
++    """Return True if ``base**exp`` would be an unwieldy number.
++
++    This is used by :func:`logcombine` to avoid transforming, e.g.,
++    ``1000000000*log(10)`` into ``log(10**1000000000)`` which would require
++    materializing an enormous integer.
++    """
++    import math
++
++    # Only worry about (real) numeric bases and exponents.
++    if not (base.is_Number and exp.is_Number):
++        return False
++    if base.is_zero or base is S.NaN or exp is S.NaN:
++        return False
++    if not (base.is_extended_real and exp.is_extended_real):
++        return False
++
++    # Estimate the number of decimal digits of ``base**exp``.  For a rational
++    # result this is roughly ``|exp| * log10(|base|)``; a value larger than a
++    # few thousand digits is considered too big to expand eagerly.
++    try:
++        b = abs(float(base))
++        e = abs(float(exp))
++    except (TypeError, ValueError, OverflowError):
++        return False
++    if b == 0 or b == 1:
++        return False
++    return e * abs(math.log10(b)) > 1000
++
++
+ def logcombine(expr, force=False):
+     """
+     Takes logarithms and combines them using the following rules:
+@@ -1103,9 +1133,22 @@ def goodlog(l):
+ 
+         # logs that have the same coefficient can multiply
+         for k in list(log1.keys()):
+-            log1[Mul(*k)] = log(logcombine(Mul(*[
+-                l.args[0]**Mul(*c) for c, l in log1.pop(k)]),
+-                force=force), evaluate=False)
++            kmul = Mul(*k)
++            args = []
++            for c, l in log1.pop(k):
++                coeff = Mul(*c)
++                base = l.args[0]
++                # Avoid creating an enormous number such as ``10**1000000000``
++                # by raising a numeric log argument to a large numeric power;
++                # keep the coefficient outside of the log in that case.
++                if (base.is_Number and coeff.is_Number and
++                        _log_pow_is_too_big(base, coeff)):
++                    other.append(kmul*coeff*l)
++                else:
++                    args.append(base**coeff)
++            if args:
++                log1[kmul] = log(logcombine(Mul(*args),
++                    force=force), evaluate=False)
+ 
+         # logs that have oppositely signed coefficients can divide
+         for k in ordered(list(log1.keys())):

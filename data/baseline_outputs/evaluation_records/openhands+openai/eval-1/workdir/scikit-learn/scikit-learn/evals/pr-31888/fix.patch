@@ -1,0 +1,47 @@
+diff --git a/sklearn/svm/_base.py b/sklearn/svm/_base.py
+index 6c8b981be5..6f12dac333 100644
+--- a/sklearn/svm/_base.py
++++ b/sklearn/svm/_base.py
+@@ -41,6 +41,33 @@ from sklearn.utils.validation import (
+ 
+ LIBSVM_IMPL = ["c_svc", "nu_svc", "one_class", "epsilon_svr", "nu_svr"]
+ 
++# The liblinear TRON solver can overflow internally when values this large are
++# used in repeated products such as Hessian-vector dot products.
++_LIBLINEAR_MAX_FEATURE_VALUE = np.finfo(np.float64).max ** 0.25
++
++
++def _check_liblinear_feature_values(X, fit_intercept, intercept_scaling):
++    if sp.issparse(X):
++        X_data = X.data
++    else:
++        X_data = np.asarray(X)
++
++    if X_data.size == 0:
++        max_val = 0
++    else:
++        max_val = np.max(np.abs(X_data))
++
++    if fit_intercept:
++        max_val = max(max_val, abs(intercept_scaling))
++
++    if max_val > _LIBLINEAR_MAX_FEATURE_VALUE:
++        raise ValueError(
++            "The 'liblinear' solver cannot fit data with values larger than "
++            f"{_LIBLINEAR_MAX_FEATURE_VALUE:.0e}. The input data may contain "
++            "large values. Consider preprocessing your data with StandardScaler "
++            "or MinMaxScaler."
++        )
++
+ 
+ def _one_vs_one_coef(dual_coef, n_support, support_vectors):
+     """Generate primal coefficients from dual coefficients
+@@ -1228,6 +1255,8 @@ def _fit_liblinear(
+     if sp.issparse(X):
+         _check_large_sparse(X)
+ 
++    _check_liblinear_feature_values(X, fit_intercept, intercept_scaling)
++
+     # LibLinear wants targets as doubles, even for classification
+     y_ind = np.asarray(y_ind, dtype=np.float64).ravel()
+     y_ind = np.require(y_ind, requirements="W")

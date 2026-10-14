@@ -1,0 +1,621 @@
+Checking patch lib/matplotlib/tests/test_ticker.py...
+Checking patch lib/mpl_toolkits/tests/baseline_images/test_mplot3d/lines3d.pdf...
+error: cannot apply binary patch to 'lib/mpl_toolkits/tests/baseline_images/test_mplot3d/lines3d.pdf' without full index line
+error: lib/mpl_toolkits/tests/baseline_images/test_mplot3d/lines3d.pdf: patch does not apply
+Checking patch lib/mpl_toolkits/tests/baseline_images/test_mplot3d/lines3d.png...
+error: cannot apply binary patch to 'lib/mpl_toolkits/tests/baseline_images/test_mplot3d/lines3d.png' without full index line
+error: lib/mpl_toolkits/tests/baseline_images/test_mplot3d/lines3d.png: patch does not apply
+Checking patch lib/mpl_toolkits/tests/baseline_images/test_mplot3d/lines3d.svg...
+Applied patch lib/matplotlib/tests/test_ticker.py cleanly.
+Applied patch lib/mpl_toolkits/tests/baseline_images/test_mplot3d/lines3d.svg cleanly.
+Checking patch lib/matplotlib/ticker.py...
+Applied patch lib/matplotlib/ticker.py cleanly.
+============================= test session starts ==============================
+platform linux -- Python 3.6.15, pytest-3.10.1, py-1.11.0, pluggy-1.0.0 -- /usr/local/bin/python
+rootdir: /home/matplotlib, inifile:
+plugins: timeout-1.4.2
+timeout: 20.0s
+timeout method: signal
+timeout func_only: False
+collecting ... collected 238 items
+
+lib/matplotlib/tests/test_ticker.py::test_MaxNLocator PASSED
+lib/matplotlib/tests/test_ticker.py::test_MaxNLocator_integer FAILED
+lib/matplotlib/tests/test_ticker.py::test_LinearLocator PASSED
+lib/matplotlib/tests/test_ticker.py::test_MultipleLocator PASSED
+lib/matplotlib/tests/test_ticker.py::test_AutoMinorLocator PASSED
+lib/matplotlib/tests/test_ticker.py::test_LogLocator PASSED
+lib/matplotlib/tests/test_ticker.py::test_LinearLocator_set_params PASSED
+lib/matplotlib/tests/test_ticker.py::test_LogLocator_set_params PASSED
+lib/matplotlib/tests/test_ticker.py::test_NullLocator_set_params PASSED
+lib/matplotlib/tests/test_ticker.py::test_MultipleLocator_set_params PASSED
+lib/matplotlib/tests/test_ticker.py::test_LogitLocator_set_params PASSED
+lib/matplotlib/tests/test_ticker.py::test_FixedLocator_set_params PASSED
+lib/matplotlib/tests/test_ticker.py::test_IndexLocator_set_params PASSED
+lib/matplotlib/tests/test_ticker.py::test_SymmetricalLogLocator_set_params PASSED
+lib/matplotlib/tests/test_ticker.py::test_ScalarFormatter_offset_value::[0] PASSED
+lib/matplotlib/tests/test_ticker.py::test_ScalarFormatter_offset_value::[1] PASSED
+lib/matplotlib/tests/test_ticker.py::test_ScalarFormatter_offset_value::[2] PASSED
+lib/matplotlib/tests/test_ticker.py::test_ScalarFormatter_offset_value::[3] PASSED
+lib/matplotlib/tests/test_ticker.py::test_ScalarFormatter_offset_value::[4] PASSED
+lib/matplotlib/tests/test_ticker.py::test_ScalarFormatter_offset_value::[5] PASSED
+lib/matplotlib/tests/test_ticker.py::test_ScalarFormatter_offset_value::[6] PASSED
+lib/matplotlib/tests/test_ticker.py::test_ScalarFormatter_offset_value::[7] PASSED
+lib/matplotlib/tests/test_ticker.py::test_ScalarFormatter_offset_value::[8] PASSED
+lib/matplotlib/tests/test_ticker.py::test_ScalarFormatter_offset_value::[9] PASSED
+lib/matplotlib/tests/test_ticker.py::test_ScalarFormatter_offset_value::[10] PASSED
+lib/matplotlib/tests/test_ticker.py::test_ScalarFormatter_offset_value::[11] PASSED
+lib/matplotlib/tests/test_ticker.py::test_ScalarFormatter_offset_value::[12] PASSED
+lib/matplotlib/tests/test_ticker.py::test_ScalarFormatter_offset_value::[13] PASSED
+lib/matplotlib/tests/test_ticker.py::test_ScalarFormatter_offset_value::[14] PASSED
+lib/matplotlib/tests/test_ticker.py::test_ScalarFormatter_offset_value::[15] PASSED
+lib/matplotlib/tests/test_ticker.py::test_ScalarFormatter_offset_value::[16] PASSED
+lib/matplotlib/tests/test_ticker.py::test_ScalarFormatter_offset_value::[17] PASSED
+lib/matplotlib/tests/test_ticker.py::test_ScalarFormatter_offset_value::[18] PASSED
+lib/matplotlib/tests/test_ticker.py::test_ScalarFormatter_offset_value::[19] PASSED
+lib/matplotlib/tests/test_ticker.py::test_ScalarFormatter_offset_value::[20] PASSED
+lib/matplotlib/tests/test_ticker.py::test_ScalarFormatter_offset_value::[21] PASSED
+lib/matplotlib/tests/test_ticker.py::test_ScalarFormatter_offset_value::[22] PASSED
+lib/matplotlib/tests/test_ticker.py::test_ScalarFormatter_offset_value::[23] PASSED
+lib/matplotlib/tests/test_ticker.py::test_ScalarFormatter_offset_value::[24] PASSED
+lib/matplotlib/tests/test_ticker.py::test_ScalarFormatter_offset_value::[25] PASSED
+lib/matplotlib/tests/test_ticker.py::test_ScalarFormatter_offset_value::[26] PASSED
+lib/matplotlib/tests/test_ticker.py::test_ScalarFormatter_offset_value::[27] PASSED
+lib/matplotlib/tests/test_ticker.py::test_ScalarFormatter_offset_value::[28] PASSED
+lib/matplotlib/tests/test_ticker.py::test_ScalarFormatter_offset_value::[29] PASSED
+lib/matplotlib/tests/test_ticker.py::test_ScalarFormatter_offset_value::[30] PASSED
+lib/matplotlib/tests/test_ticker.py::test_ScalarFormatter_offset_value::[31] PASSED
+lib/matplotlib/tests/test_ticker.py::test_ScalarFormatter_offset_value::[32] PASSED
+lib/matplotlib/tests/test_ticker.py::test_ScalarFormatter_offset_value::[33] PASSED
+lib/matplotlib/tests/test_ticker.py::test_ScalarFormatter_offset_value::[34] PASSED
+lib/matplotlib/tests/test_ticker.py::test_ScalarFormatter_offset_value::[35] PASSED
+lib/matplotlib/tests/test_ticker.py::test_ScalarFormatter_offset_value::[36] PASSED
+lib/matplotlib/tests/test_ticker.py::test_ScalarFormatter_offset_value::[37] PASSED
+lib/matplotlib/tests/test_ticker.py::test_ScalarFormatter_offset_value::[38] PASSED
+lib/matplotlib/tests/test_ticker.py::test_ScalarFormatter_offset_value::[39] PASSED
+lib/matplotlib/tests/test_ticker.py::test_ScalarFormatter_offset_value::[40] PASSED
+lib/matplotlib/tests/test_ticker.py::test_ScalarFormatter_offset_value::[41] PASSED
+lib/matplotlib/tests/test_ticker.py::test_ScalarFormatter_offset_value::[42] PASSED
+lib/matplotlib/tests/test_ticker.py::test_ScalarFormatter_offset_value::[43] PASSED
+lib/matplotlib/tests/test_ticker.py::test_ScalarFormatter_offset_value::[44] PASSED
+lib/matplotlib/tests/test_ticker.py::test_ScalarFormatter_offset_value::[45] PASSED
+lib/matplotlib/tests/test_ticker.py::test_ScalarFormatter_offset_value::[46] PASSED
+lib/matplotlib/tests/test_ticker.py::test_ScalarFormatter_offset_value::[47] PASSED
+lib/matplotlib/tests/test_ticker.py::test_ScalarFormatter_offset_value::[48] PASSED
+lib/matplotlib/tests/test_ticker.py::test_ScalarFormatter_offset_value::[49] PASSED
+lib/matplotlib/tests/test_ticker.py::test_ScalarFormatter_offset_value::[50] PASSED
+lib/matplotlib/tests/test_ticker.py::test_ScalarFormatter_offset_value::[51] PASSED
+lib/matplotlib/tests/test_ticker.py::test_ScalarFormatter_offset_value::[52] PASSED
+lib/matplotlib/tests/test_ticker.py::test_ScalarFormatter_offset_value::[53] PASSED
+lib/matplotlib/tests/test_ticker.py::test_ScalarFormatter_offset_value::[54] PASSED
+lib/matplotlib/tests/test_ticker.py::test_ScalarFormatter_offset_value::[55] PASSED
+lib/matplotlib/tests/test_ticker.py::test_ScalarFormatter_offset_value::[56] PASSED
+lib/matplotlib/tests/test_ticker.py::test_ScalarFormatter_offset_value::[57] PASSED
+lib/matplotlib/tests/test_ticker.py::test_LogFormatterExponent::[0] PASSED
+lib/matplotlib/tests/test_ticker.py::test_LogFormatterExponent::[1] PASSED
+lib/matplotlib/tests/test_ticker.py::test_LogFormatterExponent::[2] PASSED
+lib/matplotlib/tests/test_ticker.py::test_LogFormatterExponent::[3] PASSED
+lib/matplotlib/tests/test_ticker.py::test_LogFormatterExponent::[4] PASSED
+lib/matplotlib/tests/test_ticker.py::test_LogFormatterExponent::[5] PASSED
+lib/matplotlib/tests/test_ticker.py::test_LogFormatterExponent::[6] PASSED
+lib/matplotlib/tests/test_ticker.py::test_LogFormatterExponent::[7] PASSED
+lib/matplotlib/tests/test_ticker.py::test_LogFormatterExponent::[8] PASSED
+lib/matplotlib/tests/test_ticker.py::test_LogFormatterExponent::[9] PASSED
+lib/matplotlib/tests/test_ticker.py::test_LogFormatterExponent::[10] PASSED
+lib/matplotlib/tests/test_ticker.py::test_LogFormatterExponent::[11] PASSED
+lib/matplotlib/tests/test_ticker.py::test_LogFormatterExponent::[12] PASSED
+lib/matplotlib/tests/test_ticker.py::test_LogFormatterExponent::[13] PASSED
+lib/matplotlib/tests/test_ticker.py::test_LogFormatterExponent::[14] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[0] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[1] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[2] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[3] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[4] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[5] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[6] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[7] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[8] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[9] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[10] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[11] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[12] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[13] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[14] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[15] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[16] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[17] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[18] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[19] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[20] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[21] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[22] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[23] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[24] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[25] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[26] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[27] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[28] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[29] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[30] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[31] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[32] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[33] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[34] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[35] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[36] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[37] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[38] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[39] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[40] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[41] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[42] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[43] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[44] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[45] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[46] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[47] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[48] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[49] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[50] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[51] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[52] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[53] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[54] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[55] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[56] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[57] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[58] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[59] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[60] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[61] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[62] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[63] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[64] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[65] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[66] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[67] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[68] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[69] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[70] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[71] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[72] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[73] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[74] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[75] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[76] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[77] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[78] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[79] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[80] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[81] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[82] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[83] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[84] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[85] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[86] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[87] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[88] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[89] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[90] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[91] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[92] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[93] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[94] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[95] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[96] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[97] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[98] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[99] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[100] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[101] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[102] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[103] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[104] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[105] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[106] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[107] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[108] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[109] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[110] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[111] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[112] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[113] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[114] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[115] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[116] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[117] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[118] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[119] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[120] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[121] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[122] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[123] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[124] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[125] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[126] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[127] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[128] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[129] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[130] PASSED
+lib/matplotlib/tests/test_ticker.py::test_logformatter_pprint::[131] PASSED
+lib/matplotlib/tests/test_ticker.py::test_use_offset PASSED
+lib/matplotlib/tests/test_ticker.py::test_formatstrformatter PASSED
+lib/matplotlib/tests/test_ticker.py::test_percentformatter::[0] PASSED
+lib/matplotlib/tests/test_ticker.py::test_percentformatter::[1] PASSED
+lib/matplotlib/tests/test_ticker.py::test_percentformatter::[2] PASSED
+lib/matplotlib/tests/test_ticker.py::test_percentformatter::[3] PASSED
+lib/matplotlib/tests/test_ticker.py::test_percentformatter::[4] PASSED
+lib/matplotlib/tests/test_ticker.py::test_percentformatter::[5] PASSED
+lib/matplotlib/tests/test_ticker.py::test_percentformatter::[6] PASSED
+lib/matplotlib/tests/test_ticker.py::test_percentformatter::[7] PASSED
+lib/matplotlib/tests/test_ticker.py::test_percentformatter::[8] PASSED
+lib/matplotlib/tests/test_ticker.py::test_percentformatter::[9] PASSED
+lib/matplotlib/tests/test_ticker.py::test_percentformatter::[10] PASSED
+lib/matplotlib/tests/test_ticker.py::test_percentformatter::[11] PASSED
+lib/matplotlib/tests/test_ticker.py::test_percentformatter::[12] PASSED
+lib/matplotlib/tests/test_ticker.py::test_percentformatter::[13] PASSED
+lib/matplotlib/tests/test_ticker.py::test_percentformatter::[14] PASSED
+lib/matplotlib/tests/test_ticker.py::test_percentformatter::[15] PASSED
+lib/matplotlib/tests/test_ticker.py::test_EngFormatter_formatting PASSED
+
+=================================== FAILURES ===================================
+___________________________ test_MaxNLocator_integer ___________________________
+lib/matplotlib/tests/test_ticker.py:37: in test_MaxNLocator_integer
+    assert_almost_equal(loc.tick_values(-0.1, 0.95), test_value)
+E   AssertionError: 
+E   Arrays are not almost equal to 7 decimals
+E   
+E   (shapes (3,), (6,) mismatch)
+E    x: array([-1.,  0.,  1.])
+E    y: array([-0.25,  0.  ,  0.25,  0.5 ,  0.75,  1.  ])
+=============================== warnings summary ===============================
+lib/matplotlib/tests/test_ticker.py:174
+  /home/matplotlib/lib/matplotlib/tests/test_ticker.py:174: RemovedInPytest4Warning: yield tests are deprecated, and scheduled to be removed in pytest 4.0
+    @cleanup
+
+/usr/local/lib/python3.6/site-packages/_pytest/python.py:769
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+
+lib/matplotlib/tests/test_ticker.py:227
+  /home/matplotlib/lib/matplotlib/tests/test_ticker.py:227: RemovedInPytest4Warning: yield tests are deprecated, and scheduled to be removed in pytest 4.0
+    def test_LogFormatterExponent():
+
+/usr/local/lib/python3.6/site-packages/_pytest/python.py:769
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+
+lib/matplotlib/tests/test_ticker.py:272
+  /home/matplotlib/lib/matplotlib/tests/test_ticker.py:272: RemovedInPytest4Warning: yield tests are deprecated, and scheduled to be removed in pytest 4.0
+    def test_logformatter_pprint():
+
+/usr/local/lib/python3.6/site-packages/_pytest/python.py:769
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+  /usr/local/lib/python3.6/site-packages/_pytest/python.py:769: RemovedInPytest4Warning: usage of Generator.Function is deprecated, please use pytest.Function instead
+    function_class = self.Function
+
+lib/matplotlib/tests/test_ticker.py:438
+  /home/matplotlib/lib/matplotlib/tests/test_ticker.py:438: RemovedInPytest4Warning: yield tests are deprecated, and scheduled to be removed in pytest 4.0
+    def test_percentformatter():
+
+-- Docs: https://docs.pytest.org/en/latest/warnings.html
+============= 1 failed, 237 passed, 167 warnings in 46.44 seconds ==============

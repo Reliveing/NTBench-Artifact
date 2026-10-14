@@ -1,0 +1,68 @@
+diff --git a/sklearn/svm/_base.py b/sklearn/svm/_base.py
+index 6c8b981be5..8af37af3df 100644
+--- a/sklearn/svm/_base.py
++++ b/sklearn/svm/_base.py
+@@ -1228,6 +1228,18 @@ def _fit_liblinear(
+     if sp.issparse(X):
+         _check_large_sparse(X)
+ 
++    # Check for extreme values that could cause numerical issues in liblinear
++    X_max = np.max(np.abs(X.data if sp.issparse(X) else X))
++    if X_max > 1e15:
++        warnings.warn(
++            "The data contains very large values (max_abs=%e). "
++            "This can cause numerical issues with the liblinear solver. "
++            "You might want to scale the data as shown in:\n"
++            "    https://scikit-learn.org/stable/modules/"
++            "preprocessing.html" % X_max,
++            ConvergenceWarning,
++        )
++
+     # LibLinear wants targets as doubles, even for classification
+     y_ind = np.asarray(y_ind, dtype=np.float64).ravel()
+     y_ind = np.require(y_ind, requirements="W")
+@@ -1256,7 +1268,10 @@ def _fit_liblinear(
+     n_iter_max = max(n_iter_)
+     if n_iter_max >= max_iter:
+         warnings.warn(
+-            "Liblinear failed to converge, increase the number of iterations.",
++            "Liblinear failed to converge, increase the number of iterations. "
++            "You might also want to scale the data as shown in:\n"
++            "    https://scikit-learn.org/stable/modules/"
++            "preprocessing.html",
+             ConvergenceWarning,
+         )
+ 
+diff --git a/sklearn/svm/src/liblinear/tron.cpp b/sklearn/svm/src/liblinear/tron.cpp
+index ae1dae88da..a2e9925799 100644
+--- a/sklearn/svm/src/liblinear/tron.cpp
++++ b/sklearn/svm/src/liblinear/tron.cpp
+@@ -126,6 +126,11 @@ int TRON::tron(double *w)
+ 			info("WARNING: f < -1.0e+32\n");
+ 			break;
+ 		}
++		if (isnan(f) || isnan(fnew))
++		{
++			info("WARNING: numerical overflow (NaN encountered)\n");
++			break;
++		}
+ 		if (fabs(actred) <= 0 && prered <= 0)
+ 		{
+ 			info("WARNING: actred and prered <= 0\n");
+@@ -164,10 +169,16 @@ int TRON::trcg(double delta, double *g, double *s, double *r)
+ 
+ 	int cg_iter = 0;
+ 	rTr = blas->dot(n, r, inc, r, inc);
++	int cg_max_iter = max(n, 100);
+ 	while (1)
+ 	{
+ 		if (blas->nrm2(n, r, inc) <= cgtol)
+ 			break;
++		if (cg_iter >= cg_max_iter)
++		{
++			info("WARNING: CG reach max number of iterations %d\n", cg_max_iter);
++			break;
++		}
+ 		cg_iter++;
+ 		fun_obj->Hv(d, Hd);
+ 

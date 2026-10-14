@@ -1,0 +1,23 @@
+diff --git a/sympy/core/mul.py b/sympy/core/mul.py
+index 5704a3f4e9..685f72d11c 100644
+--- a/sympy/core/mul.py
++++ b/sympy/core/mul.py
+@@ -572,6 +572,18 @@ def _gather(c_powers):
+                 e_i, ep = divmod(e.p, e.q)
+                 coeff *= Pow(b, e_i)
+                 e = Rational(ep, e.q)
++            # the gcd-extraction below assumes integer bases; a
++            # non-integer rational base would make that loop grow
++            # without bound (e.g. (4/3)**(1/2)), so split it into
++            # its integer numerator and denominator
++            if b.is_Rational and not b.is_Integer:
++                from .numbers import Integer
++                p, q = b.p, b.q
++                if p != 1:
++                    num_rat.append((Integer(p), e))
++                if q != 1:
++                    num_rat.append((Integer(q), -e))
++                continue
+             num_rat.append((b, e))
+         del comb_e
+ 

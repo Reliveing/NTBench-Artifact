@@ -1,0 +1,62 @@
+diff --git a/dask/array/creation.py b/dask/array/creation.py
+index 9df5d674b..46d7297e6 100644
+--- a/dask/array/creation.py
++++ b/dask/array/creation.py
+@@ -8,6 +8,7 @@ import numpy as np
+ from tlz import accumulate, sliding_window
+ 
+ from ..base import tokenize
++from ..delayed import unpack_collections
+ from ..highlevelgraph import HighLevelGraph
+ from ..utils import derived_from
+ from . import chunk
+@@ -302,25 +303,40 @@ def linspace(
+ 
+     name = "linspace-" + tokenize((start, stop, num, endpoint, chunks, dtype))
+ 
++    (start_ref, _, _num_ref), deps = unpack_collections([start, stop, num])
++
+     dsk = {}
+-    blockstart = start
++    offset = 0.0
+ 
+     for i, bs in enumerate(chunks[0]):
+-        bs_space = bs - 1 if endpoint else bs
+-        blockstop = blockstart + (bs_space * step)
+         task = (
+-            partial(np.linspace, endpoint=endpoint, dtype=dtype),
+-            blockstart,
+-            blockstop,
++            _linspace_chunk,
++            start_ref,
++            step,
++            offset,
+             bs,
++            endpoint,
++            dtype,
+         )
+-        blockstart = blockstart + (step * bs)
++        offset += bs
+         dsk[(name, i)] = task
+ 
++    graph = HighLevelGraph.from_collections(name, dsk, dependencies=deps)
++
+     if retstep:
+-        return Array(dsk, name, chunks, dtype=dtype), step
++        return Array(graph, name, chunks, dtype=dtype), step
++    else:
++        return Array(graph, name, chunks, dtype=dtype)
++
++
++def _linspace_chunk(start, step, offset, bs, endpoint, dtype):
++    """Compute a single chunk of linspace."""
++    blockstart = start + step * offset
++    if endpoint:
++        blockstop = start + step * (offset + bs - 1)
+     else:
+-        return Array(dsk, name, chunks, dtype=dtype)
++        blockstop = start + step * (offset + bs)
++    return np.linspace(blockstart, blockstop, bs, endpoint=endpoint, dtype=dtype)
+ 
+ 
+ def arange(*args, **kwargs):

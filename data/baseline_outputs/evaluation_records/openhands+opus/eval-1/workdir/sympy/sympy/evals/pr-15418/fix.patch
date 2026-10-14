@@ -1,0 +1,26 @@
+diff --git a/sympy/solvers/solvers.py b/sympy/solvers/solvers.py
+index b7d66bbefd..f974f1a868 100644
+--- a/sympy/solvers/solvers.py
++++ b/sympy/solvers/solvers.py
+@@ -3032,9 +3032,21 @@ def _invert(eq, *symbols, **kwargs):
+                 if indep is S.One:
+                     break
+ 
++                # if the equation has collapsed to a symbol-independent
++                # value (e.g. after cancellation the lhs became 0) then
++                # there is nothing more to invert; stop to avoid dividing
++                # by a zero independent part
++                if dep is S.Zero:
++                    break
++
+                 lhs = dep
+                 rhs /= indep
+ 
++        # dep and indep in the last iteration; if the equation
++        # collapsed to a trivial (symbol-independent) constant, stop
++        if lhs.is_zero:
++            break
++
+         # collect like-terms in symbols
+         if lhs.is_Add:
+             terms = {}

@@ -1,0 +1,13 @@
+diff --git a/sympy/integrals/manualintegrate.py b/sympy/integrals/manualintegrate.py
+index 50d75d5..8104e18 100644
+--- a/sympy/integrals/manualintegrate.py
++++ b/sympy/integrals/manualintegrate.py
+@@ -944,7 +944,7 @@ def integral_steps(integrand, symbol, **options):
+             null_safe(trig_substitution_rule)
+         ),
+         fallback_rule)(integral)
+-    del _integral_cache[cachekey]
++    _integral_cache[cachekey] = result
+     return result
+ 
+ @evaluates(ConstantRule)

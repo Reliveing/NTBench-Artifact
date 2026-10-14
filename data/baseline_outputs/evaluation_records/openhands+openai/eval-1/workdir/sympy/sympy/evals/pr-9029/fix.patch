@@ -1,0 +1,16 @@
+diff --git a/sympy/polys/rootoftools.py b/sympy/polys/rootoftools.py
+index 3c5f4cb28f..c7b97fe9ab 100644
+--- a/sympy/polys/rootoftools.py
++++ b/sympy/polys/rootoftools.py
+@@ -593,9 +593,9 @@ def _eval_evalf(self, prec):
+                     # case and the interval will then be tightened -- and
+                     # eventually the root will be found.
+                     if self.is_real:
+-                        if (a < root < b):
++                        if (a <= root <= b):
+                             break
+-                    elif (ax < root.real < bx and ay < root.imag < by):
++                    elif (ax <= root.real <= bx and ay <= root.imag <= by):
+                         break
+                 except ValueError:
+                     pass

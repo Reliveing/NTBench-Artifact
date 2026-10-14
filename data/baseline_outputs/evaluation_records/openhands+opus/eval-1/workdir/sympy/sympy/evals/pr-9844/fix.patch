@@ -1,0 +1,42 @@
+diff --git a/sympy/integrals/manualintegrate.py b/sympy/integrals/manualintegrate.py
+index 50d75d5f92..eeff486fa7 100644
+--- a/sympy/integrals/manualintegrate.py
++++ b/sympy/integrals/manualintegrate.py
+@@ -808,6 +808,27 @@ def substitution_rule(integral):
+     lambda integrand, symbol: integrand.is_rational_function(),
+     lambda integrand, symbol: integrand.apart(symbol))
+ 
++powsimp_rule = rewriter(
++    lambda integrand, symbol: integrand != sympy.powsimp(integrand, force=True),
++    lambda integrand, symbol: sympy.powsimp(integrand, force=True))
++
++def _has_exp_factor(integrand, symbol):
++    # True when the integrand is a product containing a factor of the form
++    # base**(f(symbol)) where base is independent of symbol (an exponential).
++    if not isinstance(integrand, sympy.Mul):
++        return False
++    for arg in integrand.args:
++        if arg.is_Pow:
++            base, exp = arg.as_base_exp()
++            if symbol not in base.free_symbols and symbol in exp.free_symbols:
++                return True
++    return False
++
++expand_exp_rule = rewriter(
++    lambda integrand, symbol: (_has_exp_factor(integrand, symbol) and
++        integrand != integrand.expand()),
++    lambda integrand, symbol: integrand.expand())
++
+ distribute_expand_rule = rewriter(
+     lambda integrand, symbol: (
+         all(arg.is_Pow or arg.is_polynomial(symbol) for arg in integrand.args)
+@@ -919,7 +940,8 @@ def _integral_is_subclass(integral):
+             sympy.exp: exp_rule,
+             sympy.Add: add_rule,
+             sympy.Mul: do_one(null_safe(mul_rule), null_safe(trig_product_rule), \
+-                null_safe(heaviside_rule)),
++                null_safe(heaviside_rule), null_safe(powsimp_rule), \
++                null_safe(expand_exp_rule)),
+             sympy.Derivative: derivative_rule,
+             TrigonometricFunction: trig_rule,
+             sympy.Heaviside: heaviside_rule,

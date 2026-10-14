@@ -1,0 +1,31 @@
+diff --git a/sympy/functions/special/polynomials.py b/sympy/functions/special/polynomials.py
+index 361ba77c20..8d929887ba 100644
+--- a/sympy/functions/special/polynomials.py
++++ b/sympy/functions/special/polynomials.py
+@@ -601,7 +601,7 @@ def eval(cls, n, x):
+                 if n == S.NegativeOne:
+                     # n can not be -1 here
+                     return S.Zero
+-                else:
++                elif not (-n - 2).could_extract_minus_sign():
+                     return -chebyshevu(-n - 2, x)
+             # We can evaluate for some special values of x
+             if x == S.Zero:
+@@ -783,7 +783,7 @@ def eval(cls, n, x):
+             if x.could_extract_minus_sign():
+                 return S.NegativeOne**n * legendre(n, -x)
+             # L_{-n}(x)  --->  L_{n-1}(x)
+-            if n.could_extract_minus_sign():
++            if n.could_extract_minus_sign() and not (-n - S.One).could_extract_minus_sign():
+                 return legendre(-n - S.One, x)
+             # We can evaluate for some special values of x
+             if x == S.Zero:
+@@ -1092,7 +1092,7 @@ def eval(cls, n, x):
+             # Symbolic result L_n(x)
+             # L_{n}(-x)  --->  exp(-x) * L_{-n-1}(x)
+             # L_{-n}(x)  --->  exp(x) * L_{n-1}(-x)
+-            if n.could_extract_minus_sign():
++            if n.could_extract_minus_sign() and not (n - 1).could_extract_minus_sign():
+                 return exp(x) * laguerre(n - 1, -x)
+             # We can evaluate for some special values of x
+             if x == S.Zero:

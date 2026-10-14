@@ -1,0 +1,35 @@
+diff --git a/sympy/calculus/util.py b/sympy/calculus/util.py
+index 21d6e80a4d..f00ddfab94 100644
+--- a/sympy/calculus/util.py
++++ b/sympy/calculus/util.py
+@@ -328,7 +328,8 @@ def periodicity(f, symbol, check=False):
+ 
+     """
+     from sympy import simplify, lcm_list
+-    from sympy.functions.elementary.trigonometric import TrigonometricFunction
++    from sympy.functions.elementary.trigonometric import (
++        TrigonometricFunction, sin, cos, csc, sec)
+     from sympy.solvers.decompogen import decompogen
+ 
+     orig_f = f
+@@ -344,7 +345,19 @@ def periodicity(f, symbol, check=False):
+         except NotImplementedError:
+             pass
+ 
+-    if f.is_Pow:
++    if isinstance(f, Abs):
++        arg = f.args[0]
++        if isinstance(arg, (sec, csc, cos)):
++            # all but tan and cot might have a
++            # a period that is half their actual period
++            arg = sin(arg.args[0])
++        period = periodicity(arg, symbol)
++        if period is not None and isinstance(arg, sin):
++            # the argument of Abs was a trigonometric other than cot or tan
++            if orig_f.subs(symbol, symbol + period / 2) == orig_f:
++                period /= 2
++
++    elif f.is_Pow:
+         base, expo = f.args
+         base_has_sym = base.has(symbol)
+         expo_has_sym = expo.has(symbol)

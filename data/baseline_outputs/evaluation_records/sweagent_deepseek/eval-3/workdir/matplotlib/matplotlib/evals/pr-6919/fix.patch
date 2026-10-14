@@ -1,0 +1,18 @@
+diff --git a/lib/matplotlib/ticker.py b/lib/matplotlib/ticker.py
+index a2be7cbd80..d565238750 100644
+--- a/lib/matplotlib/ticker.py
++++ b/lib/matplotlib/ticker.py
+@@ -1681,6 +1681,13 @@ class MaxNLocator(Locator):
+             nticks = ((ticks <= vmax) & (ticks >= vmin)).sum()
+             if nticks >= self._min_n_ticks:
+                 break
++            if self._integer:
++                step = ticks[1] - ticks[0] if len(ticks) > 1 else 0
++                if step == min(self._steps):
++                    # With integer=True, the minimum step is the smallest
++                    # value in the steps list. If we can't get enough ticks
++                    # with this step, increasing nbins won't help.
++                    break
+             nbins += 1
+ 
+         self._nbins_used = nbins  # Maybe useful for troubleshooting.

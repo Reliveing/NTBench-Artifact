@@ -1,0 +1,45 @@
+diff --git a/sympy/concrete/summations.py b/sympy/concrete/summations.py
+index 23c5d73caf..324a8aa261 100644
+--- a/sympy/concrete/summations.py
++++ b/sympy/concrete/summations.py
+@@ -1164,6 +1164,11 @@ def eval_sum_hyper(f, i_a_b):
+             cond = And(cond1, cond2)
+             if cond == False:
+                 return None
++            try:
++                if cond.as_set() is S.EmptySet:
++                    return None
++            except NotImplementedError:
++                pass
+             return Piecewise((res1 - res2, cond), (old_sum, True))
+ 
+     if a == S.NegativeInfinity:
+@@ -1176,6 +1181,11 @@ def eval_sum_hyper(f, i_a_b):
+         cond = And(cond1, cond2)
+         if cond == False:
+             return None
++        try:
++            if cond.as_set() is S.EmptySet:
++                return None
++        except NotImplementedError:
++            pass
+         return Piecewise((res1 + res2, cond), (old_sum, True))
+ 
+     # Now b == oo, a != -oo
+@@ -1190,4 +1200,16 @@ def eval_sum_hyper(f, i_a_b):
+                 elif f.is_negative:
+                     return S.NegativeInfinity
+             return None
++        if not isinstance(c, bool):
++            try:
++                if c.as_set() is S.EmptySet:
++                    if r.is_number:
++                        f = f.subs(i, Dummy('i', integer=True, positive=True) + a)
++                        if f.is_positive or f.is_zero:
++                            return S.Infinity
++                        elif f.is_negative:
++                            return S.NegativeInfinity
++                    return None
++            except NotImplementedError:
++                pass
+         return Piecewise(res, (old_sum, True))

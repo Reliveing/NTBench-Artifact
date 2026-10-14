@@ -1,0 +1,25 @@
+diff --git a/sympy/calculus/util.py b/sympy/calculus/util.py
+index 50feb12..13e33e5 100644
+--- a/sympy/calculus/util.py
++++ b/sympy/calculus/util.py
+@@ -213,6 +213,14 @@ def function_range(f, symbol, domain):
+             if not iterable(solution):
+                 raise NotImplementedError('Unable to find critical points for {}'.format(f))
+ 
++            # ``function_range`` determines the range over an interval by
++            # evaluating the function at all critical points.  Some infinite
++            # sets of critical points, such as ImageSet or a Union of ImageSets,
++            # are iterable, but iterating over them will never terminate.
++            if solution is not S.EmptySet and solution.is_FiniteSet is not True:
++                raise NotImplementedError(
++                    'Unable to find a finite set of critical points for {}'.format(f))
++
+             critical_points += solution
+ 
+             for critical_point in critical_points:
+@@ -1591,4 +1599,4 @@ class AccumulationBounds(AtomicExpr):
+ 
+ 
+ # setting an alias for AccumulationBounds
+-AccumBounds = AccumulationBounds
++AccumBounds = AccumulationBounds

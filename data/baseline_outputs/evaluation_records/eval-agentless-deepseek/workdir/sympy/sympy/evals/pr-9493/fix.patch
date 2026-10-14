@@ -1,0 +1,19 @@
+diff --git a/sympy/core/function.py b/sympy/core/function.py
+index 55886d1..770999a 100644
+--- a/sympy/core/function.py
++++ b/sympy/core/function.py
+@@ -258,6 +258,8 @@ class Application(with_metaclass(FunctionClass, Basic)):
+         return self.__class__
+ 
+     def _eval_subs(self, old, new):
++        if old is new:
++            return self
+         if (old.is_Function and new.is_Function and old == self.func and
+             len(self.args) in new.nargs):
+             return new(*self.args)
+@@ -2461,4 +2463,4 @@ def nfloat(expr, n=15, exponent=False):
+         lambda x: isinstance(x, Function)))
+ 
+ 
+-from sympy.core.symbol import Dummy
++from sympy.core.symbol import Dummy

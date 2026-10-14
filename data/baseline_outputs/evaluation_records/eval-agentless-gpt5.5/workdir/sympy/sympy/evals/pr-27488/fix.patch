@@ -1,0 +1,37 @@
+diff --git a/sympy/vector/basisdependent.py b/sympy/vector/basisdependent.py
+index 53e4efc..d2b6e72 100644
+--- a/sympy/vector/basisdependent.py
++++ b/sympy/vector/basisdependent.py
+@@ -267,6 +267,10 @@ class BasisDependentMul(BasisDependent, Mul):
+             elif isinstance(arg, cls._add_func):
+                 count += 1
+                 expr = arg
++            elif (getattr(cls, '_expr_type', None) is not None and
++                    isinstance(arg, cls._expr_type)):
++                count += 1
++                expr = arg
+             elif isinstance(arg, (Cross, Dot, Curl, Gradient)):
+                 extra_args.append(arg)
+             else:
+@@ -287,6 +291,15 @@ class BasisDependentMul(BasisDependent, Mul):
+                        x in expr.args]
+             return cls._add_func(*newargs)
+ 
++        # Plain Vector/Dyadic instances, e.g. Vector(a, b, c), do not have a
++        # basis instance.  Treat them as ordinary symbolic factors rather than
++        # as scalars; otherwise they fall through to ``measure_number *= arg``
++        # above and recursively invoke this constructor.
++        if not hasattr(expr, '_base_instance'):
++            if measure_number == S.One and not extra_args:
++                return expr
++            return Mul(measure_number, expr, *extra_args, **options)
++
+         obj = super().__new__(cls, measure_number,
+                               expr._base_instance,
+                               *extra_args,
+@@ -371,4 +384,4 @@ class BasisDependentZero(BasisDependent):
+         return self
+ 
+     def _sympystr(self, printer):
+-        return '0'
++        return '0'

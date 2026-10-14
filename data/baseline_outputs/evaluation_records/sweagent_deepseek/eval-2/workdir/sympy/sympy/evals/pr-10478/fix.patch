@@ -1,0 +1,14 @@
+diff --git a/sympy/functions/combinatorial/factorials.py b/sympy/functions/combinatorial/factorials.py
+index ea9e5a5ec0..41e12b0a8a 100644
+--- a/sympy/functions/combinatorial/factorials.py
++++ b/sympy/functions/combinatorial/factorials.py
+@@ -335,6 +335,9 @@ def eval(cls, arg):
+ 
+             # This implementation is faster than the recursive one
+             # It also avoids "maximum recursion depth exceeded" runtime error
++            if not arg.is_integer:
++                return
++
+             if arg.is_nonnegative:
+                 if arg.is_even:
+                     k = arg / 2

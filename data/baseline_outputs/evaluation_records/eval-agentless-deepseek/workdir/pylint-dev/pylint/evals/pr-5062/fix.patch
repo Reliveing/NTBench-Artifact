@@ -1,0 +1,18 @@
+diff --git a/pylint/lint/parallel.py b/pylint/lint/parallel.py
+index 1896fc9..ac93ab0 100644
+--- a/pylint/lint/parallel.py
++++ b/pylint/lint/parallel.py
+@@ -72,7 +72,6 @@ def _worker_check_single_file(
+ ) -> Tuple[int, Any, str, Any, List[Tuple[Any, ...]], Any, Any, DefaultDict[Any, List]]:
+     if not _worker_linter:
+         raise Exception("Worker linter not yet initialised")
+-    _worker_linter.open()
+     _worker_linter.check_single_file_item(file_item)
+     mapreduce_data = collections.defaultdict(list)
+     for checker in _worker_linter.get_checkers():
+@@ -172,4 +171,4 @@ def check_parallel(linter, jobs, files: Iterable[FileItem], arguments=None):
+     # Insert stats data to local checkers.
+     for checker in linter.get_checkers():
+         if checker is not linter:
+-            checker.stats = linter.stats
++            checker.stats = linter.stats

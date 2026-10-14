@@ -1,0 +1,84 @@
+diff --git a/src/tox/config/loader/toml/__init__.py b/src/tox/config/loader/toml/__init__.py
+index eb48936e..5d7512db 100644
+--- a/src/tox/config/loader/toml/__init__.py
++++ b/src/tox/config/loader/toml/__init__.py
+@@ -68,12 +68,49 @@ class TomlLoader(Loader[TomlTypes]):
+         raw: TomlTypes,
+         args: ConfigLoadArgs,
+     ) -> _T:
+-        exploded = Unroll(conf=conf, loader=self, args=args)(raw)
++        is_set_env = inspect.isclass(of_type) and issubclass(of_type, SetEnv)
++        if is_set_env:
++            unroll = Unroll(conf=conf, loader=self, args=args, replace_strings=False)
++            exploded = self._defer_set_env(raw, unroll)
++        else:
++            exploded = Unroll(conf=conf, loader=self, args=args)(raw)
+         result = self.to(exploded, of_type, factory)
+-        if inspect.isclass(of_type) and issubclass(of_type, SetEnv):
+-            result.use_replacer(lambda c, s: c, args=args)  # noqa: ARG005
++        if is_set_env:
++            result.use_replacer(lambda c, a: cast("str", Unroll(conf=conf, loader=self, args=a)(c)), args=args)
+         return result
+ 
++    def _defer_set_env(self, value: TomlTypes, unroll: Unroll) -> TomlTypes:
++        if isinstance(value, list):
++            result: list[TomlTypes] = []
++            for item in value:
++                unrolled = self._defer_set_env(item, unroll)
++                if isinstance(item, dict) and item.get("replace") and item.get("extend"):
++                    result.extend(cast("list[TomlTypes]", unrolled))
++                else:
++                    result.append(unrolled)
++            return result
++        if isinstance(value, dict):
++            if value.get("replace") == "env":
++                return self._defer_set_env_env_replace(value)
++            if value.get("replace") == "ref" and (of := value.get("of")):
++                path = self.section.SEP.join(validate(of, list[str]))
++                return self._defer_set_env(self.load_raw_from_root(path), unroll)
++            if value.get("replace"):
++                return unroll(value)
++            return {key: self._defer_set_env(val, unroll) for key, val in value.items()}
++        return value
++
++    @staticmethod
++    def _defer_set_env_env_replace(value: dict[str, TomlTypes]) -> TomlTypes:
++        marker = value.get("marker")
++        name = validate(value["name"], str)
++        if "default" in value:
++            default = validate(value["default"], str)
++            result = f"{{env:{name}:{default}}}"
++        else:
++            result = f"{{env:{name}}}"
++        return {"value": result, "marker": marker} if marker else result
++
+     def found_keys(self) -> set[str]:
+         return set(self.content.keys()) - self._unused_exclude
+ 
+diff --git a/src/tox/config/loader/toml/_replace.py b/src/tox/config/loader/toml/_replace.py
+index a95bb2ec..87351ceb 100644
+--- a/src/tox/config/loader/toml/_replace.py
++++ b/src/tox/config/loader/toml/_replace.py
+@@ -21,17 +21,20 @@ if TYPE_CHECKING:
+ 
+ 
+ class Unroll:
+-    def __init__(self, conf: Config | None, loader: TomlLoader, args: ConfigLoadArgs) -> None:
++    def __init__(
++        self, conf: Config | None, loader: TomlLoader, args: ConfigLoadArgs, *, replace_strings: bool = True
++    ) -> None:
+         self.conf = conf
+         self.loader = loader
+         self.args = args
++        self.replace_strings = replace_strings
+ 
+     def __call__(self, value: TomlTypes, depth: int = 0) -> TomlTypes:  # noqa: C901, PLR0912
+         """Replace all active tokens within value according to the config."""
+         depth += 1
+         MatchRecursionError.check(depth, value)
+         if isinstance(value, str):
+-            if self.conf is not None:  # core config does not support string substitution
++            if self.conf is not None and self.replace_strings:  # core config does not support string substitution
+                 reference = TomlReplaceLoader(self.conf, self.loader)
+                 value = replace(self.conf, reference, value, self.args)
+         elif isinstance(value, (int, float, bool)):

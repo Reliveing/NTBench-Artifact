@@ -1,0 +1,66 @@
+diff --git a/sympy/functions/special/polynomials.py b/sympy/functions/special/polynomials.py
+index 361ba77c20..9539b759a6 100644
+--- a/sympy/functions/special/polynomials.py
++++ b/sympy/functions/special/polynomials.py
+@@ -34,6 +34,14 @@
+ _x = Dummy('x')
+ 
+ 
++def _symbolic_order_could_extract_minus_sign(expr):
++    if expr.is_Add:
++        for term in expr.as_ordered_terms():
++            if not term.is_number:
++                return term.could_extract_minus_sign()
++    return expr.could_extract_minus_sign()
++
++
+ class OrthogonalPolynomial(Function):
+     """Base class for orthogonal polynomials.
+     """
+@@ -489,7 +497,7 @@ def eval(cls, n, x):
+             if x.could_extract_minus_sign():
+                 return S.NegativeOne**n * chebyshevt(n, -x)
+             # T_{-n}(x)  --->  T_n(x)
+-            if n.could_extract_minus_sign():
++            if _symbolic_order_could_extract_minus_sign(n):
+                 return chebyshevt(-n, x)
+             # We can evaluate for some special values of x
+             if x == S.Zero:
+@@ -597,7 +605,7 @@ def eval(cls, n, x):
+             if x.could_extract_minus_sign():
+                 return S.NegativeOne**n * chebyshevu(n, -x)
+             # U_{-n}(x)  --->  -U_{n-2}(x)
+-            if n.could_extract_minus_sign():
++            if _symbolic_order_could_extract_minus_sign(n):
+                 if n == S.NegativeOne:
+                     # n can not be -1 here
+                     return S.Zero
+@@ -783,7 +791,7 @@ def eval(cls, n, x):
+             if x.could_extract_minus_sign():
+                 return S.NegativeOne**n * legendre(n, -x)
+             # L_{-n}(x)  --->  L_{n-1}(x)
+-            if n.could_extract_minus_sign():
++            if _symbolic_order_could_extract_minus_sign(n):
+                 return legendre(-n - S.One, x)
+             # We can evaluate for some special values of x
+             if x == S.Zero:
+@@ -891,7 +899,7 @@ def _eval_at_order(cls, n, m):
+ 
+     @classmethod
+     def eval(cls, n, m, x):
+-        if m.could_extract_minus_sign():
++        if _symbolic_order_could_extract_minus_sign(m):
+             # P^{-m}_n  --->  F * P^m_n
+             return S.NegativeOne**(-m) * (factorial(m + n)/factorial(n - m)) * assoc_legendre(n, -m, x)
+         if m == 0:
+@@ -1092,8 +1100,8 @@ def eval(cls, n, x):
+             # Symbolic result L_n(x)
+             # L_{n}(-x)  --->  exp(-x) * L_{-n-1}(x)
+             # L_{-n}(x)  --->  exp(x) * L_{n-1}(-x)
+-            if n.could_extract_minus_sign():
+-                return exp(x) * laguerre(n - 1, -x)
++            if _symbolic_order_could_extract_minus_sign(n):
++                return exp(x) * laguerre(-n - 1, -x)
+             # We can evaluate for some special values of x
+             if x == S.Zero:
+                 return S.One

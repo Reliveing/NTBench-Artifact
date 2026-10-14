@@ -1,0 +1,62 @@
+Checking patch lib/matplotlib/tests/baseline_images/test_arrow_patches/connection_styles.png...
+error: cannot apply binary patch to 'lib/matplotlib/tests/baseline_images/test_arrow_patches/connection_styles.png' without full index line
+error: lib/matplotlib/tests/baseline_images/test_arrow_patches/connection_styles.png: patch does not apply
+Checking patch lib/matplotlib/tests/test_arrow_patches.py...
+Applied patch lib/matplotlib/tests/test_arrow_patches.py cleanly.
+Checking patch lib/matplotlib/patches.py...
+Applied patch lib/matplotlib/patches.py cleanly.
+============================= test session starts ==============================
+platform linux -- Python 3.6.15, pytest-3.10.1, py-1.11.0, pluggy-1.0.0 -- /usr/local/bin/python
+rootdir: /home/matplotlib, inifile: pytest.ini
+plugins: timeout-1.4.2
+timeout: 20.0s
+timeout method: signal
+timeout func_only: False
+collecting ... collected 10 items
+
+lib/matplotlib/tests/test_arrow_patches.py::test_fancyarrow[png] PASSED
+lib/matplotlib/tests/test_arrow_patches.py::test_fancyarrow[pdf] SKIPPED
+lib/matplotlib/tests/test_arrow_patches.py::test_fancyarrow[svg] SKIPPED
+lib/matplotlib/tests/test_arrow_patches.py::test_boxarrow[png] PASSED
+lib/matplotlib/tests/test_arrow_patches.py::test_fancyarrow_dpi_cor_100dpi[png] PASSED
+lib/matplotlib/tests/test_arrow_patches.py::test_fancyarrow_dpi_cor_200dpi[png] PASSED
+lib/matplotlib/tests/test_arrow_patches.py::test_fancyarrow_dash[png] PASSED
+lib/matplotlib/tests/test_arrow_patches.py::test_arrow_styles[png] PASSED
+lib/matplotlib/tests/test_arrow_patches.py::test_connection_styles[png] FAILED
+lib/matplotlib/tests/test_arrow_patches.py::test_invalid_intersection FAILED
+
+=================================== FAILURES ===================================
+_________________________ test_connection_styles[png] __________________________
+lib/matplotlib/testing/decorators.py:231: in copy_baseline
+    raise ImageComparisonFailure(reason)
+E   matplotlib.testing.exceptions.ImageComparisonFailure: Do not have baseline image /home/matplotlib/result_images/test_arrow_patches/connection_styles-expected.png because this file does not exist: /home/matplotlib/lib/matplotlib/tests/baseline_images/test_arrow_patches/connection_styles.png
+__________________________ test_invalid_intersection ___________________________
+lib/matplotlib/tests/test_arrow_patches.py:162: in test_invalid_intersection
+    plt.gca().add_patch(p1)
+lib/matplotlib/axes/_base.py:1941: in add_patch
+    self._update_patch_limits(p)
+lib/matplotlib/axes/_base.py:1959: in _update_patch_limits
+    vertices = patch.get_path().vertices
+lib/matplotlib/patches.py:4201: in get_path
+    _path, fillable = self.get_path_in_displaycoord()
+lib/matplotlib/patches.py:4222: in get_path_in_displaycoord
+    shrinkB=self.shrinkB * dpi_cor
+lib/matplotlib/patches.py:2747: in __call__
+    shrunk_path = self._shrink(clipped_path, shrinkA, shrinkB)
+lib/matplotlib/patches.py:2730: in _shrink
+    left, right = split_path_inout(path, insideB)
+lib/matplotlib/bezier.py:254: in split_path_inout
+    bp, inside, tolerence)
+lib/matplotlib/bezier.py:194: in split_bezier_intersecting_with_closedpath
+    tolerence=tolerence)
+lib/matplotlib/bezier.py:133: in find_bezier_t_intersecting_with_closedpath
+    middle = bezier_point_at_t(middle_t)
+lib/matplotlib/bezier.py:175: in point_at_t
+    _y = np.dot(tt, self._py)
+<__array_function__ internals>:2: in dot
+    ???
+E   Failed: Timeout >20.0s
+=========================== short test summary info ============================
+SKIP [1] /home/matplotlib/lib/matplotlib/testing/compare.py:313: Don't know how to convert pdf files to png
+SKIP [1] /home/matplotlib/lib/matplotlib/testing/compare.py:313: Don't know how to convert svg files to png
+================ 2 failed, 6 passed, 2 skipped in 28.89 seconds ================

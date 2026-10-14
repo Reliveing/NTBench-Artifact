@@ -1,0 +1,15 @@
+diff --git a/pylint/lint/parallel.py b/pylint/lint/parallel.py
+index 1896fc95f..13d178045 100644
+--- a/pylint/lint/parallel.py
++++ b/pylint/lint/parallel.py
+@@ -122,6 +122,10 @@ def check_parallel(linter, jobs, files: Iterable[FileItem], arguments=None):
+     multiple files, as in the similarity-checker, then inherit from MapReduceMixin and
+     implement the map/reduce mixin functionality"""
+     # The reporter does not need to be passed to worker processes, i.e. the reporter does
++    # not need to be pickleable
++
++    # Convert files to a list to avoid issues with generators and multiprocessing
++    files = list(files)
+     original_reporter = linter.reporter
+     linter.reporter = None
+ 

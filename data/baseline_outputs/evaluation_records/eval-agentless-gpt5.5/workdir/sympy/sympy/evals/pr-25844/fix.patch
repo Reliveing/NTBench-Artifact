@@ -1,0 +1,26 @@
+diff --git a/sympy/solvers/solvers.py b/sympy/solvers/solvers.py
+index 507e14b..f97dd23 100644
+--- a/sympy/solvers/solvers.py
++++ b/sympy/solvers/solvers.py
+@@ -1466,6 +1466,15 @@ def _solve(f, *symbols, **flags):
+                 sol = simplify(sol)
+             return [{f_num: sol}]
+ 
++        # Clear symbol-dependent negative integer powers before polynomial
++        # processing. Otherwise an expression such as
++        # (x - 5)**(-8) - 3 is treated as a polynomial in the generator
++        # (x - 5)**(-8), causing recursive inversion attempts in the
++        # polynomial-solving path.
++        if any(p.exp.is_integer and p.exp.is_negative and p.has(symbol)
++               for p in f_num.atoms(Pow)):
++            f_num = f_num.as_numer_denom()[0]
++
+         poly = None
+         # check for a single Add generator
+         if not f_num.is_Add:
+@@ -3671,4 +3680,4 @@ def unrad(eq, *syms, **flags):
+ 
+ # delayed imports
+ from sympy.solvers.bivariate import (
+-    bivariate_type, _solve_lambert, _filtered_gens)
++    bivariate_type, _solve_lambert, _filtered_gens)

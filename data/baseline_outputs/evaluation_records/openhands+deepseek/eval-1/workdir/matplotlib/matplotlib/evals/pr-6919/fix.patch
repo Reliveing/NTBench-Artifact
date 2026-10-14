@@ -1,0 +1,14 @@
+diff --git a/lib/matplotlib/ticker.py b/lib/matplotlib/ticker.py
+index a2be7cbd80..e2169205e8 100644
+--- a/lib/matplotlib/ticker.py
++++ b/lib/matplotlib/ticker.py
+@@ -1682,6 +1682,9 @@ class MaxNLocator(Locator):
+             if nticks >= self._min_n_ticks:
+                 break
+             nbins += 1
++            if self._integer:
++                if scale_range(vmin, vmax, nbins)[0] < 1:
++                    break
+ 
+         self._nbins_used = nbins  # Maybe useful for troubleshooting.
+         return ticks

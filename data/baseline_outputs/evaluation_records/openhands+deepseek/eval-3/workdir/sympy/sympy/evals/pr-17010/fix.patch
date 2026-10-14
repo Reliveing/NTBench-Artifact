@@ -1,0 +1,48 @@
+diff --git a/sympy/functions/special/polynomials.py b/sympy/functions/special/polynomials.py
+index 361ba77c20..26535fd4be 100644
+--- a/sympy/functions/special/polynomials.py
++++ b/sympy/functions/special/polynomials.py
+@@ -602,7 +602,9 @@ def eval(cls, n, x):
+                     # n can not be -1 here
+                     return S.Zero
+                 else:
+-                    return -chebyshevu(-n - 2, x)
++                    m = -n - 2
++                    if not m.could_extract_minus_sign():
++                        return -chebyshevu(m, x)
+             # We can evaluate for some special values of x
+             if x == S.Zero:
+                 return cos(S.Half * S.Pi * n)
+@@ -617,7 +619,9 @@ def eval(cls, n, x):
+                 if n == S.NegativeOne:
+                     return S.Zero
+                 else:
+-                    return -cls._eval_at_order(-n - 2, x)
++                    m = -n - 2
++                    if m.is_integer and m >= 0:
++                        return -cls._eval_at_order(m, x)
+             else:
+                 return cls._eval_at_order(n, x)
+ 
+@@ -784,7 +788,9 @@ def eval(cls, n, x):
+                 return S.NegativeOne**n * legendre(n, -x)
+             # L_{-n}(x)  --->  L_{n-1}(x)
+             if n.could_extract_minus_sign():
+-                return legendre(-n - S.One, x)
++                m = -n - S.One
++                if not m.could_extract_minus_sign():
++                    return legendre(m, x)
+             # We can evaluate for some special values of x
+             if x == S.Zero:
+                 return sqrt(S.Pi)/(gamma(S.Half - n/2)*gamma(S.One + n/2))
+@@ -1093,7 +1099,9 @@ def eval(cls, n, x):
+             # L_{n}(-x)  --->  exp(-x) * L_{-n-1}(x)
+             # L_{-n}(x)  --->  exp(x) * L_{n-1}(-x)
+             if n.could_extract_minus_sign():
+-                return exp(x) * laguerre(n - 1, -x)
++                m = -n - 1
++                if not m.could_extract_minus_sign():
++                    return exp(x) * laguerre(m, -x)
+             # We can evaluate for some special values of x
+             if x == S.Zero:
+                 return S.One

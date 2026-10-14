@@ -1,0 +1,98 @@
+diff --git a/sympy/functions/special/singularity_functions.py b/sympy/functions/special/singularity_functions.py
+index a69026e6e6..d5d31de593 100644
+--- a/sympy/functions/special/singularity_functions.py
++++ b/sympy/functions/special/singularity_functions.py
+@@ -218,7 +218,16 @@ def _eval_as_leading_term(self, x, logx, cdir):
+             return S.Zero if cdir == -1 else S.One
+         elif shift.is_positive:
+             return shift**n
+-        return S.Zero
++        elif shift.is_negative:
++            return S.Zero
++        # The sign of the shift at the limit point could not be determined, so
++        # the value of the function there is a constant (it does not depend on
++        # x).  When approaching from the left (cdir == -1) a vanishing shift
++        # must give ``0``; otherwise it is included, which is exactly the
++        # behaviour of ``SingularityFunction(shift, 0, n)``.
++        if cdir == -1:
++            return shift**n*Heaviside(shift, S.Zero)
++        return self.func(shift, 0, n)
+ 
+     def _eval_nseries(self, x, n, logx=None, cdir=0):
+         z, a, n = self.args
+@@ -229,7 +238,16 @@ def _eval_nseries(self, x, n, logx=None, cdir=0):
+             return S.Zero if cdir == -1 else S.One
+         elif shift.is_positive:
+             return ((z - a)**n)._eval_nseries(x, n, logx=logx, cdir=cdir)
+-        return S.Zero
++        elif shift.is_negative:
++            return S.Zero
++        # The sign of the shift at the limit point could not be determined, so
++        # the value of the function there is a constant (it does not depend on
++        # x).  When approaching from the left (cdir == -1) a vanishing shift
++        # must give ``0``; otherwise it is included, which is exactly the
++        # behaviour of ``SingularityFunction(shift, 0, n)``.
++        if cdir == -1:
++            return shift**n*Heaviside(shift, S.Zero)
++        return self.func(shift, 0, n)
+ 
+     _eval_rewrite_as_DiracDelta = _eval_rewrite_as_Heaviside
+     _eval_rewrite_as_HeavisideDiracDelta = _eval_rewrite_as_Heaviside
+diff --git a/sympy/physics/continuum_mechanics/beam.py b/sympy/physics/continuum_mechanics/beam.py
+index 7e575dd562..f77de95484 100644
+--- a/sympy/physics/continuum_mechanics/beam.py
++++ b/sympy/physics/continuum_mechanics/beam.py
+@@ -1899,10 +1899,16 @@ def solve_for_ild_reactions(self, value, *reactions):
+         C3 = Symbol('C3')
+         C4 = Symbol('C4')
+ 
+-        shear_curve = limit(shear_force, x, l) - value*(SingularityFunction(a, 0, 0) - SingularityFunction(a, l, 0))
+-        moment_curve = (limit(bending_moment, x, l) - value * (l * SingularityFunction(a, 0, 0)
+-                                                               - SingularityFunction(a, 0, 1)
+-                                                               + SingularityFunction(a, l, 1)))
++        # ``limit`` now evaluates the moving load's SingularityFunction term at
++        # ``x = l`` instead of dropping it; add it back (via
++        # ``value*SingularityFunction(l - a, 0, k)``) so that the moving load is
++        # accounted for through the windowed expressions below.
++        shear_curve = (limit(shear_force, x, l) + value*SingularityFunction(l - a, 0, 0)
++                       - value*(SingularityFunction(a, 0, 0) - SingularityFunction(a, l, 0)))
++        moment_curve = (limit(bending_moment, x, l) + value*SingularityFunction(l - a, 0, 1)
++                        - value * (l * SingularityFunction(a, 0, 0)
++                                   - SingularityFunction(a, 0, 1)
++                                   + SingularityFunction(a, l, 1)))
+ 
+         shear_force_eqs = []
+         bending_moment_eqs = []
+@@ -2090,8 +2096,13 @@ def solve_for_ild_shear(self, distance, value, *reactions):
+ 
+         shear_force, _ = self._solve_for_ild_equations(value)
+ 
+-        shear_curve1 = value - limit(shear_force, x, distance)
+-        shear_curve2 = (limit(shear_force, x, l) - limit(shear_force, x, distance)) - value
++        # ``limit`` now keeps the moving load's SingularityFunction term instead
++        # of dropping it; add it back so the surrounding windowed expressions
++        # remain valid.
++        shear_curve1 = value - (limit(shear_force, x, distance)
++                                + value*SingularityFunction(distance - a, 0, 0))
++        shear_curve2 = ((limit(shear_force, x, l) + value*SingularityFunction(l - a, 0, 0))
++                        - (limit(shear_force, x, distance) + value*SingularityFunction(distance - a, 0, 0))) - value
+ 
+         for reaction in reactions:
+             shear_curve1 = shear_curve1.subs(reaction,self._ild_reactions[reaction])
+@@ -2235,9 +2246,14 @@ def solve_for_ild_moment(self, distance, value, *reactions):
+ 
+         _, moment = self._solve_for_ild_equations(value)
+ 
++        # ``limit`` now keeps the moving load's SingularityFunction term instead
++        # of dropping it; add it back so the surrounding windowed expressions
++        # remain valid.
+         moment_curve1 = value*(distance * SingularityFunction(a, 0, 0) - SingularityFunction(a, 0, 1)
+-                               + SingularityFunction(a, distance, 1)) - limit(moment, x, distance)
+-        moment_curve2 = (limit(moment, x, l)-limit(moment, x, distance)
++                               + SingularityFunction(a, distance, 1)) - (limit(moment, x, distance)
++                               + value*SingularityFunction(distance - a, 0, 1))
++        moment_curve2 = ((limit(moment, x, l) + value*SingularityFunction(l - a, 0, 1))
++                         - (limit(moment, x, distance) + value*SingularityFunction(distance - a, 0, 1))
+                          - value * (l * SingularityFunction(a, 0, 0) - SingularityFunction(a, 0, 1)
+                                     + SingularityFunction(a, l, 1)))
+ 

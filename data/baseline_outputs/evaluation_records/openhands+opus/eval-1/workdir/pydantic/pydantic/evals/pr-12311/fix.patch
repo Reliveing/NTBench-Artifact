@@ -1,0 +1,82 @@
+diff --git a/pydantic/json_schema.py b/pydantic/json_schema.py
+index f5cc325be..2ebff4fc9 100644
+--- a/pydantic/json_schema.py
++++ b/pydantic/json_schema.py
+@@ -274,6 +274,9 @@ class GenerateJsonSchema:
+         self._prioritized_defsref_choices: dict[DefsRef, list[DefsRef]] = {}
+         self._collision_counter: dict[str, int] = defaultdict(int)
+         self._collision_index: dict[str, int] = {}
++        # Counter used to disambiguate definitions hoisted from embedded `$defs` sections
++        # (e.g. those returned by a custom `__get_pydantic_json_schema__`).
++        self._embedded_defs_collision_index: int = 0
+ 
+         self._schema_type_to_method = self.build_schema_type_to_method()
+ 
+@@ -562,9 +565,67 @@ class GenerateJsonSchema:
+ 
+         json_schema = current_handler(schema)
+         if _core_utils.is_core_schema(schema):
++            json_schema = self._extract_embedded_defs(json_schema)
+             json_schema = populate_defs(schema, json_schema)
+         return json_schema
+ 
++    def _extract_embedded_defs(self, json_schema: JsonSchemaValue) -> JsonSchemaValue:
++        """Hoist any ``$defs`` embedded in a JSON schema into the generator's definitions.
++
++        A ``__get_pydantic_json_schema__`` method may return a self-contained JSON schema that
++        includes its own ``$defs`` section along with ``$ref``s pointing into it. Those definitions
++        are not known to the generator, so any references to them would otherwise fail to resolve
++        (e.g. when counting/garbage-collecting refs). This method registers the embedded definitions
++        with the generator (renaming them if they would collide with existing definitions) and
++        rewrites the corresponding references.
++
++        Args:
++            json_schema: The JSON schema (potentially) containing an embedded ``$defs`` section.
++
++        Returns:
++            The JSON schema with any embedded ``$defs`` hoisted into the generator's definitions.
++        """
++        embedded_defs = json_schema.get('$defs')
++        if not isinstance(embedded_defs, dict):
++            return json_schema
++
++        json_ref_remapping: dict[JsonRef, JsonRef] = {}
++        new_definitions: dict[DefsRef, JsonSchemaValue] = {}
++        for name, def_schema in embedded_defs.items():
++            # Embedded refs always use the default template, since they are written by the user.
++            old_json_ref = JsonRef(DEFAULT_REF_TEMPLATE.format(model=name))
++            # Store the definition under a guaranteed-unique key, but allow the final remapping
++            # to simplify it back to the preferred name when there is no collision (this mirrors
++            # the behavior of regular, model-generated definitions).
++            preferred = DefsRef(name)
++            self._embedded_defs_collision_index += 1
++            unique = DefsRef(f'{name}__embedded_{self._embedded_defs_collision_index}')
++            new_json_ref = JsonRef(self.ref_template.format(model=unique))
++            new_definitions[unique] = def_schema
++            self._prioritized_defsref_choices[unique] = [preferred, unique]
++            if old_json_ref != new_json_ref:
++                json_ref_remapping[old_json_ref] = new_json_ref
++
++        def _remap(obj: Any) -> Any:
++            if isinstance(obj, dict):
++                return {
++                    k: (json_ref_remapping.get(JsonRef(v), v) if k == '$ref' and isinstance(v, str) else _remap(v))
++                    for k, v in obj.items()
++                }
++            elif isinstance(obj, list):
++                return [_remap(item) for item in obj]
++            return obj
++
++        json_schema = _remap(json_schema)
++        del json_schema['$defs']
++
++        for defs_ref, def_schema in new_definitions.items():
++            self.definitions[defs_ref] = _remap(def_schema)
++            json_ref = JsonRef(self.ref_template.format(model=defs_ref))
++            self.json_to_defs_refs[json_ref] = defs_ref
++
++        return json_schema
++
+     def sort(self, value: JsonSchemaValue, parent_key: str | None = None) -> JsonSchemaValue:
+         """Override this method to customize the sorting of the JSON schema (e.g., don't sort at all, sort all keys unconditionally, etc.)
+ 

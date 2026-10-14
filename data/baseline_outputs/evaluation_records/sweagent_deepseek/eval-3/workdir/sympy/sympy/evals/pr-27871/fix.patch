@@ -1,0 +1,124 @@
+diff --git a/sympy/functions/combinatorial/numbers.py b/sympy/functions/combinatorial/numbers.py
+index 3903be6476..a718f5882f 100644
+--- a/sympy/functions/combinatorial/numbers.py
++++ b/sympy/functions/combinatorial/numbers.py
+@@ -918,6 +918,12 @@ def eval(cls, n, m=None):
+             if n.is_negative and (m.is_integer is False or m.is_nonpositive is False):
+                 return S.ComplexInfinity if m is S.One else S.NaN
+             if n.is_nonnegative:
++                # For large n, computing the exact rational harmonic number
++                # is too slow and the resulting numerator/denominator can exceed
++                # Python's integer string conversion limit. Use the asymptotic
++                # expansion or mpmath for numerical evaluation instead.
++                if n >= 10000:
++                    return
+                 if m.is_Integer:
+                     if m not in cls.harmonic_cache:
+                         @recurrence_memo([0])
+diff --git a/sympy/printing/str.py b/sympy/printing/str.py
+index d6d3f1b4ce..4294dda397 100644
+--- a/sympy/printing/str.py
++++ b/sympy/printing/str.py
+@@ -677,7 +677,19 @@ def _print_MatPow(self, expr):
+     def _print_Integer(self, expr):
+         if self._settings.get("sympy_integers", False):
+             return "S(%s)" % (expr)
+-        return str(expr.p)
++        try:
++            return str(expr.p)
++        except ValueError:
++            # Python's integer string conversion limit may be exceeded
++            import sys
++            p = expr.p
++            max_digits = p.bit_length() // 3 + 1 + 100
++            old_limit = sys.get_int_max_str_digits()
++            try:
++                sys.set_int_max_str_digits(max(max_digits, old_limit))
++                return str(p)
++            finally:
++                sys.set_int_max_str_digits(old_limit)
+ 
+     def _print_Integers(self, expr):
+         return 'Integers'
+@@ -704,24 +716,75 @@ def _print_EmptySequence(self, expr):
+         return 'EmptySequence'
+ 
+     def _print_int(self, expr):
+-        return str(expr)
++        try:
++            return str(expr)
++        except ValueError:
++            # Python's integer string conversion limit may be exceeded
++            import sys
++            max_digits = expr.bit_length() // 3 + 1 + 100
++            old_limit = sys.get_int_max_str_digits()
++            try:
++                sys.set_int_max_str_digits(max(max_digits, old_limit))
++                return str(expr)
++            finally:
++                sys.set_int_max_str_digits(old_limit)
+ 
+     def _print_mpz(self, expr):
+-        return str(expr)
++        try:
++            return str(expr)
++        except ValueError:
++            # Python's integer string conversion limit may be exceeded
++            import sys
++            max_digits = expr.bit_length() // 3 + 1 + 100
++            old_limit = sys.get_int_max_str_digits()
++            try:
++                sys.set_int_max_str_digits(max(max_digits, old_limit))
++                return str(expr)
++            finally:
++                sys.set_int_max_str_digits(old_limit)
+ 
+     def _print_Rational(self, expr):
+         if expr.q == 1:
+             return str(expr.p)
+         else:
+-            if self._settings.get("sympy_integers", False):
+-                return "S(%s)/%s" % (expr.p, expr.q)
+-            return "%s/%s" % (expr.p, expr.q)
++            try:
++                if self._settings.get("sympy_integers", False):
++                    return "S(%s)/%s" % (expr.p, expr.q)
++                return "%s/%s" % (expr.p, expr.q)
++            except ValueError:
++                # Python's integer string conversion limit may be exceeded
++                # for very large integers. Temporarily increase the limit.
++                import sys
++                p, q = expr.p, expr.q
++                # Estimate required digits from bit length
++                max_digits = max(p.bit_length() // 3 + 1, q.bit_length() // 3 + 1) + 100
++                old_limit = sys.get_int_max_str_digits()
++                try:
++                    sys.set_int_max_str_digits(max(max_digits, old_limit))
++                    if self._settings.get("sympy_integers", False):
++                        return "S(%s)/%s" % (expr.p, expr.q)
++                    return "%s/%s" % (expr.p, expr.q)
++                finally:
++                    sys.set_int_max_str_digits(old_limit)
+ 
+     def _print_PythonRational(self, expr):
+         if expr.q == 1:
+             return str(expr.p)
+         else:
+-            return "%d/%d" % (expr.p, expr.q)
++            try:
++                return "%d/%d" % (expr.p, expr.q)
++            except ValueError:
++                # Python's integer string conversion limit may be exceeded
++                # for very large integers. Temporarily increase the limit.
++                import sys
++                p, q = expr.p, expr.q
++                max_digits = max(p.bit_length() // 3 + 1, q.bit_length() // 3 + 1) + 100
++                old_limit = sys.get_int_max_str_digits()
++                try:
++                    sys.set_int_max_str_digits(max(max_digits, old_limit))
++                    return "%d/%d" % (expr.p, expr.q)
++                finally:
++                    sys.set_int_max_str_digits(old_limit)
+ 
+     def _print_Fraction(self, expr):
+         if expr.denominator == 1:

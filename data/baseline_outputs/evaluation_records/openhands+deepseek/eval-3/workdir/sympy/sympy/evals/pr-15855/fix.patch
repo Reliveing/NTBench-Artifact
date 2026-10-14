@@ -1,0 +1,50 @@
+diff --git a/sympy/concrete/summations.py b/sympy/concrete/summations.py
+index 23c5d73caf..ed965e8d9b 100644
+--- a/sympy/concrete/summations.py
++++ b/sympy/concrete/summations.py
+@@ -1139,6 +1139,18 @@ def _eval_sum_hyper(f, i, a):
+     return f.subs(i, 0)*hyperexpand(h), h.convergence_statement
+ 
+ 
++def _is_impossible(cond):
++    """Return True if cond is known to be False."""
++    if cond == False or cond is S.false:
++        return True
++    try:
++        if cond.as_set() is S.EmptySet:
++            return True
++    except (AttributeError, NotImplementedError):
++        pass
++    return False
++
++
+ def eval_sum_hyper(f, i_a_b):
+     from sympy.logic.boolalg import And
+ 
+@@ -1162,7 +1174,7 @@ def eval_sum_hyper(f, i_a_b):
+                 return None
+             (res1, cond1), (res2, cond2) = res1, res2
+             cond = And(cond1, cond2)
+-            if cond == False:
++            if cond == False or _is_impossible(cond):
+                 return None
+             return Piecewise((res1 - res2, cond), (old_sum, True))
+ 
+@@ -1174,7 +1186,7 @@ def eval_sum_hyper(f, i_a_b):
+         res1, cond1 = res1
+         res2, cond2 = res2
+         cond = And(cond1, cond2)
+-        if cond == False:
++        if cond == False or _is_impossible(cond):
+             return None
+         return Piecewise((res1 + res2, cond), (old_sum, True))
+ 
+@@ -1182,7 +1194,7 @@ def eval_sum_hyper(f, i_a_b):
+     res = _eval_sum_hyper(f, i, a)
+     if res is not None:
+         r, c = res
+-        if c == False:
++        if c == False or _is_impossible(c):
+             if r.is_number:
+                 f = f.subs(i, Dummy('i', integer=True, positive=True) + a)
+                 if f.is_positive or f.is_zero:

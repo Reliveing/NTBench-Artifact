@@ -1,0 +1,35 @@
+diff --git a/lib/matplotlib/ticker.py b/lib/matplotlib/ticker.py
+index a2be7cbd80..7bb39d8c1e 100644
+--- a/lib/matplotlib/ticker.py
++++ b/lib/matplotlib/ticker.py
+@@ -1676,11 +1676,20 @@ class MaxNLocator(Locator):
+         else:
+             nbins = self._nbins
+ 
++        prev_step = None
+         while True:
+-            ticks = self._try_raw_ticks(vmin, vmax, nbins)
++            ticks, step = self._try_raw_ticks(vmin, vmax, nbins)
+             nticks = ((ticks <= vmax) & (ticks >= vmin)).sum()
+             if nticks >= self._min_n_ticks:
+                 break
++            # If increasing the number of bins does not make the tick step
++            # any smaller (e.g. for an integer locator where the smallest
++            # possible step already spans a data range narrower than
++            # min_n_ticks), then adding more bins can never yield more ticks
++            # and we would loop forever.  Detect this and stop.
++            if prev_step is not None and step >= prev_step:
++                break
++            prev_step = step
+             nbins += 1
+ 
+         self._nbins_used = nbins  # Maybe useful for troubleshooting.
+@@ -1710,7 +1719,7 @@ class MaxNLocator(Locator):
+         # create the bins that span the range we need instead.
+         low = round(Base(step).le(vmin - best_vmin) / step)
+         high = round(Base(step).ge(vmax - best_vmin) / step)
+-        return np.arange(low, high + 1) * step + best_vmin + offset
++        return np.arange(low, high + 1) * step + best_vmin + offset, step
+ 
+     @cbook.deprecated("2.0")
+     def bin_boundaries(self, vmin, vmax):

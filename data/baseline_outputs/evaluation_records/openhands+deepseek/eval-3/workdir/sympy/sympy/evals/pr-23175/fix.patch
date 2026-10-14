@@ -1,0 +1,22 @@
+diff --git a/sympy/polys/galoistools.py b/sympy/polys/galoistools.py
+index cbf1af6e6d..96a467d980 100644
+--- a/sympy/polys/galoistools.py
++++ b/sympy/polys/galoistools.py
+@@ -1892,13 +1892,10 @@ def gf_edf_zassenhaus(f, n, p, K):
+         r = gf_random(2*n - 1, p, K)
+ 
+         if p == 2:
+-            h = r
+-
+-            for i in range(0, 2**(n*N - 1)):
+-                r = gf_pow_mod(r, 2, f, p, K)
+-                h = gf_add(h, r, p, K)
+-
+-            g = gf_gcd(f, h, p, K)
++            x = [K.one, K.zero]
++            h = gf_pow_mod(x, int(p), f, p, K)
++            H = gf_trace_map(r, h, x, n - 1, f, p, K)[1]
++            g = gf_gcd(f, H, p, K)
+         else:
+             h = _gf_pow_pnm1d2(r, n, f, b, p, K)
+             g = gf_gcd(f, gf_sub_ground(h, K.one, p, K), p, K)

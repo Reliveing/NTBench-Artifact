@@ -1,0 +1,421 @@
+numpy/random/mtrand/randint_helpers.pxi.in has not changed
+numpy/random/mtrand/mtrand.pyx has not changed
+Cythonizing sources
+blas_opt_info:
+blas_mkl_info:
+customize UnixCCompiler
+  libraries mkl_rt not found in ['/usr/local/lib', '/usr/lib', '/usr/lib/x86_64-linux-gnu']
+  NOT AVAILABLE
+
+blis_info:
+customize UnixCCompiler
+  libraries blis not found in ['/usr/local/lib', '/usr/lib', '/usr/lib/x86_64-linux-gnu']
+  NOT AVAILABLE
+
+openblas_info:
+customize UnixCCompiler
+customize UnixCCompiler
+customize UnixCCompiler
+  FOUND:
+    libraries = ['openblas', 'openblas']
+    library_dirs = ['/usr/lib/x86_64-linux-gnu']
+    language = c
+    define_macros = [('HAVE_CBLAS', None)]
+
+  FOUND:
+    libraries = ['openblas', 'openblas']
+    library_dirs = ['/usr/lib/x86_64-linux-gnu']
+    language = c
+    define_macros = [('HAVE_CBLAS', None)]
+
+/bin/sh: 1: svnversion: not found
+/bin/sh: 1: svnversion: not found
+non-existing path in 'numpy/distutils': 'site.cfg'
+F2PY Version 2
+lapack_opt_info:
+lapack_mkl_info:
+customize UnixCCompiler
+  libraries mkl_rt not found in ['/usr/local/lib', '/usr/lib', '/usr/lib/x86_64-linux-gnu']
+  NOT AVAILABLE
+
+openblas_lapack_info:
+customize UnixCCompiler
+customize UnixCCompiler
+customize UnixCCompiler
+C compiler: gcc -pthread -DNDEBUG -g -fwrapv -O3 -Wall -Wno-error -fPIC
+
+creating /tmp/tmpwn_adzo2/tmp
+creating /tmp/tmpwn_adzo2/tmp/tmpwn_adzo2
+compile options: '-c'
+gcc: /tmp/tmpwn_adzo2/source.c
+/tmp/tmpwn_adzo2/source.c: In function ‘main’:
+/tmp/tmpwn_adzo2/source.c:4:13: warning: implicit declaration of function ‘zungqr_’; did you mean ‘zungqr’? [-Wimplicit-function-declaration]
+             zungqr_();
+             ^~~~~~~
+             zungqr
+gcc -pthread /tmp/tmpwn_adzo2/tmp/tmpwn_adzo2/source.o -L/usr/lib/x86_64-linux-gnu -lopenblas -o /tmp/tmpwn_adzo2/a.out
+customize UnixCCompiler
+  FOUND:
+    libraries = ['openblas', 'openblas']
+    library_dirs = ['/usr/lib/x86_64-linux-gnu']
+    language = c
+    define_macros = [('HAVE_CBLAS', None)]
+
+  FOUND:
+    libraries = ['openblas', 'openblas']
+    library_dirs = ['/usr/lib/x86_64-linux-gnu']
+    language = c
+    define_macros = [('HAVE_CBLAS', None)]
+
+running build_ext
+running build_src
+build_src
+building py_modules sources
+building library "npymath" sources
+get_default_fcompiler: matching types: '['gnu95', 'intel', 'lahey', 'pg', 'absoft', 'nag', 'vast', 'compaq', 'intele', 'intelem', 'gnu', 'g95', 'pathf95', 'nagfor']'
+customize Gnu95FCompiler
+Found executable /usr/bin/gfortran
+customize Gnu95FCompiler
+customize Gnu95FCompiler using config
+C compiler: gcc -pthread -DNDEBUG -g -fwrapv -O3 -Wall -Wno-error -fPIC
+
+compile options: '-Inumpy/core/src/private -Inumpy/core/src -Inumpy/core -Inumpy/core/src/npymath -Inumpy/core/src/multiarray -Inumpy/core/src/umath -Inumpy/core/src/npysort -I/usr/local/include/python3.6m -c'
+gcc: _configtest.c
+gcc -pthread _configtest.o -o _configtest
+success!
+removing: _configtest.c _configtest.o _configtest
+C compiler: gcc -pthread -DNDEBUG -g -fwrapv -O3 -Wall -Wno-error -fPIC
+
+compile options: '-Inumpy/core/src/private -Inumpy/core/src -Inumpy/core -Inumpy/core/src/npymath -Inumpy/core/src/multiarray -Inumpy/core/src/umath -Inumpy/core/src/npysort -I/usr/local/include/python3.6m -c'
+gcc: _configtest.c
+_configtest.c:1:5: warning: conflicting types for built-in function ‘exp’ [-Wbuiltin-declaration-mismatch]
+ int exp (void);
+     ^~~
+gcc -pthread _configtest.o -o _configtest
+/usr/bin/ld: _configtest.o: in function `main':
+/home/numpy/_configtest.c:6: undefined reference to `exp'
+collect2: error: ld returned 1 exit status
+/usr/bin/ld: _configtest.o: in function `main':
+/home/numpy/_configtest.c:6: undefined reference to `exp'
+collect2: error: ld returned 1 exit status
+failure.
+removing: _configtest.c _configtest.o
+C compiler: gcc -pthread -DNDEBUG -g -fwrapv -O3 -Wall -Wno-error -fPIC
+
+compile options: '-Inumpy/core/src/private -Inumpy/core/src -Inumpy/core -Inumpy/core/src/npymath -Inumpy/core/src/multiarray -Inumpy/core/src/umath -Inumpy/core/src/npysort -I/usr/local/include/python3.6m -c'
+gcc: _configtest.c
+_configtest.c:1:5: warning: conflicting types for built-in function ‘exp’ [-Wbuiltin-declaration-mismatch]
+ int exp (void);
+     ^~~
+gcc -pthread _configtest.o -lm -o _configtest
+success!
+removing: _configtest.c _configtest.o _configtest
+  adding 'numpy/core/src/npymath' to include_dirs.
+None - nothing done with h_files = ['numpy/core/src/npymath/npy_math_internal.h']
+building library "npysort" sources
+  adding 'numpy/core/src/private' to include_dirs.
+None - nothing done with h_files = ['numpy/core/src/private/npy_partition.h', 'numpy/core/src/private/npy_binsearch.h']
+building extension "numpy.core._dummy" sources
+  adding 'numpy/core/include/numpy/config.h' to sources.
+  adding 'numpy/core/include/numpy/_numpyconfig.h' to sources.
+executing numpy/core/code_generators/generate_numpy_api.py
+  adding 'numpy/core/include/numpy/__multiarray_api.h' to sources.
+numpy.core - nothing done with h_files = ['numpy/core/include/numpy/config.h', 'numpy/core/include/numpy/_numpyconfig.h', 'numpy/core/include/numpy/__multiarray_api.h']
+building extension "numpy.core.multiarray" sources
+  adding 'numpy/core/include/numpy/config.h' to sources.
+  adding 'numpy/core/include/numpy/_numpyconfig.h' to sources.
+executing numpy/core/code_generators/generate_numpy_api.py
+  adding 'numpy/core/include/numpy/__multiarray_api.h' to sources.
+  adding 'numpy/core/src/private' to include_dirs.
+numpy.core - nothing done with h_files = ['numpy/core/src/private/templ_common.h', 'numpy/core/include/numpy/config.h', 'numpy/core/include/numpy/_numpyconfig.h', 'numpy/core/include/numpy/__multiarray_api.h']
+building extension "numpy.core.umath" sources
+  adding 'numpy/core/include/numpy/config.h' to sources.
+  adding 'numpy/core/include/numpy/_numpyconfig.h' to sources.
+executing numpy/core/code_generators/generate_ufunc_api.py
+  adding 'numpy/core/include/numpy/__ufunc_api.h' to sources.
+  adding 'numpy/core/src/umath' to include_dirs.
+numpy.core - nothing done with h_files = ['numpy/core/src/umath/funcs.inc', 'numpy/core/src/umath/simd.inc', 'numpy/core/src/umath/loops.h', 'numpy/core/include/numpy/config.h', 'numpy/core/include/numpy/_numpyconfig.h', 'numpy/core/include/numpy/__ufunc_api.h']
+building extension "numpy.core.umath_tests" sources
+building extension "numpy.core.test_rational" sources
+building extension "numpy.core.struct_ufunc_test" sources
+building extension "numpy.core.multiarray_tests" sources
+building extension "numpy.core.operand_flag_tests" sources
+building extension "numpy.fft.fftpack_lite" sources
+building extension "numpy.linalg.lapack_lite" sources
+  adding 'numpy/linalg/lapack_lite/python_xerbla.c' to sources.
+building extension "numpy.linalg._umath_linalg" sources
+  adding 'numpy/linalg/lapack_lite/python_xerbla.c' to sources.
+building extension "numpy.random.mtrand" sources
+building data_files sources
+build_src: building npy-pkg config files
+customize UnixCCompiler
+customize UnixCCompiler using build_clib
+customize UnixCCompiler
+customize UnixCCompiler using build_ext
+Running from numpy source directory.
+/usr/local/lib/python3.6/distutils/dist.py:261: UserWarning: Unknown distribution option: 'define_macros'
+  warnings.warn(msg)
+numpy/random/mtrand/randint_helpers.pxi.in has not changed
+numpy/random/mtrand/mtrand.pyx has not changed
+Cythonizing sources
+blas_opt_info:
+blas_mkl_info:
+customize UnixCCompiler
+  libraries mkl_rt not found in ['/usr/local/lib', '/usr/lib', '/usr/lib/x86_64-linux-gnu']
+  NOT AVAILABLE
+
+blis_info:
+customize UnixCCompiler
+  libraries blis not found in ['/usr/local/lib', '/usr/lib', '/usr/lib/x86_64-linux-gnu']
+  NOT AVAILABLE
+
+openblas_info:
+customize UnixCCompiler
+customize UnixCCompiler
+customize UnixCCompiler
+  FOUND:
+    libraries = ['openblas', 'openblas']
+    library_dirs = ['/usr/lib/x86_64-linux-gnu']
+    language = c
+    define_macros = [('HAVE_CBLAS', None)]
+
+  FOUND:
+    libraries = ['openblas', 'openblas']
+    library_dirs = ['/usr/lib/x86_64-linux-gnu']
+    language = c
+    define_macros = [('HAVE_CBLAS', None)]
+
+/bin/sh: 1: svnversion: not found
+/bin/sh: 1: svnversion: not found
+non-existing path in 'numpy/distutils': 'site.cfg'
+F2PY Version 2
+lapack_opt_info:
+lapack_mkl_info:
+customize UnixCCompiler
+  libraries mkl_rt not found in ['/usr/local/lib', '/usr/lib', '/usr/lib/x86_64-linux-gnu']
+  NOT AVAILABLE
+
+openblas_lapack_info:
+customize UnixCCompiler
+customize UnixCCompiler
+customize UnixCCompiler
+C compiler: gcc -pthread -DNDEBUG -g -fwrapv -O3 -Wall -Wno-error -fPIC
+
+creating /tmp/tmpwbvtzzab/tmp
+creating /tmp/tmpwbvtzzab/tmp/tmpwbvtzzab
+compile options: '-c'
+gcc: /tmp/tmpwbvtzzab/source.c
+/tmp/tmpwbvtzzab/source.c: In function ‘main’:
+/tmp/tmpwbvtzzab/source.c:4:13: warning: implicit declaration of function ‘zungqr_’; did you mean ‘zungqr’? [-Wimplicit-function-declaration]
+             zungqr_();
+             ^~~~~~~
+             zungqr
+gcc -pthread /tmp/tmpwbvtzzab/tmp/tmpwbvtzzab/source.o -L/usr/lib/x86_64-linux-gnu -lopenblas -o /tmp/tmpwbvtzzab/a.out
+customize UnixCCompiler
+  FOUND:
+    libraries = ['openblas', 'openblas']
+    library_dirs = ['/usr/lib/x86_64-linux-gnu']
+    language = c
+    define_macros = [('HAVE_CBLAS', None)]
+
+  FOUND:
+    libraries = ['openblas', 'openblas']
+    library_dirs = ['/usr/lib/x86_64-linux-gnu']
+    language = c
+    define_macros = [('HAVE_CBLAS', None)]
+
+running develop
+running build_scripts
+  adding 'build/scripts.linux-x86_64-3.6/f2py' to scripts
+running egg_info
+running build_src
+build_src
+building py_modules sources
+building library "npymath" sources
+get_default_fcompiler: matching types: '['gnu95', 'intel', 'lahey', 'pg', 'absoft', 'nag', 'vast', 'compaq', 'intele', 'intelem', 'gnu', 'g95', 'pathf95', 'nagfor']'
+customize Gnu95FCompiler
+Found executable /usr/bin/gfortran
+customize Gnu95FCompiler
+customize Gnu95FCompiler using config
+C compiler: gcc -pthread -DNDEBUG -g -fwrapv -O3 -Wall -Wno-error -fPIC
+
+compile options: '-Inumpy/core/src/private -Inumpy/core/src -Inumpy/core -Inumpy/core/src/npymath -Inumpy/core/src/multiarray -Inumpy/core/src/umath -Inumpy/core/src/npysort -I/usr/local/include/python3.6m -c'
+gcc: _configtest.c
+gcc -pthread _configtest.o -o _configtest
+success!
+removing: _configtest.c _configtest.o _configtest
+C compiler: gcc -pthread -DNDEBUG -g -fwrapv -O3 -Wall -Wno-error -fPIC
+
+compile options: '-Inumpy/core/src/private -Inumpy/core/src -Inumpy/core -Inumpy/core/src/npymath -Inumpy/core/src/multiarray -Inumpy/core/src/umath -Inumpy/core/src/npysort -I/usr/local/include/python3.6m -c'
+gcc: _configtest.c
+_configtest.c:1:5: warning: conflicting types for built-in function ‘exp’ [-Wbuiltin-declaration-mismatch]
+ int exp (void);
+     ^~~
+gcc -pthread _configtest.o -o _configtest
+/usr/bin/ld: _configtest.o: in function `main':
+/home/numpy/_configtest.c:6: undefined reference to `exp'
+collect2: error: ld returned 1 exit status
+/usr/bin/ld: _configtest.o: in function `main':
+/home/numpy/_configtest.c:6: undefined reference to `exp'
+collect2: error: ld returned 1 exit status
+failure.
+removing: _configtest.c _configtest.o
+C compiler: gcc -pthread -DNDEBUG -g -fwrapv -O3 -Wall -Wno-error -fPIC
+
+compile options: '-Inumpy/core/src/private -Inumpy/core/src -Inumpy/core -Inumpy/core/src/npymath -Inumpy/core/src/multiarray -Inumpy/core/src/umath -Inumpy/core/src/npysort -I/usr/local/include/python3.6m -c'
+gcc: _configtest.c
+_configtest.c:1:5: warning: conflicting types for built-in function ‘exp’ [-Wbuiltin-declaration-mismatch]
+ int exp (void);
+     ^~~
+gcc -pthread _configtest.o -lm -o _configtest
+success!
+removing: _configtest.c _configtest.o _configtest
+  adding 'numpy/core/src/npymath' to include_dirs.
+None - nothing done with h_files = ['numpy/core/src/npymath/npy_math_internal.h']
+building library "npysort" sources
+  adding 'numpy/core/src/private' to include_dirs.
+None - nothing done with h_files = ['numpy/core/src/private/npy_partition.h', 'numpy/core/src/private/npy_binsearch.h']
+building extension "numpy.core._dummy" sources
+  adding 'numpy/core/include/numpy/config.h' to sources.
+  adding 'numpy/core/include/numpy/_numpyconfig.h' to sources.
+executing numpy/core/code_generators/generate_numpy_api.py
+  adding 'numpy/core/include/numpy/__multiarray_api.h' to sources.
+numpy.core - nothing done with h_files = ['numpy/core/include/numpy/config.h', 'numpy/core/include/numpy/_numpyconfig.h', 'numpy/core/include/numpy/__multiarray_api.h']
+building extension "numpy.core.multiarray" sources
+  adding 'numpy/core/include/numpy/config.h' to sources.
+  adding 'numpy/core/include/numpy/_numpyconfig.h' to sources.
+executing numpy/core/code_generators/generate_numpy_api.py
+  adding 'numpy/core/include/numpy/__multiarray_api.h' to sources.
+  adding 'numpy/core/src/private' to include_dirs.
+numpy.core - nothing done with h_files = ['numpy/core/src/private/templ_common.h', 'numpy/core/include/numpy/config.h', 'numpy/core/include/numpy/_numpyconfig.h', 'numpy/core/include/numpy/__multiarray_api.h']
+building extension "numpy.core.umath" sources
+  adding 'numpy/core/include/numpy/config.h' to sources.
+  adding 'numpy/core/include/numpy/_numpyconfig.h' to sources.
+executing numpy/core/code_generators/generate_ufunc_api.py
+  adding 'numpy/core/include/numpy/__ufunc_api.h' to sources.
+  adding 'numpy/core/src/umath' to include_dirs.
+numpy.core - nothing done with h_files = ['numpy/core/src/umath/funcs.inc', 'numpy/core/src/umath/simd.inc', 'numpy/core/src/umath/loops.h', 'numpy/core/include/numpy/config.h', 'numpy/core/include/numpy/_numpyconfig.h', 'numpy/core/include/numpy/__ufunc_api.h']
+building extension "numpy.core.umath_tests" sources
+building extension "numpy.core.test_rational" sources
+building extension "numpy.core.struct_ufunc_test" sources
+building extension "numpy.core.multiarray_tests" sources
+building extension "numpy.core.operand_flag_tests" sources
+building extension "numpy.fft.fftpack_lite" sources
+building extension "numpy.linalg.lapack_lite" sources
+  adding 'numpy/linalg/lapack_lite/python_xerbla.c' to sources.
+building extension "numpy.linalg._umath_linalg" sources
+  adding 'numpy/linalg/lapack_lite/python_xerbla.c' to sources.
+building extension "numpy.random.mtrand" sources
+building data_files sources
+build_src: building npy-pkg config files
+writing numpy.egg-info/PKG-INFO
+writing dependency_links to numpy.egg-info/dependency_links.txt
+writing top-level names to numpy.egg-info/top_level.txt
+reading manifest file 'numpy.egg-info/SOURCES.txt'
+reading manifest template 'MANIFEST.in'
+warning: no files found matching '*' under directory 'doc/sphinxext'
+warning: no files found matching '*' under directory 'doc/scipy-sphinx-theme'
+warning: no previously-included files matching '*.pyo' found anywhere in distribution
+warning: no previously-included files matching '*.pyd' found anywhere in distribution
+warning: no previously-included files matching '*.swp' found anywhere in distribution
+warning: no previously-included files matching '*.bak' found anywhere in distribution
+warning: no previously-included files matching '*~' found anywhere in distribution
+adding license file 'LICENSE.txt'
+writing manifest file 'numpy.egg-info/SOURCES.txt'
+running build_ext
+customize UnixCCompiler
+customize UnixCCompiler using build_clib
+customize UnixCCompiler
+customize UnixCCompiler using build_ext
+Creating /usr/local/lib/python3.6/site-packages/numpy.egg-link (link to .)
+numpy 1.14.0.dev0+7311b96 is already the active version in easy-install.pth
+Installing f2py script to /usr/local/bin
+
+Installed /home/numpy
+Processing dependencies for numpy==1.14.0.dev0+7311b96
+Finished processing dependencies for numpy==1.14.0.dev0+7311b96
+Running from numpy source directory.
+/usr/local/lib/python3.6/distutils/dist.py:261: UserWarning: Unknown distribution option: 'define_macros'
+  warnings.warn(msg)
+============================= test session starts ==============================
+collecting ... collected 35 items
+
+numpy/core/tests/test_arrayprint.py::TestArrayRepr::test_nan_inf PASSED
+numpy/core/tests/test_arrayprint.py::TestArrayRepr::test_subclass PASSED
+numpy/core/tests/test_arrayprint.py::TestArrayRepr::test_0d_object_subclass FAILED
+numpy/core/tests/test_arrayprint.py::TestArrayRepr::test_self_containing PASSED
+numpy/core/tests/test_arrayprint.py::TestArrayRepr::test_containing_list PASSED
+numpy/core/tests/test_arrayprint.py::TestArrayRepr::test_void_scalar_recursion PASSED
+numpy/core/tests/test_arrayprint.py::TestArrayRepr::test_fieldless_structured PASSED
+numpy/core/tests/test_arrayprint.py::TestComplexArray::test_str PASSED
+numpy/core/tests/test_arrayprint.py::TestArray2String::test_basic PASSED
+numpy/core/tests/test_arrayprint.py::TestArray2String::test_format_function PASSED
+numpy/core/tests/test_arrayprint.py::TestArray2String::test_structure_format PASSED
+numpy/core/tests/test_arrayprint.py::TestArray2String::test_unstructured_void_repr PASSED
+numpy/core/tests/test_arrayprint.py::TestArray2String::test_edgeitems_kwarg PASSED
+numpy/core/tests/test_arrayprint.py::TestArray2String::test_summarize_1d PASSED
+numpy/core/tests/test_arrayprint.py::TestArray2String::test_summarize_2d PASSED
+numpy/core/tests/test_arrayprint.py::TestArray2String::test_linewidth PASSED
+numpy/core/tests/test_arrayprint.py::TestArray2String::test_wide_element PASSED
+numpy/core/tests/test_arrayprint.py::TestPrintOptions::test_basic PASSED
+numpy/core/tests/test_arrayprint.py::TestPrintOptions::test_precision_zero PASSED
+numpy/core/tests/test_arrayprint.py::TestPrintOptions::test_formatter PASSED
+numpy/core/tests/test_arrayprint.py::TestPrintOptions::test_formatter_reset PASSED
+numpy/core/tests/test_arrayprint.py::TestPrintOptions::test_0d_arrays PASSED
+numpy/core/tests/test_arrayprint.py::TestPrintOptions::test_float_spacing PASSED
+numpy/core/tests/test_arrayprint.py::TestPrintOptions::test_bool_spacing PASSED
+numpy/core/tests/test_arrayprint.py::TestPrintOptions::test_sign_spacing PASSED
+numpy/core/tests/test_arrayprint.py::TestPrintOptions::test_float_overflow_nowarn PASSED
+numpy/core/tests/test_arrayprint.py::TestPrintOptions::test_sign_spacing_structured PASSED
+numpy/core/tests/test_arrayprint.py::TestPrintOptions::test_floatmode PASSED
+numpy/core/tests/test_arrayprint.py::TestPrintOptions::test_legacy_mode_scalars PASSED
+numpy/core/tests/test_arrayprint.py::TestPrintOptions::test_legacy_stray_comma PASSED
+numpy/core/tests/test_arrayprint.py::TestPrintOptions::test_dtype_linewidth_wrapping PASSED
+numpy/core/tests/test_arrayprint.py::TestPrintOptions::test_linewidth_repr PASSED
+numpy/core/tests/test_arrayprint.py::TestPrintOptions::test_linewidth_str PASSED
+numpy/core/tests/test_arrayprint.py::TestPrintOptions::test_edgeitems PASSED
+numpy/core/tests/test_arrayprint.py::test_unicode_object_array PASSED
+
+=============================== warnings summary ===============================
+tests/test_arrayprint.py::TestPrintOptions::test_sign_spacing
+  /usr/local/lib/python3.6/site-packages/nose/importer.py:12: DeprecationWarning: the imp module is deprecated in favour of importlib; see the module's documentation for alternative uses
+    from imp import find_module, load_module, acquire_lock, release_lock
+
+-- Docs: https://docs.pytest.org/en/stable/warnings.html
+=========================== short test summary info ============================
+PASSED numpy/core/tests/test_arrayprint.py::TestArrayRepr::test_nan_inf
+PASSED numpy/core/tests/test_arrayprint.py::TestArrayRepr::test_subclass
+PASSED numpy/core/tests/test_arrayprint.py::TestArrayRepr::test_self_containing
+PASSED numpy/core/tests/test_arrayprint.py::TestArrayRepr::test_containing_list
+PASSED numpy/core/tests/test_arrayprint.py::TestArrayRepr::test_void_scalar_recursion
+PASSED numpy/core/tests/test_arrayprint.py::TestArrayRepr::test_fieldless_structured
+PASSED numpy/core/tests/test_arrayprint.py::TestComplexArray::test_str
+PASSED numpy/core/tests/test_arrayprint.py::TestArray2String::test_basic
+PASSED numpy/core/tests/test_arrayprint.py::TestArray2String::test_format_function
+PASSED numpy/core/tests/test_arrayprint.py::TestArray2String::test_structure_format
+PASSED numpy/core/tests/test_arrayprint.py::TestArray2String::test_unstructured_void_repr
+PASSED numpy/core/tests/test_arrayprint.py::TestArray2String::test_edgeitems_kwarg
+PASSED numpy/core/tests/test_arrayprint.py::TestArray2String::test_summarize_1d
+PASSED numpy/core/tests/test_arrayprint.py::TestArray2String::test_summarize_2d
+PASSED numpy/core/tests/test_arrayprint.py::TestArray2String::test_linewidth
+PASSED numpy/core/tests/test_arrayprint.py::TestArray2String::test_wide_element
+PASSED numpy/core/tests/test_arrayprint.py::TestPrintOptions::test_basic
+PASSED numpy/core/tests/test_arrayprint.py::TestPrintOptions::test_precision_zero
+PASSED numpy/core/tests/test_arrayprint.py::TestPrintOptions::test_formatter
+PASSED numpy/core/tests/test_arrayprint.py::TestPrintOptions::test_formatter_reset
+PASSED numpy/core/tests/test_arrayprint.py::TestPrintOptions::test_0d_arrays
+PASSED numpy/core/tests/test_arrayprint.py::TestPrintOptions::test_float_spacing
+PASSED numpy/core/tests/test_arrayprint.py::TestPrintOptions::test_bool_spacing
+PASSED numpy/core/tests/test_arrayprint.py::TestPrintOptions::test_sign_spacing
+PASSED numpy/core/tests/test_arrayprint.py::TestPrintOptions::test_float_overflow_nowarn
+PASSED numpy/core/tests/test_arrayprint.py::TestPrintOptions::test_sign_spacing_structured
+PASSED numpy/core/tests/test_arrayprint.py::TestPrintOptions::test_floatmode
+PASSED numpy/core/tests/test_arrayprint.py::TestPrintOptions::test_legacy_mode_scalars
+PASSED numpy/core/tests/test_arrayprint.py::TestPrintOptions::test_legacy_stray_comma
+PASSED numpy/core/tests/test_arrayprint.py::TestPrintOptions::test_dtype_linewidth_wrapping
+PASSED numpy/core/tests/test_arrayprint.py::TestPrintOptions::test_linewidth_repr
+PASSED numpy/core/tests/test_arrayprint.py::TestPrintOptions::test_linewidth_str
+PASSED numpy/core/tests/test_arrayprint.py::TestPrintOptions::test_edgeitems
+PASSED numpy/core/tests/test_arrayprint.py::test_unicode_object_array
+FAILED numpy/core/tests/test_arrayprint.py::TestArrayRepr::test_0d_object_subclass
+=================== 1 failed, 34 passed, 1 warning in 0.42s ====================

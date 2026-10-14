@@ -1,0 +1,10 @@
+framework,model,total,O1,O2,O3,O4,O5,U
+Agentless,deepseek,33,0,16,4,13,0,0
+Agentless,gpt,27,0,14,3,9,1,0
+Agentless,opus,29,0,15,3,10,1,0
+OpenHands,deepseek,56,2,20,13,17,3,1
+OpenHands,gpt,49,4,18,11,16,0,0
+OpenHands,opus,48,7,20,8,9,2,2
+mini-swe-agent,deepseek,49,5,9,18,15,2,0
+mini-swe-agent,gpt,56,0,12,22,20,2,0
+mini-swe-agent,opus,43,4,10,18,11,0,0

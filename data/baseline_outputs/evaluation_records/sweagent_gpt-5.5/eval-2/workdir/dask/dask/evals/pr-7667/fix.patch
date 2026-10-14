@@ -1,0 +1,89 @@
+diff --git a/dask/array/creation.py b/dask/array/creation.py
+index 9df5d674b..2ef895a62 100644
+--- a/dask/array/creation.py
++++ b/dask/array/creation.py
+@@ -8,6 +8,7 @@ import numpy as np
+ from tlz import accumulate, sliding_window
+ 
+ from ..base import tokenize
++from ..delayed import unpack_collections
+ from ..highlevelgraph import HighLevelGraph
+ from ..utils import derived_from
+ from . import chunk
+@@ -249,6 +250,17 @@ def _get_like_function_shapes_chunks(a, chunks, shape):
+     return shape, chunks
+ 
+ 
++def _linspace_chunk(start, stop, num, endpoint, dtype, blockstart, blocksize):
++    range_ = stop - start
++    div = (num - 1) if endpoint else num
++    step = float(range_) / div
++
++    blockstart = start + (step * blockstart)
++    bs_space = blocksize - 1 if endpoint else blocksize
++    blockstop = blockstart + (bs_space * step)
++    return np.linspace(blockstart, blockstop, blocksize, endpoint=endpoint, dtype=dtype)
++
++
+ def linspace(
+     start, stop, num=50, endpoint=True, retstep=False, chunks="auto", dtype=None
+ ):
+@@ -295,13 +307,39 @@ def linspace(
+ 
+     chunks = normalize_chunks(chunks, (num,), dtype=dtype)
+ 
++    (start_ref, stop_ref), deps = unpack_collections([start, stop])
++
++    name = "linspace-" + tokenize((start, stop, num, endpoint, chunks, dtype))
++
++    if deps:
++        dsk = {}
++        blockstart = 0
++        for i, bs in enumerate(chunks[0]):
++            dsk[(name, i)] = (
++                _linspace_chunk,
++                start_ref,
++                stop_ref,
++                num,
++                endpoint,
++                dtype,
++                blockstart,
++                bs,
++            )
++            blockstart += bs
++
++        graph = HighLevelGraph.from_collections(name, dsk, dependencies=deps)
++        result = Array(graph, name, chunks, dtype=dtype)
++        if retstep:
++            step = (stop - start) / ((num - 1) if endpoint else num)
++            return result, step
++        else:
++            return result
++
+     range_ = stop - start
+ 
+     div = (num - 1) if endpoint else num
+     step = float(range_) / div
+ 
+-    name = "linspace-" + tokenize((start, stop, num, endpoint, chunks, dtype))
+-
+     dsk = {}
+     blockstart = start
+ 
+diff --git a/dask/array/routines.py b/dask/array/routines.py
+index 1ed2602a0..04c5f1d40 100644
+--- a/dask/array/routines.py
++++ b/dask/array/routines.py
+@@ -711,9 +711,9 @@ def bincount(x, weights=None, minlength=0, split_every=None):
+ 
+ @derived_from(np)
+ def digitize(a, bins, right=False):
+-    bins = asarray_safe(bins, like=meta_from_array(a))
+-    dtype = np.digitize(asarray_safe([0], like=bins), bins, right=False).dtype
+-    return a.map_blocks(np.digitize, dtype=dtype, bins=bins, right=right)
++    if not isinstance(bins, Array):
++        bins = asarray_safe(bins, like=meta_from_array(a))
++    return a.map_blocks(np.digitize, dtype=np.intp, bins=bins, right=right)
+ 
+ 
+ # TODO: dask linspace doesn't support delayed values

@@ -1,0 +1,43 @@
+diff --git a/sympy/functions/elementary/complexes.py b/sympy/functions/elementary/complexes.py
+index 84930497b5..9492f1309a 100644
+--- a/sympy/functions/elementary/complexes.py
++++ b/sympy/functions/elementary/complexes.py
+@@ -422,6 +422,17 @@ def _eval_power(self, other):
+         ):
+             return S.One
+ 
++    def _eval_as_leading_term(self, x, cdir=0):
++        from sympy import Order
++        arg = self.args[0]
++        arg_lt = arg.as_leading_term(x)
++        if x in arg_lt.free_symbols and Order(1, x).contains(arg_lt):
++            # argument vanishes; need to determine sign
++            if cdir != 0:
++                cdir = arg.dir(x, cdir)
++            return -S.One if re(cdir) < 0 else S.One
++        return self.func(arg_lt)
++
+     def _eval_nseries(self, x, n, logx, cdir=0):
+         arg0 = self.args[0]
+         x0 = arg0.subs(x, 0)
+@@ -657,6 +668,20 @@ def _eval_power(self, exponent):
+                 return self.args[0]**(exponent - 1)*self
+         return
+ 
++    def _eval_as_leading_term(self, x, cdir=0):
++        from sympy import Order
++        arg = self.args[0]
++        arg_lt = arg.as_leading_term(x)
++        if x in arg_lt.free_symbols and Order(1, x).contains(arg_lt):
++            # argument vanishes; need to determine sign of arg
++            if cdir != 0:
++                cdir = arg.dir(x, cdir)
++            if cdir == 0 or re(cdir) > 0:
++                return arg_lt
++            else:
++                return -arg_lt
++        return self.func(arg_lt)
++
+     def _eval_nseries(self, x, n, logx, cdir=0):
+         direction = self.args[0].leadterm(x)[0]
+         if direction.has(log(x)):

@@ -1,0 +1,8 @@
+error: patch failed: sympy/core/tests/test_subs.py:194
+error: sympy/core/tests/test_subs.py: patch does not apply
+error: patch failed: sympy/integrals/tests/test_failing_integrals.py:43
+error: sympy/integrals/tests/test_failing_integrals.py: patch does not apply
+error: patch failed: sympy/integrals/tests/test_integrals.py:1421
+error: sympy/integrals/tests/test_integrals.py: patch does not apply
+error: patch failed: sympy/integrals/tests/test_manual.py:323
+error: sympy/integrals/tests/test_manual.py: patch does not apply

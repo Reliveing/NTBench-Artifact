@@ -1,0 +1,55 @@
+diff --git a/numpy/random/_generator.pyx b/numpy/random/_generator.pyx
+index d7c1879e7a..4e429bbe3d 100644
+--- a/numpy/random/_generator.pyx
++++ b/numpy/random/_generator.pyx
+@@ -30,6 +30,42 @@
+             validate_output_shape
+         )
+ 
++
++cdef int check_negative_binomial_overflow(object n, object p) except -1:
++    """Check negative binomial parameters against int64 overflow.
++
++    The variate is generated as a Poisson variate whose parameter is first
++    drawn from a Gamma distribution with shape ``n`` and scale ``(1-p)/p``.
++    Use the same 10-sigma safety margin as the Poisson parameter check to
++    reject inputs for which the intermediate Poisson parameter can be too
++    large to represent in the int64 output type.
++    """
++    cdef object n_arr
++    cdef object p_arr
++    cdef object q
++    cdef object max_poisson_lam
++
++    try:
++        n_arr = np.asarray(n, dtype=np.double)
++        p_arr = np.asarray(p, dtype=np.double)
++    except OverflowError:
++        raise ValueError("n too large or p too small, see Generator.negative_binomial Notes")
++
++    # These checks mirror the constraints used by ``disc`` below.  They are
++    # performed here first so that the overflow calculation can ignore numpy
++    # floating-point warnings and still raise the usual ValueError for invalid
++    # inputs such as p == 0 or NaNs.
++    check_array_constraint(n_arr, 'n', CONS_POSITIVE_NOT_NAN)
++    check_array_constraint(p_arr, 'p', CONS_BOUNDED_GT_0_1)
++
++    q = 1.0 - p_arr
++    with np.errstate(over='ignore', divide='ignore', invalid='ignore'):
++        max_poisson_lam = n_arr * q / p_arr + 10.0 * np.sqrt(n_arr) * q / p_arr
++        if np.any(np.greater(max_poisson_lam, POISSON_LAM_MAX)):
++            raise ValueError("n too large or p too small, see Generator.negative_binomial Notes")
++
++    return 0
++
+ cdef extern from "numpy/arrayobject.h":
+     int PyArray_ResolveWritebackIfCopy(np.ndarray)
+     int PyArray_FailUnlessWriteable(np.PyArrayObject *obj,
+@@ -3021,6 +3057,7 @@ def negative_binomial(self, n, p, size=None):
+         ...    print(i, "wells drilled, probability of one success =", probability)
+ 
+         """
++        check_negative_binomial_overflow(n, p)
+         return disc(&random_negative_binomial, &self._bitgen, size, self.lock, 2, 0,
+                     n, 'n', CONS_POSITIVE_NOT_NAN,
+                     p, 'p', CONS_BOUNDED_GT_0_1,

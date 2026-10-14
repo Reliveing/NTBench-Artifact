@@ -1,0 +1,88 @@
+diff --git a/lib/matplotlib/bezier.py b/lib/matplotlib/bezier.py
+index 714a57933b..0877038d57 100644
+--- a/lib/matplotlib/bezier.py
++++ b/lib/matplotlib/bezier.py
+@@ -31,8 +31,9 @@ def get_intersection(cx1, cy1, cos_t1, sin_t1,
+     c, d = sin_t2, -cos_t2
+ 
+     ad_bc = a * d - b * c
+-    if ad_bc == 0.:
+-        raise ValueError("Given lines do not intersect")
++    if np.abs(ad_bc) < 1.0e-12:
++        raise ValueError("Given lines do not intersect. Please verify that "
++                         "the angles are not equal or differ by 180 degrees.")
+ 
+     # rhs_inverse
+     a_, b_ = d, -b
+diff --git a/lib/matplotlib/patches.py b/lib/matplotlib/patches.py
+index a6120d6450..2d7d609dc5 100644
+--- a/lib/matplotlib/patches.py
++++ b/lib/matplotlib/patches.py
+@@ -2789,8 +2789,8 @@ class ConnectionStyle(_Style):
+         """
+         Creates a simple quadratic Bezier curve between two
+         points. The middle control points is placed at the
+-        intersecting point of two lines which crosses the start (or
+-        end) point and has a angle of angleA (or angleB).
++        intersecting point of two lines which cross the start and
++        end point, and have a slope of angleA and angleB, respectively.
+         """
+ 
+         def __init__(self, angleA=90, angleB=0):
+@@ -2827,9 +2827,9 @@ class ConnectionStyle(_Style):
+         """
+         Creates a piecewise continuous quadratic Bezier path between
+         two points. The path has a one passing-through point placed at
+-        the intersecting point of two lines which crosses the start
+-        (or end) point and has a angle of angleA (or angleB).  The
+-        connecting edges are rounded with *rad*.
++        the intersecting point of two lines which cross the start
++        and end point, and have a slope of angleA and angleB, respectively.
++        The connecting edges are rounded with *rad*.
+         """
+ 
+         def __init__(self, angleA=90, angleB=0, rad=0.):
+diff --git a/lib/matplotlib/tests/test_arrow_patches.py b/lib/matplotlib/tests/test_arrow_patches.py
+index a6416954ca..b1ef1e298e 100644
+--- a/lib/matplotlib/tests/test_arrow_patches.py
++++ b/lib/matplotlib/tests/test_arrow_patches.py
+@@ -1,3 +1,4 @@
++import pytest
+ import matplotlib.pyplot as plt
+ from matplotlib.testing.decorators import image_comparison
+ import matplotlib.patches as mpatches
+@@ -133,3 +134,34 @@ def test_arrow_styles():
+                                          arrowstyle=stylename,
+                                          mutation_scale=25)
+         ax.add_patch(patch)
++
++
++@image_comparison(baseline_images=['connection_styles'], extensions=['png'],
++                  style='mpl20', remove_text=True)
++def test_connection_styles():
++    styles = mpatches.ConnectionStyle.get_styles()
++
++    n = len(styles)
++    fig, ax = plt.subplots(figsize=(6, 10))
++    ax.set_xlim(0, 1)
++    ax.set_ylim(-1, n)
++
++    for i, stylename in enumerate(sorted(styles)):
++        patch = mpatches.FancyArrowPatch((0.1, i), (0.8, i + 0.5),
++                                         arrowstyle="->",
++                                         connectionstyle=stylename,
++                                         mutation_scale=25)
++        ax.add_patch(patch)
++
++
++def test_invalid_intersection():
++    conn_style_1 = mpatches.ConnectionStyle.Angle3(angleA=20, angleB=200)
++    p1 = mpatches.FancyArrowPatch((.2, .2), (.5, .5),
++                                  connectionstyle=conn_style_1)
++    with pytest.raises(ValueError):
++        plt.gca().add_patch(p1)
++
++    conn_style_2 = mpatches.ConnectionStyle.Angle3(angleA=20, angleB=199.9)
++    p2 = mpatches.FancyArrowPatch((.2, .2), (.5, .5),
++                                  connectionstyle=conn_style_2)
++    plt.gca().add_patch(p2)

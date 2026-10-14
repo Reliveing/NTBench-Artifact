@@ -1,0 +1,30 @@
+diff --git a/src/tox/config/loader/toml/_replace.py b/src/tox/config/loader/toml/_replace.py
+index a95bb2e..0f0657e 100644
+--- a/src/tox/config/loader/toml/_replace.py
++++ b/src/tox/config/loader/toml/_replace.py
+@@ -31,7 +31,7 @@ class Unroll:
+         depth += 1
+         MatchRecursionError.check(depth, value)
+         if isinstance(value, str):
+-            if self.conf is not None:  # core config does not support string substitution
++            if self.conf is not None and not self._in_set_env():  # core config does not support string substitution
+                 reference = TomlReplaceLoader(self.conf, self.loader)
+                 value = replace(self.conf, reference, value, self.args)
+         elif isinstance(value, (int, float, bool)):
+@@ -78,6 +78,10 @@ class Unroll:
+             value = res_dict
+         return value
+ 
++    def _in_set_env(self) -> bool:
++        """Check if the current config load is within a set_env value."""
++        return any(part.endswith(".set_env") for part in self.args.chain)
++
+     def _replace_ref(self, value: dict[str, TomlTypes], depth: int) -> TomlTypes:
+         if self.conf is not None and (env := value.get("env")) and (key := value.get("key")):
+             return cast("TomlTypes", self.conf.get_env(cast("str", env))[cast("str", key)])
+@@ -159,4 +163,4 @@ class RawLoader:
+ 
+ __all__ = [
+     "Unroll",
+-]
++]

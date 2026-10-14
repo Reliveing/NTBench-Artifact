@@ -1,0 +1,107 @@
+diff --git a/sympy/integrals/manualintegrate.py b/sympy/integrals/manualintegrate.py
+index 50d75d5f92..89e774feee 100644
+--- a/sympy/integrals/manualintegrate.py
++++ b/sympy/integrals/manualintegrate.py
+@@ -140,7 +140,16 @@ def possible_subterms(term):
+             if term.args[1].is_constant(symbol):
+                 return [term.args[0]]
+             elif term.args[0].is_constant(symbol):
+-                return [term.args[1]]
++                exp = term.args[1]
++                # A power ``base**(c*x)`` with a purely numeric coefficient
++                # ``c`` is already an elementary exponential ``(base**c)**x``;
++                # substituting its exponent does not simplify the integral and
++                # can lead to infinite recursion, so skip it in that case.
++                if (exp.is_polynomial(symbol) and
++                        sympy.Poly(exp, symbol).degree() == 1 and
++                        not sympy.Poly(exp, symbol).LC().free_symbols):
++                    return []
++                return [exp]
+         elif isinstance(term, sympy.Add):
+             r = []
+             for arg in term.args:
+@@ -804,6 +813,38 @@ def substitution_rule(integral):
+                          integral_steps(substituted, u_var),
+                          integrand, symbol)
+ 
++def _combine_exponential_bases(integrand, symbol):
++    """Combine constant-base powers whose exponents are proportional to each
++    other into a single power, e.g. ``3**x*5**(-x)`` becomes ``(3/5)**x``.
++    """
++    coeff = sympy.S.One
++    groups = {}
++    for arg in sympy.Mul.make_args(integrand):
++        base, exp = arg.as_base_exp()
++        if symbol in exp.free_symbols and symbol not in base.free_symbols:
++            const, reduced = exp.as_independent(symbol, as_Add=False)
++            groups.setdefault(reduced, []).append((base, const))
++        else:
++            coeff *= arg
++
++    result = coeff
++    combined = False
++    for reduced, items in groups.items():
++        if len(items) > 1:
++            combined = True
++        new_base = sympy.S.One
++        for base, const in items:
++            new_base *= base ** const
++        result *= new_base ** reduced
++
++    if combined:
++        return result
++    return integrand
++
++combine_exponential_rule = rewriter(
++    lambda integrand, symbol: isinstance(integrand, sympy.Mul),
++    _combine_exponential_bases)
++
+ partial_fractions_rule = rewriter(
+     lambda integrand, symbol: integrand.is_rational_function(),
+     lambda integrand, symbol: integrand.apart(symbol))
+@@ -912,14 +953,14 @@ def _integral_is_subclass(integral):
+             return k and issubclass(k, klasses)
+         return _integral_is_subclass
+ 
+-    result = do_one(
++    rules = do_one(
+         null_safe(switch(key, {
+             sympy.Pow: do_one(null_safe(power_rule), null_safe(inverse_trig_rule)),
+             sympy.Symbol: power_rule,
+             sympy.exp: exp_rule,
+             sympy.Add: add_rule,
+             sympy.Mul: do_one(null_safe(mul_rule), null_safe(trig_product_rule), \
+-                null_safe(heaviside_rule)),
++                null_safe(heaviside_rule), null_safe(combine_exponential_rule)),
+             sympy.Derivative: derivative_rule,
+             TrigonometricFunction: trig_rule,
+             sympy.Heaviside: heaviside_rule,
+@@ -929,6 +970,9 @@ def _integral_is_subclass(integral):
+             null_safe(trig_rule),
+             null_safe(alternatives(
+                 rewrites_rule,
++                condition(
++                    integral_is_subclass(sympy.Mul),
++                    combine_exponential_rule),
+                 substitution_rule,
+                 condition(
+                     integral_is_subclass(sympy.Mul, sympy.Pow),
+@@ -943,7 +987,17 @@ def _integral_is_subclass(integral):
+             )),
+             null_safe(trig_substitution_rule)
+         ),
+-        fallback_rule)(integral)
++        fallback_rule)
++
++    try:
++        result = rules(integral)
++    except:
++        # Make sure that an interrupted (or otherwise failed) evaluation does
++        # not leave a spurious ``None`` in the cache which would cause later
++        # calls with the same integrand to fail.
++        _integral_cache.pop(cachekey, None)
++        raise
++
+     del _integral_cache[cachekey]
+     return result
+ 

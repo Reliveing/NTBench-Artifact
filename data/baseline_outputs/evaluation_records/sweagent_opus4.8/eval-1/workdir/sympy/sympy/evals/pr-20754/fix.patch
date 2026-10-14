@@ -1,0 +1,26 @@
+diff --git a/sympy/core/add.py b/sympy/core/add.py
+index ca9bcfc4a3..57808710e4 100644
+--- a/sympy/core/add.py
++++ b/sympy/core/add.py
+@@ -1011,11 +1011,21 @@ def _eval_as_leading_term(self, x, cdir=0):
+         if not new_expr:
+             # simple leading term analysis gave us cancelled terms but we have to send
+             # back a term, so compute the leading term (via series)
++            from sympy.functions.elementary.piecewise import Piecewise, piecewise_fold
+             n0 = min.getn()
+             res = Order(1)
+             incr = S.One
+             while res.is_Order:
+                 res = old._eval_nseries(x, n=n0+incr, logx=None, cdir=cdir).cancel().powsimp().trigsimp()
++                if res.has(Piecewise):
++                    # folding the Piecewise brings the surrounding (possibly
++                    # cancelling) terms into each branch so that a genuine
++                    # leading term can be extracted
++                    res = piecewise_fold(res)
++                # if the leading behaviour is still entirely of Order type we
++                # need a higher order term, so keep iterating
++                if res.as_leading_term(x, cdir=cdir).is_Order:
++                    res = Order(1)
+                 incr *= 2
+             return res.as_leading_term(x, cdir=cdir)
+ 

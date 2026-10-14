@@ -1,0 +1,30 @@
+diff --git a/sympy/polys/galoistools.py b/sympy/polys/galoistools.py
+index cbf1af6e6d..ef34964c5a 100644
+--- a/sympy/polys/galoistools.py
++++ b/sympy/polys/galoistools.py
+@@ -1885,21 +1885,15 @@ def gf_edf_zassenhaus(f, n, p, K):
+         return factors
+ 
+     N = gf_degree(f) // n
+-    if p != 2:
+-        b = gf_frobenius_monomial_base(f, p, K)
++    b = gf_frobenius_monomial_base(f, p, K)
+ 
+     while len(factors) < N:
+-        r = gf_random(2*n - 1, p, K)
+-
+         if p == 2:
+-            h = r
+-
+-            for i in range(0, 2**(n*N - 1)):
+-                r = gf_pow_mod(r, 2, f, p, K)
+-                h = gf_add(h, r, p, K)
+-
++            r = gf_random(gf_degree(f) - 1, p, K)
++            h = _gf_trace_map(r, n, f, b, p, K)
+             g = gf_gcd(f, h, p, K)
+         else:
++            r = gf_random(2*n - 1, p, K)
+             h = _gf_pow_pnm1d2(r, n, f, b, p, K)
+             g = gf_gcd(f, gf_sub_ground(h, K.one, p, K), p, K)
+ 

@@ -1,0 +1,22 @@
+diff --git a/sympy/core/numbers.py b/sympy/core/numbers.py
+index d1e4f02f47..5e717c738c 100644
+--- a/sympy/core/numbers.py
++++ b/sympy/core/numbers.py
+@@ -2467,6 +2467,17 @@ def _eval_power(self, expt):
+             return S.Zero
+         if expt is S.NaN:
+             return S.NaN
++        if expt is S.ComplexInfinity:
++            return S.NaN
++        if expt.is_real is False and expt.is_number:
++            from sympy.functions.elementary.complexes import re
++            expt_real = re(expt)
++            if expt_real.is_positive:
++                return S.ComplexInfinity
++            if expt_real.is_negative:
++                return S.Zero
++            if expt_real.is_zero:
++                return S.NaN
+ 
+         if expt.is_number:
+             return self**expt.evalf()

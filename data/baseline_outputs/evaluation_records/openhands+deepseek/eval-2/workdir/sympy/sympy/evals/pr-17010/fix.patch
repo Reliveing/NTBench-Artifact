@@ -1,0 +1,36 @@
+diff --git a/sympy/functions/special/polynomials.py b/sympy/functions/special/polynomials.py
+index 361ba77c20..a2ce6c8837 100644
+--- a/sympy/functions/special/polynomials.py
++++ b/sympy/functions/special/polynomials.py
+@@ -616,8 +616,12 @@ def eval(cls, n, x):
+                 # U_{-n}(x)  --->  -U_{n-2}(x)
+                 if n == S.NegativeOne:
+                     return S.Zero
+-                else:
++                elif (-n - 2).is_nonnegative:
+                     return -cls._eval_at_order(-n - 2, x)
++                else:
++                    # n is not an integer (e.g. -1/2, -3/2) and
++                    # -n - 2 is negative; transformation would cycle
++                    return
+             else:
+                 return cls._eval_at_order(n, x)
+ 
+@@ -1093,7 +1097,7 @@ def eval(cls, n, x):
+             # L_{n}(-x)  --->  exp(-x) * L_{-n-1}(x)
+             # L_{-n}(x)  --->  exp(x) * L_{n-1}(-x)
+             if n.could_extract_minus_sign():
+-                return exp(x) * laguerre(n - 1, -x)
++                return exp(x) * laguerre(-n - 1, -x)
+             # We can evaluate for some special values of x
+             if x == S.Zero:
+                 return S.One
+@@ -1104,6 +1108,8 @@ def eval(cls, n, x):
+         else:
+             # n is a given fixed integer, evaluate into polynomial
+             if n.is_negative:
++                if n.is_integer:
++                    return exp(x) * laguerre(-n - 1, -x)
+                 raise ValueError(
+                     "The index n must be nonnegative integer (got %r)" % n)
+             else:

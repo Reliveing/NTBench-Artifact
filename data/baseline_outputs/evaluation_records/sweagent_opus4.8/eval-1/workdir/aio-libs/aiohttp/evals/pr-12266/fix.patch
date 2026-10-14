@@ -1,0 +1,63 @@
+diff --git a/aiohttp/compression_utils.py b/aiohttp/compression_utils.py
+index 0bc4a30d8..bae5bc4dd 100644
+--- a/aiohttp/compression_utils.py
++++ b/aiohttp/compression_utils.py
+@@ -330,6 +330,12 @@ class ZSTDDecompressor(DecompressionBaseHandler):
+                 "Please install `backports.zstd` module"
+             )
+         self._obj = ZstdDecompressor()
++        # Buffer for data that follows a completed frame and must be
++        # decompressed by a freshly created decompressor. ZstdDecompressor
++        # does not transparently handle inputs containing multiple frames,
++        # so we detect end-of-frame and start a new decompressor for the
++        # remaining data.
++        self._unused_data = b""
+         super().__init__(executor=executor, max_sync_chunk_size=max_sync_chunk_size)
+ 
+     def decompress_sync(
+@@ -342,7 +348,44 @@ class ZSTDDecompressor(DecompressionBaseHandler):
+             if max_length == ZLIB_MAX_LENGTH_UNLIMITED
+             else max_length
+         )
+-        return self._obj.decompress(data, zstd_max_length)
++
++        # Prepend any data that was left over from a previous frame.
++        if self._unused_data:
++            data = self._unused_data + bytes(data)
++            self._unused_data = b""
++
++        result = bytearray()
++        while True:
++            # If the current decompressor has reached the end of a frame,
++            # create a new one to handle the next frame in the stream.
++            if self._obj.eof:
++                self._obj = ZstdDecompressor()
++
++            result += self._obj.decompress(data, zstd_max_length)
++
++            # Once a frame is fully decoded, any remaining bytes belong to the
++            # next frame in the stream and must be handed to a new decompressor.
++            if self._obj.eof:
++                data = bytes(self._obj.unused_data)
++            else:
++                # The frame is not finished; the decompressor keeps any
++                # unconsumed input internally, so there is nothing more to do.
++                data = b""
++
++            # Respect a caller-imposed output length limit. Buffer any data
++            # that has not been decoded yet so the next call can continue.
++            if (
++                zstd_max_length != ZSTD_MAX_LENGTH_UNLIMITED
++                and len(result) >= zstd_max_length
++            ):
++                self._unused_data = data
++                break
++
++            # Continue only if a completed frame left trailing data to decode.
++            if not data:
++                break
++
++        return bytes(result)
+ 
+     def flush(self) -> bytes:
+         return b""

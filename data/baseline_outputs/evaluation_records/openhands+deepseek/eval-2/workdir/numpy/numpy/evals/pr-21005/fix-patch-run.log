@@ -1,0 +1,1117 @@
+Running from numpy source directory.
+/home/numpy/setup.py:86: DeprecationWarning: 
+
+  `numpy.distutils` is deprecated since NumPy 1.23.0, as a result
+  of the deprecation of `distutils` itself. It will be removed for
+  Python >= 3.12. For older Python versions it will remain present.
+  It is recommended to use `setuptools < 60.0` for those Python versions.
+  For more details, see:
+    https://numpy.org/devdocs/reference/distutils_status_migration.html 
+
+
+  import numpy.distutils.command.sdist
+numpy/random/_bounded_integers.pxd.in has not changed
+numpy/random/_bounded_integers.pyx.in has not changed
+numpy/random/_mt19937.pyx has not changed
+numpy/random/_sfc64.pyx has not changed
+Processing numpy/random/_generator.pyx
+numpy/random/_philox.pyx has not changed
+numpy/random/_common.pyx has not changed
+numpy/random/bit_generator.pyx has not changed
+numpy/random/mtrand.pyx has not changed
+numpy/random/_pcg64.pyx has not changed
+numpy/random/_bounded_integers.pyx has not changed
+numpy/core/setup.py:440: MismatchCAPIWarning: API mismatch detected, the C API version numbers have to be updated. Current C api version is 15, with checksum 04a7bf1e65350926a0e528798da263c0, but recorded checksum for C API version 15 in core/codegen_dir/cversions.txt is b8783365b873681cd204be50cdfb448d. If functions were added in the C API, you have to update C_API_VERSION in /home/numpy/numpy/core/setup_common.py.
+  check_api_version(C_API_VERSION, codegen_dir)
+Cythonizing sources
+INFO: blas_opt_info:
+INFO: blas_armpl_info:
+INFO: customize UnixCCompiler
+INFO:   libraries armpl_lp64_mp not found in ['/usr/local/lib', '/usr/lib', '/usr/lib/x86_64-linux-gnu']
+INFO:   NOT AVAILABLE
+INFO: 
+INFO: blas_mkl_info:
+INFO:   libraries mkl_rt not found in ['/usr/local/lib', '/usr/lib', '/usr/lib/x86_64-linux-gnu']
+INFO:   NOT AVAILABLE
+INFO: 
+INFO: blis_info:
+INFO:   libraries blis not found in ['/usr/local/lib', '/usr/lib', '/usr/lib/x86_64-linux-gnu']
+INFO:   NOT AVAILABLE
+INFO: 
+INFO: openblas_info:
+INFO: C compiler: gcc -pthread -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC
+
+creating /tmp/tmp99lglu6i/tmp
+creating /tmp/tmp99lglu6i/tmp/tmp99lglu6i
+INFO: compile options: '-c'
+INFO: gcc: /tmp/tmp99lglu6i/source.c
+INFO: gcc -pthread /tmp/tmp99lglu6i/tmp/tmp99lglu6i/source.o -L/usr/lib/x86_64-linux-gnu -lopenblas -o /tmp/tmp99lglu6i/a.out
+INFO:   FOUND:
+INFO:     libraries = ['openblas', 'openblas']
+INFO:     library_dirs = ['/usr/lib/x86_64-linux-gnu']
+INFO:     language = c
+INFO:     define_macros = [('HAVE_CBLAS', None)]
+INFO: 
+INFO:   FOUND:
+INFO:     libraries = ['openblas', 'openblas']
+INFO:     library_dirs = ['/usr/lib/x86_64-linux-gnu']
+INFO:     language = c
+INFO:     define_macros = [('HAVE_CBLAS', None)]
+INFO: 
+non-existing path in 'numpy/distutils': 'site.cfg'
+INFO: lapack_opt_info:
+INFO: lapack_armpl_info:
+INFO:   libraries armpl_lp64_mp not found in ['/usr/local/lib', '/usr/lib', '/usr/lib/x86_64-linux-gnu']
+INFO:   NOT AVAILABLE
+INFO: 
+INFO: lapack_mkl_info:
+INFO:   libraries mkl_rt not found in ['/usr/local/lib', '/usr/lib', '/usr/lib/x86_64-linux-gnu']
+INFO:   NOT AVAILABLE
+INFO: 
+INFO: openblas_lapack_info:
+INFO: C compiler: gcc -pthread -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC
+
+creating /tmp/tmp2rormnqh/tmp
+creating /tmp/tmp2rormnqh/tmp/tmp2rormnqh
+INFO: compile options: '-c'
+INFO: gcc: /tmp/tmp2rormnqh/source.c
+INFO: gcc -pthread /tmp/tmp2rormnqh/tmp/tmp2rormnqh/source.o -L/usr/lib/x86_64-linux-gnu -lopenblas -o /tmp/tmp2rormnqh/a.out
+INFO:   FOUND:
+INFO:     libraries = ['openblas', 'openblas']
+INFO:     library_dirs = ['/usr/lib/x86_64-linux-gnu']
+INFO:     language = c
+INFO:     define_macros = [('HAVE_CBLAS', None)]
+INFO: 
+INFO:   FOUND:
+INFO:     libraries = ['openblas', 'openblas']
+INFO:     library_dirs = ['/usr/lib/x86_64-linux-gnu']
+INFO:     language = c
+INFO:     define_macros = [('HAVE_CBLAS', None)]
+INFO: 
+Warning: attempted relative import with no known parent package
+/usr/local/lib/python3.9/distutils/dist.py:274: UserWarning: Unknown distribution option: 'define_macros'
+  warnings.warn(msg)
+running build_ext
+running build_src
+INFO: build_src
+INFO: building py_modules sources
+INFO: building library "npymath" sources
+WARN: Could not locate executable armflang
+INFO:   adding 'numpy/core/src/npymath' to include_dirs.
+INFO: None - nothing done with h_files = ['numpy/core/src/npymath/npy_math_internal.h']
+INFO: building library "npyrandom" sources
+INFO: building extension "numpy.core._multiarray_tests" sources
+INFO: building extension "numpy.core._multiarray_umath" sources
+INFO:   adding 'numpy/core/src/multiarray' to include_dirs.
+INFO:   adding 'numpy/core/src/common' to include_dirs.
+INFO:   adding 'numpy/core/src/umath' to include_dirs.
+INFO: numpy.core - nothing done with h_files = ['numpy/core/src/multiarray/arraytypes.h', 'numpy/core/src/common/npy_sort.h', 'numpy/core/src/common/npy_partition.h', 'numpy/core/src/common/npy_binsearch.h', 'numpy/core/src/umath/funcs.inc', 'numpy/core/src/umath/simd.inc', 'numpy/core/src/umath/loops.h', 'numpy/core/src/umath/loops_utils.h', 'numpy/core/src/umath/matmul.h', 'numpy/core/src/umath/clip.h', 'numpy/core/src/common/templ_common.h', 'numpy/core/include/numpy/config.h', 'numpy/core/include/numpy/_numpyconfig.h', 'numpy/core/include/numpy/__multiarray_api.h', 'numpy/core/include/numpy/__ufunc_api.h']
+INFO: building extension "numpy.core._umath_tests" sources
+INFO: building extension "numpy.core._rational_tests" sources
+INFO: building extension "numpy.core._struct_ufunc_tests" sources
+INFO: building extension "numpy.core._operand_flag_tests" sources
+INFO: building extension "numpy.core._simd" sources
+INFO:   adding 'numpy/core/src/_simd' to include_dirs.
+INFO: numpy.core - nothing done with h_files = ['numpy/core/src/_simd/_simd_inc.h', 'numpy/core/src/_simd/_simd_data.inc']
+INFO: building extension "numpy.fft._pocketfft_internal" sources
+INFO: building extension "numpy.linalg.lapack_lite" sources
+INFO: building extension "numpy.linalg._umath_linalg" sources
+INFO: building extension "numpy.random._mt19937" sources
+INFO: building extension "numpy.random._philox" sources
+INFO: building extension "numpy.random._pcg64" sources
+INFO: building extension "numpy.random._sfc64" sources
+INFO: building extension "numpy.random._common" sources
+INFO: building extension "numpy.random.bit_generator" sources
+INFO: building extension "numpy.random._generator" sources
+INFO: building extension "numpy.random._bounded_integers" sources
+INFO: building extension "numpy.random.mtrand" sources
+INFO: building data_files sources
+INFO: build_src: building npy-pkg config files
+/usr/local/lib/python3.9/site-packages/setuptools/command/install.py:34: SetuptoolsDeprecationWarning: setup.py install is deprecated. Use build and pip and other standards-based tools.
+  warnings.warn(
+INFO: customize UnixCCompiler
+INFO: customize UnixCCompiler using new_build_clib
+INFO: CCompilerOpt.__init__[805] : load cache from file -> /home/numpy/build/temp.linux-x86_64-3.9/ccompiler_opt_cache_clib.py
+INFO: CCompilerOpt.__init__[816] : hit the file cache
+INFO: customize UnixCCompiler
+INFO: customize UnixCCompiler using new_build_ext
+INFO: CCompilerOpt.__init__[805] : load cache from file -> /home/numpy/build/temp.linux-x86_64-3.9/ccompiler_opt_cache_ext.py
+INFO: CCompilerOpt.__init__[816] : hit the file cache
+INFO: customize UnixCCompiler
+INFO: customize UnixCCompiler using new_build_ext
+INFO: building 'numpy.random._generator' extension
+INFO: compiling C sources
+INFO: C compiler: gcc -pthread -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC
+
+INFO: compile options: '-D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE=1 -D_LARGEFILE64_SOURCE=1 -DNPY_NO_DEPRECATED_API=0 -Inumpy/random -Inumpy/random/src -Inumpy/core/include -Inumpy/core/include/numpy -Ibuild/src.linux-x86_64-3.9/numpy/distutils/include -Inumpy/core/src/common -Inumpy/core/src -Inumpy/core -Inumpy/core/src/npymath -Inumpy/core/src/multiarray -Inumpy/core/src/umath -Inumpy/core/src/npysort -Inumpy/core/src/_simd -I/usr/local/include/python3.9 -Inumpy/core/src/common -Inumpy/core/src/npymath -c'
+extra options: '-U__GNUC_GNU_INLINE__ -std=c99 -msse -msse2 -msse3'
+INFO: gcc: numpy/random/_generator.c
+INFO: gcc -pthread -shared build/temp.linux-x86_64-3.9/numpy/random/_generator.o -L/usr/local/lib -Lbuild/temp.linux-x86_64-3.9 -lnpyrandom -lm -lnpymath -o numpy/random/_generator.cpython-39-x86_64-linux-gnu.so
+INFO: 
+########### EXT COMPILER OPTIMIZATION ###########
+INFO: Platform      : 
+  Architecture: x64
+  Compiler    : gcc
+
+CPU baseline  : 
+  Requested   : 'min'
+  Enabled     : SSE SSE2 SSE3
+  Flags       : -msse -msse2 -msse3
+  Extra checks: none
+
+CPU dispatch  : 
+  Requested   : 'max -xop -fma4'
+  Enabled     : SSSE3 SSE41 POPCNT SSE42 AVX F16C FMA3 AVX2 AVX512F AVX512CD AVX512_KNL AVX512_KNM AVX512_SKX AVX512_CLX AVX512_CNL AVX512_ICL
+  Generated   : 
+              : 
+  SSE41       : SSE SSE2 SSE3 SSSE3
+  Flags       : -msse -msse2 -msse3 -mssse3 -msse4.1
+  Extra checks: none
+  Detect      : SSE SSE2 SSE3 SSSE3 SSE41
+              : numpy/core/src/umath/_umath_tests.dispatch.c
+              : numpy/core/src/umath/loops_arithmetic.dispatch.c
+              : numpy/core/src/umath/loops_unary_fp.dispatch.c
+              : 
+  SSE42       : SSE SSE2 SSE3 SSSE3 SSE41 POPCNT
+  Flags       : -msse -msse2 -msse3 -mssse3 -msse4.1 -mpopcnt -msse4.2
+  Extra checks: none
+  Detect      : SSE SSE2 SSE3 SSSE3 SSE41 POPCNT SSE42
+              : numpy/core/src/_simd/_simd.dispatch.c
+              : numpy/core/src/multiarray/argfunc.dispatch.c
+              : 
+  AVX2        : SSE SSE2 SSE3 SSSE3 SSE41 POPCNT SSE42 AVX F16C
+  Flags       : -msse -msse2 -msse3 -mssse3 -msse4.1 -mpopcnt -msse4.2 -mavx -mf16c -mavx2
+  Extra checks: none
+  Detect      : AVX F16C AVX2
+              : numpy/core/src/multiarray/argfunc.dispatch.c
+              : numpy/core/src/umath/_umath_tests.dispatch.c
+              : numpy/core/src/umath/loops_arithm_fp.dispatch.c
+              : numpy/core/src/umath/loops_arithmetic.dispatch.c
+              : numpy/core/src/umath/loops_minmax.dispatch.c
+              : 
+  (FMA3 AVX2) : SSE SSE2 SSE3 SSSE3 SSE41 POPCNT SSE42 AVX F16C
+  Flags       : -msse -msse2 -msse3 -mssse3 -msse4.1 -mpopcnt -msse4.2 -mavx -mf16c -mfma -mavx2
+  Extra checks: none
+  Detect      : AVX F16C FMA3 AVX2
+              : numpy/core/src/_simd/_simd.dispatch.c
+              : numpy/core/src/umath/loops_exponent_log.dispatch.c
+              : numpy/core/src/umath/loops_hyperbolic.dispatch.c
+              : numpy/core/src/umath/loops_trigonometric.dispatch.c
+              : 
+  AVX512F     : SSE SSE2 SSE3 SSSE3 SSE41 POPCNT SSE42 AVX F16C FMA3 AVX2
+  Flags       : -msse -msse2 -msse3 -mssse3 -msse4.1 -mpopcnt -msse4.2 -mavx -mf16c -mfma -mavx2 -mavx512f
+  Extra checks: AVX512F_REDUCE
+  Detect      : AVX512F
+              : numpy/core/src/_simd/_simd.dispatch.c
+              : numpy/core/src/umath/loops_arithm_fp.dispatch.c
+              : numpy/core/src/umath/loops_arithmetic.dispatch.c
+              : numpy/core/src/umath/loops_exponent_log.dispatch.c
+              : numpy/core/src/umath/loops_trigonometric.dispatch.c
+              : 
+  AVX512_SKX  : SSE SSE2 SSE3 SSSE3 SSE41 POPCNT SSE42 AVX F16C FMA3 AVX2 AVX512F AVX512CD
+  Flags       : -msse -msse2 -msse3 -mssse3 -msse4.1 -mpopcnt -msse4.2 -mavx -mf16c -mfma -mavx2 -mavx512f -mavx512cd -mavx512vl -mavx512bw -mavx512dq
+  Extra checks: AVX512BW_MASK AVX512DQ_MASK
+  Detect      : AVX512_SKX
+              : numpy/core/src/_simd/_simd.dispatch.c
+              : numpy/core/src/multiarray/argfunc.dispatch.c
+              : numpy/core/src/npysort/x86-qsort.dispatch.c
+              : numpy/core/src/umath/loops_arithmetic.dispatch.c
+              : numpy/core/src/umath/loops_exponent_log.dispatch.c
+              : numpy/core/src/umath/loops_hyperbolic.dispatch.c
+              : numpy/core/src/umath/loops_minmax.dispatch.c
+              : numpy/core/src/umath/loops_umath_fp.dispatch.c
+INFO: CCompilerOpt.cache_flush[849] : write cache to path -> /home/numpy/build/temp.linux-x86_64-3.9/ccompiler_opt_cache_ext.py
+INFO: 
+########### CLIB COMPILER OPTIMIZATION ###########
+INFO: Platform      : 
+  Architecture: x64
+  Compiler    : gcc
+
+CPU baseline  : 
+  Requested   : 'min'
+  Enabled     : SSE SSE2 SSE3
+  Flags       : -msse -msse2 -msse3
+  Extra checks: none
+
+CPU dispatch  : 
+  Requested   : 'max -xop -fma4'
+  Enabled     : SSSE3 SSE41 POPCNT SSE42 AVX F16C FMA3 AVX2 AVX512F AVX512CD AVX512_KNL AVX512_KNM AVX512_SKX AVX512_CLX AVX512_CNL AVX512_ICL
+  Generated   : none
+INFO: CCompilerOpt.cache_flush[849] : write cache to path -> /home/numpy/build/temp.linux-x86_64-3.9/ccompiler_opt_cache_clib.py
+Running from numpy source directory.
+/home/numpy/setup.py:86: DeprecationWarning: 
+
+  `numpy.distutils` is deprecated since NumPy 1.23.0, as a result
+  of the deprecation of `distutils` itself. It will be removed for
+  Python >= 3.12. For older Python versions it will remain present.
+  It is recommended to use `setuptools < 60.0` for those Python versions.
+  For more details, see:
+    https://numpy.org/devdocs/reference/distutils_status_migration.html 
+
+
+  import numpy.distutils.command.sdist
+numpy/random/_bounded_integers.pxd.in has not changed
+numpy/random/_bounded_integers.pyx.in has not changed
+numpy/random/_mt19937.pyx has not changed
+numpy/random/_sfc64.pyx has not changed
+numpy/random/_generator.pyx has not changed
+numpy/random/_philox.pyx has not changed
+numpy/random/_common.pyx has not changed
+numpy/random/bit_generator.pyx has not changed
+numpy/random/mtrand.pyx has not changed
+numpy/random/_pcg64.pyx has not changed
+numpy/random/_bounded_integers.pyx has not changed
+numpy/core/setup.py:440: MismatchCAPIWarning: API mismatch detected, the C API version numbers have to be updated. Current C api version is 15, with checksum 04a7bf1e65350926a0e528798da263c0, but recorded checksum for C API version 15 in core/codegen_dir/cversions.txt is b8783365b873681cd204be50cdfb448d. If functions were added in the C API, you have to update C_API_VERSION in /home/numpy/numpy/core/setup_common.py.
+  check_api_version(C_API_VERSION, codegen_dir)
+Cythonizing sources
+INFO: blas_opt_info:
+INFO: blas_armpl_info:
+INFO: customize UnixCCompiler
+INFO:   libraries armpl_lp64_mp not found in ['/usr/local/lib', '/usr/lib', '/usr/lib/x86_64-linux-gnu']
+INFO:   NOT AVAILABLE
+INFO: 
+INFO: blas_mkl_info:
+INFO:   libraries mkl_rt not found in ['/usr/local/lib', '/usr/lib', '/usr/lib/x86_64-linux-gnu']
+INFO:   NOT AVAILABLE
+INFO: 
+INFO: blis_info:
+INFO:   libraries blis not found in ['/usr/local/lib', '/usr/lib', '/usr/lib/x86_64-linux-gnu']
+INFO:   NOT AVAILABLE
+INFO: 
+INFO: openblas_info:
+INFO: C compiler: gcc -pthread -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC
+
+creating /tmp/tmpgjle8_mj/tmp
+creating /tmp/tmpgjle8_mj/tmp/tmpgjle8_mj
+INFO: compile options: '-c'
+INFO: gcc: /tmp/tmpgjle8_mj/source.c
+INFO: gcc -pthread /tmp/tmpgjle8_mj/tmp/tmpgjle8_mj/source.o -L/usr/lib/x86_64-linux-gnu -lopenblas -o /tmp/tmpgjle8_mj/a.out
+INFO:   FOUND:
+INFO:     libraries = ['openblas', 'openblas']
+INFO:     library_dirs = ['/usr/lib/x86_64-linux-gnu']
+INFO:     language = c
+INFO:     define_macros = [('HAVE_CBLAS', None)]
+INFO: 
+INFO:   FOUND:
+INFO:     libraries = ['openblas', 'openblas']
+INFO:     library_dirs = ['/usr/lib/x86_64-linux-gnu']
+INFO:     language = c
+INFO:     define_macros = [('HAVE_CBLAS', None)]
+INFO: 
+non-existing path in 'numpy/distutils': 'site.cfg'
+INFO: lapack_opt_info:
+INFO: lapack_armpl_info:
+INFO:   libraries armpl_lp64_mp not found in ['/usr/local/lib', '/usr/lib', '/usr/lib/x86_64-linux-gnu']
+INFO:   NOT AVAILABLE
+INFO: 
+INFO: lapack_mkl_info:
+INFO:   libraries mkl_rt not found in ['/usr/local/lib', '/usr/lib', '/usr/lib/x86_64-linux-gnu']
+INFO:   NOT AVAILABLE
+INFO: 
+INFO: openblas_lapack_info:
+INFO: C compiler: gcc -pthread -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC
+
+creating /tmp/tmp_6671y15/tmp
+creating /tmp/tmp_6671y15/tmp/tmp_6671y15
+INFO: compile options: '-c'
+INFO: gcc: /tmp/tmp_6671y15/source.c
+INFO: gcc -pthread /tmp/tmp_6671y15/tmp/tmp_6671y15/source.o -L/usr/lib/x86_64-linux-gnu -lopenblas -o /tmp/tmp_6671y15/a.out
+INFO:   FOUND:
+INFO:     libraries = ['openblas', 'openblas']
+INFO:     library_dirs = ['/usr/lib/x86_64-linux-gnu']
+INFO:     language = c
+INFO:     define_macros = [('HAVE_CBLAS', None)]
+INFO: 
+INFO:   FOUND:
+INFO:     libraries = ['openblas', 'openblas']
+INFO:     library_dirs = ['/usr/lib/x86_64-linux-gnu']
+INFO:     language = c
+INFO:     define_macros = [('HAVE_CBLAS', None)]
+INFO: 
+Warning: attempted relative import with no known parent package
+/usr/local/lib/python3.9/distutils/dist.py:274: UserWarning: Unknown distribution option: 'define_macros'
+  warnings.warn(msg)
+running develop
+/usr/local/lib/python3.9/site-packages/setuptools/command/easy_install.py:156: EasyInstallDeprecationWarning: easy_install command is deprecated. Use build and pip and other standards-based tools.
+  warnings.warn(
+/usr/local/lib/python3.9/site-packages/setuptools/command/install.py:34: SetuptoolsDeprecationWarning: setup.py install is deprecated. Use build and pip and other standards-based tools.
+  warnings.warn(
+running build_scripts
+running egg_info
+running build_src
+INFO: build_src
+INFO: building py_modules sources
+INFO: building library "npymath" sources
+WARN: Could not locate executable armflang
+INFO:   adding 'numpy/core/src/npymath' to include_dirs.
+INFO: None - nothing done with h_files = ['numpy/core/src/npymath/npy_math_internal.h']
+INFO: building library "npyrandom" sources
+INFO: building extension "numpy.core._multiarray_tests" sources
+INFO: building extension "numpy.core._multiarray_umath" sources
+INFO:   adding 'numpy/core/src/multiarray' to include_dirs.
+INFO:   adding 'numpy/core/src/common' to include_dirs.
+INFO:   adding 'numpy/core/src/umath' to include_dirs.
+INFO: numpy.core - nothing done with h_files = ['numpy/core/src/multiarray/arraytypes.h', 'numpy/core/src/common/npy_sort.h', 'numpy/core/src/common/npy_partition.h', 'numpy/core/src/common/npy_binsearch.h', 'numpy/core/src/umath/funcs.inc', 'numpy/core/src/umath/simd.inc', 'numpy/core/src/umath/loops.h', 'numpy/core/src/umath/loops_utils.h', 'numpy/core/src/umath/matmul.h', 'numpy/core/src/umath/clip.h', 'numpy/core/src/common/templ_common.h', 'numpy/core/include/numpy/config.h', 'numpy/core/include/numpy/_numpyconfig.h', 'numpy/core/include/numpy/__multiarray_api.h', 'numpy/core/include/numpy/__ufunc_api.h']
+INFO: building extension "numpy.core._umath_tests" sources
+INFO: building extension "numpy.core._rational_tests" sources
+INFO: building extension "numpy.core._struct_ufunc_tests" sources
+INFO: building extension "numpy.core._operand_flag_tests" sources
+INFO: building extension "numpy.core._simd" sources
+INFO:   adding 'numpy/core/src/_simd' to include_dirs.
+INFO: numpy.core - nothing done with h_files = ['numpy/core/src/_simd/_simd_inc.h', 'numpy/core/src/_simd/_simd_data.inc']
+INFO: building extension "numpy.fft._pocketfft_internal" sources
+INFO: building extension "numpy.linalg.lapack_lite" sources
+INFO: building extension "numpy.linalg._umath_linalg" sources
+INFO: building extension "numpy.random._mt19937" sources
+INFO: building extension "numpy.random._philox" sources
+INFO: building extension "numpy.random._pcg64" sources
+INFO: building extension "numpy.random._sfc64" sources
+INFO: building extension "numpy.random._common" sources
+INFO: building extension "numpy.random.bit_generator" sources
+INFO: building extension "numpy.random._generator" sources
+INFO: building extension "numpy.random._bounded_integers" sources
+INFO: building extension "numpy.random.mtrand" sources
+INFO: building data_files sources
+INFO: build_src: building npy-pkg config files
+writing numpy.egg-info/PKG-INFO
+writing dependency_links to numpy.egg-info/dependency_links.txt
+writing entry points to numpy.egg-info/entry_points.txt
+writing top-level names to numpy.egg-info/top_level.txt
+/usr/local/lib/python3.9/site-packages/setuptools/command/egg_info.py:624: SetuptoolsDeprecationWarning: Custom 'build_py' does not implement 'get_data_files_without_manifest'.
+Please extend command classes from setuptools instead of distutils.
+  warnings.warn(
+reading manifest file 'numpy.egg-info/SOURCES.txt'
+reading manifest template 'MANIFEST.in'
+no previously-included directories found matching 'doc/build'
+no previously-included directories found matching 'doc/source/generated'
+no previously-included directories found matching 'benchmarks/env'
+no previously-included directories found matching 'benchmarks/results'
+no previously-included directories found matching 'benchmarks/html'
+no previously-included directories found matching 'benchmarks/numpy'
+warning: no previously-included files matching '*.pyo' found anywhere in distribution
+warning: no previously-included files matching '*.pyd' found anywhere in distribution
+warning: no previously-included files matching '*.swp' found anywhere in distribution
+warning: no previously-included files matching '*.bak' found anywhere in distribution
+warning: no previously-included files matching '*~' found anywhere in distribution
+adding license file 'LICENSE.txt'
+adding license file 'LICENSES_bundled.txt'
+writing manifest file 'numpy.egg-info/SOURCES.txt'
+running build_ext
+INFO: customize UnixCCompiler
+INFO: customize UnixCCompiler using new_build_clib
+INFO: CCompilerOpt.__init__[805] : load cache from file -> /home/numpy/build/temp.linux-x86_64-3.9/ccompiler_opt_cache_clib.py
+INFO: CCompilerOpt.__init__[816] : hit the file cache
+INFO: customize UnixCCompiler
+INFO: customize UnixCCompiler using new_build_ext
+INFO: CCompilerOpt.__init__[805] : load cache from file -> /home/numpy/build/temp.linux-x86_64-3.9/ccompiler_opt_cache_ext.py
+INFO: CCompilerOpt.__init__[816] : hit the file cache
+INFO: customize UnixCCompiler
+INFO: customize UnixCCompiler using new_build_ext
+Creating /usr/local/lib/python3.9/site-packages/numpy.egg-link (link to .)
+numpy 1.23.0.dev0+804.g01b851aa84 is already the active version in easy-install.pth
+Installing f2py script to /usr/local/bin
+Installing f2py3 script to /usr/local/bin
+Installing f2py3.9 script to /usr/local/bin
+
+Installed /home/numpy
+Processing dependencies for numpy==1.23.0.dev0+804.g01b851aa84
+Finished processing dependencies for numpy==1.23.0.dev0+804.g01b851aa84
+INFO: 
+########### EXT COMPILER OPTIMIZATION ###########
+INFO: Platform      : 
+  Architecture: x64
+  Compiler    : gcc
+
+CPU baseline  : 
+  Requested   : 'min'
+  Enabled     : SSE SSE2 SSE3
+  Flags       : -msse -msse2 -msse3
+  Extra checks: none
+
+CPU dispatch  : 
+  Requested   : 'max -xop -fma4'
+  Enabled     : SSSE3 SSE41 POPCNT SSE42 AVX F16C FMA3 AVX2 AVX512F AVX512CD AVX512_KNL AVX512_KNM AVX512_SKX AVX512_CLX AVX512_CNL AVX512_ICL
+  Generated   : 
+              : 
+  SSE41       : SSE SSE2 SSE3 SSSE3
+  Flags       : -msse -msse2 -msse3 -mssse3 -msse4.1
+  Extra checks: none
+  Detect      : SSE SSE2 SSE3 SSSE3 SSE41
+              : numpy/core/src/umath/_umath_tests.dispatch.c
+              : numpy/core/src/umath/loops_arithmetic.dispatch.c
+              : numpy/core/src/umath/loops_unary_fp.dispatch.c
+              : 
+  SSE42       : SSE SSE2 SSE3 SSSE3 SSE41 POPCNT
+  Flags       : -msse -msse2 -msse3 -mssse3 -msse4.1 -mpopcnt -msse4.2
+  Extra checks: none
+  Detect      : SSE SSE2 SSE3 SSSE3 SSE41 POPCNT SSE42
+              : numpy/core/src/_simd/_simd.dispatch.c
+              : numpy/core/src/multiarray/argfunc.dispatch.c
+              : 
+  AVX2        : SSE SSE2 SSE3 SSSE3 SSE41 POPCNT SSE42 AVX F16C
+  Flags       : -msse -msse2 -msse3 -mssse3 -msse4.1 -mpopcnt -msse4.2 -mavx -mf16c -mavx2
+  Extra checks: none
+  Detect      : AVX F16C AVX2
+              : numpy/core/src/multiarray/argfunc.dispatch.c
+              : numpy/core/src/umath/_umath_tests.dispatch.c
+              : numpy/core/src/umath/loops_arithm_fp.dispatch.c
+              : numpy/core/src/umath/loops_arithmetic.dispatch.c
+              : numpy/core/src/umath/loops_minmax.dispatch.c
+              : 
+  (FMA3 AVX2) : SSE SSE2 SSE3 SSSE3 SSE41 POPCNT SSE42 AVX F16C
+  Flags       : -msse -msse2 -msse3 -mssse3 -msse4.1 -mpopcnt -msse4.2 -mavx -mf16c -mfma -mavx2
+  Extra checks: none
+  Detect      : AVX F16C FMA3 AVX2
+              : numpy/core/src/_simd/_simd.dispatch.c
+              : numpy/core/src/umath/loops_exponent_log.dispatch.c
+              : numpy/core/src/umath/loops_hyperbolic.dispatch.c
+              : numpy/core/src/umath/loops_trigonometric.dispatch.c
+              : 
+  AVX512F     : SSE SSE2 SSE3 SSSE3 SSE41 POPCNT SSE42 AVX F16C FMA3 AVX2
+  Flags       : -msse -msse2 -msse3 -mssse3 -msse4.1 -mpopcnt -msse4.2 -mavx -mf16c -mfma -mavx2 -mavx512f
+  Extra checks: AVX512F_REDUCE
+  Detect      : AVX512F
+              : numpy/core/src/_simd/_simd.dispatch.c
+              : numpy/core/src/umath/loops_arithm_fp.dispatch.c
+              : numpy/core/src/umath/loops_arithmetic.dispatch.c
+              : numpy/core/src/umath/loops_exponent_log.dispatch.c
+              : numpy/core/src/umath/loops_trigonometric.dispatch.c
+              : 
+  AVX512_SKX  : SSE SSE2 SSE3 SSSE3 SSE41 POPCNT SSE42 AVX F16C FMA3 AVX2 AVX512F AVX512CD
+  Flags       : -msse -msse2 -msse3 -mssse3 -msse4.1 -mpopcnt -msse4.2 -mavx -mf16c -mfma -mavx2 -mavx512f -mavx512cd -mavx512vl -mavx512bw -mavx512dq
+  Extra checks: AVX512BW_MASK AVX512DQ_MASK
+  Detect      : AVX512_SKX
+              : numpy/core/src/_simd/_simd.dispatch.c
+              : numpy/core/src/multiarray/argfunc.dispatch.c
+              : numpy/core/src/npysort/x86-qsort.dispatch.c
+              : numpy/core/src/umath/loops_arithmetic.dispatch.c
+              : numpy/core/src/umath/loops_exponent_log.dispatch.c
+              : numpy/core/src/umath/loops_hyperbolic.dispatch.c
+              : numpy/core/src/umath/loops_minmax.dispatch.c
+              : numpy/core/src/umath/loops_umath_fp.dispatch.c
+INFO: CCompilerOpt.cache_flush[849] : write cache to path -> /home/numpy/build/temp.linux-x86_64-3.9/ccompiler_opt_cache_ext.py
+INFO: 
+########### CLIB COMPILER OPTIMIZATION ###########
+INFO: Platform      : 
+  Architecture: x64
+  Compiler    : gcc
+
+CPU baseline  : 
+  Requested   : 'min'
+  Enabled     : SSE SSE2 SSE3
+  Flags       : -msse -msse2 -msse3
+  Extra checks: none
+
+CPU dispatch  : 
+  Requested   : 'max -xop -fma4'
+  Enabled     : SSSE3 SSE41 POPCNT SSE42 AVX F16C FMA3 AVX2 AVX512F AVX512CD AVX512_KNL AVX512_KNM AVX512_SKX AVX512_CLX AVX512_CNL AVX512_ICL
+  Generated   : none
+INFO: CCompilerOpt.cache_flush[849] : write cache to path -> /home/numpy/build/temp.linux-x86_64-3.9/ccompiler_opt_cache_clib.py
+============================= test session starts ==============================
+collecting ... collected 301 items
+
+numpy/random/tests/test_generator_mt19937.py::TestSeed::test_scalar PASSED
+numpy/random/tests/test_generator_mt19937.py::TestSeed::test_array PASSED
+numpy/random/tests/test_generator_mt19937.py::TestSeed::test_seedsequence PASSED
+numpy/random/tests/test_generator_mt19937.py::TestSeed::test_invalid_scalar PASSED
+numpy/random/tests/test_generator_mt19937.py::TestSeed::test_invalid_array PASSED
+numpy/random/tests/test_generator_mt19937.py::TestSeed::test_noninstantized_bitgen PASSED
+numpy/random/tests/test_generator_mt19937.py::TestBinomial::test_n_zero PASSED
+numpy/random/tests/test_generator_mt19937.py::TestBinomial::test_p_is_nan PASSED
+numpy/random/tests/test_generator_mt19937.py::TestMultinomial::test_basic PASSED
+numpy/random/tests/test_generator_mt19937.py::TestMultinomial::test_zero_probability PASSED
+numpy/random/tests/test_generator_mt19937.py::TestMultinomial::test_int_negative_interval PASSED
+numpy/random/tests/test_generator_mt19937.py::TestMultinomial::test_size PASSED
+numpy/random/tests/test_generator_mt19937.py::TestMultinomial::test_invalid_prob PASSED
+numpy/random/tests/test_generator_mt19937.py::TestMultinomial::test_invalid_n PASSED
+numpy/random/tests/test_generator_mt19937.py::TestMultinomial::test_p_non_contiguous PASSED
+numpy/random/tests/test_generator_mt19937.py::TestMultinomial::test_multinomial_pvals_float32 PASSED
+numpy/random/tests/test_generator_mt19937.py::TestMultivariateHypergeometric::test_argument_validation PASSED
+numpy/random/tests/test_generator_mt19937.py::TestMultivariateHypergeometric::test_edge_cases[count] PASSED
+numpy/random/tests/test_generator_mt19937.py::TestMultivariateHypergeometric::test_edge_cases[marginals] PASSED
+numpy/random/tests/test_generator_mt19937.py::TestMultivariateHypergeometric::test_typical_cases[5-count-8] PASSED
+numpy/random/tests/test_generator_mt19937.py::TestMultivariateHypergeometric::test_typical_cases[5-count-25] PASSED
+numpy/random/tests/test_generator_mt19937.py::TestMultivariateHypergeometric::test_typical_cases[5-count-45] PASSED
+numpy/random/tests/test_generator_mt19937.py::TestMultivariateHypergeometric::test_typical_cases[5-count-55] PASSED
+numpy/random/tests/test_generator_mt19937.py::TestMultivariateHypergeometric::test_typical_cases[5-marginals-8] PASSED
+numpy/random/tests/test_generator_mt19937.py::TestMultivariateHypergeometric::test_typical_cases[5-marginals-25] PASSED
+numpy/random/tests/test_generator_mt19937.py::TestMultivariateHypergeometric::test_typical_cases[5-marginals-45] PASSED
+numpy/random/tests/test_generator_mt19937.py::TestMultivariateHypergeometric::test_typical_cases[5-marginals-55] PASSED
+numpy/random/tests/test_generator_mt19937.py::TestMultivariateHypergeometric::test_typical_cases[size1-count-8] PASSED
+numpy/random/tests/test_generator_mt19937.py::TestMultivariateHypergeometric::test_typical_cases[size1-count-25] PASSED
+numpy/random/tests/test_generator_mt19937.py::TestMultivariateHypergeometric::test_typical_cases[size1-count-45] PASSED
+numpy/random/tests/test_generator_mt19937.py::TestMultivariateHypergeometric::test_typical_cases[size1-count-55] PASSED
+numpy/random/tests/test_generator_mt19937.py::TestMultivariateHypergeometric::test_typical_cases[size1-marginals-8] PASSED
+numpy/random/tests/test_generator_mt19937.py::TestMultivariateHypergeometric::test_typical_cases[size1-marginals-25] PASSED
+numpy/random/tests/test_generator_mt19937.py::TestMultivariateHypergeometric::test_typical_cases[size1-marginals-45] PASSED
+numpy/random/tests/test_generator_mt19937.py::TestMultivariateHypergeometric::test_typical_cases[size1-marginals-55] PASSED
+numpy/random/tests/test_generator_mt19937.py::TestMultivariateHypergeometric::test_typical_cases[150000-count-8] PASSED
+numpy/random/tests/test_generator_mt19937.py::TestMultivariateHypergeometric::test_typical_cases[150000-count-25] PASSED
+numpy/random/tests/test_generator_mt19937.py::TestMultivariateHypergeometric::test_typical_cases[150000-count-45] PASSED
+numpy/random/tests/test_generator_mt19937.py::TestMultivariateHypergeometric::test_typical_cases[150000-count-55] PASSED
+numpy/random/tests/test_generator_mt19937.py::TestMultivariateHypergeometric::test_typical_cases[150000-marginals-8] PASSED
+numpy/random/tests/test_generator_mt19937.py::TestMultivariateHypergeometric::test_typical_cases[150000-marginals-25] PASSED
+numpy/random/tests/test_generator_mt19937.py::TestMultivariateHypergeometric::test_typical_cases[150000-marginals-45] PASSED
+numpy/random/tests/test_generator_mt19937.py::TestMultivariateHypergeometric::test_typical_cases[150000-marginals-55] PASSED
+numpy/random/tests/test_generator_mt19937.py::TestMultivariateHypergeometric::test_repeatability1 PASSED
+numpy/random/tests/test_generator_mt19937.py::TestMultivariateHypergeometric::test_repeatability2 PASSED
+numpy/random/tests/test_generator_mt19937.py::TestMultivariateHypergeometric::test_repeatability3 PASSED
+numpy/random/tests/test_generator_mt19937.py::TestSetState::test_gaussian_reset PASSED
+numpy/random/tests/test_generator_mt19937.py::TestSetState::test_gaussian_reset_in_media_res PASSED
+numpy/random/tests/test_generator_mt19937.py::TestSetState::test_negative_binomial PASSED
+numpy/random/tests/test_generator_mt19937.py::TestIntegers::test_unsupported_type[True] PASSED
+numpy/random/tests/test_generator_mt19937.py::TestIntegers::test_bounds_checking[True] PASSED
+numpy/random/tests/test_generator_mt19937.py::TestIntegers::test_bounds_checking_array[True] PASSED
+numpy/random/tests/test_generator_mt19937.py::TestIntegers::test_rng_zero_and_extremes[True] PASSED
+numpy/random/tests/test_generator_mt19937.py::TestIntegers::test_rng_zero_and_extremes_array[True] PASSED
+numpy/random/tests/test_generator_mt19937.py::TestIntegers::test_full_range[True] PASSED
+numpy/random/tests/test_generator_mt19937.py::TestIntegers::test_full_range_array[True] PASSED
+numpy/random/tests/test_generator_mt19937.py::TestIntegers::test_in_bounds_fuzz[True] PASSED
+numpy/random/tests/test_generator_mt19937.py::TestIntegers::test_scalar_array_equiv[True] PASSED
+numpy/random/tests/test_generator_mt19937.py::TestIntegers::test_repeatability[True] PASSED
+numpy/random/tests/test_generator_mt19937.py::TestIntegers::test_repeatability_broadcasting[True] PASSED
+numpy/random/tests/test_generator_mt19937.py::TestIntegers::test_int64_uint64_broadcast_exceptions[True] PASSED
+numpy/random/tests/test_generator_mt19937.py::TestIntegers::test_int64_uint64_corner_case[True] PASSED
+numpy/random/tests/test_generator_mt19937.py::TestIntegers::test_respect_dtype_singleton[True] PASSED
+numpy/random/tests/test_generator_mt19937.py::TestIntegers::test_respect_dtype_array[True] PASSED
+numpy/random/tests/test_generator_mt19937.py::TestIntegers::test_zero_size[True] PASSED
+numpy/random/tests/test_generator_mt19937.py::TestSingleEltArrayInput::test_integers[True] PASSED
+numpy/random/tests/test_generator_mt19937.py::TestIntegers::test_unsupported_type[False] PASSED
+numpy/random/tests/test_generator_mt19937.py::TestIntegers::test_bounds_checking[False] PASSED
+numpy/random/tests/test_generator_mt19937.py::TestIntegers::test_bounds_checking_array[False] PASSED
+numpy/random/tests/test_generator_mt19937.py::TestIntegers::test_rng_zero_and_extremes[False] PASSED
+numpy/random/tests/test_generator_mt19937.py::TestIntegers::test_rng_zero_and_extremes_array[False] PASSED
+numpy/random/tests/test_generator_mt19937.py::TestIntegers::test_full_range[False] PASSED
+numpy/random/tests/test_generator_mt19937.py::TestIntegers::test_full_range_array[False] PASSED
+numpy/random/tests/test_generator_mt19937.py::TestIntegers::test_in_bounds_fuzz[False] PASSED
+numpy/random/tests/test_generator_mt19937.py::TestIntegers::test_scalar_array_equiv[False] PASSED
+numpy/random/tests/test_generator_mt19937.py::TestIntegers::test_repeatability[False] PASSED
+numpy/random/tests/test_generator_mt19937.py::TestIntegers::test_repeatability_broadcasting[False] PASSED
+numpy/random/tests/test_generator_mt19937.py::TestIntegers::test_int64_uint64_broadcast_exceptions[False] PASSED
+numpy/random/tests/test_generator_mt19937.py::TestIntegers::test_int64_uint64_corner_case[False] PASSED
+numpy/random/tests/test_generator_mt19937.py::TestIntegers::test_respect_dtype_singleton[False] PASSED
+numpy/random/tests/test_generator_mt19937.py::TestIntegers::test_respect_dtype_array[False] PASSED
+numpy/random/tests/test_generator_mt19937.py::TestIntegers::test_zero_size[False] PASSED
+numpy/random/tests/test_generator_mt19937.py::TestSingleEltArrayInput::test_integers[False] PASSED
+numpy/random/tests/test_generator_mt19937.py::TestIntegers::test_repeatability_32bit_boundary[4294967295-expected0] PASSED
+numpy/random/tests/test_generator_mt19937.py::TestIntegers::test_repeatability_32bit_boundary[4294967296-expected1] PASSED
+numpy/random/tests/test_generator_mt19937.py::TestIntegers::test_repeatability_32bit_boundary[4294967297-expected2] PASSED
+numpy/random/tests/test_generator_mt19937.py::TestIntegers::test_repeatability_32bit_boundary_broadcasting PASSED
+numpy/random/tests/test_generator_mt19937.py::TestIntegers::test_error_byteorder PASSED
+numpy/random/tests/test_generator_mt19937.py::TestIntegers::test_integers_small_dtype_chisquared[5000000-5-int8-125.0] PASSED
+numpy/random/tests/test_generator_mt19937.py::TestIntegers::test_integers_small_dtype_chisquared[5000000-7-uint8-150.0] PASSED
+numpy/random/tests/test_generator_mt19937.py::TestIntegers::test_integers_small_dtype_chisquared[10000000-2500-int16-3300.0] PASSED
+numpy/random/tests/test_generator_mt19937.py::TestIntegers::test_integers_small_dtype_chisquared[50000000-5000-uint16-6500.0] PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_integers PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_integers_masked PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_integers_closed PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_integers_max_int PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_random PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_random_float PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_random_float_scalar PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_random_distribution_of_lsb[float32-uint32] PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_random_distribution_of_lsb[float64-uint64] PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_random_unsupported_type PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_choice_uniform_replace PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_choice_nonuniform_replace PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_choice_uniform_noreplace PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_choice_nonuniform_noreplace PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_choice_noninteger PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_choice_multidimensional_default_axis PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_choice_multidimensional_custom_axis PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_choice_exceptions PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_choice_return_shape PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_choice_nan_probabilities PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_choice_p_non_contiguous PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_choice_return_type PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_choice_large_sample PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_bytes PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_shuffle PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_shuffle_custom_axis PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_shuffle_custom_axis_empty PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_shuffle_axis_nonsquare PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_shuffle_masked PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_shuffle_exceptions PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_shuffle_not_writeable PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_permutation PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_permutation_custom_axis PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_permutation_exceptions PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_permuted[None-expected0-int] PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_permuted[None-expected0-object] PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_permuted[0-expected1-int] PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_permuted[0-expected1-object] PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_permuted[1-expected2-int] PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_permuted[1-expected2-object] PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_permuted_with_strides PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_permuted_empty PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_permuted_out_with_wrong_shape[outshape0] PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_permuted_out_with_wrong_shape[5] PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_permuted_out_with_wrong_type PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_permuted_not_writeable PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_beta PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_binomial PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_chisquare PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_dirichlet PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_dirichlet_size PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_dirichlet_bad_alpha PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_dirichlet_alpha_non_contiguous PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_dirichlet_small_alpha PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_dirichlet_moderately_small_alpha PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_exponential PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_exponential_0 PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_f PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_gamma PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_gamma_0 PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_geometric PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_geometric_exceptions PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_gumbel PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_gumbel_0 PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_hypergeometric PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_laplace PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_laplace_0 PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_logistic PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_lognormal PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_lognormal_0 PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_logseries PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_logseries_exceptions PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_multinomial PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_multivariate_normal[svd] PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_multivariate_normal[eigh] PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_multivariate_normal[cholesky] PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_multivariate_normal_basic_stats[svd] PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_multivariate_normal_basic_stats[eigh] PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_multivariate_normal_basic_stats[cholesky] PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_negative_binomial PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_negative_binomial_exceptions PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_negative_binomial_p0_exception PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_negative_binomial_invalid_p_n_combination PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_noncentral_chisquare PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_noncentral_f PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_noncentral_f_nan PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_normal PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_normal_0 PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_pareto PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_poisson PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_poisson_exceptions PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_power PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_rayleigh PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_rayleigh_0 PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_standard_cauchy PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_standard_exponential PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_standard_expoential_type_error PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_standard_gamma PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_standard_gammma_scalar_float PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_standard_gamma_float PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_standard_gammma_float_out PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_standard_gamma_unknown_type PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_out_size_mismatch PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_standard_gamma_0 PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_standard_normal PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_standard_normal_unsupported_type PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_standard_t PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_triangular PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_uniform PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_uniform_range_bounds PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_uniform_zero_range PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_uniform_neg_range PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_scalar_exception_propagation PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_vonmises PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_vonmises_small PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_vonmises_nan PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_vonmises_large_kappa[10000.0] PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_vonmises_large_kappa[1000000000000000.0] PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_vonmises_large_kappa_range[1e-09--7.0] PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_vonmises_large_kappa_range[1e-09--3.141592653589793] PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_vonmises_large_kappa_range[1e-09--3.1] PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_vonmises_large_kappa_range[1e-09-3.141592653589793] PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_vonmises_large_kappa_range[1e-09-3.2] PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_vonmises_large_kappa_range[1e-06--7.0] PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_vonmises_large_kappa_range[1e-06--3.141592653589793] PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_vonmises_large_kappa_range[1e-06--3.1] PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_vonmises_large_kappa_range[1e-06-3.141592653589793] PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_vonmises_large_kappa_range[1e-06-3.2] PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_vonmises_large_kappa_range[1--7.0] PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_vonmises_large_kappa_range[1--3.141592653589793] PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_vonmises_large_kappa_range[1--3.1] PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_vonmises_large_kappa_range[1-3.141592653589793] PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_vonmises_large_kappa_range[1-3.2] PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_vonmises_large_kappa_range[1000.0--7.0] PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_vonmises_large_kappa_range[1000.0--3.141592653589793] PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_vonmises_large_kappa_range[1000.0--3.1] PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_vonmises_large_kappa_range[1000.0-3.141592653589793] PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_vonmises_large_kappa_range[1000.0-3.2] PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_vonmises_large_kappa_range[1000000000000000.0--7.0] PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_vonmises_large_kappa_range[1000000000000000.0--3.141592653589793] PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_vonmises_large_kappa_range[1000000000000000.0--3.1] PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_vonmises_large_kappa_range[1000000000000000.0-3.141592653589793] PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_vonmises_large_kappa_range[1000000000000000.0-3.2] PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_wald PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_weibull PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_weibull_0 PASSED
+numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_zipf PASSED
+numpy/random/tests/test_generator_mt19937.py::TestBroadcast::test_uniform PASSED
+numpy/random/tests/test_generator_mt19937.py::TestBroadcast::test_normal PASSED
+numpy/random/tests/test_generator_mt19937.py::TestBroadcast::test_beta PASSED
+numpy/random/tests/test_generator_mt19937.py::TestBroadcast::test_exponential PASSED
+numpy/random/tests/test_generator_mt19937.py::TestBroadcast::test_standard_gamma PASSED
+numpy/random/tests/test_generator_mt19937.py::TestBroadcast::test_gamma PASSED
+numpy/random/tests/test_generator_mt19937.py::TestBroadcast::test_f PASSED
+numpy/random/tests/test_generator_mt19937.py::TestBroadcast::test_noncentral_f PASSED
+numpy/random/tests/test_generator_mt19937.py::TestBroadcast::test_noncentral_f_small_df PASSED
+numpy/random/tests/test_generator_mt19937.py::TestBroadcast::test_chisquare PASSED
+numpy/random/tests/test_generator_mt19937.py::TestBroadcast::test_noncentral_chisquare PASSED
+numpy/random/tests/test_generator_mt19937.py::TestBroadcast::test_standard_t PASSED
+numpy/random/tests/test_generator_mt19937.py::TestBroadcast::test_vonmises PASSED
+numpy/random/tests/test_generator_mt19937.py::TestBroadcast::test_pareto PASSED
+numpy/random/tests/test_generator_mt19937.py::TestBroadcast::test_weibull PASSED
+numpy/random/tests/test_generator_mt19937.py::TestBroadcast::test_power PASSED
+numpy/random/tests/test_generator_mt19937.py::TestBroadcast::test_laplace PASSED
+numpy/random/tests/test_generator_mt19937.py::TestBroadcast::test_gumbel PASSED
+numpy/random/tests/test_generator_mt19937.py::TestBroadcast::test_logistic PASSED
+numpy/random/tests/test_generator_mt19937.py::TestBroadcast::test_lognormal PASSED
+numpy/random/tests/test_generator_mt19937.py::TestBroadcast::test_rayleigh PASSED
+numpy/random/tests/test_generator_mt19937.py::TestBroadcast::test_wald PASSED
+numpy/random/tests/test_generator_mt19937.py::TestBroadcast::test_triangular PASSED
+numpy/random/tests/test_generator_mt19937.py::TestBroadcast::test_binomial PASSED
+numpy/random/tests/test_generator_mt19937.py::TestBroadcast::test_negative_binomial PASSED
+numpy/random/tests/test_generator_mt19937.py::TestBroadcast::test_poisson PASSED
+numpy/random/tests/test_generator_mt19937.py::TestBroadcast::test_zipf PASSED
+numpy/random/tests/test_generator_mt19937.py::TestBroadcast::test_geometric PASSED
+numpy/random/tests/test_generator_mt19937.py::TestBroadcast::test_hypergeometric PASSED
+numpy/random/tests/test_generator_mt19937.py::TestBroadcast::test_logseries PASSED
+numpy/random/tests/test_generator_mt19937.py::TestBroadcast::test_multinomial PASSED
+numpy/random/tests/test_generator_mt19937.py::TestBroadcast::test_multinomial_pval_broadcast[10] PASSED
+numpy/random/tests/test_generator_mt19937.py::TestBroadcast::test_multinomial_pval_broadcast[n1] PASSED
+numpy/random/tests/test_generator_mt19937.py::TestBroadcast::test_multinomial_pval_broadcast[n2] PASSED
+numpy/random/tests/test_generator_mt19937.py::TestBroadcast::test_invalid_pvals_broadcast PASSED
+numpy/random/tests/test_generator_mt19937.py::TestBroadcast::test_empty_outputs PASSED
+numpy/random/tests/test_generator_mt19937.py::TestThread::test_normal PASSED
+numpy/random/tests/test_generator_mt19937.py::TestThread::test_exp PASSED
+numpy/random/tests/test_generator_mt19937.py::TestThread::test_multinomial PASSED
+numpy/random/tests/test_generator_mt19937.py::TestSingleEltArrayInput::test_one_arg_funcs PASSED
+numpy/random/tests/test_generator_mt19937.py::TestSingleEltArrayInput::test_two_arg_funcs PASSED
+numpy/random/tests/test_generator_mt19937.py::TestSingleEltArrayInput::test_three_arg_funcs PASSED
+numpy/random/tests/test_generator_mt19937.py::test_jumped[config0] PASSED
+numpy/random/tests/test_generator_mt19937.py::test_jumped[config1] PASSED
+numpy/random/tests/test_generator_mt19937.py::test_jumped[config2] PASSED
+numpy/random/tests/test_generator_mt19937.py::test_broadcast_size_error PASSED
+numpy/random/tests/test_generator_mt19937.py::test_broadcast_size_scalar PASSED
+numpy/random/tests/test_generator_mt19937.py::test_ragged_shuffle PASSED
+numpy/random/tests/test_generator_mt19937.py::test_single_arg_integer_exception[True--2] PASSED
+numpy/random/tests/test_generator_mt19937.py::test_single_arg_integer_exception[True-high1] PASSED
+numpy/random/tests/test_generator_mt19937.py::test_single_arg_integer_exception[False--2] PASSED
+numpy/random/tests/test_generator_mt19937.py::test_single_arg_integer_exception[False-high1] PASSED
+numpy/random/tests/test_generator_mt19937.py::test_c_contig_req_out[f4] PASSED
+numpy/random/tests/test_generator_mt19937.py::test_c_contig_req_out[f8] PASSED
+numpy/random/tests/test_generator_mt19937.py::test_contig_req_out[standard_normal-F-f4] PASSED
+numpy/random/tests/test_generator_mt19937.py::test_contig_req_out[standard_normal-F-f8] PASSED
+numpy/random/tests/test_generator_mt19937.py::test_contig_req_out[standard_normal-C-f4] PASSED
+numpy/random/tests/test_generator_mt19937.py::test_contig_req_out[standard_normal-C-f8] PASSED
+numpy/random/tests/test_generator_mt19937.py::test_contig_req_out[random-F-f4] PASSED
+numpy/random/tests/test_generator_mt19937.py::test_contig_req_out[random-F-f8] PASSED
+numpy/random/tests/test_generator_mt19937.py::test_contig_req_out[random-C-f4] PASSED
+numpy/random/tests/test_generator_mt19937.py::test_contig_req_out[random-C-f8] PASSED
+
+=========================== short test summary info ============================
+PASSED numpy/random/tests/test_generator_mt19937.py::TestSeed::test_scalar
+PASSED numpy/random/tests/test_generator_mt19937.py::TestSeed::test_array
+PASSED numpy/random/tests/test_generator_mt19937.py::TestSeed::test_seedsequence
+PASSED numpy/random/tests/test_generator_mt19937.py::TestSeed::test_invalid_scalar
+PASSED numpy/random/tests/test_generator_mt19937.py::TestSeed::test_invalid_array
+PASSED numpy/random/tests/test_generator_mt19937.py::TestSeed::test_noninstantized_bitgen
+PASSED numpy/random/tests/test_generator_mt19937.py::TestBinomial::test_n_zero
+PASSED numpy/random/tests/test_generator_mt19937.py::TestBinomial::test_p_is_nan
+PASSED numpy/random/tests/test_generator_mt19937.py::TestMultinomial::test_basic
+PASSED numpy/random/tests/test_generator_mt19937.py::TestMultinomial::test_zero_probability
+PASSED numpy/random/tests/test_generator_mt19937.py::TestMultinomial::test_int_negative_interval
+PASSED numpy/random/tests/test_generator_mt19937.py::TestMultinomial::test_size
+PASSED numpy/random/tests/test_generator_mt19937.py::TestMultinomial::test_invalid_prob
+PASSED numpy/random/tests/test_generator_mt19937.py::TestMultinomial::test_invalid_n
+PASSED numpy/random/tests/test_generator_mt19937.py::TestMultinomial::test_p_non_contiguous
+PASSED numpy/random/tests/test_generator_mt19937.py::TestMultinomial::test_multinomial_pvals_float32
+PASSED numpy/random/tests/test_generator_mt19937.py::TestMultivariateHypergeometric::test_argument_validation
+PASSED numpy/random/tests/test_generator_mt19937.py::TestMultivariateHypergeometric::test_edge_cases[count]
+PASSED numpy/random/tests/test_generator_mt19937.py::TestMultivariateHypergeometric::test_edge_cases[marginals]
+PASSED numpy/random/tests/test_generator_mt19937.py::TestMultivariateHypergeometric::test_typical_cases[5-count-8]
+PASSED numpy/random/tests/test_generator_mt19937.py::TestMultivariateHypergeometric::test_typical_cases[5-count-25]
+PASSED numpy/random/tests/test_generator_mt19937.py::TestMultivariateHypergeometric::test_typical_cases[5-count-45]
+PASSED numpy/random/tests/test_generator_mt19937.py::TestMultivariateHypergeometric::test_typical_cases[5-count-55]
+PASSED numpy/random/tests/test_generator_mt19937.py::TestMultivariateHypergeometric::test_typical_cases[5-marginals-8]
+PASSED numpy/random/tests/test_generator_mt19937.py::TestMultivariateHypergeometric::test_typical_cases[5-marginals-25]
+PASSED numpy/random/tests/test_generator_mt19937.py::TestMultivariateHypergeometric::test_typical_cases[5-marginals-45]
+PASSED numpy/random/tests/test_generator_mt19937.py::TestMultivariateHypergeometric::test_typical_cases[5-marginals-55]
+PASSED numpy/random/tests/test_generator_mt19937.py::TestMultivariateHypergeometric::test_typical_cases[size1-count-8]
+PASSED numpy/random/tests/test_generator_mt19937.py::TestMultivariateHypergeometric::test_typical_cases[size1-count-25]
+PASSED numpy/random/tests/test_generator_mt19937.py::TestMultivariateHypergeometric::test_typical_cases[size1-count-45]
+PASSED numpy/random/tests/test_generator_mt19937.py::TestMultivariateHypergeometric::test_typical_cases[size1-count-55]
+PASSED numpy/random/tests/test_generator_mt19937.py::TestMultivariateHypergeometric::test_typical_cases[size1-marginals-8]
+PASSED numpy/random/tests/test_generator_mt19937.py::TestMultivariateHypergeometric::test_typical_cases[size1-marginals-25]
+PASSED numpy/random/tests/test_generator_mt19937.py::TestMultivariateHypergeometric::test_typical_cases[size1-marginals-45]
+PASSED numpy/random/tests/test_generator_mt19937.py::TestMultivariateHypergeometric::test_typical_cases[size1-marginals-55]
+PASSED numpy/random/tests/test_generator_mt19937.py::TestMultivariateHypergeometric::test_typical_cases[150000-count-8]
+PASSED numpy/random/tests/test_generator_mt19937.py::TestMultivariateHypergeometric::test_typical_cases[150000-count-25]
+PASSED numpy/random/tests/test_generator_mt19937.py::TestMultivariateHypergeometric::test_typical_cases[150000-count-45]
+PASSED numpy/random/tests/test_generator_mt19937.py::TestMultivariateHypergeometric::test_typical_cases[150000-count-55]
+PASSED numpy/random/tests/test_generator_mt19937.py::TestMultivariateHypergeometric::test_typical_cases[150000-marginals-8]
+PASSED numpy/random/tests/test_generator_mt19937.py::TestMultivariateHypergeometric::test_typical_cases[150000-marginals-25]
+PASSED numpy/random/tests/test_generator_mt19937.py::TestMultivariateHypergeometric::test_typical_cases[150000-marginals-45]
+PASSED numpy/random/tests/test_generator_mt19937.py::TestMultivariateHypergeometric::test_typical_cases[150000-marginals-55]
+PASSED numpy/random/tests/test_generator_mt19937.py::TestMultivariateHypergeometric::test_repeatability1
+PASSED numpy/random/tests/test_generator_mt19937.py::TestMultivariateHypergeometric::test_repeatability2
+PASSED numpy/random/tests/test_generator_mt19937.py::TestMultivariateHypergeometric::test_repeatability3
+PASSED numpy/random/tests/test_generator_mt19937.py::TestSetState::test_gaussian_reset
+PASSED numpy/random/tests/test_generator_mt19937.py::TestSetState::test_gaussian_reset_in_media_res
+PASSED numpy/random/tests/test_generator_mt19937.py::TestSetState::test_negative_binomial
+PASSED numpy/random/tests/test_generator_mt19937.py::TestIntegers::test_unsupported_type[True]
+PASSED numpy/random/tests/test_generator_mt19937.py::TestIntegers::test_bounds_checking[True]
+PASSED numpy/random/tests/test_generator_mt19937.py::TestIntegers::test_bounds_checking_array[True]
+PASSED numpy/random/tests/test_generator_mt19937.py::TestIntegers::test_rng_zero_and_extremes[True]
+PASSED numpy/random/tests/test_generator_mt19937.py::TestIntegers::test_rng_zero_and_extremes_array[True]
+PASSED numpy/random/tests/test_generator_mt19937.py::TestIntegers::test_full_range[True]
+PASSED numpy/random/tests/test_generator_mt19937.py::TestIntegers::test_full_range_array[True]
+PASSED numpy/random/tests/test_generator_mt19937.py::TestIntegers::test_in_bounds_fuzz[True]
+PASSED numpy/random/tests/test_generator_mt19937.py::TestIntegers::test_scalar_array_equiv[True]
+PASSED numpy/random/tests/test_generator_mt19937.py::TestIntegers::test_repeatability[True]
+PASSED numpy/random/tests/test_generator_mt19937.py::TestIntegers::test_repeatability_broadcasting[True]
+PASSED numpy/random/tests/test_generator_mt19937.py::TestIntegers::test_int64_uint64_broadcast_exceptions[True]
+PASSED numpy/random/tests/test_generator_mt19937.py::TestIntegers::test_int64_uint64_corner_case[True]
+PASSED numpy/random/tests/test_generator_mt19937.py::TestIntegers::test_respect_dtype_singleton[True]
+PASSED numpy/random/tests/test_generator_mt19937.py::TestIntegers::test_respect_dtype_array[True]
+PASSED numpy/random/tests/test_generator_mt19937.py::TestIntegers::test_zero_size[True]
+PASSED numpy/random/tests/test_generator_mt19937.py::TestSingleEltArrayInput::test_integers[True]
+PASSED numpy/random/tests/test_generator_mt19937.py::TestIntegers::test_unsupported_type[False]
+PASSED numpy/random/tests/test_generator_mt19937.py::TestIntegers::test_bounds_checking[False]
+PASSED numpy/random/tests/test_generator_mt19937.py::TestIntegers::test_bounds_checking_array[False]
+PASSED numpy/random/tests/test_generator_mt19937.py::TestIntegers::test_rng_zero_and_extremes[False]
+PASSED numpy/random/tests/test_generator_mt19937.py::TestIntegers::test_rng_zero_and_extremes_array[False]
+PASSED numpy/random/tests/test_generator_mt19937.py::TestIntegers::test_full_range[False]
+PASSED numpy/random/tests/test_generator_mt19937.py::TestIntegers::test_full_range_array[False]
+PASSED numpy/random/tests/test_generator_mt19937.py::TestIntegers::test_in_bounds_fuzz[False]
+PASSED numpy/random/tests/test_generator_mt19937.py::TestIntegers::test_scalar_array_equiv[False]
+PASSED numpy/random/tests/test_generator_mt19937.py::TestIntegers::test_repeatability[False]
+PASSED numpy/random/tests/test_generator_mt19937.py::TestIntegers::test_repeatability_broadcasting[False]
+PASSED numpy/random/tests/test_generator_mt19937.py::TestIntegers::test_int64_uint64_broadcast_exceptions[False]
+PASSED numpy/random/tests/test_generator_mt19937.py::TestIntegers::test_int64_uint64_corner_case[False]
+PASSED numpy/random/tests/test_generator_mt19937.py::TestIntegers::test_respect_dtype_singleton[False]
+PASSED numpy/random/tests/test_generator_mt19937.py::TestIntegers::test_respect_dtype_array[False]
+PASSED numpy/random/tests/test_generator_mt19937.py::TestIntegers::test_zero_size[False]
+PASSED numpy/random/tests/test_generator_mt19937.py::TestSingleEltArrayInput::test_integers[False]
+PASSED numpy/random/tests/test_generator_mt19937.py::TestIntegers::test_repeatability_32bit_boundary[4294967295-expected0]
+PASSED numpy/random/tests/test_generator_mt19937.py::TestIntegers::test_repeatability_32bit_boundary[4294967296-expected1]
+PASSED numpy/random/tests/test_generator_mt19937.py::TestIntegers::test_repeatability_32bit_boundary[4294967297-expected2]
+PASSED numpy/random/tests/test_generator_mt19937.py::TestIntegers::test_repeatability_32bit_boundary_broadcasting
+PASSED numpy/random/tests/test_generator_mt19937.py::TestIntegers::test_error_byteorder
+PASSED numpy/random/tests/test_generator_mt19937.py::TestIntegers::test_integers_small_dtype_chisquared[5000000-5-int8-125.0]
+PASSED numpy/random/tests/test_generator_mt19937.py::TestIntegers::test_integers_small_dtype_chisquared[5000000-7-uint8-150.0]
+PASSED numpy/random/tests/test_generator_mt19937.py::TestIntegers::test_integers_small_dtype_chisquared[10000000-2500-int16-3300.0]
+PASSED numpy/random/tests/test_generator_mt19937.py::TestIntegers::test_integers_small_dtype_chisquared[50000000-5000-uint16-6500.0]
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_integers
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_integers_masked
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_integers_closed
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_integers_max_int
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_random
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_random_float
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_random_float_scalar
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_random_distribution_of_lsb[float32-uint32]
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_random_distribution_of_lsb[float64-uint64]
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_random_unsupported_type
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_choice_uniform_replace
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_choice_nonuniform_replace
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_choice_uniform_noreplace
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_choice_nonuniform_noreplace
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_choice_noninteger
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_choice_multidimensional_default_axis
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_choice_multidimensional_custom_axis
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_choice_exceptions
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_choice_return_shape
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_choice_nan_probabilities
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_choice_p_non_contiguous
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_choice_return_type
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_choice_large_sample
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_bytes
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_shuffle
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_shuffle_custom_axis
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_shuffle_custom_axis_empty
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_shuffle_axis_nonsquare
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_shuffle_masked
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_shuffle_exceptions
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_shuffle_not_writeable
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_permutation
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_permutation_custom_axis
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_permutation_exceptions
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_permuted[None-expected0-int]
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_permuted[None-expected0-object]
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_permuted[0-expected1-int]
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_permuted[0-expected1-object]
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_permuted[1-expected2-int]
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_permuted[1-expected2-object]
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_permuted_with_strides
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_permuted_empty
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_permuted_out_with_wrong_shape[outshape0]
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_permuted_out_with_wrong_shape[5]
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_permuted_out_with_wrong_type
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_permuted_not_writeable
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_beta
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_binomial
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_chisquare
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_dirichlet
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_dirichlet_size
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_dirichlet_bad_alpha
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_dirichlet_alpha_non_contiguous
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_dirichlet_small_alpha
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_dirichlet_moderately_small_alpha
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_exponential
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_exponential_0
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_f
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_gamma
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_gamma_0
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_geometric
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_geometric_exceptions
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_gumbel
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_gumbel_0
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_hypergeometric
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_laplace
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_laplace_0
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_logistic
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_lognormal
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_lognormal_0
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_logseries
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_logseries_exceptions
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_multinomial
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_multivariate_normal[svd]
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_multivariate_normal[eigh]
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_multivariate_normal[cholesky]
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_multivariate_normal_basic_stats[svd]
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_multivariate_normal_basic_stats[eigh]
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_multivariate_normal_basic_stats[cholesky]
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_negative_binomial
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_negative_binomial_exceptions
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_negative_binomial_p0_exception
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_negative_binomial_invalid_p_n_combination
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_noncentral_chisquare
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_noncentral_f
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_noncentral_f_nan
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_normal
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_normal_0
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_pareto
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_poisson
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_poisson_exceptions
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_power
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_rayleigh
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_rayleigh_0
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_standard_cauchy
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_standard_exponential
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_standard_expoential_type_error
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_standard_gamma
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_standard_gammma_scalar_float
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_standard_gamma_float
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_standard_gammma_float_out
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_standard_gamma_unknown_type
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_out_size_mismatch
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_standard_gamma_0
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_standard_normal
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_standard_normal_unsupported_type
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_standard_t
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_triangular
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_uniform
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_uniform_range_bounds
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_uniform_zero_range
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_uniform_neg_range
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_scalar_exception_propagation
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_vonmises
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_vonmises_small
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_vonmises_nan
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_vonmises_large_kappa[10000.0]
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_vonmises_large_kappa[1000000000000000.0]
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_vonmises_large_kappa_range[1e-09--7.0]
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_vonmises_large_kappa_range[1e-09--3.141592653589793]
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_vonmises_large_kappa_range[1e-09--3.1]
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_vonmises_large_kappa_range[1e-09-3.141592653589793]
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_vonmises_large_kappa_range[1e-09-3.2]
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_vonmises_large_kappa_range[1e-06--7.0]
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_vonmises_large_kappa_range[1e-06--3.141592653589793]
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_vonmises_large_kappa_range[1e-06--3.1]
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_vonmises_large_kappa_range[1e-06-3.141592653589793]
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_vonmises_large_kappa_range[1e-06-3.2]
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_vonmises_large_kappa_range[1--7.0]
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_vonmises_large_kappa_range[1--3.141592653589793]
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_vonmises_large_kappa_range[1--3.1]
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_vonmises_large_kappa_range[1-3.141592653589793]
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_vonmises_large_kappa_range[1-3.2]
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_vonmises_large_kappa_range[1000.0--7.0]
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_vonmises_large_kappa_range[1000.0--3.141592653589793]
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_vonmises_large_kappa_range[1000.0--3.1]
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_vonmises_large_kappa_range[1000.0-3.141592653589793]
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_vonmises_large_kappa_range[1000.0-3.2]
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_vonmises_large_kappa_range[1000000000000000.0--7.0]
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_vonmises_large_kappa_range[1000000000000000.0--3.141592653589793]
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_vonmises_large_kappa_range[1000000000000000.0--3.1]
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_vonmises_large_kappa_range[1000000000000000.0-3.141592653589793]
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_vonmises_large_kappa_range[1000000000000000.0-3.2]
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_wald
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_weibull
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_weibull_0
+PASSED numpy/random/tests/test_generator_mt19937.py::TestRandomDist::test_zipf
+PASSED numpy/random/tests/test_generator_mt19937.py::TestBroadcast::test_uniform
+PASSED numpy/random/tests/test_generator_mt19937.py::TestBroadcast::test_normal
+PASSED numpy/random/tests/test_generator_mt19937.py::TestBroadcast::test_beta
+PASSED numpy/random/tests/test_generator_mt19937.py::TestBroadcast::test_exponential
+PASSED numpy/random/tests/test_generator_mt19937.py::TestBroadcast::test_standard_gamma
+PASSED numpy/random/tests/test_generator_mt19937.py::TestBroadcast::test_gamma
+PASSED numpy/random/tests/test_generator_mt19937.py::TestBroadcast::test_f
+PASSED numpy/random/tests/test_generator_mt19937.py::TestBroadcast::test_noncentral_f
+PASSED numpy/random/tests/test_generator_mt19937.py::TestBroadcast::test_noncentral_f_small_df
+PASSED numpy/random/tests/test_generator_mt19937.py::TestBroadcast::test_chisquare
+PASSED numpy/random/tests/test_generator_mt19937.py::TestBroadcast::test_noncentral_chisquare
+PASSED numpy/random/tests/test_generator_mt19937.py::TestBroadcast::test_standard_t
+PASSED numpy/random/tests/test_generator_mt19937.py::TestBroadcast::test_vonmises
+PASSED numpy/random/tests/test_generator_mt19937.py::TestBroadcast::test_pareto
+PASSED numpy/random/tests/test_generator_mt19937.py::TestBroadcast::test_weibull
+PASSED numpy/random/tests/test_generator_mt19937.py::TestBroadcast::test_power
+PASSED numpy/random/tests/test_generator_mt19937.py::TestBroadcast::test_laplace
+PASSED numpy/random/tests/test_generator_mt19937.py::TestBroadcast::test_gumbel
+PASSED numpy/random/tests/test_generator_mt19937.py::TestBroadcast::test_logistic
+PASSED numpy/random/tests/test_generator_mt19937.py::TestBroadcast::test_lognormal
+PASSED numpy/random/tests/test_generator_mt19937.py::TestBroadcast::test_rayleigh
+PASSED numpy/random/tests/test_generator_mt19937.py::TestBroadcast::test_wald
+PASSED numpy/random/tests/test_generator_mt19937.py::TestBroadcast::test_triangular
+PASSED numpy/random/tests/test_generator_mt19937.py::TestBroadcast::test_binomial
+PASSED numpy/random/tests/test_generator_mt19937.py::TestBroadcast::test_negative_binomial
+PASSED numpy/random/tests/test_generator_mt19937.py::TestBroadcast::test_poisson
+PASSED numpy/random/tests/test_generator_mt19937.py::TestBroadcast::test_zipf
+PASSED numpy/random/tests/test_generator_mt19937.py::TestBroadcast::test_geometric
+PASSED numpy/random/tests/test_generator_mt19937.py::TestBroadcast::test_hypergeometric
+PASSED numpy/random/tests/test_generator_mt19937.py::TestBroadcast::test_logseries
+PASSED numpy/random/tests/test_generator_mt19937.py::TestBroadcast::test_multinomial
+PASSED numpy/random/tests/test_generator_mt19937.py::TestBroadcast::test_multinomial_pval_broadcast[10]
+PASSED numpy/random/tests/test_generator_mt19937.py::TestBroadcast::test_multinomial_pval_broadcast[n1]
+PASSED numpy/random/tests/test_generator_mt19937.py::TestBroadcast::test_multinomial_pval_broadcast[n2]
+PASSED numpy/random/tests/test_generator_mt19937.py::TestBroadcast::test_invalid_pvals_broadcast
+PASSED numpy/random/tests/test_generator_mt19937.py::TestBroadcast::test_empty_outputs
+PASSED numpy/random/tests/test_generator_mt19937.py::TestThread::test_normal
+PASSED numpy/random/tests/test_generator_mt19937.py::TestThread::test_exp
+PASSED numpy/random/tests/test_generator_mt19937.py::TestThread::test_multinomial
+PASSED numpy/random/tests/test_generator_mt19937.py::TestSingleEltArrayInput::test_one_arg_funcs
+PASSED numpy/random/tests/test_generator_mt19937.py::TestSingleEltArrayInput::test_two_arg_funcs
+PASSED numpy/random/tests/test_generator_mt19937.py::TestSingleEltArrayInput::test_three_arg_funcs
+PASSED numpy/random/tests/test_generator_mt19937.py::test_jumped[config0]
+PASSED numpy/random/tests/test_generator_mt19937.py::test_jumped[config1]
+PASSED numpy/random/tests/test_generator_mt19937.py::test_jumped[config2]
+PASSED numpy/random/tests/test_generator_mt19937.py::test_broadcast_size_error
+PASSED numpy/random/tests/test_generator_mt19937.py::test_broadcast_size_scalar
+PASSED numpy/random/tests/test_generator_mt19937.py::test_ragged_shuffle
+PASSED numpy/random/tests/test_generator_mt19937.py::test_single_arg_integer_exception[True--2]
+PASSED numpy/random/tests/test_generator_mt19937.py::test_single_arg_integer_exception[True-high1]
+PASSED numpy/random/tests/test_generator_mt19937.py::test_single_arg_integer_exception[False--2]
+PASSED numpy/random/tests/test_generator_mt19937.py::test_single_arg_integer_exception[False-high1]
+PASSED numpy/random/tests/test_generator_mt19937.py::test_c_contig_req_out[f4]
+PASSED numpy/random/tests/test_generator_mt19937.py::test_c_contig_req_out[f8]
+PASSED numpy/random/tests/test_generator_mt19937.py::test_contig_req_out[standard_normal-F-f4]
+PASSED numpy/random/tests/test_generator_mt19937.py::test_contig_req_out[standard_normal-F-f8]
+PASSED numpy/random/tests/test_generator_mt19937.py::test_contig_req_out[standard_normal-C-f4]
+PASSED numpy/random/tests/test_generator_mt19937.py::test_contig_req_out[standard_normal-C-f8]
+PASSED numpy/random/tests/test_generator_mt19937.py::test_contig_req_out[random-F-f4]
+PASSED numpy/random/tests/test_generator_mt19937.py::test_contig_req_out[random-F-f8]
+PASSED numpy/random/tests/test_generator_mt19937.py::test_contig_req_out[random-C-f4]
+PASSED numpy/random/tests/test_generator_mt19937.py::test_contig_req_out[random-C-f8]
+============================= 301 passed in 7.74s ==============================

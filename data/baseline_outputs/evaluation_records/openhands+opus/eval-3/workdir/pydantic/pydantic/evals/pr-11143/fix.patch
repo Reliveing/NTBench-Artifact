@@ -1,0 +1,12 @@
+diff --git a/pydantic/_internal/_generics.py b/pydantic/_internal/_generics.py
+index 327fede03..8678f21a0 100644
+--- a/pydantic/_internal/_generics.py
++++ b/pydantic/_internal/_generics.py
+@@ -430,6 +430,7 @@ def generic_recursion_self_type(
+         else:
+             previously_seen_type_refs.add(type_ref)
+             yield None
++            previously_seen_type_refs.remove(type_ref)
+     finally:
+         if token:
+             _generic_recursion_cache.reset(token)

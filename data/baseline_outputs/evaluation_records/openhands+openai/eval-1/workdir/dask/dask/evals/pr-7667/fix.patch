@@ -1,0 +1,61 @@
+diff --git a/dask/array/creation.py b/dask/array/creation.py
+index 9df5d674b..a2ab91f36 100644
+--- a/dask/array/creation.py
++++ b/dask/array/creation.py
+@@ -8,6 +8,7 @@ import numpy as np
+ from tlz import accumulate, sliding_window
+ 
+ from ..base import tokenize
++from ..delayed import unpack_collections
+ from ..highlevelgraph import HighLevelGraph
+ from ..utils import derived_from
+ from . import chunk
+@@ -303,20 +304,28 @@ def linspace(
+     name = "linspace-" + tokenize((start, stop, num, endpoint, chunks, dtype))
+ 
+     dsk = {}
++    dependencies = []
+     blockstart = start
+ 
+     for i, bs in enumerate(chunks[0]):
+         bs_space = bs - 1 if endpoint else bs
+         blockstop = blockstart + (bs_space * step)
++        (blockstart_ref, blockstop_ref), deps = unpack_collections(
++            [blockstart, blockstop]
++        )
++        dependencies.extend(deps)
+         task = (
+             partial(np.linspace, endpoint=endpoint, dtype=dtype),
+-            blockstart,
+-            blockstop,
++            blockstart_ref,
++            blockstop_ref,
+             bs,
+         )
+         blockstart = blockstart + (step * bs)
+         dsk[(name, i)] = task
+ 
++    if dependencies:
++        dsk = HighLevelGraph.from_collections(name, dsk, dependencies=dependencies)
++
+     if retstep:
+         return Array(dsk, name, chunks, dtype=dtype), step
+     else:
+diff --git a/dask/array/routines.py b/dask/array/routines.py
+index 1ed2602a0..15444c86c 100644
+--- a/dask/array/routines.py
++++ b/dask/array/routines.py
+@@ -711,8 +711,11 @@ def bincount(x, weights=None, minlength=0, split_every=None):
+ 
+ @derived_from(np)
+ def digitize(a, bins, right=False):
+-    bins = asarray_safe(bins, like=meta_from_array(a))
+-    dtype = np.digitize(asarray_safe([0], like=bins), bins, right=False).dtype
++    if is_dask_collection(bins):
++        dtype = np.digitize([0], [0], right=False).dtype
++    else:
++        bins = asarray_safe(bins, like=meta_from_array(a))
++        dtype = np.digitize(asarray_safe([0], like=bins), bins, right=False).dtype
+     return a.map_blocks(np.digitize, dtype=dtype, bins=bins, right=right)
+ 
+ 

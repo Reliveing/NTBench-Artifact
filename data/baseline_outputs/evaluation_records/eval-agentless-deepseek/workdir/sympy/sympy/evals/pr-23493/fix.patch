@@ -1,0 +1,21 @@
+diff --git a/sympy/calculus/util.py b/sympy/calculus/util.py
+index 4f6ada0..f65dc99 100644
+--- a/sympy/calculus/util.py
++++ b/sympy/calculus/util.py
+@@ -428,6 +428,10 @@ def periodicity(f, symbol, check=False):
+     if symbol not in f.free_symbols:
+         return S.Zero
+ 
++    # Rational functions are aperiodic
++    if f.is_rational_function(symbol):
++        return None
++
+     if isinstance(f, TrigonometricFunction):
+         try:
+             period = f.period(symbol)
+@@ -840,4 +844,4 @@ def minimum(f, symbol, domain=S.Reals):
+ 
+         return function_range(f, symbol, domain).inf
+     else:
+-        raise ValueError("%s is not a valid symbol." % symbol)
++        raise ValueError("%s is not a valid symbol." % symbol)

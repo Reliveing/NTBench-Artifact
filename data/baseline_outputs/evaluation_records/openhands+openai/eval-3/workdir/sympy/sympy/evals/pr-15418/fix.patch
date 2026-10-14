@@ -1,0 +1,13 @@
+diff --git a/sympy/solvers/solvers.py b/sympy/solvers/solvers.py
+index b7d66bbefd..13dab5fc55 100644
+--- a/sympy/solvers/solvers.py
++++ b/sympy/solvers/solvers.py
+@@ -3029,7 +3029,7 @@ def _invert(eq, *symbols, **kwargs):
+             # dep * indep == rhs
+             else:
+                 # this indicates we have done it all
+-                if indep is S.One:
++                if indep is S.One or lhs is S.Zero:
+                     break
+ 
+                 lhs = dep

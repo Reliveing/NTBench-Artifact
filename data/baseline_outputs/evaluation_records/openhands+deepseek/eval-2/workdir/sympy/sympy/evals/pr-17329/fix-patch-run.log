@@ -1,0 +1,65 @@
+Obtaining file:///home/sympy
+  Preparing metadata (setup.py): started
+  Preparing metadata (setup.py): finished with status 'done'
+Requirement already satisfied: mpmath>=0.19 in /usr/local/lib/python3.8/site-packages (from sympy==1.5.dev0) (1.3.0)
+Installing collected packages: sympy
+  Attempting uninstall: sympy
+    Found existing installation: sympy 1.5.dev0
+    Uninstalling sympy-1.5.dev0:
+      Successfully uninstalled sympy-1.5.dev0
+  DEPRECATION: Legacy editable install of sympy==1.5.dev0 from file:///home/sympy (setup.py develop) is deprecated. pip 25.1 will enforce this behaviour change. A possible replacement is to add a pyproject.toml or enable --use-pep517, and use setuptools >= 64. If the resulting installation is not behaving as expected, try using --config-settings editable_mode=compat. Please consult the setuptools documentation for more information. Discussion can be found at https://github.com/pypa/pip/issues/11457
+  Running setup.py develop for sympy
+Successfully installed sympy
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+============================= test session starts ==============================
+collecting ... collected 19 items
+
+sympy/calculus/tests/test_util.py::test_function_range FAILED            [  5%]
+sympy/calculus/tests/test_util.py::test_continuous_domain PASSED         [ 10%]
+sympy/calculus/tests/test_util.py::test_not_empty_in PASSED              [ 15%]
+sympy/calculus/tests/test_util.py::test_periodicity PASSED               [ 21%]
+sympy/calculus/tests/test_util.py::test_periodicity_check PASSED         [ 26%]
+sympy/calculus/tests/test_util.py::test_lcim PASSED                      [ 31%]
+sympy/calculus/tests/test_util.py::test_is_convex PASSED                 [ 36%]
+sympy/calculus/tests/test_util.py::test_stationary_points PASSED         [ 42%]
+sympy/calculus/tests/test_util.py::test_maximum PASSED                   [ 47%]
+sympy/calculus/tests/test_util.py::test_minimum PASSED                   [ 52%]
+sympy/calculus/tests/test_util.py::test_AccumBounds PASSED               [ 57%]
+sympy/calculus/tests/test_util.py::test_AccumBounds_mul PASSED           [ 63%]
+sympy/calculus/tests/test_util.py::test_AccumBounds_div PASSED           [ 68%]
+sympy/calculus/tests/test_util.py::test_AccumBounds_func PASSED          [ 73%]
+sympy/calculus/tests/test_util.py::test_AccumBounds_pow PASSED           [ 78%]
+sympy/calculus/tests/test_util.py::test_comparison_AccumBounds PASSED    [ 84%]
+sympy/calculus/tests/test_util.py::test_contains_AccumBounds PASSED      [ 89%]
+sympy/calculus/tests/test_util.py::test_intersection_AccumBounds PASSED  [ 94%]
+sympy/calculus/tests/test_util.py::test_union_AccumBounds PASSED         [100%]
+
+=============================== warnings summary ===============================
+../../usr/local/lib/python3.8/site-packages/_pytest/config/__init__.py:1233
+  /usr/local/lib/python3.8/site-packages/_pytest/config/__init__.py:1233: PytestConfigWarning: Unknown config option: doctestplus
+  
+    self._warn_or_fail_if_strict(f"Unknown config option: {key}\n")
+
+-- Docs: https://docs.pytest.org/en/stable/warnings.html
+                                DO *NOT* COMMIT!                                
+=========================== short test summary info ============================
+PASSED sympy/calculus/tests/test_util.py::test_continuous_domain
+PASSED sympy/calculus/tests/test_util.py::test_not_empty_in
+PASSED sympy/calculus/tests/test_util.py::test_periodicity
+PASSED sympy/calculus/tests/test_util.py::test_periodicity_check
+PASSED sympy/calculus/tests/test_util.py::test_lcim
+PASSED sympy/calculus/tests/test_util.py::test_is_convex
+PASSED sympy/calculus/tests/test_util.py::test_stationary_points
+PASSED sympy/calculus/tests/test_util.py::test_maximum
+PASSED sympy/calculus/tests/test_util.py::test_minimum
+PASSED sympy/calculus/tests/test_util.py::test_AccumBounds
+PASSED sympy/calculus/tests/test_util.py::test_AccumBounds_mul
+PASSED sympy/calculus/tests/test_util.py::test_AccumBounds_div
+PASSED sympy/calculus/tests/test_util.py::test_AccumBounds_func
+PASSED sympy/calculus/tests/test_util.py::test_AccumBounds_pow
+PASSED sympy/calculus/tests/test_util.py::test_comparison_AccumBounds
+PASSED sympy/calculus/tests/test_util.py::test_contains_AccumBounds
+PASSED sympy/calculus/tests/test_util.py::test_intersection_AccumBounds
+PASSED sympy/calculus/tests/test_util.py::test_union_AccumBounds
+FAILED sympy/calculus/tests/test_util.py::test_function_range - Failed: DID N...
+=================== 1 failed, 18 passed, 1 warning in 20.59s ===================

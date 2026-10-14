@@ -1,0 +1,43 @@
+diff --git a/sympy/simplify/simplify.py b/sympy/simplify/simplify.py
+index 20cbe19669..69f5a6c243 100644
+--- a/sympy/simplify/simplify.py
++++ b/sympy/simplify/simplify.py
+@@ -1045,6 +1045,23 @@ def goodlog(l):
+             a = l.args[0]
+             return a.is_positive or force and a.is_nonpositive is not False
+ 
++        def bigexpo(b, e):
++            # bool to tell whether combining a numeric coefficient ``e`` into
++            # the numeric argument ``b`` of a log, i.e. e*log(b) -> log(b**e),
++            # would produce an unreasonably large number (which can freeze
++            # subsequent computations, see issue #27528). The size of
++            # ``b**e`` is estimated without actually computing it.
++            if not (b.is_Number and e.is_Number and e.is_extended_real):
++                return False
++            if b in (S.Zero, S.One, S.NegativeOne):
++                return False
++            try:
++                p, q = b.as_numer_denom()
++                bits = max(abs(int(p)).bit_length(), abs(int(q)).bit_length())
++                return bits*abs(float(e)) > 100000
++            except (TypeError, ValueError, OverflowError):
++                return False
++
+         other = []
+         logs = []
+         log1 = defaultdict(list)
+@@ -1070,7 +1087,13 @@ def goodlog(l):
+                 if len(lo) > 1:
+                     logs.append((ot, co, lo))
+                 elif lo:
+-                    log1[tuple(ot)].append((co, lo[0]))
++                    # don't combine a numeric coefficient into a numeric
++                    # log argument if it would create a huge number, e.g.
++                    # 1000000000*log(10) -> log(10**1000000000)
++                    if co and bigexpo(lo[0].args[0], Mul(*co)):
++                        other.append(a)
++                    else:
++                        log1[tuple(ot)].append((co, lo[0]))
+                 else:
+                     other.append(a)
+ 

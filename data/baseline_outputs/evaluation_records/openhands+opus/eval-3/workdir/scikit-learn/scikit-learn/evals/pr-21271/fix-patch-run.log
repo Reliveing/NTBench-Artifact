@@ -1,0 +1,775 @@
+Partial import of sklearn during the build process.
+C compiler: gcc -pthread -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC
+
+compile options: '-c'
+gcc: test_program.c
+gcc -pthread objects/test_program.o -o test_program
+C compiler: gcc -pthread -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC
+
+compile options: '-c'
+extra options: '-fopenmp'
+gcc: test_program.c
+gcc -pthread objects/test_program.o -o test_program -fopenmp
+running build_ext
+running build_src
+build_src
+building library "libsvm-skl" sources
+building library "liblinear-skl" sources
+building extension "sklearn.__check_build._check_build" sources
+building extension "sklearn.preprocessing._csr_polynomial_expansion" sources
+building extension "sklearn.cluster._dbscan_inner" sources
+building extension "sklearn.cluster._hierarchical_fast" sources
+building extension "sklearn.cluster._k_means_common" sources
+building extension "sklearn.cluster._k_means_lloyd" sources
+building extension "sklearn.cluster._k_means_elkan" sources
+building extension "sklearn.cluster._k_means_minibatch" sources
+building extension "sklearn.datasets._svmlight_format_fast" sources
+building extension "sklearn.decomposition._online_lda_fast" sources
+building extension "sklearn.decomposition._cdnmf_fast" sources
+building extension "sklearn.ensemble._gradient_boosting" sources
+building extension "sklearn.ensemble._hist_gradient_boosting._gradient_boosting" sources
+building extension "sklearn.ensemble._hist_gradient_boosting.histogram" sources
+building extension "sklearn.ensemble._hist_gradient_boosting.splitting" sources
+building extension "sklearn.ensemble._hist_gradient_boosting._binning" sources
+building extension "sklearn.ensemble._hist_gradient_boosting._predictor" sources
+building extension "sklearn.ensemble._hist_gradient_boosting._loss" sources
+building extension "sklearn.ensemble._hist_gradient_boosting._bitset" sources
+building extension "sklearn.ensemble._hist_gradient_boosting.common" sources
+building extension "sklearn.ensemble._hist_gradient_boosting.utils" sources
+building extension "sklearn.feature_extraction._hashing_fast" sources
+building extension "sklearn.manifold._utils" sources
+building extension "sklearn.manifold._barnes_hut_tsne" sources
+building extension "sklearn.metrics.cluster._expected_mutual_info_fast" sources
+building extension "sklearn.metrics._pairwise_fast" sources
+building extension "sklearn.metrics._dist_metrics" sources
+building extension "sklearn.neighbors._ball_tree" sources
+building extension "sklearn.neighbors._kd_tree" sources
+building extension "sklearn.neighbors._partition_nodes" sources
+building extension "sklearn.neighbors._quad_tree" sources
+building extension "sklearn.tree._tree" sources
+building extension "sklearn.tree._splitter" sources
+building extension "sklearn.tree._criterion" sources
+building extension "sklearn.tree._utils" sources
+building extension "sklearn.utils.sparsefuncs_fast" sources
+building extension "sklearn.utils._cython_blas" sources
+building extension "sklearn.utils.arrayfuncs" sources
+building extension "sklearn.utils.murmurhash" sources
+building extension "sklearn.utils._fast_dict" sources
+building extension "sklearn.utils._openmp_helpers" sources
+building extension "sklearn.utils._seq_dataset" sources
+building extension "sklearn.utils._weight_vector" sources
+building extension "sklearn.utils._random" sources
+building extension "sklearn.utils._logistic_sigmoid" sources
+building extension "sklearn.utils._readonly_array_wrapper" sources
+building extension "sklearn.utils._typedefs" sources
+building extension "sklearn.svm._newrand" sources
+building extension "sklearn.svm._libsvm" sources
+building extension "sklearn.svm._liblinear" sources
+building extension "sklearn.svm._libsvm_sparse" sources
+building extension "sklearn.linear_model._cd_fast" sources
+building extension "sklearn.linear_model._sgd_fast" sources
+building extension "sklearn.linear_model._sag_fast" sources
+building extension "sklearn._isotonic" sources
+building data_files sources
+build_src: building npy-pkg config files
+customize UnixCCompiler
+customize UnixCCompiler using build_clib
+CCompilerOpt.__init__[765] : load cache from file -> /home/scikit-learn/build/temp.linux-x86_64-3.9/ccompiler_opt_cache_clib.py
+CCompilerOpt.__init__[781] : miss the file cache
+CCompilerOpt.cc_test_flags[1013] : testing flags (-march=native)
+C compiler: gcc -pthread -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC
+
+creating /tmp/tmpopv83agt/usr
+creating /tmp/tmpopv83agt/usr/local
+creating /tmp/tmpopv83agt/usr/local/lib
+creating /tmp/tmpopv83agt/usr/local/lib/python3.9
+creating /tmp/tmpopv83agt/usr/local/lib/python3.9/site-packages
+creating /tmp/tmpopv83agt/usr/local/lib/python3.9/site-packages/numpy
+creating /tmp/tmpopv83agt/usr/local/lib/python3.9/site-packages/numpy/distutils
+creating /tmp/tmpopv83agt/usr/local/lib/python3.9/site-packages/numpy/distutils/checks
+compile options: '-I/usr/local/include/python3.9 -c'
+extra options: '-march=native'
+CCompilerOpt.cc_test_flags[1013] : testing flags (-O3)
+C compiler: gcc -pthread -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC
+
+compile options: '-I/usr/local/include/python3.9 -c'
+extra options: '-O3'
+CCompilerOpt.cc_test_flags[1013] : testing flags (-Werror)
+C compiler: gcc -pthread -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC
+
+compile options: '-I/usr/local/include/python3.9 -c'
+extra options: '-Werror'
+CCompilerOpt.__init__[1701] : check requested baseline
+CCompilerOpt.cc_test_flags[1013] : testing flags (-msse)
+C compiler: gcc -pthread -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC
+
+compile options: '-I/usr/local/include/python3.9 -c'
+extra options: '-msse'
+CCompilerOpt.cc_test_flags[1013] : testing flags (-msse2)
+C compiler: gcc -pthread -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC
+
+compile options: '-I/usr/local/include/python3.9 -c'
+extra options: '-msse2'
+CCompilerOpt.feature_test[1466] : testing feature 'SSE2' with flags (-msse -msse2)
+C compiler: gcc -pthread -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC
+
+compile options: '-I/usr/local/include/python3.9 -c'
+extra options: '-msse -msse2 -Werror'
+CCompilerOpt.feature_test[1466] : testing feature 'SSE' with flags (-msse -msse2)
+C compiler: gcc -pthread -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC
+
+compile options: '-I/usr/local/include/python3.9 -c'
+extra options: '-msse -msse2 -Werror'
+CCompilerOpt.cc_test_flags[1013] : testing flags (-msse3)
+C compiler: gcc -pthread -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC
+
+compile options: '-I/usr/local/include/python3.9 -c'
+extra options: '-msse3'
+CCompilerOpt.feature_test[1466] : testing feature 'SSE3' with flags (-msse -msse2 -msse3)
+C compiler: gcc -pthread -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC
+
+compile options: '-I/usr/local/include/python3.9 -c'
+extra options: '-msse -msse2 -msse3 -Werror'
+CCompilerOpt.__init__[1710] : check requested dispatch-able features
+CCompilerOpt.cc_test_flags[1013] : testing flags (-mssse3)
+C compiler: gcc -pthread -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC
+
+compile options: '-I/usr/local/include/python3.9 -c'
+extra options: '-mssse3'
+CCompilerOpt.cc_test_flags[1013] : testing flags (-msse4.1)
+C compiler: gcc -pthread -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC
+
+compile options: '-I/usr/local/include/python3.9 -c'
+extra options: '-msse4.1'
+CCompilerOpt.cc_test_flags[1013] : testing flags (-mpopcnt)
+C compiler: gcc -pthread -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC
+
+compile options: '-I/usr/local/include/python3.9 -c'
+extra options: '-mpopcnt'
+CCompilerOpt.cc_test_flags[1013] : testing flags (-msse4.2)
+C compiler: gcc -pthread -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC
+
+compile options: '-I/usr/local/include/python3.9 -c'
+extra options: '-msse4.2'
+CCompilerOpt.cc_test_flags[1013] : testing flags (-mavx)
+C compiler: gcc -pthread -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC
+
+compile options: '-I/usr/local/include/python3.9 -c'
+extra options: '-mavx'
+CCompilerOpt.cc_test_flags[1013] : testing flags (-mf16c)
+C compiler: gcc -pthread -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC
+
+compile options: '-I/usr/local/include/python3.9 -c'
+extra options: '-mf16c'
+CCompilerOpt.feature_test[1466] : testing feature 'F16C' with flags (-msse -msse2 -msse3 -mssse3 -msse4.1 -mpopcnt -msse4.2 -mavx -mf16c)
+C compiler: gcc -pthread -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC
+
+compile options: '-I/usr/local/include/python3.9 -c'
+extra options: '-msse -msse2 -msse3 -mssse3 -msse4.1 -mpopcnt -msse4.2 -mavx -mf16c -Werror'
+CCompilerOpt.feature_test[1466] : testing feature 'POPCNT' with flags (-msse -msse2 -msse3 -mssse3 -msse4.1 -mpopcnt)
+C compiler: gcc -pthread -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC
+
+compile options: '-I/usr/local/include/python3.9 -c'
+extra options: '-msse -msse2 -msse3 -mssse3 -msse4.1 -mpopcnt -Werror'
+CCompilerOpt.feature_test[1466] : testing feature 'SSE41' with flags (-msse -msse2 -msse3 -mssse3 -msse4.1)
+C compiler: gcc -pthread -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC
+
+compile options: '-I/usr/local/include/python3.9 -c'
+extra options: '-msse -msse2 -msse3 -mssse3 -msse4.1 -Werror'
+CCompilerOpt.cc_test_flags[1013] : testing flags (-mfma)
+C compiler: gcc -pthread -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC
+
+compile options: '-I/usr/local/include/python3.9 -c'
+extra options: '-mfma'
+CCompilerOpt.feature_test[1466] : testing feature 'FMA3' with flags (-msse -msse2 -msse3 -mssse3 -msse4.1 -mpopcnt -msse4.2 -mavx -mf16c -mfma)
+C compiler: gcc -pthread -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC
+
+compile options: '-I/usr/local/include/python3.9 -c'
+extra options: '-msse -msse2 -msse3 -mssse3 -msse4.1 -mpopcnt -msse4.2 -mavx -mf16c -mfma -Werror'
+CCompilerOpt.feature_test[1466] : testing feature 'AVX' with flags (-msse -msse2 -msse3 -mssse3 -msse4.1 -mpopcnt -msse4.2 -mavx)
+C compiler: gcc -pthread -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC
+
+compile options: '-I/usr/local/include/python3.9 -c'
+extra options: '-msse -msse2 -msse3 -mssse3 -msse4.1 -mpopcnt -msse4.2 -mavx -Werror'
+CCompilerOpt.cc_test_flags[1013] : testing flags (-mavx2)
+C compiler: gcc -pthread -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC
+
+compile options: '-I/usr/local/include/python3.9 -c'
+extra options: '-mavx2'
+CCompilerOpt.cc_test_flags[1013] : testing flags (-mavx512f)
+C compiler: gcc -pthread -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC
+
+compile options: '-I/usr/local/include/python3.9 -c'
+extra options: '-mavx512f'
+CCompilerOpt.cc_test_flags[1013] : testing flags (-mavx512cd)
+C compiler: gcc -pthread -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC
+
+compile options: '-I/usr/local/include/python3.9 -c'
+extra options: '-mavx512cd'
+CCompilerOpt.feature_test[1466] : testing feature 'AVX512CD' with flags (-msse -msse2 -msse3 -mssse3 -msse4.1 -mpopcnt -msse4.2 -mavx -mf16c -mfma -mavx2 -mavx512f -mavx512cd)
+C compiler: gcc -pthread -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC
+
+compile options: '-I/usr/local/include/python3.9 -c'
+extra options: '-msse -msse2 -msse3 -mssse3 -msse4.1 -mpopcnt -msse4.2 -mavx -mf16c -mfma -mavx2 -mavx512f -mavx512cd -Werror'
+CCompilerOpt.feature_test[1466] : testing feature 'SSE42' with flags (-msse -msse2 -msse3 -mssse3 -msse4.1 -mpopcnt -msse4.2)
+C compiler: gcc -pthread -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC
+
+compile options: '-I/usr/local/include/python3.9 -c'
+extra options: '-msse -msse2 -msse3 -mssse3 -msse4.1 -mpopcnt -msse4.2 -Werror'
+CCompilerOpt.cc_test_flags[1013] : testing flags (-mavx512vl -mavx512bw -mavx512dq)
+C compiler: gcc -pthread -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC
+
+compile options: '-I/usr/local/include/python3.9 -c'
+extra options: '-mavx512vl -mavx512bw -mavx512dq'
+CCompilerOpt.feature_test[1466] : testing feature 'AVX512_SKX' with flags (-msse -msse2 -msse3 -mssse3 -msse4.1 -mpopcnt -msse4.2 -mavx -mf16c -mfma -mavx2 -mavx512f -mavx512cd -mavx512vl -mavx512bw -mavx512dq)
+C compiler: gcc -pthread -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC
+
+compile options: '-I/usr/local/include/python3.9 -c'
+extra options: '-msse -msse2 -msse3 -mssse3 -msse4.1 -mpopcnt -msse4.2 -mavx -mf16c -mfma -mavx2 -mavx512f -mavx512cd -mavx512vl -mavx512bw -mavx512dq -Werror'
+CCompilerOpt.feature_test[1466] : testing feature 'SSSE3' with flags (-msse -msse2 -msse3 -mssse3)
+C compiler: gcc -pthread -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC
+
+compile options: '-I/usr/local/include/python3.9 -c'
+extra options: '-msse -msse2 -msse3 -mssse3 -Werror'
+CCompilerOpt.feature_test[1466] : testing feature 'AVX512F' with flags (-msse -msse2 -msse3 -mssse3 -msse4.1 -mpopcnt -msse4.2 -mavx -mf16c -mfma -mavx2 -mavx512f)
+C compiler: gcc -pthread -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC
+
+compile options: '-I/usr/local/include/python3.9 -c'
+extra options: '-msse -msse2 -msse3 -mssse3 -msse4.1 -mpopcnt -msse4.2 -mavx -mf16c -mfma -mavx2 -mavx512f -Werror'
+CCompilerOpt.feature_test[1466] : testing feature 'AVX2' with flags (-msse -msse2 -msse3 -mssse3 -msse4.1 -mpopcnt -msse4.2 -mavx -mf16c -mavx2)
+C compiler: gcc -pthread -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC
+
+compile options: '-I/usr/local/include/python3.9 -c'
+extra options: '-msse -msse2 -msse3 -mssse3 -msse4.1 -mpopcnt -msse4.2 -mavx -mf16c -mavx2 -Werror'
+CCompilerOpt.cc_test_flags[1013] : testing flags (-mavx512vnni)
+C compiler: gcc -pthread -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC
+
+compile options: '-I/usr/local/include/python3.9 -c'
+extra options: '-mavx512vnni'
+CCompilerOpt.feature_test[1466] : testing feature 'AVX512_CLX' with flags (-msse -msse2 -msse3 -mssse3 -msse4.1 -mpopcnt -msse4.2 -mavx -mf16c -mfma -mavx2 -mavx512f -mavx512cd -mavx512vl -mavx512bw -mavx512dq -mavx512vnni)
+C compiler: gcc -pthread -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC
+
+compile options: '-I/usr/local/include/python3.9 -c'
+extra options: '-msse -msse2 -msse3 -mssse3 -msse4.1 -mpopcnt -msse4.2 -mavx -mf16c -mfma -mavx2 -mavx512f -mavx512cd -mavx512vl -mavx512bw -mavx512dq -mavx512vnni -Werror'
+CCompilerOpt.cc_test_flags[1013] : testing flags (-mavx512er -mavx512pf)
+C compiler: gcc -pthread -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC
+
+compile options: '-I/usr/local/include/python3.9 -c'
+extra options: '-mavx512er -mavx512pf'
+CCompilerOpt.feature_test[1466] : testing feature 'AVX512_KNL' with flags (-msse -msse2 -msse3 -mssse3 -msse4.1 -mpopcnt -msse4.2 -mavx -mf16c -mfma -mavx2 -mavx512f -mavx512cd -mavx512er -mavx512pf)
+C compiler: gcc -pthread -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC
+
+compile options: '-I/usr/local/include/python3.9 -c'
+extra options: '-msse -msse2 -msse3 -mssse3 -msse4.1 -mpopcnt -msse4.2 -mavx -mf16c -mfma -mavx2 -mavx512f -mavx512cd -mavx512er -mavx512pf -Werror'
+CCompilerOpt.cc_test_flags[1013] : testing flags (-mavx5124fmaps -mavx5124vnniw -mavx512vpopcntdq)
+C compiler: gcc -pthread -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC
+
+compile options: '-I/usr/local/include/python3.9 -c'
+extra options: '-mavx5124fmaps -mavx5124vnniw -mavx512vpopcntdq'
+CCompilerOpt.feature_test[1466] : testing feature 'AVX512_KNM' with flags (-msse -msse2 -msse3 -mssse3 -msse4.1 -mpopcnt -msse4.2 -mavx -mf16c -mfma -mavx2 -mavx512f -mavx512cd -mavx512er -mavx512pf -mavx5124fmaps -mavx5124vnniw -mavx512vpopcntdq)
+C compiler: gcc -pthread -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC
+
+compile options: '-I/usr/local/include/python3.9 -c'
+extra options: '-msse -msse2 -msse3 -mssse3 -msse4.1 -mpopcnt -msse4.2 -mavx -mf16c -mfma -mavx2 -mavx512f -mavx512cd -mavx512er -mavx512pf -mavx5124fmaps -mavx5124vnniw -mavx512vpopcntdq -Werror'
+CCompilerOpt.cc_test_flags[1013] : testing flags (-mavx512ifma -mavx512vbmi)
+C compiler: gcc -pthread -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC
+
+compile options: '-I/usr/local/include/python3.9 -c'
+extra options: '-mavx512ifma -mavx512vbmi'
+CCompilerOpt.feature_test[1466] : testing feature 'AVX512_CNL' with flags (-msse -msse2 -msse3 -mssse3 -msse4.1 -mpopcnt -msse4.2 -mavx -mf16c -mfma -mavx2 -mavx512f -mavx512cd -mavx512vl -mavx512bw -mavx512dq -mavx512ifma -mavx512vbmi)
+C compiler: gcc -pthread -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC
+
+compile options: '-I/usr/local/include/python3.9 -c'
+extra options: '-msse -msse2 -msse3 -mssse3 -msse4.1 -mpopcnt -msse4.2 -mavx -mf16c -mfma -mavx2 -mavx512f -mavx512cd -mavx512vl -mavx512bw -mavx512dq -mavx512ifma -mavx512vbmi -Werror'
+CCompilerOpt.cc_test_flags[1013] : testing flags (-mavx512vbmi2 -mavx512bitalg -mavx512vpopcntdq)
+C compiler: gcc -pthread -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC
+
+compile options: '-I/usr/local/include/python3.9 -c'
+extra options: '-mavx512vbmi2 -mavx512bitalg -mavx512vpopcntdq'
+CCompilerOpt.feature_test[1466] : testing feature 'AVX512_ICL' with flags (-msse -msse2 -msse3 -mssse3 -msse4.1 -mpopcnt -msse4.2 -mavx -mf16c -mfma -mavx2 -mavx512f -mavx512cd -mavx512vl -mavx512bw -mavx512dq -mavx512vnni -mavx512ifma -mavx512vbmi -mavx512vbmi2 -mavx512bitalg -mavx512vpopcntdq)
+C compiler: gcc -pthread -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC
+
+compile options: '-I/usr/local/include/python3.9 -c'
+extra options: '-msse -msse2 -msse3 -mssse3 -msse4.1 -mpopcnt -msse4.2 -mavx -mf16c -mfma -mavx2 -mavx512f -mavx512cd -mavx512vl -mavx512bw -mavx512dq -mavx512vnni -mavx512ifma -mavx512vbmi -mavx512vbmi2 -mavx512bitalg -mavx512vpopcntdq -Werror'
+CCompilerOpt.__init__[1722] : skip features (SSE3 SSE2 SSE) since its part of baseline
+CCompilerOpt.__init__[1726] : initialize targets groups
+CCompilerOpt.__init__[1728] : parse target group simd_test
+CCompilerOpt._parse_target_tokens[1939] : skip targets (XOP VSX FMA4 NEON VSX3 VSX2 ASIMD) not part of baseline or dispatch-able features
+CCompilerOpt._parse_policy_not_keepbase[2051] : skip baseline features (SSE2)
+CCompilerOpt.generate_dispatch_header[2272] : generate CPU dispatch header: (build/src.linux-x86_64-3.9/numpy/distutils/include/npy_cpu_dispatch_config.h)
+CCompilerOpt.feature_extra_checks[1546] : Testing extra checks for feature 'AVX512F' (AVX512F_REDUCE)
+C compiler: gcc -pthread -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC
+
+compile options: '-I/usr/local/include/python3.9 -c'
+extra options: '-msse -msse2 -msse3 -mssse3 -msse4.1 -mpopcnt -msse4.2 -mavx -mf16c -mfma -mavx2 -mavx512f -Werror'
+CCompilerOpt.feature_extra_checks[1546] : Testing extra checks for feature 'AVX512_SKX' (AVX512BW_MASK AVX512DQ_MASK)
+C compiler: gcc -pthread -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC
+
+compile options: '-I/usr/local/include/python3.9 -c'
+extra options: '-msse -msse2 -msse3 -mssse3 -msse4.1 -mpopcnt -msse4.2 -mavx -mf16c -mfma -mavx2 -mavx512f -mavx512cd -mavx512vl -mavx512bw -mavx512dq -Werror'
+C compiler: gcc -pthread -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC
+
+compile options: '-I/usr/local/include/python3.9 -c'
+extra options: '-msse -msse2 -msse3 -mssse3 -msse4.1 -mpopcnt -msse4.2 -mavx -mf16c -mfma -mavx2 -mavx512f -mavx512cd -mavx512vl -mavx512bw -mavx512dq -Werror'
+building 'libsvm-skl' library
+compiling C++ sources
+C compiler: g++ -pthread -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC
+
+compile options: '-I/usr/local/lib/python3.9/site-packages/numpy/core/include -Ibuild/src.linux-x86_64-3.9/numpy/distutils/include -I/usr/local/include/python3.9 -c'
+extra options: '-std=c++11 -msse -msse2 -msse3'
+building 'liblinear-skl' library
+compiling C++ sources
+C compiler: g++ -pthread -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC
+
+compile options: '-I/usr/local/lib/python3.9/site-packages/numpy/core/include -Ibuild/src.linux-x86_64-3.9/numpy/distutils/include -I/usr/local/include/python3.9 -c'
+extra options: '-std=c++11 -msse -msse2 -msse3'
+customize UnixCCompiler
+customize UnixCCompiler using build_ext_subclass
+CCompilerOpt.__init__[765] : load cache from file -> /home/scikit-learn/build/temp.linux-x86_64-3.9/ccompiler_opt_cache_ext.py
+CCompilerOpt.__init__[781] : miss the file cache
+CCompilerOpt.__init__[786] : hit the memory cache
+CCompilerOpt.generate_dispatch_header[2272] : generate CPU dispatch header: (build/src.linux-x86_64-3.9/numpy/distutils/include/npy_cpu_dispatch_config.h)
+customize UnixCCompiler
+customize UnixCCompiler using build_ext_subclass
+building 'sklearn.__check_build._check_build' extension
+compiling C sources
+C compiler: gcc -pthread -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC
+
+compile options: '-I/usr/local/lib/python3.9/site-packages/numpy/core/include -I/usr/local/lib/python3.9/site-packages/numpy/core/include -Ibuild/src.linux-x86_64-3.9/numpy/distutils/include -I/usr/local/include/python3.9 -c'
+extra options: '-fopenmp -msse -msse2 -msse3'
+building 'sklearn.preprocessing._csr_polynomial_expansion' extension
+compiling C sources
+C compiler: gcc -pthread -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC
+
+compile options: '-I/usr/local/lib/python3.9/site-packages/numpy/core/include -I/usr/local/lib/python3.9/site-packages/numpy/core/include -Ibuild/src.linux-x86_64-3.9/numpy/distutils/include -I/usr/local/include/python3.9 -c'
+extra options: '-fopenmp -msse -msse2 -msse3'
+building 'sklearn.cluster._dbscan_inner' extension
+compiling C++ sources
+C compiler: g++ -pthread -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC
+
+compile options: '-I/usr/local/lib/python3.9/site-packages/numpy/core/include -I/usr/local/lib/python3.9/site-packages/numpy/core/include -Ibuild/src.linux-x86_64-3.9/numpy/distutils/include -I/usr/local/include/python3.9 -c'
+extra options: '-fopenmp -msse -msse2 -msse3'
+building 'sklearn.cluster._hierarchical_fast' extension
+compiling C++ sources
+C compiler: g++ -pthread -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC
+
+compile options: '-I/usr/local/lib/python3.9/site-packages/numpy/core/include -I/usr/local/lib/python3.9/site-packages/numpy/core/include -Ibuild/src.linux-x86_64-3.9/numpy/distutils/include -I/usr/local/include/python3.9 -c'
+extra options: '-fopenmp -msse -msse2 -msse3'
+building 'sklearn.cluster._k_means_common' extension
+compiling C sources
+C compiler: gcc -pthread -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC
+
+compile options: '-I/usr/local/lib/python3.9/site-packages/numpy/core/include -I/usr/local/lib/python3.9/site-packages/numpy/core/include -Ibuild/src.linux-x86_64-3.9/numpy/distutils/include -I/usr/local/include/python3.9 -c'
+extra options: '-fopenmp -msse -msse2 -msse3'
+building 'sklearn.cluster._k_means_lloyd' extension
+compiling C sources
+C compiler: gcc -pthread -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC
+
+compile options: '-I/usr/local/lib/python3.9/site-packages/numpy/core/include -I/usr/local/lib/python3.9/site-packages/numpy/core/include -Ibuild/src.linux-x86_64-3.9/numpy/distutils/include -I/usr/local/include/python3.9 -c'
+extra options: '-fopenmp -msse -msse2 -msse3'
+building 'sklearn.cluster._k_means_elkan' extension
+compiling C sources
+C compiler: gcc -pthread -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC
+
+compile options: '-I/usr/local/lib/python3.9/site-packages/numpy/core/include -I/usr/local/lib/python3.9/site-packages/numpy/core/include -Ibuild/src.linux-x86_64-3.9/numpy/distutils/include -I/usr/local/include/python3.9 -c'
+extra options: '-fopenmp -msse -msse2 -msse3'
+building 'sklearn.cluster._k_means_minibatch' extension
+compiling C sources
+C compiler: gcc -pthread -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC
+
+compile options: '-I/usr/local/lib/python3.9/site-packages/numpy/core/include -I/usr/local/lib/python3.9/site-packages/numpy/core/include -Ibuild/src.linux-x86_64-3.9/numpy/distutils/include -I/usr/local/include/python3.9 -c'
+extra options: '-fopenmp -msse -msse2 -msse3'
+building 'sklearn.datasets._svmlight_format_fast' extension
+compiling C sources
+C compiler: gcc -pthread -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC
+
+compile options: '-I/usr/local/lib/python3.9/site-packages/numpy/core/include -I/usr/local/lib/python3.9/site-packages/numpy/core/include -Ibuild/src.linux-x86_64-3.9/numpy/distutils/include -I/usr/local/include/python3.9 -c'
+extra options: '-fopenmp -msse -msse2 -msse3'
+building 'sklearn.decomposition._online_lda_fast' extension
+compiling C sources
+C compiler: gcc -pthread -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC
+
+compile options: '-I/usr/local/lib/python3.9/site-packages/numpy/core/include -I/usr/local/lib/python3.9/site-packages/numpy/core/include -Ibuild/src.linux-x86_64-3.9/numpy/distutils/include -I/usr/local/include/python3.9 -c'
+extra options: '-fopenmp -msse -msse2 -msse3'
+building 'sklearn.decomposition._cdnmf_fast' extension
+compiling C sources
+C compiler: gcc -pthread -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC
+
+compile options: '-I/usr/local/lib/python3.9/site-packages/numpy/core/include -I/usr/local/lib/python3.9/site-packages/numpy/core/include -Ibuild/src.linux-x86_64-3.9/numpy/distutils/include -I/usr/local/include/python3.9 -c'
+extra options: '-fopenmp -msse -msse2 -msse3'
+building 'sklearn.ensemble._gradient_boosting' extension
+compiling C sources
+C compiler: gcc -pthread -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC
+
+compile options: '-I/usr/local/lib/python3.9/site-packages/numpy/core/include -I/usr/local/lib/python3.9/site-packages/numpy/core/include -Ibuild/src.linux-x86_64-3.9/numpy/distutils/include -I/usr/local/include/python3.9 -c'
+extra options: '-fopenmp -msse -msse2 -msse3'
+building 'sklearn.ensemble._hist_gradient_boosting._gradient_boosting' extension
+compiling C sources
+C compiler: gcc -pthread -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC
+
+compile options: '-I/usr/local/lib/python3.9/site-packages/numpy/core/include -I/usr/local/lib/python3.9/site-packages/numpy/core/include -Ibuild/src.linux-x86_64-3.9/numpy/distutils/include -I/usr/local/include/python3.9 -c'
+extra options: '-fopenmp -msse -msse2 -msse3'
+building 'sklearn.ensemble._hist_gradient_boosting.histogram' extension
+compiling C sources
+C compiler: gcc -pthread -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC
+
+compile options: '-I/usr/local/lib/python3.9/site-packages/numpy/core/include -I/usr/local/lib/python3.9/site-packages/numpy/core/include -Ibuild/src.linux-x86_64-3.9/numpy/distutils/include -I/usr/local/include/python3.9 -c'
+extra options: '-fopenmp -msse -msse2 -msse3'
+building 'sklearn.ensemble._hist_gradient_boosting.splitting' extension
+compiling C sources
+C compiler: gcc -pthread -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC
+
+compile options: '-I/usr/local/lib/python3.9/site-packages/numpy/core/include -I/usr/local/lib/python3.9/site-packages/numpy/core/include -Ibuild/src.linux-x86_64-3.9/numpy/distutils/include -I/usr/local/include/python3.9 -c'
+extra options: '-fopenmp -msse -msse2 -msse3'
+building 'sklearn.ensemble._hist_gradient_boosting._binning' extension
+compiling C sources
+C compiler: gcc -pthread -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC
+
+compile options: '-I/usr/local/lib/python3.9/site-packages/numpy/core/include -I/usr/local/lib/python3.9/site-packages/numpy/core/include -Ibuild/src.linux-x86_64-3.9/numpy/distutils/include -I/usr/local/include/python3.9 -c'
+extra options: '-fopenmp -msse -msse2 -msse3'
+building 'sklearn.ensemble._hist_gradient_boosting._predictor' extension
+compiling C sources
+C compiler: gcc -pthread -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC
+
+compile options: '-I/usr/local/lib/python3.9/site-packages/numpy/core/include -I/usr/local/lib/python3.9/site-packages/numpy/core/include -Ibuild/src.linux-x86_64-3.9/numpy/distutils/include -I/usr/local/include/python3.9 -c'
+extra options: '-fopenmp -msse -msse2 -msse3'
+building 'sklearn.ensemble._hist_gradient_boosting._loss' extension
+compiling C sources
+C compiler: gcc -pthread -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC
+
+compile options: '-I/usr/local/lib/python3.9/site-packages/numpy/core/include -I/usr/local/lib/python3.9/site-packages/numpy/core/include -Ibuild/src.linux-x86_64-3.9/numpy/distutils/include -I/usr/local/include/python3.9 -c'
+extra options: '-fopenmp -msse -msse2 -msse3'
+building 'sklearn.ensemble._hist_gradient_boosting._bitset' extension
+compiling C sources
+C compiler: gcc -pthread -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC
+
+compile options: '-I/usr/local/lib/python3.9/site-packages/numpy/core/include -I/usr/local/lib/python3.9/site-packages/numpy/core/include -Ibuild/src.linux-x86_64-3.9/numpy/distutils/include -I/usr/local/include/python3.9 -c'
+extra options: '-fopenmp -msse -msse2 -msse3'
+building 'sklearn.ensemble._hist_gradient_boosting.common' extension
+compiling C sources
+C compiler: gcc -pthread -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC
+
+compile options: '-I/usr/local/lib/python3.9/site-packages/numpy/core/include -I/usr/local/lib/python3.9/site-packages/numpy/core/include -Ibuild/src.linux-x86_64-3.9/numpy/distutils/include -I/usr/local/include/python3.9 -c'
+extra options: '-fopenmp -msse -msse2 -msse3'
+building 'sklearn.ensemble._hist_gradient_boosting.utils' extension
+compiling C sources
+C compiler: gcc -pthread -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC
+
+compile options: '-I/usr/local/lib/python3.9/site-packages/numpy/core/include -I/usr/local/lib/python3.9/site-packages/numpy/core/include -Ibuild/src.linux-x86_64-3.9/numpy/distutils/include -I/usr/local/include/python3.9 -c'
+extra options: '-fopenmp -msse -msse2 -msse3'
+building 'sklearn.feature_extraction._hashing_fast' extension
+compiling C sources
+C compiler: gcc -pthread -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC
+
+compile options: '-I/usr/local/lib/python3.9/site-packages/numpy/core/include -I/usr/local/lib/python3.9/site-packages/numpy/core/include -Ibuild/src.linux-x86_64-3.9/numpy/distutils/include -I/usr/local/include/python3.9 -c'
+extra options: '-fopenmp -msse -msse2 -msse3'
+building 'sklearn.manifold._utils' extension
+compiling C sources
+C compiler: gcc -pthread -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC
+
+compile options: '-I/usr/local/lib/python3.9/site-packages/numpy/core/include -I/usr/local/lib/python3.9/site-packages/numpy/core/include -Ibuild/src.linux-x86_64-3.9/numpy/distutils/include -I/usr/local/include/python3.9 -c'
+extra options: '-O3 -fopenmp -msse -msse2 -msse3'
+building 'sklearn.manifold._barnes_hut_tsne' extension
+compiling C sources
+C compiler: gcc -pthread -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC
+
+compile options: '-I/usr/local/lib/python3.9/site-packages/numpy/core/include -I/usr/local/lib/python3.9/site-packages/numpy/core/include -Ibuild/src.linux-x86_64-3.9/numpy/distutils/include -I/usr/local/include/python3.9 -c'
+extra options: '-O3 -fopenmp -msse -msse2 -msse3'
+building 'sklearn.metrics.cluster._expected_mutual_info_fast' extension
+compiling C sources
+C compiler: gcc -pthread -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC
+
+compile options: '-I/usr/local/lib/python3.9/site-packages/numpy/core/include -I/usr/local/lib/python3.9/site-packages/numpy/core/include -Ibuild/src.linux-x86_64-3.9/numpy/distutils/include -I/usr/local/include/python3.9 -c'
+extra options: '-fopenmp -msse -msse2 -msse3'
+building 'sklearn.metrics._pairwise_fast' extension
+compiling C sources
+C compiler: gcc -pthread -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC
+
+compile options: '-I/usr/local/lib/python3.9/site-packages/numpy/core/include -Ibuild/src.linux-x86_64-3.9/numpy/distutils/include -I/usr/local/include/python3.9 -c'
+extra options: '-fopenmp -msse -msse2 -msse3'
+building 'sklearn.metrics._dist_metrics' extension
+compiling C sources
+C compiler: gcc -pthread -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC
+
+compile options: '-I/usr/local/lib/python3.9/site-packages/numpy/core/include -I/usr/local/lib/python3.9/site-packages/numpy/core/include/numpy -I/usr/local/lib/python3.9/site-packages/numpy/core/include -Ibuild/src.linux-x86_64-3.9/numpy/distutils/include -I/usr/local/include/python3.9 -c'
+extra options: '-fopenmp -msse -msse2 -msse3'
+building 'sklearn.neighbors._ball_tree' extension
+compiling C sources
+C compiler: gcc -pthread -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC
+
+compile options: '-I/usr/local/lib/python3.9/site-packages/numpy/core/include -I/usr/local/lib/python3.9/site-packages/numpy/core/include -Ibuild/src.linux-x86_64-3.9/numpy/distutils/include -I/usr/local/include/python3.9 -c'
+extra options: '-fopenmp -msse -msse2 -msse3'
+building 'sklearn.neighbors._kd_tree' extension
+compiling C sources
+C compiler: gcc -pthread -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC
+
+compile options: '-I/usr/local/lib/python3.9/site-packages/numpy/core/include -I/usr/local/lib/python3.9/site-packages/numpy/core/include -Ibuild/src.linux-x86_64-3.9/numpy/distutils/include -I/usr/local/include/python3.9 -c'
+extra options: '-fopenmp -msse -msse2 -msse3'
+building 'sklearn.neighbors._partition_nodes' extension
+compiling C++ sources
+C compiler: g++ -pthread -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC
+
+compile options: '-I/usr/local/lib/python3.9/site-packages/numpy/core/include -I/usr/local/lib/python3.9/site-packages/numpy/core/include -Ibuild/src.linux-x86_64-3.9/numpy/distutils/include -I/usr/local/include/python3.9 -c'
+extra options: '-fopenmp -msse -msse2 -msse3'
+building 'sklearn.neighbors._quad_tree' extension
+compiling C sources
+C compiler: gcc -pthread -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC
+
+compile options: '-I/usr/local/lib/python3.9/site-packages/numpy/core/include -I/usr/local/lib/python3.9/site-packages/numpy/core/include -Ibuild/src.linux-x86_64-3.9/numpy/distutils/include -I/usr/local/include/python3.9 -c'
+extra options: '-fopenmp -msse -msse2 -msse3'
+building 'sklearn.tree._tree' extension
+compiling C sources
+C compiler: gcc -pthread -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC
+
+compile options: '-I/usr/local/lib/python3.9/site-packages/numpy/core/include -I/usr/local/lib/python3.9/site-packages/numpy/core/include -Ibuild/src.linux-x86_64-3.9/numpy/distutils/include -I/usr/local/include/python3.9 -c'
+extra options: '-O3 -fopenmp -msse -msse2 -msse3'
+building 'sklearn.tree._splitter' extension
+compiling C sources
+C compiler: gcc -pthread -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC
+
+compile options: '-I/usr/local/lib/python3.9/site-packages/numpy/core/include -I/usr/local/lib/python3.9/site-packages/numpy/core/include -Ibuild/src.linux-x86_64-3.9/numpy/distutils/include -I/usr/local/include/python3.9 -c'
+extra options: '-O3 -fopenmp -msse -msse2 -msse3'
+building 'sklearn.tree._criterion' extension
+compiling C sources
+C compiler: gcc -pthread -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC
+
+compile options: '-I/usr/local/lib/python3.9/site-packages/numpy/core/include -I/usr/local/lib/python3.9/site-packages/numpy/core/include -Ibuild/src.linux-x86_64-3.9/numpy/distutils/include -I/usr/local/include/python3.9 -c'
+extra options: '-O3 -fopenmp -msse -msse2 -msse3'
+building 'sklearn.tree._utils' extension
+compiling C sources
+C compiler: gcc -pthread -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC
+
+compile options: '-I/usr/local/lib/python3.9/site-packages/numpy/core/include -I/usr/local/lib/python3.9/site-packages/numpy/core/include -Ibuild/src.linux-x86_64-3.9/numpy/distutils/include -I/usr/local/include/python3.9 -c'
+extra options: '-O3 -fopenmp -msse -msse2 -msse3'
+building 'sklearn.utils.sparsefuncs_fast' extension
+compiling C sources
+C compiler: gcc -pthread -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC
+
+compile options: '-I/usr/local/lib/python3.9/site-packages/numpy/core/include -Ibuild/src.linux-x86_64-3.9/numpy/distutils/include -I/usr/local/include/python3.9 -c'
+extra options: '-fopenmp -msse -msse2 -msse3'
+building 'sklearn.utils._cython_blas' extension
+compiling C sources
+C compiler: gcc -pthread -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC
+
+compile options: '-I/usr/local/lib/python3.9/site-packages/numpy/core/include -Ibuild/src.linux-x86_64-3.9/numpy/distutils/include -I/usr/local/include/python3.9 -c'
+extra options: '-fopenmp -msse -msse2 -msse3'
+building 'sklearn.utils.arrayfuncs' extension
+compiling C sources
+C compiler: gcc -pthread -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC
+
+compile options: '-I/usr/local/lib/python3.9/site-packages/numpy/core/include -I/usr/local/lib/python3.9/site-packages/numpy/core/include -Ibuild/src.linux-x86_64-3.9/numpy/distutils/include -I/usr/local/include/python3.9 -c'
+extra options: '-fopenmp -msse -msse2 -msse3'
+building 'sklearn.utils.murmurhash' extension
+compiling C sources
+C compiler: gcc -pthread -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC
+
+compile options: '-Isklearn/utils -Isklearn/utils/src -I/usr/local/lib/python3.9/site-packages/numpy/core/include -Ibuild/src.linux-x86_64-3.9/numpy/distutils/include -I/usr/local/include/python3.9 -c'
+extra options: '-fopenmp -msse -msse2 -msse3'
+compiling C++ sources
+C compiler: g++ -pthread -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC
+
+compile options: '-Isklearn/utils -Isklearn/utils/src -I/usr/local/lib/python3.9/site-packages/numpy/core/include -Ibuild/src.linux-x86_64-3.9/numpy/distutils/include -I/usr/local/include/python3.9 -c'
+extra options: '-fopenmp -msse -msse2 -msse3'
+building 'sklearn.utils._fast_dict' extension
+compiling C++ sources
+C compiler: g++ -pthread -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC
+
+compile options: '-I/usr/local/lib/python3.9/site-packages/numpy/core/include -I/usr/local/lib/python3.9/site-packages/numpy/core/include -Ibuild/src.linux-x86_64-3.9/numpy/distutils/include -I/usr/local/include/python3.9 -c'
+extra options: '-fopenmp -msse -msse2 -msse3'
+building 'sklearn.utils._openmp_helpers' extension
+compiling C sources
+C compiler: gcc -pthread -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC
+
+compile options: '-I/usr/local/lib/python3.9/site-packages/numpy/core/include -Ibuild/src.linux-x86_64-3.9/numpy/distutils/include -I/usr/local/include/python3.9 -c'
+extra options: '-fopenmp -msse -msse2 -msse3'
+building 'sklearn.utils._seq_dataset' extension
+compiling C sources
+C compiler: gcc -pthread -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC
+
+compile options: '-I/usr/local/lib/python3.9/site-packages/numpy/core/include -I/usr/local/lib/python3.9/site-packages/numpy/core/include -Ibuild/src.linux-x86_64-3.9/numpy/distutils/include -I/usr/local/include/python3.9 -c'
+extra options: '-fopenmp -msse -msse2 -msse3'
+building 'sklearn.utils._weight_vector' extension
+compiling C sources
+C compiler: gcc -pthread -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC
+
+compile options: '-I/usr/local/lib/python3.9/site-packages/numpy/core/include -I/usr/local/lib/python3.9/site-packages/numpy/core/include -Ibuild/src.linux-x86_64-3.9/numpy/distutils/include -I/usr/local/include/python3.9 -c'
+extra options: '-fopenmp -msse -msse2 -msse3'
+building 'sklearn.utils._random' extension
+compiling C sources
+C compiler: gcc -pthread -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC
+
+compile options: '-I/usr/local/lib/python3.9/site-packages/numpy/core/include -I/usr/local/lib/python3.9/site-packages/numpy/core/include -Ibuild/src.linux-x86_64-3.9/numpy/distutils/include -I/usr/local/include/python3.9 -c'
+extra options: '-fopenmp -msse -msse2 -msse3'
+building 'sklearn.utils._logistic_sigmoid' extension
+compiling C sources
+C compiler: gcc -pthread -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC
+
+compile options: '-I/usr/local/lib/python3.9/site-packages/numpy/core/include -I/usr/local/lib/python3.9/site-packages/numpy/core/include -Ibuild/src.linux-x86_64-3.9/numpy/distutils/include -I/usr/local/include/python3.9 -c'
+extra options: '-fopenmp -msse -msse2 -msse3'
+building 'sklearn.utils._readonly_array_wrapper' extension
+compiling C sources
+C compiler: gcc -pthread -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC
+
+compile options: '-I/usr/local/lib/python3.9/site-packages/numpy/core/include -Ibuild/src.linux-x86_64-3.9/numpy/distutils/include -I/usr/local/include/python3.9 -c'
+extra options: '-fopenmp -msse -msse2 -msse3'
+building 'sklearn.utils._typedefs' extension
+compiling C sources
+C compiler: gcc -pthread -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC
+
+compile options: '-I/usr/local/lib/python3.9/site-packages/numpy/core/include -I/usr/local/lib/python3.9/site-packages/numpy/core/include -Ibuild/src.linux-x86_64-3.9/numpy/distutils/include -I/usr/local/include/python3.9 -c'
+extra options: '-fopenmp -msse -msse2 -msse3'
+building 'sklearn.svm._newrand' extension
+compiling C++ sources
+C compiler: g++ -pthread -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC
+
+compile options: '-I/usr/local/lib/python3.9/site-packages/numpy/core/include -Isklearn/svm/src/newrand -I/usr/local/lib/python3.9/site-packages/numpy/core/include -Ibuild/src.linux-x86_64-3.9/numpy/distutils/include -I/usr/local/include/python3.9 -c'
+extra options: '-std=c++11 -fopenmp -msse -msse2 -msse3'
+building 'sklearn.svm._libsvm' extension
+compiling C sources
+C compiler: gcc -pthread -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC
+
+compile options: '-I/usr/local/lib/python3.9/site-packages/numpy/core/include -Isklearn/svm/src/libsvm -Isklearn/svm/src/newrand -I/usr/local/lib/python3.9/site-packages/numpy/core/include -Ibuild/src.linux-x86_64-3.9/numpy/distutils/include -I/usr/local/include/python3.9 -c'
+extra options: '-fopenmp -msse -msse2 -msse3'
+building 'sklearn.svm._liblinear' extension
+compiling C sources
+C compiler: gcc -pthread -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC
+
+compile options: '-Isklearn/svm/src/liblinear -Isklearn/svm/src/newrand -Isklearn/utils -I/usr/local/lib/python3.9/site-packages/numpy/core/include -I/usr/local/lib/python3.9/site-packages/numpy/core/include -Ibuild/src.linux-x86_64-3.9/numpy/distutils/include -I/usr/local/include/python3.9 -c'
+extra options: '-fopenmp -msse -msse2 -msse3'
+building 'sklearn.svm._libsvm_sparse' extension
+compiling C sources
+C compiler: gcc -pthread -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC
+
+compile options: '-I/usr/local/lib/python3.9/site-packages/numpy/core/include -Isklearn/svm/src/libsvm -Isklearn/svm/src/newrand -I/usr/local/lib/python3.9/site-packages/numpy/core/include -Ibuild/src.linux-x86_64-3.9/numpy/distutils/include -I/usr/local/include/python3.9 -c'
+extra options: '-fopenmp -msse -msse2 -msse3'
+building 'sklearn.linear_model._cd_fast' extension
+compiling C sources
+C compiler: gcc -pthread -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC
+
+compile options: '-I/usr/local/lib/python3.9/site-packages/numpy/core/include -I/usr/local/lib/python3.9/site-packages/numpy/core/include -Ibuild/src.linux-x86_64-3.9/numpy/distutils/include -I/usr/local/include/python3.9 -c'
+extra options: '-fopenmp -msse -msse2 -msse3'
+building 'sklearn.linear_model._sgd_fast' extension
+compiling C sources
+C compiler: gcc -pthread -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC
+
+compile options: '-Isklearn/linear_model -I/usr/local/lib/python3.9/site-packages/numpy/core/include -I/usr/local/lib/python3.9/site-packages/numpy/core/include -Ibuild/src.linux-x86_64-3.9/numpy/distutils/include -I/usr/local/include/python3.9 -c'
+extra options: '-fopenmp -msse -msse2 -msse3'
+building 'sklearn.linear_model._sag_fast' extension
+compiling C sources
+C compiler: gcc -pthread -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC
+
+compile options: '-Isklearn/linear_model -I/usr/local/lib/python3.9/site-packages/numpy/core/include -I/usr/local/lib/python3.9/site-packages/numpy/core/include -Ibuild/src.linux-x86_64-3.9/numpy/distutils/include -I/usr/local/include/python3.9 -c'
+extra options: '-fopenmp -msse -msse2 -msse3'
+building 'sklearn._isotonic' extension
+compiling C sources
+C compiler: gcc -pthread -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC
+
+compile options: '-I/usr/local/lib/python3.9/site-packages/numpy/core/include -I/usr/local/lib/python3.9/site-packages/numpy/core/include -Ibuild/src.linux-x86_64-3.9/numpy/distutils/include -I/usr/local/include/python3.9 -c'
+extra options: '-fopenmp -msse -msse2 -msse3'
+
+########### EXT COMPILER OPTIMIZATION ###########
+Platform      : 
+  Architecture: x64
+  Compiler    : gcc
+
+CPU baseline  : 
+  Requested   : 'min'
+  Enabled     : SSE SSE2 SSE3
+  Flags       : -msse -msse2 -msse3
+  Extra checks: none
+
+CPU dispatch  : 
+  Requested   : 'max -xop -fma4'
+  Enabled     : SSSE3 SSE41 POPCNT SSE42 AVX F16C FMA3 AVX2 AVX512F AVX512CD AVX512_KNL AVX512_KNM AVX512_SKX AVX512_CLX AVX512_CNL AVX512_ICL
+  Generated   : none
+CCompilerOpt.cache_flush[809] : write cache to path -> /home/scikit-learn/build/temp.linux-x86_64-3.9/ccompiler_opt_cache_ext.py
+
+########### CLIB COMPILER OPTIMIZATION ###########
+Platform      : 
+  Architecture: x64
+  Compiler    : gcc
+
+CPU baseline  : 
+  Requested   : 'min'
+  Enabled     : SSE SSE2 SSE3
+  Flags       : -msse -msse2 -msse3
+  Extra checks: none
+
+CPU dispatch  : 
+  Requested   : 'max -xop -fma4'
+  Enabled     : SSSE3 SSE41 POPCNT SSE42 AVX F16C FMA3 AVX2 AVX512F AVX512CD AVX512_KNL AVX512_KNM AVX512_SKX AVX512_CLX AVX512_CNL AVX512_ICL
+  Generated   : none
+CCompilerOpt.cache_flush[809] : write cache to path -> /home/scikit-learn/build/temp.linux-x86_64-3.9/ccompiler_opt_cache_clib.py
+============================= test session starts ==============================
+collecting ... collected 28 items
+
+sklearn/cluster/tests/test_spectral.py::test_spectral_clustering[kmeans-arpack] PASSED [  3%]
+sklearn/cluster/tests/test_spectral.py::test_spectral_clustering[kmeans-lobpcg] PASSED [  7%]
+sklearn/cluster/tests/test_spectral.py::test_spectral_clustering[discretize-arpack] PASSED [ 10%]
+sklearn/cluster/tests/test_spectral.py::test_spectral_clustering[discretize-lobpcg] PASSED [ 14%]
+sklearn/cluster/tests/test_spectral.py::test_spectral_clustering[cluster_qr-arpack] PASSED [ 17%]
+sklearn/cluster/tests/test_spectral.py::test_spectral_clustering[cluster_qr-lobpcg] PASSED [ 21%]
+sklearn/cluster/tests/test_spectral.py::test_spectral_unknown_mode PASSED [ 25%]
+sklearn/cluster/tests/test_spectral.py::test_spectral_unknown_assign_labels PASSED [ 28%]
+sklearn/cluster/tests/test_spectral.py::test_spectral_clustering_sparse[kmeans] PASSED [ 32%]
+sklearn/cluster/tests/test_spectral.py::test_spectral_clustering_sparse[discretize] PASSED [ 35%]
+sklearn/cluster/tests/test_spectral.py::test_spectral_clustering_sparse[cluster_qr] PASSED [ 39%]
+sklearn/cluster/tests/test_spectral.py::test_precomputed_nearest_neighbors_filtering PASSED [ 42%]
+sklearn/cluster/tests/test_spectral.py::test_affinities PASSED           [ 46%]
+sklearn/cluster/tests/test_spectral.py::test_cluster_qr PASSED           [ 50%]
+sklearn/cluster/tests/test_spectral.py::test_cluster_qr_permutation_invariance PASSED [ 53%]
+sklearn/cluster/tests/test_spectral.py::test_discretize[50] PASSED       [ 57%]
+sklearn/cluster/tests/test_spectral.py::test_discretize[100] PASSED      [ 60%]
+sklearn/cluster/tests/test_spectral.py::test_discretize[150] PASSED      [ 64%]
+sklearn/cluster/tests/test_spectral.py::test_discretize[500] PASSED      [ 67%]
+sklearn/cluster/tests/test_spectral.py::test_spectral_clustering_with_arpack_amg_solvers PASSED [ 71%]
+sklearn/cluster/tests/test_spectral.py::test_n_components PASSED         [ 75%]
+sklearn/cluster/tests/test_spectral.py::test_verbose[kmeans] PASSED      [ 78%]
+sklearn/cluster/tests/test_spectral.py::test_verbose[discretize] PASSED  [ 82%]
+sklearn/cluster/tests/test_spectral.py::test_verbose[cluster_qr] PASSED  [ 85%]
+sklearn/cluster/tests/test_spectral.py::test_pairwise_is_deprecated[precomputed] PASSED [ 89%]
+sklearn/cluster/tests/test_spectral.py::test_pairwise_is_deprecated[precomputed_nearest_neighbors] PASSED [ 92%]
+sklearn/cluster/tests/test_spectral.py::test_spectral_clustering_np_matrix_raises PASSED [ 96%]
+sklearn/cluster/tests/test_spectral.py::test_spectral_clustering_not_infinite_loop PASSED [100%]
+
+============================= slowest 10 durations =============================
+1.81s call     sklearn/cluster/tests/test_spectral.py::test_affinities
+0.66s call     sklearn/cluster/tests/test_spectral.py::test_cluster_qr
+0.38s call     sklearn/cluster/tests/test_spectral.py::test_n_components
+0.33s call     sklearn/cluster/tests/test_spectral.py::test_spectral_clustering[kmeans-arpack]
+0.30s call     sklearn/cluster/tests/test_spectral.py::test_precomputed_nearest_neighbors_filtering
+0.24s call     sklearn/cluster/tests/test_spectral.py::test_spectral_clustering[kmeans-lobpcg]
+0.23s call     sklearn/cluster/tests/test_spectral.py::test_verbose[kmeans]
+0.21s call     sklearn/cluster/tests/test_spectral.py::test_verbose[discretize]
+0.20s call     sklearn/cluster/tests/test_spectral.py::test_verbose[cluster_qr]
+0.19s call     sklearn/cluster/tests/test_spectral.py::test_spectral_clustering_sparse[kmeans]
+=========================== short test summary info ============================
+PASSED sklearn/cluster/tests/test_spectral.py::test_spectral_clustering[kmeans-arpack]
+PASSED sklearn/cluster/tests/test_spectral.py::test_spectral_clustering[kmeans-lobpcg]
+PASSED sklearn/cluster/tests/test_spectral.py::test_spectral_clustering[discretize-arpack]
+PASSED sklearn/cluster/tests/test_spectral.py::test_spectral_clustering[discretize-lobpcg]
+PASSED sklearn/cluster/tests/test_spectral.py::test_spectral_clustering[cluster_qr-arpack]
+PASSED sklearn/cluster/tests/test_spectral.py::test_spectral_clustering[cluster_qr-lobpcg]
+PASSED sklearn/cluster/tests/test_spectral.py::test_spectral_unknown_mode
+PASSED sklearn/cluster/tests/test_spectral.py::test_spectral_unknown_assign_labels
+PASSED sklearn/cluster/tests/test_spectral.py::test_spectral_clustering_sparse[kmeans]
+PASSED sklearn/cluster/tests/test_spectral.py::test_spectral_clustering_sparse[discretize]
+PASSED sklearn/cluster/tests/test_spectral.py::test_spectral_clustering_sparse[cluster_qr]
+PASSED sklearn/cluster/tests/test_spectral.py::test_precomputed_nearest_neighbors_filtering
+PASSED sklearn/cluster/tests/test_spectral.py::test_affinities
+PASSED sklearn/cluster/tests/test_spectral.py::test_cluster_qr
+PASSED sklearn/cluster/tests/test_spectral.py::test_cluster_qr_permutation_invariance
+PASSED sklearn/cluster/tests/test_spectral.py::test_discretize[50]
+PASSED sklearn/cluster/tests/test_spectral.py::test_discretize[100]
+PASSED sklearn/cluster/tests/test_spectral.py::test_discretize[150]
+PASSED sklearn/cluster/tests/test_spectral.py::test_discretize[500]
+PASSED sklearn/cluster/tests/test_spectral.py::test_spectral_clustering_with_arpack_amg_solvers
+PASSED sklearn/cluster/tests/test_spectral.py::test_n_components
+PASSED sklearn/cluster/tests/test_spectral.py::test_verbose[kmeans]
+PASSED sklearn/cluster/tests/test_spectral.py::test_verbose[discretize]
+PASSED sklearn/cluster/tests/test_spectral.py::test_verbose[cluster_qr]
+PASSED sklearn/cluster/tests/test_spectral.py::test_pairwise_is_deprecated[precomputed]
+PASSED sklearn/cluster/tests/test_spectral.py::test_pairwise_is_deprecated[precomputed_nearest_neighbors]
+PASSED sklearn/cluster/tests/test_spectral.py::test_spectral_clustering_np_matrix_raises
+PASSED sklearn/cluster/tests/test_spectral.py::test_spectral_clustering_not_infinite_loop
+======================= 28 passed, 2 warnings in 12.77s ========================

@@ -1,0 +1,98 @@
+diff --git a/sympy/polys/polyroots.py b/sympy/polys/polyroots.py
+index 4def1312eb..492c75783e 100644
+--- a/sympy/polys/polyroots.py
++++ b/sympy/polys/polyroots.py
+@@ -21,7 +21,7 @@
+ from sympy.ntheory import divisors, isprime, nextprime
+ from sympy.polys.domains import EX
+ from sympy.polys.polyerrors import (PolynomialError, GeneratorsNeeded,
+-    DomainError, UnsolvableFactorError)
++    DomainError, CoercionFailed, UnsolvableFactorError)
+ from sympy.polys.polyquinticconst import PolyQuintic
+ from sympy.polys.polytools import Poly, cancel, factor, gcd_list, discriminant
+ from sympy.polys.rationaltools import together
+@@ -1093,33 +1093,60 @@ def _try_heuristics(f):
+             for r in roots_fun(f):
+                 _update_dict(result, zeros, r, 1)
+         else:
+-            _, factors = Poly(f.as_expr()).factor_list()
+-            if len(factors) == 1 and f.degree() == 2:
+-                for r in roots_quadratic(f):
+-                    _update_dict(result, zeros, r, 1)
+-            else:
+-                if len(factors) == 1 and factors[0][1] == 1:
+-                    if f.get_domain().is_EX:
+-                        res = to_rational_coeffs(f)
+-                        if res:
+-                            if res[0] is None:
+-                                translate_x, f = res[2:]
++            # If a polynomial is a translate of a sparse polynomial, e.g.
++            # ``(x - a)**n - b``, solving the expanded form directly can be
++            # very expensive.  Shift by the amount that removes the
++            # next-to-leading term and, when this makes the polynomial
++            # sparser, solve the shifted polynomial instead.
++            n = f.degree()
++            shift = -f.nth(n - 1)/(n*f.LC())
++            if n > 5 and shift:
++                try:
++                    shifted = f.shift(shift)
++                except (DomainError, CoercionFailed):
++                    shifted = None
++                if shifted is not None and shifted.length() == 2:
++                    result = roots(
++                        shifted,
++                        auto=auto,
++                        cubics=cubics,
++                        trig=trig,
++                        quartics=quartics,
++                        quintics=quintics,
++                        multiple=False,
++                        **flags)
++                    if result:
++                        translate_x = coeff*shift
++
++            if not result:
++                translate_x = None
++                _, factors = Poly(f.as_expr()).factor_list()
++                if len(factors) == 1 and f.degree() == 2:
++                    for r in roots_quadratic(f):
++                        _update_dict(result, zeros, r, 1)
++                else:
++                    if len(factors) == 1 and factors[0][1] == 1:
++                        if f.get_domain().is_EX:
++                            res = to_rational_coeffs(f)
++                            if res:
++                                if res[0] is None:
++                                    translate_x, f = res[2:]
++                                else:
++                                    rescale_x, f = res[1], res[-1]
++                                result = roots(f)
++                                if not result:
++                                    for currentroot in _try_decompose(f):
++                                        _update_dict(result, zeros, currentroot, 1)
+                             else:
+-                                rescale_x, f = res[1], res[-1]
+-                            result = roots(f)
+-                            if not result:
+-                                for currentroot in _try_decompose(f):
+-                                    _update_dict(result, zeros, currentroot, 1)
++                                for r in _try_heuristics(f):
++                                    _update_dict(result, zeros, r, 1)
+                         else:
+-                            for r in _try_heuristics(f):
+-                                _update_dict(result, zeros, r, 1)
++                            for currentroot in _try_decompose(f):
++                                _update_dict(result, zeros, currentroot, 1)
+                     else:
+-                        for currentroot in _try_decompose(f):
+-                            _update_dict(result, zeros, currentroot, 1)
+-                else:
+-                    for currentfactor, k in factors:
+-                        for r in _try_heuristics(Poly(currentfactor, f.gen, field=True)):
+-                            _update_dict(result, zeros, r, k)
++                        for currentfactor, k in factors:
++                            for r in _try_heuristics(Poly(currentfactor, f.gen, field=True)):
++                                _update_dict(result, zeros, r, k)
+ 
+     if coeff is not S.One:
+         _result, result, = result, {}

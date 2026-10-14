@@ -1,0 +1,28 @@
+diff --git a/aiohttp/http_parser.py b/aiohttp/http_parser.py
+index c5560b7..7a4d2b3 100644
+--- a/aiohttp/http_parser.py
++++ b/aiohttp/http_parser.py
+@@ -877,6 +877,17 @@ class HttpPayloadParser:
+                     self.payload.feed_data(chunk[:required])
+ 
+                     if self._chunk_size:
++                        # If we've consumed all available data but still
++                        # haven't satisfied the chunk size, and we're at
++                        # the end of the stream, raise an error.
++                        if not chunk and self._chunk_tail:
++                            # We have no more data to process, and we're
++                            # still expecting more chunk data.
++                            exc = TransferEncodingError(
++                                "Chunk size does not match actual data size"
++                            )
++                            set_exception(self.payload, exc)
++                            raise exc
+                         return False, b""
+                     chunk = chunk[required:]
+                     self._chunk = ChunkState.PARSE_CHUNKED_CHUNK_EOF
+@@ -1052,4 +1063,4 @@ with suppress(ImportError):
+         HttpRequestParserC = HttpRequestParser
+         HttpResponseParserC = HttpResponseParser
+         RawRequestMessageC = RawRequestMessage
+-        RawResponseMessageC = RawResponseMessage
++        RawResponseMessageC = RawResponseMessage

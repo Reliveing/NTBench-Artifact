@@ -1,0 +1,19 @@
+diff --git a/aiohttp/http_parser.py b/aiohttp/http_parser.py
+index c5560b7a5..939d88cd4 100644
+--- a/aiohttp/http_parser.py
++++ b/aiohttp/http_parser.py
+@@ -889,9 +889,13 @@ class HttpPayloadParser:
+                     if chunk[: len(SEP)] == SEP:
+                         chunk = chunk[len(SEP) :]
+                         self._chunk = ChunkState.PARSE_CHUNKED_SIZE
+-                    else:
++                    elif SEP.startswith(chunk):
+                         self._chunk_tail = chunk
+                         return False, b""
++                    else:
++                        exc = TransferEncodingError("Chunk not properly terminated")
++                        set_exception(self.payload, exc)
++                        raise exc
+ 
+                 if self._chunk == ChunkState.PARSE_TRAILERS:
+                     pos = chunk.find(SEP)

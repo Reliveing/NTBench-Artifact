@@ -1,0 +1,84 @@
+diff --git a/numpy/random/_generator.pyx b/numpy/random/_generator.pyx
+index d7c1879e7a..9ea7269fa9 100644
+--- a/numpy/random/_generator.pyx
++++ b/numpy/random/_generator.pyx
+@@ -15,6 +15,7 @@
+ 
+ from .c_distributions cimport *
+ from libc cimport string
++from libc.math cimport sqrt
+ from libc.stdint cimport (uint8_t, uint16_t, uint32_t, uint64_t,
+                           int32_t, int64_t, INT64_MAX, SIZE_MAX)
+ from ._bounded_integers cimport (_rand_bool, _rand_int32, _rand_int64,
+@@ -41,6 +42,35 @@
+ 
+ np.import_array()
+ 
++cdef double NEGATIVE_BINOMIAL_THRESHOLD = <double>POISSON_LAM_MAX
++
++
++cdef bint _negative_binomial_too_large(double n, double p):
++    cdef double q = (1.0 - p) / p
++    return n * q + 10.0 * sqrt(n) * q > NEGATIVE_BINOMIAL_THRESHOLD
++
++
++cdef int _check_negative_binomial(double n, double p) except -1:
++    if _negative_binomial_too_large(n, p):
++        raise ValueError("n too large or p too small, see Generator.negative_binomial Notes")
++    return 0
++
++
++cdef int _check_array_negative_binomial(np.ndarray n_arr, np.ndarray p_arr) except -1:
++    cdef double n, p
++    cdef np.npy_intp i, cnt
++    cdef np.broadcast it
++
++    it = np.PyArray_MultiIterNew2(n_arr, p_arr)
++    cnt = it.size
++    for i in range(cnt):
++        n = (<double*>np.PyArray_MultiIter_DATA(it, 0))[0]
++        p = (<double*>np.PyArray_MultiIter_DATA(it, 1))[0]
++        _check_negative_binomial(n, p)
++        np.PyArray_MultiIter_NEXT(it)
++    return 0
++
++
+ cdef int64_t _safe_sum_nonneg_int64(size_t num_colors, int64_t *colors):
+     """
+     Sum the values in the array `colors`.
+@@ -2997,6 +3027,12 @@ def negative_binomial(self, n, p, size=None):
+         then the probability distribution of the number of non-"1"s that
+         appear before the third "1" is a negative binomial distribution.
+ 
++
++        Because this method relies on a Poisson draw with an internal Gamma
++        distributed rate, the parameters must satisfy ``n * (1 - p) / p +
++        10 * n**0.5 * (1 - p) / p`` lower than the maximum safe Poisson
++        value to avoid producing samples that cannot be represented as C int64.
++
+         References
+         ----------
+         .. [1] Weisstein, Eric W. "Negative Binomial Distribution." From
+@@ -3021,6 +3057,22 @@ def negative_binomial(self, n, p, size=None):
+         ...    print(i, "wells drilled, probability of one success =", probability)
+ 
+         """
++        cdef np.ndarray n_arr = <np.ndarray>np.PyArray_FROM_OTF(n, np.NPY_DOUBLE, np.NPY_ALIGNED)
++        cdef np.ndarray p_arr = <np.ndarray>np.PyArray_FROM_OTF(p, np.NPY_DOUBLE, np.NPY_ALIGNED)
++        cdef bint is_scalar = np.PyArray_NDIM(n_arr) == 0 and np.PyArray_NDIM(p_arr) == 0
++        cdef double _n, _p
++
++        if is_scalar:
++            _n = (<double*>np.PyArray_DATA(n_arr))[0]
++            _p = (<double*>np.PyArray_DATA(p_arr))[0]
++            check_constraint(_n, 'n', CONS_POSITIVE_NOT_NAN)
++            check_constraint(_p, 'p', CONS_BOUNDED_GT_0_1)
++            _check_negative_binomial(_n, _p)
++        else:
++            check_array_constraint(n_arr, 'n', CONS_POSITIVE_NOT_NAN)
++            check_array_constraint(p_arr, 'p', CONS_BOUNDED_GT_0_1)
++            _check_array_negative_binomial(n_arr, p_arr)
++
+         return disc(&random_negative_binomial, &self._bitgen, size, self.lock, 2, 0,
+                     n, 'n', CONS_POSITIVE_NOT_NAN,
+                     p, 'p', CONS_BOUNDED_GT_0_1,

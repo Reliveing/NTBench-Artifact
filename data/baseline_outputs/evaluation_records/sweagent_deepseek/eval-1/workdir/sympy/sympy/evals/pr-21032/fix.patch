@@ -1,0 +1,16 @@
+--- a/sympy/solvers/solveset.py
++++ b/sympy/solvers/solveset.py
+@@ -856,8 +856,11 @@
+     res = unrad(f)
+     eq, cov = res if res else (f, [])
+     if not cov:
+-        result = solveset_solver(eq, symbol) - \
+-            Union(*[solveset_solver(g, symbol) for g in denoms(f, symbol)])
++        if not res:
++            result = ConditionSet(symbol, Eq(f, 0), S.Complexes)
++        else:
++            result = solveset_solver(eq, symbol) - \
++                Union(*[solveset_solver(g, symbol) for g in denoms(f, symbol)])
+     else:
+         y, yeq = cov
+         if not solveset_solver(y - I, y):

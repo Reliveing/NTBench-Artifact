@@ -1,0 +1,75 @@
+diff --git a/dask/array/creation.py b/dask/array/creation.py
+index 9df5d67..64b62b9 100644
+--- a/dask/array/creation.py
++++ b/dask/array/creation.py
+@@ -295,6 +295,22 @@ def linspace(
+ 
+     chunks = normalize_chunks(chunks, (num,), dtype=dtype)
+ 
++    # Construct a lazy graph when either bound is a Dask scalar. Converting
++    # the lazy range to float would recursively invoke Dask's array protocol.
++    if hasattr(start, "__dask_graph__") or hasattr(stop, "__dask_graph__"):
++        from .routines import _linspace_from_delayed
++
++        result = _linspace_from_delayed(
++            start, stop, num=num, endpoint=endpoint, dtype=dtype
++        )
++        if result.chunks != chunks:
++            result = result.rechunk(chunks)
++
++        if retstep:
++            div = (num - 1) if endpoint else num
++            return result, (stop - start) / div
++        return result
++
+     range_ = stop - start
+ 
+     div = (num - 1) if endpoint else num
+@@ -1178,4 +1194,4 @@ def pad(array, pad_width, mode="constant", **kwargs):
+     elif mode in ["reflect", "symmetric", "wrap"]:
+         return pad_reuse(array, pad_width, mode, **kwargs)
+ 
+-    assert False, "unreachable"
++    assert False, "unreachable"
+diff --git a/dask/array/routines.py b/dask/array/routines.py
+index 1ed2602..e392e60 100644
+--- a/dask/array/routines.py
++++ b/dask/array/routines.py
+@@ -717,13 +717,27 @@ def digitize(a, bins, right=False):
+ 
+ 
+ # TODO: dask linspace doesn't support delayed values
+-def _linspace_from_delayed(start, stop, num=50):
+-    linspace_name = "linspace-" + tokenize(start, stop, num)
++def _linspace_from_delayed(start, stop, num=50, endpoint=True, dtype=None):
++    linspace_name = "linspace-" + tokenize(
++        start, stop, num, endpoint, dtype
++    )
+     (start_ref, stop_ref, num_ref), deps = unpack_collections([start, stop, num])
+     if len(deps) == 0:
+-        return np.linspace(start, stop, num=num)
++        return np.linspace(
++            start, stop, num=num, endpoint=endpoint, dtype=dtype
++        )
+ 
+-    linspace_dsk = {(linspace_name, 0): (np.linspace, start_ref, stop_ref, num_ref)}
++    linspace_dsk = {
++        (linspace_name, 0): (
++            np.linspace,
++            start_ref,
++            stop_ref,
++            num_ref,
++            endpoint,
++            False,
++            dtype,
++        )
++    }
+     linspace_graph = HighLevelGraph.from_collections(
+         linspace_name, linspace_dsk, dependencies=deps
+     )
+@@ -2083,4 +2097,4 @@ def triu_indices(n, k=0, m=None, chunks="auto"):
+ def triu_indices_from(arr, k=0):
+     if arr.ndim != 2:
+         raise ValueError("input array must be 2-d")
+-    return triu_indices(arr.shape[-2], k=k, m=arr.shape[-1], chunks=arr.chunks)
++    return triu_indices(arr.shape[-2], k=k, m=arr.shape[-1], chunks=arr.chunks)

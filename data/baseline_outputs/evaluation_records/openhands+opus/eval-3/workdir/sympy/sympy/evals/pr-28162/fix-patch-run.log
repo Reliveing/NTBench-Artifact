@@ -1,0 +1,115 @@
+Obtaining file:///home/sympy
+  Installing build dependencies: started
+  Installing build dependencies: finished with status 'done'
+  Checking if build backend supports build_editable: started
+  Checking if build backend supports build_editable: finished with status 'done'
+  Getting requirements to build editable: started
+  Getting requirements to build editable: finished with status 'done'
+  Preparing editable metadata (pyproject.toml): started
+  Preparing editable metadata (pyproject.toml): finished with status 'done'
+Requirement already satisfied: mpmath>=1.1.0 in /usr/local/lib/python3.11/site-packages (from sympy==1.15.0.dev0) (1.4.1)
+Building wheels for collected packages: sympy
+  Building editable for sympy (pyproject.toml): started
+  Building editable for sympy (pyproject.toml): finished with status 'done'
+  Created wheel for sympy: filename=sympy-1.15.0.dev0-0.editable-py3-none-any.whl size=34533 sha256=a29c2d0645fdb02ef68afd2f62bc86353997c7432203476749c0f53c64673ba6
+  Stored in directory: /tmp/pip-ephem-wheel-cache-2cntfjyz/wheels/af/22/61/2ece34a734d21005537313f7f88a33ef281f3770719986eb88
+Successfully built sympy
+Installing collected packages: sympy
+  Attempting uninstall: sympy
+    Found existing installation: sympy 1.15.0.dev0
+    Uninstalling sympy-1.15.0.dev0:
+      Successfully uninstalled sympy-1.15.0.dev0
+Successfully installed sympy-1.15.0.dev0
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+
+[notice] A new release of pip is available: 26.0.1 -> 26.2.1
+[notice] To update, run: pip install --upgrade pip
+============================= test session starts ==============================
+collecting ... collected 41 items
+
+sympy/physics/continuum_mechanics/tests/test_beam.py::test_Beam PASSED   [  2%]
+sympy/physics/continuum_mechanics/tests/test_beam.py::test_symbolic_length_with_positive_setting_1 PASSED [  4%]
+sympy/physics/continuum_mechanics/tests/test_beam.py::test_symbolic_length_without_positive_setting_1 FAILED [  7%]
+sympy/physics/continuum_mechanics/tests/test_beam.py::test_symbolic_length_with_positive_setting_2 PASSED [  9%]
+sympy/physics/continuum_mechanics/tests/test_beam.py::test_symbolic_length_without_positive_setting_2 FAILED [ 12%]
+sympy/physics/continuum_mechanics/tests/test_beam.py::test_symbolic_length_with_positive_setting_3 PASSED [ 14%]
+sympy/physics/continuum_mechanics/tests/test_beam.py::test_symbolic_length_without_positive_setting_3 FAILED [ 17%]
+sympy/physics/continuum_mechanics/tests/test_beam.py::test_symbolic_length_with_positive_setting_4 PASSED [ 19%]
+sympy/physics/continuum_mechanics/tests/test_beam.py::test_symbolic_length_without_positive_setting_4 FAILED [ 21%]
+sympy/physics/continuum_mechanics/tests/test_beam.py::test_symbolic_length_with_positive_setting_5 PASSED [ 24%]
+sympy/physics/continuum_mechanics/tests/test_beam.py::test_symbolic_length_without_positive_setting_5 FAILED [ 26%]
+sympy/physics/continuum_mechanics/tests/test_beam.py::test_symbolic_length_with_positive_setting_6 PASSED [ 29%]
+sympy/physics/continuum_mechanics/tests/test_beam.py::test_symbolic_length_without_positive_setting_6 FAILED [ 31%]
+sympy/physics/continuum_mechanics/tests/test_beam.py::test_symbolic_length_with_positive_setting_7 PASSED [ 34%]
+sympy/physics/continuum_mechanics/tests/test_beam.py::test_symbolic_length_without_positive_setting_7 FAILED [ 36%]
+sympy/physics/continuum_mechanics/tests/test_beam.py::test_insufficient_bconditions PASSED [ 39%]
+sympy/physics/continuum_mechanics/tests/test_beam.py::test_statically_indeterminate PASSED [ 41%]
+sympy/physics/continuum_mechanics/tests/test_beam.py::test_beam_units PASSED [ 43%]
+sympy/physics/continuum_mechanics/tests/test_beam.py::test_variable_moment PASSED [ 46%]
+sympy/physics/continuum_mechanics/tests/test_beam.py::test_composite_beam PASSED [ 48%]
+sympy/physics/continuum_mechanics/tests/test_beam.py::test_point_cflexure PASSED [ 51%]
+sympy/physics/continuum_mechanics/tests/test_beam.py::test_remove_load PASSED [ 53%]
+sympy/physics/continuum_mechanics/tests/test_beam.py::test_apply_support PASSED [ 56%]
+sympy/physics/continuum_mechanics/tests/test_beam.py::test_apply_rotation_hinge PASSED [ 58%]
+sympy/physics/continuum_mechanics/tests/test_beam.py::test_apply_sliding_hinge PASSED [ 60%]
+sympy/physics/continuum_mechanics/tests/test_beam.py::test_max_shear_force PASSED [ 63%]
+sympy/physics/continuum_mechanics/tests/test_beam.py::test_max_bmoment PASSED [ 65%]
+sympy/physics/continuum_mechanics/tests/test_beam.py::test_max_deflection PASSED [ 68%]
+sympy/physics/continuum_mechanics/tests/test_beam.py::test_solve_for_ild_reactions PASSED [ 70%]
+sympy/physics/continuum_mechanics/tests/test_beam.py::test_solve_for_ild_shear PASSED [ 73%]
+sympy/physics/continuum_mechanics/tests/test_beam.py::test_solve_for_ild_moment PASSED [ 75%]
+sympy/physics/continuum_mechanics/tests/test_beam.py::test_ild_with_rotation_hinge PASSED [ 78%]
+sympy/physics/continuum_mechanics/tests/test_beam.py::test_ild_with_sliding_hinge PASSED [ 80%]
+sympy/physics/continuum_mechanics/tests/test_beam.py::test_Beam3D PASSED [ 82%]
+sympy/physics/continuum_mechanics/tests/test_beam.py::test_polar_moment_Beam3D PASSED [ 85%]
+sympy/physics/continuum_mechanics/tests/test_beam.py::test_parabolic_loads PASSED [ 87%]
+sympy/physics/continuum_mechanics/tests/test_beam.py::test_cross_section PASSED [ 90%]
+sympy/physics/continuum_mechanics/tests/test_beam.py::test_max_shear_force_Beam3D PASSED [ 92%]
+sympy/physics/continuum_mechanics/tests/test_beam.py::test_max_bending_moment_Beam3D PASSED [ 95%]
+sympy/physics/continuum_mechanics/tests/test_beam.py::test_max_deflection_Beam3D PASSED [ 97%]
+sympy/physics/continuum_mechanics/tests/test_beam.py::test_torsion_Beam3D PASSED [100%]
+
+                                DO *NOT* COMMIT!                                
+=========================== short test summary info ============================
+PASSED sympy/physics/continuum_mechanics/tests/test_beam.py::test_Beam
+PASSED sympy/physics/continuum_mechanics/tests/test_beam.py::test_symbolic_length_with_positive_setting_1
+PASSED sympy/physics/continuum_mechanics/tests/test_beam.py::test_symbolic_length_with_positive_setting_2
+PASSED sympy/physics/continuum_mechanics/tests/test_beam.py::test_symbolic_length_with_positive_setting_3
+PASSED sympy/physics/continuum_mechanics/tests/test_beam.py::test_symbolic_length_with_positive_setting_4
+PASSED sympy/physics/continuum_mechanics/tests/test_beam.py::test_symbolic_length_with_positive_setting_5
+PASSED sympy/physics/continuum_mechanics/tests/test_beam.py::test_symbolic_length_with_positive_setting_6
+PASSED sympy/physics/continuum_mechanics/tests/test_beam.py::test_symbolic_length_with_positive_setting_7
+PASSED sympy/physics/continuum_mechanics/tests/test_beam.py::test_insufficient_bconditions
+PASSED sympy/physics/continuum_mechanics/tests/test_beam.py::test_statically_indeterminate
+PASSED sympy/physics/continuum_mechanics/tests/test_beam.py::test_beam_units
+PASSED sympy/physics/continuum_mechanics/tests/test_beam.py::test_variable_moment
+PASSED sympy/physics/continuum_mechanics/tests/test_beam.py::test_composite_beam
+PASSED sympy/physics/continuum_mechanics/tests/test_beam.py::test_point_cflexure
+PASSED sympy/physics/continuum_mechanics/tests/test_beam.py::test_remove_load
+PASSED sympy/physics/continuum_mechanics/tests/test_beam.py::test_apply_support
+PASSED sympy/physics/continuum_mechanics/tests/test_beam.py::test_apply_rotation_hinge
+PASSED sympy/physics/continuum_mechanics/tests/test_beam.py::test_apply_sliding_hinge
+PASSED sympy/physics/continuum_mechanics/tests/test_beam.py::test_max_shear_force
+PASSED sympy/physics/continuum_mechanics/tests/test_beam.py::test_max_bmoment
+PASSED sympy/physics/continuum_mechanics/tests/test_beam.py::test_max_deflection
+PASSED sympy/physics/continuum_mechanics/tests/test_beam.py::test_solve_for_ild_reactions
+PASSED sympy/physics/continuum_mechanics/tests/test_beam.py::test_solve_for_ild_shear
+PASSED sympy/physics/continuum_mechanics/tests/test_beam.py::test_solve_for_ild_moment
+PASSED sympy/physics/continuum_mechanics/tests/test_beam.py::test_ild_with_rotation_hinge
+PASSED sympy/physics/continuum_mechanics/tests/test_beam.py::test_ild_with_sliding_hinge
+PASSED sympy/physics/continuum_mechanics/tests/test_beam.py::test_Beam3D
+PASSED sympy/physics/continuum_mechanics/tests/test_beam.py::test_polar_moment_Beam3D
+PASSED sympy/physics/continuum_mechanics/tests/test_beam.py::test_parabolic_loads
+PASSED sympy/physics/continuum_mechanics/tests/test_beam.py::test_cross_section
+PASSED sympy/physics/continuum_mechanics/tests/test_beam.py::test_max_shear_force_Beam3D
+PASSED sympy/physics/continuum_mechanics/tests/test_beam.py::test_max_bending_moment_Beam3D
+PASSED sympy/physics/continuum_mechanics/tests/test_beam.py::test_max_deflection_Beam3D
+PASSED sympy/physics/continuum_mechanics/tests/test_beam.py::test_torsion_Beam3D
+FAILED sympy/physics/continuum_mechanics/tests/test_beam.py::test_symbolic_length_without_positive_setting_1
+FAILED sympy/physics/continuum_mechanics/tests/test_beam.py::test_symbolic_length_without_positive_setting_2
+FAILED sympy/physics/continuum_mechanics/tests/test_beam.py::test_symbolic_length_without_positive_setting_3
+FAILED sympy/physics/continuum_mechanics/tests/test_beam.py::test_symbolic_length_without_positive_setting_4
+FAILED sympy/physics/continuum_mechanics/tests/test_beam.py::test_symbolic_length_without_positive_setting_5
+FAILED sympy/physics/continuum_mechanics/tests/test_beam.py::test_symbolic_length_without_positive_setting_6
+FAILED sympy/physics/continuum_mechanics/tests/test_beam.py::test_symbolic_length_without_positive_setting_7
+======================== 7 failed, 34 passed in 40.61s =========================

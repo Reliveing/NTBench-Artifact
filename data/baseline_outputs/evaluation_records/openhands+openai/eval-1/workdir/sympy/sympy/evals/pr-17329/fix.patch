@@ -1,0 +1,21 @@
+diff --git a/sympy/calculus/util.py b/sympy/calculus/util.py
+index 50feb12d2d..a16bd19d0a 100644
+--- a/sympy/calculus/util.py
++++ b/sympy/calculus/util.py
+@@ -1,7 +1,6 @@
+ from sympy import Order, S, log, limit, lcm_list, Abs, im, re, Dummy
+ from sympy.core import Add, Mul, Pow
+ from sympy.core.basic import Basic
+-from sympy.core.compatibility import iterable
+ from sympy.core.expr import AtomicExpr, Expr
+ from sympy.core.numbers import _sympifyit, oo
+ from sympy.core.sympify import _sympify
+@@ -210,7 +209,7 @@ def function_range(f, symbol, domain):
+ 
+             solution = solveset(f.diff(symbol), symbol, interval)
+ 
+-            if not iterable(solution):
++            if not solution.is_FiniteSet:
+                 raise NotImplementedError('Unable to find critical points for {}'.format(f))
+ 
+             critical_points += solution

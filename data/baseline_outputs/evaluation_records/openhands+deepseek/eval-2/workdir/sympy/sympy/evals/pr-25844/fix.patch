@@ -1,0 +1,13 @@
+diff --git a/sympy/core/mul.py b/sympy/core/mul.py
+index 5704a3f4e9..cd0053b0ed 100644
+--- a/sympy/core/mul.py
++++ b/sympy/core/mul.py
+@@ -584,6 +584,8 @@ def _gather(c_powers):
+             grow = []
+             for j in range(i + 1, len(num_rat)):
+                 bj, ej = num_rat[j]
++                if bi is S.One or bj is S.One:
++                    continue
+                 g = bi.gcd(bj)
+                 if g is not S.One:
+                     # 4**r1*6**r2 -> 2**(r1+r2)  *  2**r1 *  3**r2

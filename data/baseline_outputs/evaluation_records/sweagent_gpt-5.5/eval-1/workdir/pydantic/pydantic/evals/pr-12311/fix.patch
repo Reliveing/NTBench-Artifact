@@ -1,0 +1,154 @@
+diff --git a/pydantic/json_schema.py b/pydantic/json_schema.py
+index f5cc325be..ab1653a0f 100644
+--- a/pydantic/json_schema.py
++++ b/pydantic/json_schema.py
+@@ -401,8 +401,10 @@ class GenerateJsonSchema:
+ 
+         ref = cast(JsonRef, json_schema.get('$ref'))
+         while ref is not None:  # may need to unpack multiple levels
+-            ref_json_schema = self.get_schema_from_definitions(ref)
+-            if json_ref_counts[ref] == 1 and ref_json_schema is not None and len(json_schema) == 1:
++            ref_json_schema: JsonSchemaValue | None = None
++            if len(json_schema) == 1:
++                ref_json_schema = self.get_schema_from_definitions(ref)
++            if json_ref_counts[ref] == 1 and ref_json_schema is not None:
+                 # "Unpack" the ref since this is the only reference and there are no sibling keys
+                 json_schema = ref_json_schema.copy()  # copy to prevent recursive dict reference
+                 json_ref_counts[ref] -= 1
+@@ -541,11 +543,14 @@ class GenerateJsonSchema:
+                 json_schema = js_modify_function(schema_or_field, current_handler)
+                 if _core_utils.is_core_schema(schema_or_field):
+                     json_schema = populate_defs(schema_or_field, json_schema)
+-                original_schema = current_handler.resolve_ref_schema(json_schema)
+-                ref = json_schema.pop('$ref', None)
+-                if ref and json_schema:
+-                    original_schema.update(json_schema)
+-                return original_schema
++                ref = json_schema.get('$ref')
++                if isinstance(ref, str) and ref in self.json_to_defs_refs:
++                    original_schema = current_handler.resolve_ref_schema(json_schema)
++                    ref = json_schema.pop('$ref', None)
++                    if ref and json_schema:
++                        original_schema.update(json_schema)
++                    return original_schema
++                return json_schema
+ 
+             current_handler = _schema_generation_shared.GenerateJsonSchemaHandler(self, new_handler_func)
+ 
+@@ -2351,7 +2356,7 @@ class GenerateJsonSchema:
+         """Get all values corresponding to the key '$ref' anywhere in the json_schema."""
+         json_refs: dict[JsonRef, int] = Counter()
+ 
+-        def _add_json_refs(schema: Any) -> None:
++        def _add_json_refs(schema: Any, base_schemas: tuple[Any, ...] = (json_schema,)) -> None:
+             if isinstance(schema, dict):
+                 if '$ref' in schema:
+                     json_ref = JsonRef(schema['$ref'])
+@@ -2361,24 +2366,31 @@ class GenerateJsonSchema:
+                     json_refs[json_ref] += 1
+                     if already_visited:
+                         return  # prevent recursion on a definition that was already visited
+-                    try:
+-                        defs_ref = self.json_to_defs_refs[json_ref]
++                    defs_ref = self.json_to_defs_refs.get(json_ref)
++                    if defs_ref is not None:
+                         if defs_ref in self._core_defs_invalid_for_json_schema:
+                             raise self._core_defs_invalid_for_json_schema[defs_ref]
+-                        _add_json_refs(self.definitions[defs_ref])
+-                    except KeyError:
+-                        if not json_ref.startswith(('http://', 'https://')):
+-                            raise
+-
++                        definition = self.definitions[defs_ref]
++                        _add_json_refs(definition, (definition,))
++                    elif not json_ref.startswith(('http://', 'https://')):
++                        for base_schema in reversed(base_schemas):
++                            local_schema = _resolve_local_json_ref(base_schema, json_ref)
++                            if local_schema is not None:
++                                break
++                        else:
++                            raise KeyError(json_ref)
++                        _add_json_refs(local_schema, base_schemas)
++
++                next_base_schemas = (*base_schemas, schema)
+                 for k, v in schema.items():
+                     if k == 'examples' and isinstance(v, list):
+                         # Skip examples that may contain arbitrary values and references
+                         # (see the comment in `_get_all_json_refs` for more details).
+                         continue
+-                    _add_json_refs(v)
++                    _add_json_refs(v, next_base_schemas)
+             elif isinstance(schema, list):
+                 for v in schema:
+-                    _add_json_refs(v)
++                    _add_json_refs(v, base_schemas)
+ 
+         _add_json_refs(json_schema)
+         return json_refs
+@@ -2429,15 +2441,15 @@ class GenerateJsonSchema:
+         unvisited_json_refs = _get_all_json_refs(schema)
+         while unvisited_json_refs:
+             next_json_ref = unvisited_json_refs.pop()
+-            try:
+-                next_defs_ref = self.json_to_defs_refs[next_json_ref]
++            next_defs_ref = self.json_to_defs_refs.get(next_json_ref)
++            if next_defs_ref is not None:
+                 if next_defs_ref in visited_defs_refs:
+                     continue
+                 visited_defs_refs.add(next_defs_ref)
+                 unvisited_json_refs.update(_get_all_json_refs(self.definitions[next_defs_ref]))
+-            except KeyError:
+-                if not next_json_ref.startswith(('http://', 'https://')):
+-                    raise
++            elif not next_json_ref.startswith(('http://', 'https://')):
++                if not _has_local_json_ref(schema, next_json_ref):
++                    raise KeyError(next_json_ref)
+ 
+         self.definitions = {k: v for k, v in self.definitions.items() if k in visited_defs_refs}
+ 
+@@ -2660,6 +2672,45 @@ class Examples:
+         return hash(type(self.mode))
+ 
+ 
++def _resolve_local_json_ref(root: Any, ref: JsonRef) -> Any | None:
++    """Resolve a local JSON reference against a schema, returning ``None`` if it cannot be resolved."""
++    if ref == '#':
++        return root
++    if not ref.startswith('#/'):
++        return None
++
++    current = root
++    for part in ref[2:].split('/'):
++        part = part.replace('~1', '/').replace('~0', '~')
++        if isinstance(current, dict):
++            try:
++                current = current[part]
++            except KeyError:
++                return None
++        elif isinstance(current, list):
++            try:
++                current = current[int(part)]
++            except (ValueError, IndexError):
++                return None
++        else:
++            return None
++    return current
++
++
++def _has_local_json_ref(item: Any, ref: JsonRef) -> bool:
++    """Return whether a local JSON reference can be resolved anywhere within a schema."""
++    stack = [item]
++    while stack:
++        current = stack.pop()
++        if _resolve_local_json_ref(current, ref) is not None:
++            return True
++        if isinstance(current, dict):
++            stack.extend(v for k, v in current.items() if k != 'examples' or not isinstance(v, list))
++        elif isinstance(current, list):
++            stack.extend(current)
++    return False
++
++
+ def _get_all_json_refs(item: Any) -> set[JsonRef]:
+     """Get all the definitions references from a JSON schema."""
+     refs: set[JsonRef] = set()

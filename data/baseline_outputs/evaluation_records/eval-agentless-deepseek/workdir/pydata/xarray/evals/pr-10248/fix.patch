@@ -1,0 +1,24 @@
+diff --git a/xarray/namedarray/utils.py b/xarray/namedarray/utils.py
+index 9606073..8b7d2bc 100644
+--- a/xarray/namedarray/utils.py
++++ b/xarray/namedarray/utils.py
+@@ -62,11 +62,11 @@ def module_available(module: str, minversion: str | None = None) -> bool:
+ 
+ def is_dask_collection(x: object) -> TypeGuard[DaskCollection]:
+     if module_available("dask"):
+-        from dask.base import is_dask_collection
++        from dask.base import is_dask_collection as _is_dask_collection
+ 
+         # use is_dask_collection function instead of dask.typing.DaskCollection
+         # see https://github.com/pydata/xarray/pull/8241#discussion_r1476276023
+-        return is_dask_collection(x)
++        return _is_dask_collection(x)
+     return False
+ 
+ 
+@@ -218,4 +218,4 @@ class ReprObject:
+     def __dask_tokenize__(self) -> object:
+         from dask.base import normalize_token
+ 
+-        return normalize_token((type(self), self._value))
++        return normalize_token((type(self), self._value))

@@ -1,0 +1,21 @@
+diff --git a/src/urllib3/response.py b/src/urllib3/response.py
+index 46c7e4bb..f932acbb 100644
+--- a/src/urllib3/response.py
++++ b/src/urllib3/response.py
+@@ -1232,12 +1232,15 @@ class HTTPResponse(BaseHTTPResponse):
+             How much of the content to read. The generator will return up to
+             much data per iteration, but may return less. This is particularly
+             likely when using compressed data. However, the empty string will
+-            never be returned.
++            never be returned. If ``amt`` is 0, no chunks are yielded.
+ 
+         :param decode_content:
+             If True, will attempt to decode the body based on the
+             'content-encoding' header.
+         """
++        # ``HTTPResponse.read(0)`` is valid and returns ``b""`` without
++        # consuming data. Since ``stream()`` never yields empty chunks, calling
++        # ``read(0)`` repeatedly would otherwise loop forever.
+         if amt == 0:
+             return
+ 

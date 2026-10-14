@@ -1,0 +1,48 @@
+diff --git a/sympy/concrete/summations.py b/sympy/concrete/summations.py
+index 23c5d73caf..f4a7eeaf55 100644
+--- a/sympy/concrete/summations.py
++++ b/sympy/concrete/summations.py
+@@ -1139,6 +1139,25 @@ def _eval_sum_hyper(f, i, a):
+     return f.subs(i, 0)*hyperexpand(h), h.convergence_statement
+ 
+ 
++def _has_contradictory_abs_conditions(cond):
++    from sympy.functions import Abs
++
++    args = cond.args if isinstance(cond, And) else (cond,)
++    abs_args = []
++    for arg in args:
++        if not arg.is_Relational:
++            continue
++        arg = arg.canonical
++        if arg.rel_op == '<' and arg.rhs == S.One and arg.lhs.func is Abs:
++            abs_args.append(arg.lhs.args[0])
++
++    for n, arg in enumerate(abs_args):
++        for other in abs_args[n + 1:]:
++            if powsimp(arg*other) == S.One:
++                return True
++    return False
++
++
+ def eval_sum_hyper(f, i_a_b):
+     from sympy.logic.boolalg import And
+ 
+@@ -1162,7 +1181,7 @@ def eval_sum_hyper(f, i_a_b):
+                 return None
+             (res1, cond1), (res2, cond2) = res1, res2
+             cond = And(cond1, cond2)
+-            if cond == False:
++            if cond == False or _has_contradictory_abs_conditions(cond):
+                 return None
+             return Piecewise((res1 - res2, cond), (old_sum, True))
+ 
+@@ -1174,7 +1193,7 @@ def eval_sum_hyper(f, i_a_b):
+         res1, cond1 = res1
+         res2, cond2 = res2
+         cond = And(cond1, cond2)
+-        if cond == False:
++        if cond == False or _has_contradictory_abs_conditions(cond):
+             return None
+         return Piecewise((res1 + res2, cond), (old_sum, True))
+ 

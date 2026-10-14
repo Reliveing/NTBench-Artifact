@@ -1,0 +1,22 @@
+diff --git a/sympy/calculus/util.py b/sympy/calculus/util.py
+index 4f6ada0..5acbfef 100644
+--- a/sympy/calculus/util.py
++++ b/sympy/calculus/util.py
+@@ -481,7 +481,10 @@ def periodicity(f, symbol, check=False):
+     elif f.is_Mul:
+         coeff, g = f.as_independent(symbol, as_Add=False)
+         if isinstance(g, TrigonometricFunction) or coeff is not S.One:
+-            period = periodicity(g, symbol)
++            if g not in (orig_f, f):
++                period = periodicity(g, symbol)
++            else:
++                period = _periodicity(g.args, symbol)
+ 
+         else:
+             period = _periodicity(g.args, symbol)
+@@ -840,4 +843,4 @@ def minimum(f, symbol, domain=S.Reals):
+ 
+         return function_range(f, symbol, domain).inf
+     else:
+-        raise ValueError("%s is not a valid symbol." % symbol)
++        raise ValueError("%s is not a valid symbol." % symbol)

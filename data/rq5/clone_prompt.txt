@@ -1,0 +1,33 @@
+###Instruction
+You are a code-clone detection assistant. You will be given two examples from a GitHub patch, both examples
+in the same language. You have to determine whether they are clones of each other.
+
+Determine whether they are clones of each other based on the following definitions:
+- Type-1 Clone: Identical except for differences in whitespace, layout, and comments.
+- Type-2 Clone: Identical except for differences in identifier names, literal values, whitespace, layout, and comments.
+- Type-3 Clone: Syntactically similar with added, modified, or removed statements.
+
+###Input
+Are these code samples clones?
+
+<Code sample 1 start>
+Patch: {agent_patch}
+<Code sample 1 end>
+
+<Code sample 2 start>
+Patch: {ground_truth_patch}
+<Code sample 2 end>
+
+###Response
+First, explain what the code in code sample 1 is doing. Then, explain what the code in code sample 2 is doing.
+Then, answer whether they are clones.
+
+Return your response and reasoning in one of these formats:
+
+{"explanation": "The code in code sample 1 does ..., while the code in code sample 2 does ..." "is_clone": true, "classification": "type-1", "reasoning": "These code samples are type-1 clones because.."}
+{"explanation": "The code in code sample 1 does ..., while the code in code sample 2 does ..." "is_clone": true, "classification": "type-2", "reasoning": "These code samples are type-2 clones because.."}
+{"explanation": "The code in code sample 1 does ..., while the code in code sample 2 does ..." "is_clone": true, "classification": "type-3", "reasoning": "These code samples are type-3 clones because.."}
+
+or
+
+{"explanation": "The code in code sample 1 does ..., while the code in code sample 2 does ..." "is_clone": false, "classification": "N/A", "reasoning": "These code samples are not clones because.."}

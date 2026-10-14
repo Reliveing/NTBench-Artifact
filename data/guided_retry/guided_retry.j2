@@ -1,0 +1,16 @@
+I have access to a python code repository in the directory {{ instance.repo_path }}. Explore and modify non-test files to resolve this issue:
+
+<issue_description>
+{{ instance.problem_statement }}
+</issue_description>
+
+The environment is already set up. Do not modify tests. The repository starts at the base commit. This previous candidate failed; preserve only useful parts and include every retained change in the final patch:
+
+<previous_candidate_patch>
+{{ instance.candidate_patch }}
+</previous_candidate_patch>
+
+<diagnosis_group>{{ instance.retry_group }}</diagnosis_group>
+<minimal_review_hint>{{ instance.retry_hint }}</minimal_review_hint>
+
+The hint is a review principle, not a reference implementation. Create a minimal reproduction before editing, implement a focused repair, and rerun the reproduction plus relevant existing tests. Do not look up or copy an upstream patch.

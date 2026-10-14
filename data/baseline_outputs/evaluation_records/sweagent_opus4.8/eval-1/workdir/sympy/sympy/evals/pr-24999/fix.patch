@@ -1,0 +1,66 @@
+diff --git a/sympy/solvers/solvers.py b/sympy/solvers/solvers.py
+index fcc7e13c31..a9ac3d9787 100644
+--- a/sympy/solvers/solvers.py
++++ b/sympy/solvers/solvers.py
+@@ -2606,6 +2606,33 @@ def _vsolve(e, s, **flags):
+     return [i[s] for i in _solve(e, s, **flags)]
+ 
+ 
++_tsolve_canonical_sym = Dummy("tsolve_canonical")
++# persistent placeholder Dummies used to canonicalize auxiliary symbols
++# appearing in equations passed to ``_tsolve`` (see the ``tsolve_saw`` guard)
++_tsolve_canonical_cache = []
++
++
++def _tsolve_canonical(i):
++    """Return the ``i``-th persistent canonical placeholder Dummy."""
++    while len(_tsolve_canonical_cache) <= i:
++        _tsolve_canonical_cache.append(
++            Dummy("tsolve_canonical_%d" % len(_tsolve_canonical_cache)))
++    return _tsolve_canonical_cache[i]
++
++
++def _tsolve_canonicalize(eq, sym):
++    """Return ``eq`` with ``sym`` and any auxiliary Dummy symbols replaced by
++    fixed placeholders so that equations which are structurally identical
++    (differing only in the Dummy symbols they contain) compare equal.
++    """
++    reps = {sym: _tsolve_canonical_sym}
++    other = ordered(d for d in eq.free_symbols
++                    if d.is_Dummy and d != sym)
++    for i, d in enumerate(other):
++        reps[d] = _tsolve_canonical(i)
++    return eq.xreplace(reps)
++
++
+ def _tsolve(eq, sym, **flags):
+     """
+     Helper for ``_solve`` that solves a transcendental equation with respect
+@@ -2641,6 +2668,27 @@ def _tsolve(eq, sym, **flags):
+     else:
+         flags['tsolve_saw'].append(eq)
+ 
++    # Guard against unbounded recursion.  Changes of variables performed
++    # while solving introduce freshly created Dummy symbols (both for the
++    # symbol being solved for and for auxiliary parameters), so an equation
++    # that keeps regenerating an equivalent form (e.g. one containing
++    # Mod/floor) is not caught by the ``tsolve_saw`` check above -- the
++    # symbols differ on each pass even though the equation is structurally
++    # the same.  Here we track, along the current chain of recursive calls,
++    # how many times a canonicalized form has been seen; if the same form
++    # recurs into itself we give up rather than looping forever.
++    chain = flags.setdefault('tsolve_chain', [])
++    canonical_eq = _tsolve_canonicalize(eq, sym)
++    if chain.count(canonical_eq) >= 2:
++        return None
++    chain.append(canonical_eq)
++    try:
++        return _tsolve_main(eq, sym, **flags)
++    finally:
++        chain.pop()
++
++
++def _tsolve_main(eq, sym, **flags):
+     rhs, lhs = _invert(eq, sym)
+ 
+     if lhs == sym:

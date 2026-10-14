@@ -1,0 +1,20 @@
+diff --git a/requests/utils.py b/requests/utils.py
+index dbb02a0d..9134f2f7 100644
+--- a/requests/utils.py
++++ b/requests/utils.py
+@@ -251,7 +251,14 @@ def extract_zipped_paths(path):
+     archive, member = os.path.split(path)
+     while archive and not os.path.exists(archive):
+         archive, prefix = os.path.split(archive)
+-        member = '/'.join([prefix, member])
++        if prefix:
++            # os.path.split() might return a prefix of the input path even if
++            # the path could not be split any further (e.g. UNC roots on
++            # Windows), which would otherwise cause an infinite loop.
++            member = '/'.join([prefix, member])
++        else:
++            # the path could not be split any further, bail out
++            break
+ 
+     if not zipfile.is_zipfile(archive):
+         return path

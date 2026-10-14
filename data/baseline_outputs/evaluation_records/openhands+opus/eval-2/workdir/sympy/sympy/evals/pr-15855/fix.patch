@@ -1,0 +1,16 @@
+diff --git a/sympy/concrete/summations.py b/sympy/concrete/summations.py
+index 23c5d73caf..e5ced8eaab 100644
+--- a/sympy/concrete/summations.py
++++ b/sympy/concrete/summations.py
+@@ -1176,6 +1176,11 @@ def eval_sum_hyper(f, i_a_b):
+         cond = And(cond1, cond2)
+         if cond == False:
+             return None
++        try:
++            if cond.as_set() == S.EmptySet:
++                return None
++        except NotImplementedError:
++            pass
+         return Piecewise((res1 + res2, cond), (old_sum, True))
+ 
+     # Now b == oo, a != -oo

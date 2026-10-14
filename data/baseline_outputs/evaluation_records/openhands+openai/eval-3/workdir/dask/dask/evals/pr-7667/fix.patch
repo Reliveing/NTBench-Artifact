@@ -1,0 +1,87 @@
+diff --git a/dask/array/creation.py b/dask/array/creation.py
+index 9df5d674b..db9bb873f 100644
+--- a/dask/array/creation.py
++++ b/dask/array/creation.py
+@@ -8,6 +8,7 @@ import numpy as np
+ from tlz import accumulate, sliding_window
+ 
+ from ..base import tokenize
++from ..delayed import unpack_collections
+ from ..highlevelgraph import HighLevelGraph
+ from ..utils import derived_from
+ from . import chunk
+@@ -249,6 +250,16 @@ def _get_like_function_shapes_chunks(a, chunks, shape):
+     return shape, chunks
+ 
+ 
++def _linspace_block(start, stop, num, blockstart, bs, endpoint=True, dtype=None):
++    range_ = stop - start
++    div = (num - 1) if endpoint else num
++    step = float(range_) / div
++    blockstart = start + (step * blockstart)
++    bs_space = bs - 1 if endpoint else bs
++    blockstop = blockstart + (bs_space * step)
++    return np.linspace(blockstart, blockstop, bs, endpoint=endpoint, dtype=dtype)
++
++
+ def linspace(
+     start, stop, num=50, endpoint=True, retstep=False, chunks="auto", dtype=None
+ ):
+@@ -295,14 +306,40 @@ def linspace(
+ 
+     chunks = normalize_chunks(chunks, (num,), dtype=dtype)
+ 
++    name = "linspace-" + tokenize((start, stop, num, endpoint, chunks, dtype))
++
++    (start_ref, stop_ref), deps = unpack_collections([start, stop])
++
++    dsk = {}
++    if deps:
++        blockstart = 0
++        for i, bs in enumerate(chunks[0]):
++            task = (
++                _linspace_block,
++                start_ref,
++                stop_ref,
++                num,
++                blockstart,
++                bs,
++                endpoint,
++                dtype,
++            )
++            blockstart += bs
++            dsk[(name, i)] = task
++
++        graph = HighLevelGraph.from_collections(name, dsk, dependencies=deps)
++        result = Array(graph, name, chunks, dtype=dtype)
++        if retstep:
++            div = (num - 1) if endpoint else num
++            return result, (stop - start) / div
++        else:
++            return result
++
+     range_ = stop - start
+ 
+     div = (num - 1) if endpoint else num
+     step = float(range_) / div
+ 
+-    name = "linspace-" + tokenize((start, stop, num, endpoint, chunks, dtype))
+-
+-    dsk = {}
+     blockstart = start
+ 
+     for i, bs in enumerate(chunks[0]):
+@@ -317,10 +354,11 @@ def linspace(
+         blockstart = blockstart + (step * bs)
+         dsk[(name, i)] = task
+ 
++    result = Array(dsk, name, chunks, dtype=dtype)
+     if retstep:
+-        return Array(dsk, name, chunks, dtype=dtype), step
++        return result, step
+     else:
+-        return Array(dsk, name, chunks, dtype=dtype)
++        return result
+ 
+ 
+ def arange(*args, **kwargs):

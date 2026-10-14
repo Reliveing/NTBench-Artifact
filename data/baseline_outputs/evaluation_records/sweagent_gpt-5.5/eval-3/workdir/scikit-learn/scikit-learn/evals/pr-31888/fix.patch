@@ -1,0 +1,128 @@
+diff --git a/sklearn/svm/_base.py b/sklearn/svm/_base.py
+index 6c8b981be5..7c5cafcf86 100644
+--- a/sklearn/svm/_base.py
++++ b/sklearn/svm/_base.py
+@@ -1228,6 +1228,24 @@ def _fit_liblinear(
+     if sp.issparse(X):
+         _check_large_sparse(X)
+ 
++    # Very large feature values can overflow intermediate products in
++    # liblinear's TRON optimizer and lead to poor convergence. Warn early with
++    # an actionable message instead of only reporting a generic convergence
++    # failure after fitting. The fourth root keeps products of squared norms
++    # away from the floating point overflow limit.
++    if sp.issparse(X):
++        X_max = np.max(np.abs(X.data)) if X.data.size else 0
++    else:
++        X_max = np.max(np.abs(X)) if X.size else 0
++    if X_max > np.finfo(np.float64).max ** 0.25:
++        warnings.warn(
++            "Liblinear may fail to converge, or produce inaccurate results, "
++            "because the input data contains very large values. You might "
++            "want to scale the data as shown in:\n"
++            "    https://scikit-learn.org/stable/modules/preprocessing.html",
++            ConvergenceWarning,
++        )
++
+     # LibLinear wants targets as doubles, even for classification
+     y_ind = np.asarray(y_ind, dtype=np.float64).ravel()
+     y_ind = np.require(y_ind, requirements="W")
+diff --git a/sklearn/svm/src/liblinear/tron.cpp b/sklearn/svm/src/liblinear/tron.cpp
+index ae1dae88da..5f59d1ea40 100644
+--- a/sklearn/svm/src/liblinear/tron.cpp
++++ b/sklearn/svm/src/liblinear/tron.cpp
+@@ -75,6 +75,12 @@ int TRON::tron(double *w)
+ 
+ 	while (iter <= max_iter && search)
+ 	{
++		if (!isfinite(f) || !isfinite(delta) || !isfinite(gnorm))
++		{
++			info("WARNING: non-finite f, delta, or |g| in TRON\n");
++			break;
++		}
++
+ 		cg_iter = trcg(delta, g, s, r);
+ 
+ 		memcpy(w_new, w, sizeof(double)*n);
+@@ -87,8 +93,19 @@ int TRON::tron(double *w)
+ 		// Compute the actual reduction.
+ 		actred = f - fnew;
+ 
++		if (!isfinite(fnew) || !isfinite(actred) || !isfinite(prered))
++		{
++			info("WARNING: non-finite actual or predicted reduction in TRON\n");
++			break;
++		}
++
+ 		// On the first iteration, adjust the initial step bound.
+ 		snorm = blas->nrm2(n, s, inc);
++		if (!isfinite(snorm))
++		{
++			info("WARNING: non-finite step norm in TRON\n");
++			break;
++		}
+ 		if (iter == 1)
+ 			delta = min(delta, snorm);
+ 
+@@ -97,6 +114,11 @@ int TRON::tron(double *w)
+ 			alpha = sigma3;
+ 		else
+ 			alpha = max(sigma1, -0.5*(gs/(fnew - f - gs)));
++		if (!isfinite(alpha))
++		{
++			info("WARNING: non-finite trust-region update in TRON\n");
++			break;
++		}
+ 
+ 		// Update the trust region bound according to the ratio of actual to predicted reduction.
+ 		if (actred < eta0*prered)
+@@ -166,12 +188,29 @@ int TRON::trcg(double delta, double *g, double *s, double *r)
+ 	rTr = blas->dot(n, r, inc, r, inc);
+ 	while (1)
+ 	{
+-		if (blas->nrm2(n, r, inc) <= cgtol)
++		double rnorm = blas->nrm2(n, r, inc);
++		if (!isfinite(rnorm))
++		{
++			info("WARNING: non-finite residual norm in TRON CG\n");
++			break;
++		}
++		if (rnorm <= cgtol)
+ 			break;
+ 		cg_iter++;
+ 		fun_obj->Hv(d, Hd);
+ 
+-		alpha = rTr / blas->dot(n, d, inc, Hd, inc);
++		double dHd = blas->dot(n, d, inc, Hd, inc);
++		if (!isfinite(dHd) || dHd == 0)
++		{
++			info("WARNING: invalid curvature in TRON CG\n");
++			break;
++		}
++		alpha = rTr / dHd;
++		if (!isfinite(alpha))
++		{
++			info("WARNING: non-finite step size in TRON CG\n");
++			break;
++		}
+ 		blas->axpy(n, alpha, d, inc, s, inc);
+ 		if (blas->nrm2(n, s, inc) > delta)
+ 		{
+@@ -196,7 +235,17 @@ int TRON::trcg(double delta, double *g, double *s, double *r)
+ 		alpha = -alpha;
+ 		blas->axpy(n, alpha, Hd, inc, r, inc);
+ 		rnewTrnew = blas->dot(n, r, inc, r, inc);
++		if (!isfinite(rnewTrnew) || rTr == 0)
++		{
++			info("WARNING: invalid residual in TRON CG\n");
++			break;
++		}
+ 		beta = rnewTrnew/rTr;
++		if (!isfinite(beta))
++		{
++			info("WARNING: non-finite direction update in TRON CG\n");
++			break;
++		}
+ 		blas->scal(n, beta, d, inc);
+ 		blas->axpy(n, 1.0, r, inc, d, inc);
+ 		rTr = rnewTrnew;

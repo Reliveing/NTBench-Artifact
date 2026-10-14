@@ -1,0 +1,176 @@
+Obtaining file:///home/sympy
+  Preparing metadata (setup.py): started
+  Preparing metadata (setup.py): finished with status 'done'
+Requirement already satisfied: mpmath>=0.19 in /usr/local/lib/python3.8/site-packages (from sympy==1.4.dev0) (1.3.0)
+Installing collected packages: sympy
+  Attempting uninstall: sympy
+    Found existing installation: sympy 1.4.dev0
+    Uninstalling sympy-1.4.dev0:
+      Successfully uninstalled sympy-1.4.dev0
+  DEPRECATION: Legacy editable install of sympy==1.4.dev0 from file:///home/sympy (setup.py develop) is deprecated. pip 25.1 will enforce this behaviour change. A possible replacement is to add a pyproject.toml or enable --use-pep517, and use setuptools >= 64. If the resulting installation is not behaving as expected, try using --config-settings editable_mode=compat. Please consult the setuptools documentation for more information. Discussion can be found at https://github.com/pypa/pip/issues/11457
+  Running setup.py develop for sympy
+Successfully installed sympy
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+============================= test session starts ==============================
+collecting ... collected 63 items
+
+sympy/concrete/tests/test_sums_products.py::test_karr_convention PASSED  [  1%]
+sympy/concrete/tests/test_sums_products.py::test_karr_proposition_2a PASSED [  3%]
+sympy/concrete/tests/test_sums_products.py::test_karr_proposition_2b PASSED [  4%]
+sympy/concrete/tests/test_sums_products.py::test_arithmetic_sums PASSED  [  6%]
+sympy/concrete/tests/test_sums_products.py::test_polynomial_sums PASSED  [  7%]
+sympy/concrete/tests/test_sums_products.py::test_geometric_sums PASSED   [  9%]
+sympy/concrete/tests/test_sums_products.py::test_harmonic_sums PASSED    [ 11%]
+sympy/concrete/tests/test_sums_products.py::test_composite_sums PASSED   [ 12%]
+sympy/concrete/tests/test_sums_products.py::test_hypergeometric_sums PASSED [ 14%]
+sympy/concrete/tests/test_sums_products.py::test_other_sums PASSED       [ 15%]
+sympy/concrete/tests/test_sums_products.py::test_evalf_fast_series PASSED [ 17%]
+sympy/concrete/tests/test_sums_products.py::test_evalf_fast_series_issue_4021 PASSED [ 19%]
+sympy/concrete/tests/test_sums_products.py::test_evalf_slow_series PASSED [ 20%]
+sympy/concrete/tests/test_sums_products.py::test_euler_maclaurin PASSED  [ 22%]
+sympy/concrete/tests/test_sums_products.py::test_evalf_euler_maclaurin PASSED [ 23%]
+sympy/concrete/tests/test_sums_products.py::test_evalf_symbolic PASSED   [ 25%]
+sympy/concrete/tests/test_sums_products.py::test_evalf_issue_3273 PASSED [ 26%]
+sympy/concrete/tests/test_sums_products.py::test_simple_products PASSED  [ 28%]
+sympy/concrete/tests/test_sums_products.py::test_rational_products PASSED [ 30%]
+sympy/concrete/tests/test_sums_products.py::test_wallis_product PASSED   [ 31%]
+sympy/concrete/tests/test_sums_products.py::test_telescopic_sums PASSED  [ 33%]
+sympy/concrete/tests/test_sums_products.py::test_sum_reconstruct PASSED  [ 34%]
+sympy/concrete/tests/test_sums_products.py::test_limit_subs PASSED       [ 36%]
+sympy/concrete/tests/test_sums_products.py::test_function_subs PASSED    [ 38%]
+sympy/concrete/tests/test_sums_products.py::test_equality PASSED         [ 39%]
+sympy/concrete/tests/test_sums_products.py::test_Sum_doit PASSED         [ 41%]
+sympy/concrete/tests/test_sums_products.py::test_Product_doit PASSED     [ 42%]
+sympy/concrete/tests/test_sums_products.py::test_Sum_interface PASSED    [ 44%]
+sympy/concrete/tests/test_sums_products.py::test_diff PASSED             [ 46%]
+sympy/concrete/tests/test_sums_products.py::test_hypersum PASSED         [ 47%]
+sympy/concrete/tests/test_sums_products.py::test_issue_4170 PASSED       [ 49%]
+sympy/concrete/tests/test_sums_products.py::test_is_commutative PASSED   [ 50%]
+sympy/concrete/tests/test_sums_products.py::test_is_zero PASSED          [ 52%]
+sympy/concrete/tests/test_sums_products.py::test_is_number PASSED        [ 53%]
+sympy/concrete/tests/test_sums_products.py::test_free_symbols PASSED     [ 55%]
+sympy/concrete/tests/test_sums_products.py::test_conjugate_transpose PASSED [ 57%]
+sympy/concrete/tests/test_sums_products.py::test_issue_4171 PASSED       [ 58%]
+sympy/concrete/tests/test_sums_products.py::test_issue_6273 PASSED       [ 60%]
+sympy/concrete/tests/test_sums_products.py::test_issue_6274 PASSED       [ 61%]
+sympy/concrete/tests/test_sums_products.py::test_simplify PASSED         [ 63%]
+sympy/concrete/tests/test_sums_products.py::test_change_index PASSED     [ 65%]
+sympy/concrete/tests/test_sums_products.py::test_reorder PASSED          [ 66%]
+sympy/concrete/tests/test_sums_products.py::test_reverse_order PASSED    [ 68%]
+sympy/concrete/tests/test_sums_products.py::test_issue_7097 PASSED       [ 69%]
+sympy/concrete/tests/test_sums_products.py::test_factor_expand_subs PASSED [ 71%]
+sympy/concrete/tests/test_sums_products.py::test_distribution_over_equality PASSED [ 73%]
+sympy/concrete/tests/test_sums_products.py::test_issue_2787 PASSED       [ 74%]
+sympy/concrete/tests/test_sums_products.py::test_issue_4668 PASSED       [ 76%]
+sympy/concrete/tests/test_sums_products.py::test_matrix_sum PASSED       [ 77%]
+sympy/concrete/tests/test_sums_products.py::test_indexed_idx_sum PASSED  [ 79%]
+sympy/concrete/tests/test_sums_products.py::test_is_convergent PASSED    [ 80%]
+sympy/concrete/tests/test_sums_products.py::test_is_absolutely_convergent PASSED [ 82%]
+sympy/concrete/tests/test_sums_products.py::test_convergent_failing XFAIL [ 84%]
+sympy/concrete/tests/test_sums_products.py::test_issue_6966 PASSED       [ 85%]
+sympy/concrete/tests/test_sums_products.py::test_issue_10156 PASSED      [ 87%]
+sympy/concrete/tests/test_sums_products.py::test_issue_14129 PASSED      [ 88%]
+sympy/concrete/tests/test_sums_products.py::test_issue_14112 PASSED      [ 90%]
+sympy/concrete/tests/test_sums_products.py::test_sin_times_absolutely_convergent PASSED [ 92%]
+sympy/concrete/tests/test_sums_products.py::test_issue_14111 PASSED      [ 93%]
+sympy/concrete/tests/test_sums_products.py::test_issue_14484 PASSED      [ 95%]
+sympy/concrete/tests/test_sums_products.py::test_issue_14640 PASSED      [ 96%]
+sympy/concrete/tests/test_sums_products.py::test_Sum_dummy_eq PASSED     [ 98%]
+sympy/concrete/tests/test_sums_products.py::test_issue_15852 PASSED      [100%]
+
+=============================== warnings summary ===============================
+sympy/solvers/diophantine.py:3188
+  /home/sympy/sympy/solvers/diophantine.py:3188: SyntaxWarning: "is" with a literal. Did you mean "=="?
+    if feasible is 1:  # it's prime and k == 2
+
+sympy/plotting/plot.py:520
+  /home/sympy/sympy/plotting/plot.py:520: SyntaxWarning: "is" with a literal. Did you mean "=="?
+    if self.xscale is 'log':
+
+sympy/plotting/plot.py:540
+  /home/sympy/sympy/plotting/plot.py:540: SyntaxWarning: "is" with a literal. Did you mean "=="?
+    if self.xscale is 'log':
+
+sympy/plotting/plot.py:553
+  /home/sympy/sympy/plotting/plot.py:553: SyntaxWarning: "is" with a literal. Did you mean "=="?
+    if self.xscale is 'log':
+
+sympy/plotting/plot.py:560
+  /home/sympy/sympy/plotting/plot.py:560: SyntaxWarning: "is" with a literal. Did you mean "=="?
+    if self.xscale is 'log':
+
+../../usr/local/lib/python3.8/site-packages/_pytest/config/__init__.py:1233
+  /usr/local/lib/python3.8/site-packages/_pytest/config/__init__.py:1233: PytestConfigWarning: Unknown config option: doctestplus
+  
+    self._warn_or_fail_if_strict(f"Unknown config option: {key}\n")
+
+sympy/concrete/tests/test_sums_products.py::test_harmonic_sums
+  /home/sympy/sympy/polys/agca/modules.py:351: SyntaxWarning: "is" with a literal. Did you mean "=="?
+    elif elem is 0:
+
+-- Docs: https://docs.pytest.org/en/stable/warnings.html
+=========================== short test summary info ============================
+PASSED sympy/concrete/tests/test_sums_products.py::test_karr_convention
+PASSED sympy/concrete/tests/test_sums_products.py::test_karr_proposition_2a
+PASSED sympy/concrete/tests/test_sums_products.py::test_karr_proposition_2b
+PASSED sympy/concrete/tests/test_sums_products.py::test_arithmetic_sums
+PASSED sympy/concrete/tests/test_sums_products.py::test_polynomial_sums
+PASSED sympy/concrete/tests/test_sums_products.py::test_geometric_sums
+PASSED sympy/concrete/tests/test_sums_products.py::test_harmonic_sums
+PASSED sympy/concrete/tests/test_sums_products.py::test_composite_sums
+PASSED sympy/concrete/tests/test_sums_products.py::test_hypergeometric_sums
+PASSED sympy/concrete/tests/test_sums_products.py::test_other_sums
+PASSED sympy/concrete/tests/test_sums_products.py::test_evalf_fast_series
+PASSED sympy/concrete/tests/test_sums_products.py::test_evalf_fast_series_issue_4021
+PASSED sympy/concrete/tests/test_sums_products.py::test_evalf_slow_series
+PASSED sympy/concrete/tests/test_sums_products.py::test_euler_maclaurin
+PASSED sympy/concrete/tests/test_sums_products.py::test_evalf_euler_maclaurin
+PASSED sympy/concrete/tests/test_sums_products.py::test_evalf_symbolic
+PASSED sympy/concrete/tests/test_sums_products.py::test_evalf_issue_3273
+PASSED sympy/concrete/tests/test_sums_products.py::test_simple_products
+PASSED sympy/concrete/tests/test_sums_products.py::test_rational_products
+PASSED sympy/concrete/tests/test_sums_products.py::test_wallis_product
+PASSED sympy/concrete/tests/test_sums_products.py::test_telescopic_sums
+PASSED sympy/concrete/tests/test_sums_products.py::test_sum_reconstruct
+PASSED sympy/concrete/tests/test_sums_products.py::test_limit_subs
+PASSED sympy/concrete/tests/test_sums_products.py::test_function_subs
+PASSED sympy/concrete/tests/test_sums_products.py::test_equality
+PASSED sympy/concrete/tests/test_sums_products.py::test_Sum_doit
+PASSED sympy/concrete/tests/test_sums_products.py::test_Product_doit
+PASSED sympy/concrete/tests/test_sums_products.py::test_Sum_interface
+PASSED sympy/concrete/tests/test_sums_products.py::test_diff
+PASSED sympy/concrete/tests/test_sums_products.py::test_hypersum
+PASSED sympy/concrete/tests/test_sums_products.py::test_issue_4170
+PASSED sympy/concrete/tests/test_sums_products.py::test_is_commutative
+PASSED sympy/concrete/tests/test_sums_products.py::test_is_zero
+PASSED sympy/concrete/tests/test_sums_products.py::test_is_number
+PASSED sympy/concrete/tests/test_sums_products.py::test_free_symbols
+PASSED sympy/concrete/tests/test_sums_products.py::test_conjugate_transpose
+PASSED sympy/concrete/tests/test_sums_products.py::test_issue_4171
+PASSED sympy/concrete/tests/test_sums_products.py::test_issue_6273
+PASSED sympy/concrete/tests/test_sums_products.py::test_issue_6274
+PASSED sympy/concrete/tests/test_sums_products.py::test_simplify
+PASSED sympy/concrete/tests/test_sums_products.py::test_change_index
+PASSED sympy/concrete/tests/test_sums_products.py::test_reorder
+PASSED sympy/concrete/tests/test_sums_products.py::test_reverse_order
+PASSED sympy/concrete/tests/test_sums_products.py::test_issue_7097
+PASSED sympy/concrete/tests/test_sums_products.py::test_factor_expand_subs
+PASSED sympy/concrete/tests/test_sums_products.py::test_distribution_over_equality
+PASSED sympy/concrete/tests/test_sums_products.py::test_issue_2787
+PASSED sympy/concrete/tests/test_sums_products.py::test_issue_4668
+PASSED sympy/concrete/tests/test_sums_products.py::test_matrix_sum
+PASSED sympy/concrete/tests/test_sums_products.py::test_indexed_idx_sum
+PASSED sympy/concrete/tests/test_sums_products.py::test_is_convergent
+PASSED sympy/concrete/tests/test_sums_products.py::test_is_absolutely_convergent
+PASSED sympy/concrete/tests/test_sums_products.py::test_issue_6966
+PASSED sympy/concrete/tests/test_sums_products.py::test_issue_10156
+PASSED sympy/concrete/tests/test_sums_products.py::test_issue_14129
+PASSED sympy/concrete/tests/test_sums_products.py::test_issue_14112
+PASSED sympy/concrete/tests/test_sums_products.py::test_sin_times_absolutely_convergent
+PASSED sympy/concrete/tests/test_sums_products.py::test_issue_14111
+PASSED sympy/concrete/tests/test_sums_products.py::test_issue_14484
+PASSED sympy/concrete/tests/test_sums_products.py::test_issue_14640
+PASSED sympy/concrete/tests/test_sums_products.py::test_Sum_dummy_eq
+PASSED sympy/concrete/tests/test_sums_products.py::test_issue_15852
+XFAIL sympy/concrete/tests/test_sums_products.py::test_convergent_failing
+================== 62 passed, 1 xfailed, 7 warnings in 39.76s ==================

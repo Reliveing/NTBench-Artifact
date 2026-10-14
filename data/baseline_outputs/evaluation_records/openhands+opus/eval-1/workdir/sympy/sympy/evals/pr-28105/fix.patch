@@ -1,0 +1,82 @@
+diff --git a/sympy/solvers/simplex.py b/sympy/solvers/simplex.py
+index f140268b79..84601d8a01 100644
+--- a/sympy/solvers/simplex.py
++++ b/sympy/solvers/simplex.py
+@@ -298,8 +298,13 @@ def _simplex(A, B, C, D=None, dual=False):
+ 
+     # Phase 1: find a feasible solution or determine none exist
+ 
+-    ## keep track of last pivot row and column
++    ## keep track of the last pivot row and column as well as every
++    ## basis (variable assignment) that has been visited so that
++    ## cycling can be detected. Cycling is not limited to an immediate
++    ## repeat of the same pivot: the pivoting may pass through several
++    ## distinct pivots before returning to a previously seen basis.
+     last = None
++    seen = set()
+ 
+     while True:
+         B = M[:-1, -1]
+@@ -327,27 +332,23 @@ def _simplex(A, B, C, D=None, dual=False):
+         piv_rows.append(k)
+         r = _choose_pivot_row(A, B, piv_rows, c, Y)
+ 
+-        # check for oscillation
+-        if (r, c) == last:
+-            # Not sure what to do here; it looks like there will be
+-            # oscillations; see o1 test added at this commit to
+-            # see a system with no solution and the o2 for one
+-            # with a solution. In the case of o2, the solution
+-            # from linprog is the same as the one from lpmin, but
+-            # the matrices created in the lpmin case are different
+-            # than those created without replacements in linprog and
+-            # the matrices in the linprog case lead to oscillations.
+-            # If the matrices could be re-written in linprog like
+-            # lpmin does, this behavior could be avoided and then
+-            # perhaps the oscillating case would only occur when
+-            # there is no solution. For now, the output is checked
+-            # before exit if oscillations were detected and an
+-            # error is raised there if the solution was invalid.
+-            #
+-            # cf section 6 of Ferguson for a non-cycling modification
++        # check for oscillation (cycling). Two situations are detected:
++        # an immediate repeat of the same pivot and, more generally, a
++        # return to a basis that has already been visited. See the o1
++        # test for a system with no solution and the o2 test for one
++        # with a solution. Since a feasible solution has not been
++        # reached when cycling is detected (some B[i] < 0), the
++        # candidate solution is checked before exit (below) and an
++        # error is raised there if the solution is not actually
++        # feasible.
++        #
++        # cf section 6 of Ferguson for a non-cycling modification
++        state = (tuple(X), tuple(Y))
++        if (r, c) == last or state in seen:
+             last = True
+             break
+         last = r, c
++        seen.add(state)
+ 
+         M = _pivot(M, r, c)
+         X[c], Y[r] = Y[r], X[c]
+@@ -806,6 +807,20 @@ def _lp(min_max, f, constr):
+         # don't show aux
+         p = {k: p[k] for k in ordered(p) if k not in aux}
+ 
++    # If the two-phase method detected oscillation it may have exited
++    # with a solution that does not actually satisfy the constraints
++    # (see _simplex). Verify the solution against the original
++    # constraints and raise if it is not feasible.
++    for c in constr:
++        if c in (True, False):
++            if c == False:
++                raise InfeasibleLPError(filldedent("""
++                    Inconsistent/False constraint"""))
++            continue
++        if c.subs(p) == False:
++            raise InfeasibleLPError(filldedent("""
++                Inconsistent/False constraint"""))
++
+     # not returning dual since there may be extra constraints
+     # when a variable has finite bounds
+     return o, p

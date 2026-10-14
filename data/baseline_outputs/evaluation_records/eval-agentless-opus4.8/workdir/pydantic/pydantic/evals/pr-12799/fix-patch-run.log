@@ -1,0 +1,92 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.13, pytest-8.3.5, pluggy-1.5.0 -- /home/pydantic/.venv/bin/python
+codspeed: 4.2.0 (disabled, mode: walltime, callgraph: enabled, timer_resolution: 1.0ns)
+cachedir: .pytest_cache
+benchmark: 5.1.0 (defaults: timer=time.perf_counter disable_gc=False min_rounds=5 min_time=0.000005 max_time=1.0 calibration_precision=10 warmup=True warmup_iterations=100000)
+rootdir: /home/pydantic
+configfile: pyproject.toml
+plugins: examples-0.0.15, Faker-35.0.0, memray-1.7.0, run-parallel-0.7.1, benchmark-5.1.0, codspeed-4.2.0, pretty-1.2.0, devtools-0.12.2, mock-3.14.0
+collecting ... collected 7 items
+Collected 0 items to run in parallel
+
+tests/test_circular_eq.py::TestCircularReferenceEquality::test_self_referencing_equal PASSED [ 14%]
+tests/test_circular_eq.py::TestCircularReferenceEquality::test_self_referencing_not_equal PASSED [ 28%]
+tests/test_circular_eq.py::TestCircularReferenceEquality::test_same_object_self_ref PASSED [ 42%]
+tests/test_circular_eq.py::TestCircularReferenceEquality::test_mutual_circular_reference FAILED [ 57%] [ 57%]
+tests/test_circular_eq.py:48 TestCircularReferenceEquality.test_mutual_circular_reference
+tests/test_circular_eq.py::TestCircularReferenceEquality::test_normal_equality_unaffected PASSED [ 71%]
+tests/test_circular_eq.py::TestCircularReferenceEquality::test_non_basemodel_comparison PASSED [ 85%]
+tests/test_circular_eq.py::TestCircularReferenceEquality::test_deep_circular_chain FAILED [100%] [100%]
+tests/test_circular_eq.py:80 TestCircularReferenceEquality.test_deep_circular_chain
+=================================== FAILURES ===================================
+_________ TestCircularReferenceEquality.test_mutual_circular_reference _________
+
+self = <tests.test_circular_eq.TestCircularReferenceEquality object at 0x7f67c73796d0>
+
+    def test_mutual_circular_reference(self):
+        """Two objects referencing each other should not cause RecursionError."""
+        a = Node(value=1)
+        b = Node(value=1)
+        a.child = b
+        b.child = a
+    
+        a2 = Node(value=1)
+        b2 = Node(value=1)
+        a2.child = b2
+        b2.child = a2
+    
+>       assert a == a2
+
+tests/test_circular_eq.py:61: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+pydantic/main.py:1195: in __eq__
+    elif self.__dict__ == other.__dict__:
+pydantic/main.py:1195: in __eq__
+    elif self.__dict__ == other.__dict__:
+E   RecursionError: maximum recursion depth exceeded
+!!! Recursion detected (same locals & position)
+____________ TestCircularReferenceEquality.test_deep_circular_chain ____________
+
+self = <tests.test_circular_eq.TestCircularReferenceEquality object at 0x7f67c737abd0>
+
+    def test_deep_circular_chain(self):
+        """A longer circular chain (a -> b -> c -> a) should not recurse."""
+        a = Node(value=1)
+        b = Node(value=2)
+        c = Node(value=3)
+        a.child = b
+        b.child = c
+        c.child = a
+    
+        a2 = Node(value=1)
+        b2 = Node(value=2)
+        c2 = Node(value=3)
+        a2.child = b2
+        b2.child = c2
+        c2.child = a2
+    
+>       assert a == a2
+
+tests/test_circular_eq.py:97: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+pydantic/main.py:1195: in __eq__
+    elif self.__dict__ == other.__dict__:
+pydantic/main.py:1195: in __eq__
+    elif self.__dict__ == other.__dict__:
+pydantic/main.py:1195: in __eq__
+    elif self.__dict__ == other.__dict__:
+pydantic/main.py:1195: in __eq__
+    elif self.__dict__ == other.__dict__:
+E   RecursionError: maximum recursion depth exceeded
+!!! Recursion detected (same locals & position)
+                              Summary of Failures                               
+┏━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━┳━━━━━━━━━━━━━┓
+┃                ┃               ┃  Function      ┃              ┃             ┃
+┃  File          ┃  Function     ┃  Line          ┃  Error Line  ┃  Error      ┃
+┡━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━╇━━━━━━━━━━━━━┩
+│  tests/test_…  │  TestCircul…  │  49            │  61          │  in __eq__  │
+│  tests/test_…  │  TestCircul…  │  81            │  97          │  in __eq__  │
+└────────────────┴───────────────┴────────────────┴──────────────┴─────────────┘
+Results (0.52s):
+         2 failed
+         5 passed

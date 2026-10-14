@@ -1,0 +1,13 @@
+diff --git a/sympy/functions/elementary/trigonometric.py b/sympy/functions/elementary/trigonometric.py
+index ea6a4deb3f..cf549ee3ba 100644
+--- a/sympy/functions/elementary/trigonometric.py
++++ b/sympy/functions/elementary/trigonometric.py
+@@ -264,6 +264,8 @@ def eval(cls, arg):
+                 return S.Zero
+             elif arg is S.Infinity or arg is S.NegativeInfinity:
+                 return AccumBounds(-1, 1)
++        elif arg is S.ComplexInfinity:
++            return S.NaN
+ 
+         if isinstance(arg, AccumBounds):
+             min, max = arg.min, arg.max

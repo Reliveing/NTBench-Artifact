@@ -1,0 +1,69 @@
+diff --git a/sympy/solvers/solvers.py b/sympy/solvers/solvers.py
+index 507e14ba3b..eff993bdf0 100644
+--- a/sympy/solvers/solvers.py
++++ b/sympy/solvers/solvers.py
+@@ -1633,29 +1633,47 @@ def _expand(p):
+                 flags['tsolve'] = True
+                 hints = ('cubics', 'quartics', 'quintics')
+                 solvers = {h: flags.get(h) for h in hints}
+-                soln = roots(poly, **solvers)
+-                if sum(soln.values()) < deg:
+-                    # e.g. roots(32*x**5 + 400*x**4 + 2032*x**3 +
+-                    #            5000*x**2 + 6250*x + 3189) -> {}
+-                    # so all_roots is used and RootOf instances are
+-                    # returned *unless* the system is multivariate
+-                    # or high-order EX domain.
+-                    try:
+-                        soln = poly.all_roots()
+-                    except NotImplementedError:
+-                        if not flags.get('incomplete', True):
+-                                raise NotImplementedError(
+-                                filldedent('''
++                try:
++                    rhs, lhs = _invert(f_num, 0, symbol)
++                except NotImplementedError:
++                    pass
++                else:
++                    if (lhs.is_Pow and lhs.exp.is_Integer and lhs.exp > 4 and
++                            not lhs.exp % 4 and lhs.base != symbol and
++                            lhs.base.has(symbol) and not rhs.has(symbol)):
++                        t = Dummy('t')
++                        xi, v = solve_linear(lhs.base - t, symbols=[symbol])
++                        if xi == symbol:
++                            try:
++                                psoln = _vsolve(
++                                    t**lhs.exp - rhs, t, **dict(flags))
++                                soln = [v.subs(t, s) for s in psoln]
++                            except NotImplementedError:
++                                soln = None
++                if soln is None:
++                    soln = roots(poly, **solvers)
++                    if sum(soln.values()) < deg:
++                        # e.g. roots(32*x**5 + 400*x**4 + 2032*x**3 +
++                        #            5000*x**2 + 6250*x + 3189) -> {}
++                        # so all_roots is used and RootOf instances are
++                        # returned *unless* the system is multivariate
++                        # or high-order EX domain.
++                        try:
++                            soln = poly.all_roots()
++                        except NotImplementedError:
++                            if not flags.get('incomplete', True):
++                                    raise NotImplementedError(
++                                    filldedent('''
+     Neither high-order multivariate polynomials
+     nor sorting of EX-domain polynomials is supported.
+     If you want to see any results, pass keyword incomplete=True to
+     solve; to see numerical values of roots
+     for univariate expressions, use nroots.
+     '''))
+-                        else:
+-                            pass
+-                else:
+-                    soln = list(soln.keys())
++                            else:
++                                pass
++                    else:
++                        soln = list(soln.keys())
+ 
+                 if soln is not None:
+                     u = poly.gen

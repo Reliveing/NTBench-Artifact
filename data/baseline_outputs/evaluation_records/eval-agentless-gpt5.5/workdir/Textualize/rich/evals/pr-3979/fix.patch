@@ -1,0 +1,20 @@
+diff --git a/rich/cells.py b/rich/cells.py
+index 3116595..db0a17b 100644
+--- a/rich/cells.py
++++ b/rich/cells.py
+@@ -207,6 +207,9 @@ def split_graphemes(
+             # zero width characters are associated with the previous character
+             start, _end, cell_length = spans[-1]
+             spans[-1] = (start, index := index + 1, cell_length)
++        else:
++            # Advance past leading zero-width characters, such as ANSI escapes.
++            index += 1
+ 
+     return (spans, total_width)
+ 
+@@ -328,4 +331,4 @@ def chop_cells(text: str, width: int, unicode_version: str = "auto") -> list[str
+     if line_size:
+         lines.append(text[line_offset:])
+ 
+-    return lines
++    return lines

@@ -1,0 +1,94 @@
+diff --git a/pydantic/json_schema.py b/pydantic/json_schema.py
+index f5cc325be..b4a4ddfb3 100644
+--- a/pydantic/json_schema.py
++++ b/pydantic/json_schema.py
+@@ -401,7 +401,12 @@ class GenerateJsonSchema:
+ 
+         ref = cast(JsonRef, json_schema.get('$ref'))
+         while ref is not None:  # may need to unpack multiple levels
+-            ref_json_schema = self.get_schema_from_definitions(ref)
++            try:
++                ref_json_schema = self.get_schema_from_definitions(ref)
++            except KeyError:
++                if _resolve_json_pointer(json_schema, ref) is _MISSING_JSON_REF:
++                    raise
++                ref_json_schema = None
+             if json_ref_counts[ref] == 1 and ref_json_schema is not None and len(json_schema) == 1:
+                 # "Unpack" the ref since this is the only reference and there are no sibling keys
+                 json_schema = ref_json_schema.copy()  # copy to prevent recursive dict reference
+@@ -541,7 +546,13 @@ class GenerateJsonSchema:
+                 json_schema = js_modify_function(schema_or_field, current_handler)
+                 if _core_utils.is_core_schema(schema_or_field):
+                     json_schema = populate_defs(schema_or_field, json_schema)
+-                original_schema = current_handler.resolve_ref_schema(json_schema)
++                try:
++                    original_schema = current_handler.resolve_ref_schema(json_schema)
++                except KeyError:
++                    ref = json_schema.get('$ref')
++                    if ref is not None and _resolve_json_pointer(json_schema, JsonRef(ref)) is not _MISSING_JSON_REF:
++                        return json_schema
++                    raise
+                 ref = json_schema.pop('$ref', None)
+                 if ref and json_schema:
+                     original_schema.update(json_schema)
+@@ -2367,7 +2378,9 @@ class GenerateJsonSchema:
+                             raise self._core_defs_invalid_for_json_schema[defs_ref]
+                         _add_json_refs(self.definitions[defs_ref])
+                     except KeyError:
+-                        if not json_ref.startswith(('http://', 'https://')):
++                        if not json_ref.startswith(('http://', 'https://')) and (
++                            _resolve_json_pointer(json_schema, json_ref) is _MISSING_JSON_REF
++                        ):
+                             raise
+ 
+                 for k, v in schema.items():
+@@ -2436,7 +2449,9 @@ class GenerateJsonSchema:
+                 visited_defs_refs.add(next_defs_ref)
+                 unvisited_json_refs.update(_get_all_json_refs(self.definitions[next_defs_ref]))
+             except KeyError:
+-                if not next_json_ref.startswith(('http://', 'https://')):
++                if not next_json_ref.startswith(('http://', 'https://')) and (
++                    _resolve_json_pointer(schema, next_json_ref) is _MISSING_JSON_REF
++                ):
+                     raise
+ 
+         self.definitions = {k: v for k, v in self.definitions.items() if k in visited_defs_refs}
+@@ -2660,6 +2675,38 @@ class Examples:
+         return hash(type(self.mode))
+ 
+ 
++_MISSING_JSON_REF = object()
++
++
++def _resolve_json_pointer(item: Any, json_ref: JsonRef) -> Any:
++    if json_ref == '#':
++        return item
++    if not json_ref.startswith('#/'):
++        return _MISSING_JSON_REF
++
++    current = item
++    for part in json_ref[2:].split('/'):
++        part = part.replace('~1', '/').replace('~0', '~')
++        if isinstance(current, dict):
++            if part not in current:
++                return _MISSING_JSON_REF
++            current = current[part]
++        elif isinstance(current, list):
++            try:
++                index = int(part)
++            except ValueError:
++                return _MISSING_JSON_REF
++            if index < 0:
++                return _MISSING_JSON_REF
++            try:
++                current = current[index]
++            except IndexError:
++                return _MISSING_JSON_REF
++        else:
++            return _MISSING_JSON_REF
++    return current
++
++
+ def _get_all_json_refs(item: Any) -> set[JsonRef]:
+     """Get all the definitions references from a JSON schema."""
+     refs: set[JsonRef] = set()

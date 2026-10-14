@@ -1,0 +1,19 @@
+diff --git a/sympy/solvers/solvers.py b/sympy/solvers/solvers.py
+index 507e14b..7a1d558 100644
+--- a/sympy/solvers/solvers.py
++++ b/sympy/solvers/solvers.py
+@@ -2693,7 +2693,7 @@ def _tsolve(eq, sym, **flags):
+ 
+         elif lhs.is_Pow:
+             if lhs.exp.is_Integer:
+-                if lhs - rhs != eq:
++                if lhs - rhs != eq and lhs.exp.is_positive:
+                     return _vsolve(lhs - rhs, sym, **flags)
+ 
+             if sym not in lhs.exp.free_symbols:
+@@ -3671,4 +3671,4 @@ def unrad(eq, *syms, **flags):
+ 
+ # delayed imports
+ from sympy.solvers.bivariate import (
+-    bivariate_type, _solve_lambert, _filtered_gens)
++    bivariate_type, _solve_lambert, _filtered_gens)

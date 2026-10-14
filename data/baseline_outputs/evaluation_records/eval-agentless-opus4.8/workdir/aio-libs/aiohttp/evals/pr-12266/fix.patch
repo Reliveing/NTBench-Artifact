@@ -1,0 +1,28 @@
+diff --git a/aiohttp/compression_utils.py b/aiohttp/compression_utils.py
+index 0bc4a30..f854291 100644
+--- a/aiohttp/compression_utils.py
++++ b/aiohttp/compression_utils.py
+@@ -342,7 +342,22 @@ class ZSTDDecompressor(DecompressionBaseHandler):
+             if max_length == ZLIB_MAX_LENGTH_UNLIMITED
+             else max_length
+         )
+-        return self._obj.decompress(data, zstd_max_length)
++        # ZstdDecompressor does not transparently handle inputs containing
++        # multiple compressed frames. When a frame ends (eof), any remaining
++        # data belongs to a subsequent frame and must be decoded with a fresh
++        # decompressor. See https://docs.python.org/3/library/compression.zstd.html
++        result = self._obj.decompress(data, zstd_max_length)
++        while self._obj.eof:
++            unused_data = self._obj.unused_data
++            if not unused_data:
++                break
++            self._obj = ZstdDecompressor()
++            if zstd_max_length != ZSTD_MAX_LENGTH_UNLIMITED:
++                zstd_max_length -= len(result)
++                if zstd_max_length <= 0:
++                    break
++            result += self._obj.decompress(unused_data, zstd_max_length)
++        return result
+ 
+     def flush(self) -> bytes:
+         return b""

@@ -1,0 +1,38 @@
+diff --git a/pydantic/json_schema.py b/pydantic/json_schema.py
+index f5cc325be..80b2598cc 100644
+--- a/pydantic/json_schema.py
++++ b/pydantic/json_schema.py
+@@ -541,6 +541,7 @@ class GenerateJsonSchema:
+                 json_schema = js_modify_function(schema_or_field, current_handler)
+                 if _core_utils.is_core_schema(schema_or_field):
+                     json_schema = populate_defs(schema_or_field, json_schema)
++                self._extract_embedded_defs(json_schema)
+                 original_schema = current_handler.resolve_ref_schema(json_schema)
+                 ref = json_schema.pop('$ref', None)
+                 if ref and json_schema:
+@@ -2221,6 +2222,25 @@ class GenerateJsonSchema:
+         ref_json_schema = {'$ref': json_ref}
+         return defs_ref, ref_json_schema
+ 
++    def _extract_embedded_defs(self, json_schema: JsonSchemaValue) -> None:
++        """Hoist any ``$defs`` embedded in a user-provided JSON schema into the generator's definitions.
++
++        When a ``__get_pydantic_json_schema__`` method returns a schema that carries its own ``$defs``
++        (for example, a schema copied from another model's ``model_json_schema()`` output), those
++        definitions and their local ``$ref`` targets are unknown to the generator. This registers them so
++        that reference counting and definitions handling work correctly.
++        """
++        embedded_defs = json_schema.pop('$defs', None)
++        if not isinstance(embedded_defs, dict):
++            return
++
++        for defs_ref, def_schema in embedded_defs.items():
++            defs_ref = DefsRef(defs_ref)
++            json_ref = JsonRef(self.ref_template.format(model=defs_ref))
++            self.definitions.setdefault(defs_ref, def_schema)
++            self.json_to_defs_refs.setdefault(json_ref, defs_ref)
++            self._prioritized_defsref_choices.setdefault(defs_ref, [defs_ref])
++
+     def handle_ref_overrides(self, json_schema: JsonSchemaValue) -> JsonSchemaValue:
+         """Remove any sibling keys that are redundant with the referenced schema.
+ 

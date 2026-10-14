@@ -1,0 +1,22 @@
+diff --git a/sympy/polys/rootoftools.py b/sympy/polys/rootoftools.py
+index 3c5f4cb..ad6f940 100644
+--- a/sympy/polys/rootoftools.py
++++ b/sympy/polys/rootoftools.py
+@@ -593,9 +593,9 @@ class RootOf(Expr):
+                     # case and the interval will then be tightened -- and
+                     # eventually the root will be found.
+                     if self.is_real:
+-                        if (a < root < b):
++                        if (a <= root <= b):
+                             break
+-                    elif (ax < root.real < bx and ay < root.imag < by):
++                    elif (ax <= root.real <= bx and ay <= root.imag <= by):
+                         break
+                 except ValueError:
+                     pass
+@@ -914,4 +914,4 @@ def bisect(f, a, b, tol):
+         else:
+             a = c
+             fa = fc
+-    return (a + b)/2
++    return (a + b)/2

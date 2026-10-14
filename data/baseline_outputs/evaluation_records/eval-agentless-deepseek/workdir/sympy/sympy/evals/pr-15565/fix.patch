@@ -1,0 +1,55 @@
+diff --git a/sympy/core/power.py b/sympy/core/power.py
+index 02c0410..bb3966d 100644
+--- a/sympy/core/power.py
++++ b/sympy/core/power.py
+@@ -707,6 +707,14 @@ class Pow(Expr):
+         if old == self.base:
+             return new**self.exp._subs(old, new)
+ 
++        # Handle the case where self is x**1 (i.e., just x) and old is a power
++        # with the same base, e.g., subs(sqrt(x), y) should replace x with y**2
++        if self.exp is S.One and isinstance(old, self.func) and old.base == self.base:
++            # x**1 = (old.base**old.exp)**(1/old.exp) = old**(1/old.exp)
++            # So x should be replaced by new**(1/old.exp)
++            if old.exp.is_Number and old.exp != 0:
++                return new**(S.One/old.exp)
++
+         # issue 10829: (4**x - 3*y + 2).subs(2**x, y) -> y**2 - 3*y + 2
+         if isinstance(old, self.func) and self.exp == old.exp:
+             l = log(self.base, old.base)
+@@ -1667,4 +1675,4 @@ class Pow(Expr):
+ from .add import Add
+ from .numbers import Integer
+ from .mul import Mul, _keep_coeff
+-from .symbol import Symbol, Dummy, symbols
++from .symbol import Symbol, Dummy, symbols
+diff --git a/sympy/integrals/trigonometry.py b/sympy/integrals/trigonometry.py
+index 607e018..0f93d6e 100644
+--- a/sympy/integrals/trigonometry.py
++++ b/sympy/integrals/trigonometry.py
+@@ -58,9 +58,19 @@ def trigintegrate(f, x, conds='piecewise'):
+     sympy.integrals.integrals.Integral
+     """
+     from sympy.integrals.integrals import integrate
++    from sympy import simplify
+     pat, a, n, m = _pat_sincos(x)
+ 
+     f = f.rewrite('sincos')
++    
++    # Try to simplify the expression first using trigonometric identities
++    # This handles cases like sin(2*x)/sin(x) which simplifies to 2*cos(x)
++    f_simplified = simplify(f)
++    if f_simplified != f:
++        result = trigintegrate(f_simplified, x, conds=conds)
++        if result is not None:
++            return result
++    
+     M = f.match(pat)
+ 
+     if M is None:
+@@ -330,4 +340,4 @@ def _cos_pow_integrate(n, x):
+     else:
+         # n == 0
+         #Recursion Break.
+-        return x
++        return x

@@ -1,0 +1,51 @@
+diff --git a/sympy/functions/elementary/complexes.py b/sympy/functions/elementary/complexes.py
+index 84930497b5..7c9d8ced77 100644
+--- a/sympy/functions/elementary/complexes.py
++++ b/sympy/functions/elementary/complexes.py
+@@ -422,6 +422,22 @@ def _eval_power(self, other):
+         ):
+             return S.One
+ 
++    def _eval_as_leading_term(self, x, cdir=0):
++        arg = self.args[0]
++        x0 = arg.subs(x, 0)
++        if x0.is_finite and x0 != 0:
++            return self.func(x0)
++        # When arg is zero or infinite at x=0, get the leading term
++        # Use leadterm to get coefficient
++        try:
++            coeff, exp = arg.leadterm(x)
++            # sign(coeff * x^exp) = sign(coeff)
++            return sign(coeff)
++        except (ValueError, NotImplementedError):
++            # Fall back to using as_leading_term
++            lt = arg.as_leading_term(x, cdir=cdir)
++            return sign(lt)
++
+     def _eval_nseries(self, x, n, logx, cdir=0):
+         arg0 = self.args[0]
+         x0 = arg0.subs(x, 0)
+@@ -657,6 +673,23 @@ def _eval_power(self, exponent):
+                 return self.args[0]**(exponent - 1)*self
+         return
+ 
++    def _eval_as_leading_term(self, x, cdir=0):
++        arg = self.args[0]
++        x0 = arg.subs(x, 0)
++        if x0.is_finite and x0 != 0:
++            return self.func(x0)
++        # When arg is zero or infinite at x=0, get the leading term and apply abs
++        # Use leadterm to get coefficient and exponent separately
++        try:
++            coeff, exp = arg.leadterm(x)
++            # Abs(coeff * x^exp) = Abs(coeff) * x^exp = sign(coeff) * coeff * x^exp
++            from sympy import Pow
++            return sign(coeff) * coeff * Pow(x, exp)
++        except (ValueError, NotImplementedError):
++            # Fall back to using as_leading_term
++            lt = arg.as_leading_term(x, cdir=cdir)
++            return sign(lt) * lt
++
+     def _eval_nseries(self, x, n, logx, cdir=0):
+         direction = self.args[0].leadterm(x)[0]
+         if direction.has(log(x)):

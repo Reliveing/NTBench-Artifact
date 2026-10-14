@@ -1,0 +1,59 @@
+diff --git a/=10.0.0 b/=10.0.0
+new file mode 100644
+index 0000000000..eff2cad58f
+--- /dev/null
++++ b/=10.0.0
+@@ -0,0 +1,14 @@
++Collecting numpy<2.0,>=1.26
++  Downloading numpy-1.26.4-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (61 kB)
++Collecting pillow
++  Downloading pillow-12.1.1-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (8.8 kB)
++Collecting packaging
++  Downloading packaging-26.0-py3-none-any.whl.metadata (3.3 kB)
++Downloading numpy-1.26.4-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (18.3 MB)
++   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 18.3/18.3 MB 8.1 MB/s  0:00:02
++Downloading pillow-12.1.1-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (7.0 MB)
++   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 7.0/7.0 MB 5.9 MB/s  0:00:01
++Downloading packaging-26.0-py3-none-any.whl (74 kB)
++Installing collected packages: pillow, packaging, numpy
++
++Successfully installed numpy-1.26.4 packaging-26.0 pillow-12.1.1
+diff --git a/lib/matplotlib/path.py b/lib/matplotlib/path.py
+index a021706fb1..40fb2c1c49 100644
+--- a/lib/matplotlib/path.py
++++ b/lib/matplotlib/path.py
+@@ -280,9 +280,29 @@ class Path:
+         Return a deepcopy of the `Path`.  The `Path` will not be
+         readonly, even if the source `Path` is.
+         """
+-        # Deepcopying arrays (vertices, codes) strips the writeable=False flag.
+-        p = copy.deepcopy(super(), memo)
++        # Avoid using super() as it causes infinite recursion in newer CPython.
++        # Instead, create a new instance using __new__ and manually copy attributes.
++        if memo is None:
++            memo = {}
++        
++        # Create a new Path instance without calling __init__
++        p = self.__class__.__new__(self.__class__)
++        
++        # Register in memo to handle circular references
++        memo[id(self)] = p
++        
++        # Deep copy the vertices and codes arrays
++        p._vertices = copy.deepcopy(self._vertices, memo)
++        p._codes = copy.deepcopy(self._codes, memo)
++        
++        # Copy other attributes
++        p._interpolation_steps = self._interpolation_steps
++        p._simplify_threshold = self._simplify_threshold
++        p._should_simplify = self._should_simplify
++        
++        # Always set readonly to False for deepcopied paths
+         p._readonly = False
++        
+         return p
+ 
+     deepcopy = __deepcopy__
+diff --git a/subprojects/.wraplock b/subprojects/.wraplock
+new file mode 100644
+index 0000000000..e69de29bb2

@@ -1,0 +1,23 @@
+diff --git a/dask/dataframe/multi.py b/dask/dataframe/multi.py
+index 278d434..f2689e5 100644
+--- a/dask/dataframe/multi.py
++++ b/dask/dataframe/multi.py
+@@ -758,6 +758,12 @@ def pair_partitions(L, R):
+ 
+         i1 = i + 1 if j + 1 == m or (i + 1 < n and R[j + 1] >= L[i + 1]) else i
+         j1 = j + 1 if i + 1 == n or (j + 1 < m and L[i + 1] >= R[j + 1]) else j
++        if i1 == i and j1 == j:
++            # Neither i nor j advanced; break out to avoid an infinite loop.
++            # This can happen when the right dataframe has empty partitions.
++            j1 = j + 1 if j + 1 < m else j
++            if j1 == j:
++                i1 = i + 1
+         if i1 > i:
+             result.append(J)
+             J = []
+@@ -1533,4 +1539,4 @@ def _recursive_pairwise_outer_join(
+             ],
+             **merge_options,
+         )
+-        return merged_ddf
++        return merged_ddf

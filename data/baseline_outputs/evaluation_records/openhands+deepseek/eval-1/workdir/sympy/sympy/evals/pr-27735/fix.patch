@@ -1,0 +1,91 @@
+diff --git a/sympy/logic/algorithms/dpll2.py b/sympy/logic/algorithms/dpll2.py
+index 75115e01ef..8c73a66745 100644
+--- a/sympy/logic/algorithms/dpll2.py
++++ b/sympy/logic/algorithms/dpll2.py
+@@ -239,6 +239,72 @@ def _find_model(self):
+                     else:
+                         self._simple_add_learned_clause(res[1])
+ 
++                        # Find decision levels for each literal in the
++                        # conflict clause. The conflict clause contains
++                        # literals that are all False in the current
++                        # assignment, so their negations are in var_settings.
++                        conflict_levels = set()
++                        for lit in res[1]:
++                            for i, level in enumerate(self.levels):
++                                if -lit in level.var_settings:
++                                    conflict_levels.add(i)
++                                    break
++
++                        if len(conflict_levels) == 0:
++                            # No conflicting literals found; use the most
++                            # recent level as the backtrack point.
++                            backtrack_to = max(0, len(self.levels) - 2)
++                        elif len(conflict_levels) == 1 and 0 in conflict_levels:
++                            # Conflict involves only base-level
++                            # (unit) literals; the theory is UNSAT.
++                            return
++                        else:
++                            sorted_levels = sorted(conflict_levels)
++                            # Backtrack to the second-highest decision
++                            # level, undoing all levels above it.
++                            backtrack_to = sorted_levels[-2]
++
++                        while len(self.levels) > backtrack_to + 1:
++                            self._undo()
++
++                        # After backtracking, the conflict clause should
++                        # be a unit clause. Find the unassigned literal
++                        # and propagate it.
++                        unassigned = []
++                        for l in res[1]:
++                            if l not in self.var_settings and -l not in self.var_settings:
++                                unassigned.append(l)
++                        if len(unassigned) == 1:
++                            self._unit_prop_queue.append(unassigned[0])
++
++                        if self._unit_prop_queue:
++                            self._simplify()
++                            if self.is_unsatisfied:
++                                self.is_unsatisfied = False
++                                while self._current_level.flipped:
++                                    self._undo()
++                                    if 1 == len(self.levels):
++                                        return
++                                flip_lit = -self._current_level.decision
++                                self._undo()
++                                self.levels.append(Level(flip_lit, flipped=True))
++                                flip_var = True
++                                continue
++
++                        # If the conflict clause was not unit (all
++                        # conflicting literals at the same level), fall
++                        # back to flipping the most recent decision.
++                        if not unassigned:
++                            while self._current_level.flipped:
++                                self._undo()
++                            if len(self.levels) == 1:
++                                return
++                            flip_lit = -self._current_level.decision
++                            self._undo()
++                            self.levels.append(Level(flip_lit, flipped=True))
++                            flip_var = True
++                        continue
++
+                     while self._current_level.flipped:
+                         self._undo()
+                     if len(self.levels) == 1:
+@@ -644,8 +710,11 @@ def _simple_add_learned_clause(self, cls):
+         for lit in cls:
+             self.occurrence_count[lit] += 1
+ 
+-        self.sentinels[cls[0]].add(cls_num)
+-        self.sentinels[cls[-1]].add(cls_num)
++        if len(cls) == 1:
++            self._unit_prop_queue.append(cls[0])
++        else:
++            self.sentinels[cls[0]].add(cls_num)
++            self.sentinels[cls[-1]].add(cls_num)
+ 
+         self.heur_clause_added(cls)
+ 

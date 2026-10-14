@@ -1,0 +1,14 @@
+diff --git a/sklearn/cluster/_spectral.py b/sklearn/cluster/_spectral.py
+index f96a11c177..c172505307 100644
+--- a/sklearn/cluster/_spectral.py
++++ b/sklearn/cluster/_spectral.py
+@@ -171,8 +171,8 @@ def discretize(
+             t_svd = vectors_discrete.T * vectors
+ 
+             try:
+-                U, S, Vh = np.linalg.svd(t_svd)
+                 svd_restarts += 1
++                U, S, Vh = np.linalg.svd(t_svd)
+             except LinAlgError:
+                 print("SVD did not converge, randomizing and trying again")
+                 break

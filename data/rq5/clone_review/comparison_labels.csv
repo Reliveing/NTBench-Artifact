@@ -1,0 +1,51 @@
+sample_id,record_id,reviewer1_label,reviewer2_label,llm_label
+CR-01,Agentless|DeepSeek V4 Pro|single|numpy__numpy-26192,type-1,type-1,type-1
+CR-02,Agentless|DeepSeek V4 Pro|single|sympy__sympy-21487,type-3,type-3,type-3
+CR-03,Agentless|DeepSeek V4 Pro|single|sympy__sympy-23493,N/A,N/A,N/A
+CR-04,Agentless|GPT-5.5|single|aio-libs__aiohttp-10151,type-3,type-1,type-1
+CR-05,Agentless|GPT-5.5|single|sympy__sympy-14404,N/A,N/A,N/A
+CR-06,Agentless|GPT-5.5|single|sympy__sympy-21487,type-3,type-3,type-3
+CR-07,Agentless|Opus 4.8|single|dask__dask-7667,type-3,type-3,type-3
+CR-08,Agentless|Opus 4.8|single|sympy__sympy-21032,N/A,N/A,N/A
+CR-09,Agentless|Opus 4.8|single|sympy__sympy-9493,type-1,type-1,type-1
+CR-10,OpenHands|DeepSeek V4 Pro|eval-1|sympy__sympy-9844,type-3,N/A,N/A
+CR-11,OpenHands|DeepSeek V4 Pro|eval-2|numpy__numpy-26192,type-1,type-1,type-1
+CR-12,OpenHands|DeepSeek V4 Pro|eval-2|sympy__sympy-14404,type-3,N/A,type-3
+CR-13,OpenHands|DeepSeek V4 Pro|eval-2|sympy__sympy-15752,N/A,N/A,N/A
+CR-14,OpenHands|DeepSeek V4 Pro|eval-3|sympy__sympy-21487,type-3,type-3,type-3
+CR-15,OpenHands|DeepSeek V4 Pro|eval-3|sympy__sympy-24999,type-3,type-3,type-3
+CR-16,OpenHands|GPT-5.5|eval-1|dask__dask-7667,N/A,N/A,N/A
+CR-17,OpenHands|GPT-5.5|eval-2|matplotlib__matplotlib-30198,type-3,type-3,type-3
+CR-18,OpenHands|GPT-5.5|eval-2|sympy__sympy-15855,type-3,type-3,type-3
+CR-19,OpenHands|GPT-5.5|eval-2|sympy__sympy-23493,type-2,type-2,type-2
+CR-20,OpenHands|GPT-5.5|eval-2|sympy__sympy-7900,N/A,type-3,N/A
+CR-21,OpenHands|GPT-5.5|eval-2|sympy__sympy-9493,type-1,type-1,type-1
+CR-22,OpenHands|GPT-5.5|eval-3|dask__dask-7667,N/A,N/A,type-3
+CR-23,OpenHands|GPT-5.5|eval-3|sympy__sympy-23493,type-2,type-2,type-2
+CR-24,OpenHands|Opus 4.8|eval-1|sympy__sympy-10478,type-1,type-1,type-1
+CR-25,OpenHands|Opus 4.8|eval-1|sympy__sympy-15418,N/A,N/A,N/A
+CR-26,OpenHands|Opus 4.8|eval-2|aio-libs__aiohttp-10151,type-2,type-1,type-2
+CR-27,OpenHands|Opus 4.8|eval-2|sympy__sympy-14404,type-3,N/A,type-3
+CR-28,OpenHands|Opus 4.8|eval-2|sympy__sympy-15855,type-3,type-3,type-3
+CR-29,OpenHands|Opus 4.8|eval-3|aio-libs__aiohttp-10151,type-2,type-2,type-2
+CR-30,OpenHands|Opus 4.8|eval-3|sympy__sympy-15752,N/A,N/A,N/A
+CR-31,SWE-agent|DeepSeek V4 Pro|eval-1|sympy__sympy-17329,type-3,type-3,type-3
+CR-32,SWE-agent|DeepSeek V4 Pro|eval-3|numpy__numpy-26192,type-3,type-3,type-3
+CR-33,SWE-agent|DeepSeek V4 Pro|eval-3|sympy__sympy-14404,type-1,type-1,type-1
+CR-34,SWE-agent|DeepSeek V4 Pro|eval-3|sympy__sympy-21032,N/A,N/A,N/A
+CR-35,SWE-agent|DeepSeek V4 Pro|eval-3|sympy__sympy-24826,N/A,N/A,N/A
+CR-36,SWE-agent|DeepSeek V4 Pro|eval-3|tox-dev__tox-3749,type-3,type-3,type-3
+CR-37,SWE-agent|GPT-5.5|eval-1|pydata__xarray-10248,type-3,N/A,type-3
+CR-38,SWE-agent|GPT-5.5|eval-1|sympy__sympy-23493,type-2,type-2,type-2
+CR-39,SWE-agent|GPT-5.5|eval-1|sympy__sympy-9029,type-3,type-3,type-3
+CR-40,SWE-agent|GPT-5.5|eval-1|sympy__sympy-9844,N/A,N/A,N/A
+CR-41,SWE-agent|GPT-5.5|eval-2|sympy__sympy-23493,type-2,type-2,type-2
+CR-42,SWE-agent|GPT-5.5|eval-3|Textualize__rich-3480,type-3,type-3,type-3
+CR-43,SWE-agent|Opus 4.8|eval-1|scikit-learn__scikit-learn-28165,N/A,N/A,N/A
+CR-44,SWE-agent|Opus 4.8|eval-2|numpy__numpy-26022,type-3,type-3,type-3
+CR-45,SWE-agent|Opus 4.8|eval-2|numpy__numpy-26192,type-1,type-1,type-1
+CR-46,SWE-agent|Opus 4.8|eval-2|pydantic__pydantic-12799,type-3,type-3,type-3
+CR-47,SWE-agent|Opus 4.8|eval-2|scikit-learn__scikit-learn-21271,type-3,type-3,type-3
+CR-48,SWE-agent|Opus 4.8|eval-2|sympy__sympy-23175,type-1,type-1,type-2
+CR-49,SWE-agent|Opus 4.8|eval-3|sympy__sympy-23175,type-1,type-1,type-2
+CR-50,SWE-agent|Opus 4.8|eval-3|sympy__sympy-25844,N/A,N/A,N/A

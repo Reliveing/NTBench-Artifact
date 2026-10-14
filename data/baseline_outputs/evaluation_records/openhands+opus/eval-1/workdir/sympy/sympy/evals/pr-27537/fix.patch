@@ -1,0 +1,61 @@
+diff --git a/sympy/simplify/simplify.py b/sympy/simplify/simplify.py
+index 20cbe19669..8372bf9c41 100644
+--- a/sympy/simplify/simplify.py
++++ b/sympy/simplify/simplify.py
+@@ -1045,6 +1045,23 @@ def goodlog(l):
+             a = l.args[0]
+             return a.is_positive or force and a.is_nonpositive is not False
+ 
++        def goodcoeff(co, l):
++            # bool to tell whether the coefficients ``co`` can be moved
++            # inside ``log(l)`` as an exponent without creating an
++            # unreasonably large number, e.g. moving 10**9 into log(10)
++            # would create log(10**(10**9)) which is impractical to form.
++            arg = l.args[0]
++            if not arg.is_Number:
++                return True
++            c = Mul(*co)
++            if not c.is_Number:
++                return True
++            # estimate the number of decimal digits of arg**c
++            p = arg.p if arg.is_Rational else arg
++            q = arg.q if arg.is_Rational else 1
++            digits = abs(float(c)) * max(len(str(abs(p))), len(str(abs(q))))
++            return digits <= 1000
++
+         other = []
+         logs = []
+         log1 = defaultdict(list)
+@@ -1069,7 +1086,7 @@ def goodlog(l):
+                         ot.append(ai)
+                 if len(lo) > 1:
+                     logs.append((ot, co, lo))
+-                elif lo:
++                elif lo and goodcoeff(co, lo[0]):
+                     log1[tuple(ot)].append((co, lo[0]))
+                 else:
+                     other.append(a)
+diff --git a/sympy/simplify/tests/test_simplify.py b/sympy/simplify/tests/test_simplify.py
+index f4392b6693..78492ebfa1 100644
+--- a/sympy/simplify/tests/test_simplify.py
++++ b/sympy/simplify/tests/test_simplify.py
+@@ -507,6 +507,19 @@ def test_logcombine_1():
+     assert log(abs(x)*abs(y)).subs(reps) != eq.subs(reps)
+ 
+ 
++def test_logcombine_large_numeric_coeff():
++    # https://github.com/sympy/sympy/issues/27528
++    # combining a large numeric coefficient into a numeric log argument
++    # would create an unmanageably large number, e.g. log(10**(10**9))
++    x, z = symbols("x z")
++    assert logcombine(1000000000*log(10)) == 1000000000*log(10)
++    e = 1000000000*log(10)/(1000000000*z - 1123456789*log(x))
++    assert simplify(e) == e
++    # small numeric coefficients still combine
++    assert logcombine(3*log(2)) == log(8)
++    assert logcombine(2*log(3) + log(5)) == log(45)
++
++
+ def test_logcombine_complex_coeff():
+     i = Integral((sin(x**2) + cos(x**3))/x, x)
+     assert logcombine(i, force=True) == i

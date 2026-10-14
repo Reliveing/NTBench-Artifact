@@ -1,0 +1,44 @@
+diff --git a/sympy/solvers/solvers.py b/sympy/solvers/solvers.py
+index 507e14ba3b..f7d1963039 100644
+--- a/sympy/solvers/solvers.py
++++ b/sympy/solvers/solvers.py
+@@ -1483,6 +1483,39 @@ def _solve(f, *symbols, **flags):
+         result = False  # no solution was obtained
+         msg = ''  # there is no failure message
+ 
++        # If f_num is a binomial (Add with 2 args), check if one arg
++        # is a power with integer exponent whose base is linear in the
++        # symbol.  If so, substitute u = base to get a binomial polynomial
++        # that can be solved quickly, avoiding the expansion of the base
++        # into a high-degree polynomial (which can cause hangs in roots()).
++        if poly is None and f_num.is_Add and len(f_num.args) == 2:
++            args = list(f_num.args)
++            for i, arg in enumerate(args):
++                if not arg.has(symbol):
++                    other = args[1 - i]
++                    c, base_exp = other.as_independent(symbol, as_Add=False)
++                    if base_exp.is_Pow:
++                        base, exp = base_exp.as_base_exp()
++                        if (base.has(symbol) and base != symbol and
++                                not exp.has(symbol) and
++                                exp.is_Integer and exp > 5):
++                            # base should be linear in symbol
++                            base_num, base_sol = solve_linear(
++                                base, symbols=[symbol])
++                            if base_num == symbol:
++                                # Use substitution u = base
++                                u = Dummy('u')
++                                new_eq = c * u**exp + arg
++                                soln = _solve(new_eq, u, **flags)
++                                if soln:
++                                    # Express symbol in terms of u
++                                    inv = _vsolve(base - u, symbol, **flags)
++                                    if inv:
++                                        result = [{symbol: inv[0].subs(
++                                            u, s[u])} for s in soln]
++                                if result:
++                                    return result
++
+         # Poly is generally robust enough to convert anything to
+         # a polynomial and tell us the different generators that it
+         # contains, so we will inspect the generators identified by

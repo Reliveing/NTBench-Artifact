@@ -1,0 +1,19 @@
+diff --git a/sympy/core/power.py b/sympy/core/power.py
+index bd4bb7a..b687e15 100644
+--- a/sympy/core/power.py
++++ b/sympy/core/power.py
+@@ -705,7 +705,7 @@ class Pow(Expr):
+             return False, None, None
+ 
+         if old == self.base:
+-            return new**self.exp._subs(old, new)
++            return Pow(new, self.exp._subs(old, new), evaluate=False)
+ 
+         # issue 10829: (4**x - 3*y + 2).subs(2**x, y) -> y**2 - 3*y + 2
+         if isinstance(old, self.func) and self.exp == old.exp:
+@@ -1651,4 +1651,4 @@ class Pow(Expr):
+ from .add import Add
+ from .numbers import Integer
+ from .mul import Mul, _keep_coeff
+-from .symbol import Symbol, Dummy, symbols
++from .symbol import Symbol, Dummy, symbols

@@ -1,0 +1,47 @@
+diff --git a/xarray/computation/apply_ufunc.py b/xarray/computation/apply_ufunc.py
+index 50c3ed4b..6283f96d 100644
+--- a/xarray/computation/apply_ufunc.py
++++ b/xarray/computation/apply_ufunc.py
+@@ -1212,7 +1212,23 @@ def apply_ufunc(
+             dask_gufunc_kwargs.setdefault("output_sizes", output_sizes)
+ 
+     if kwargs:
+-        func = functools.partial(func, **kwargs)
++        # Replace any xarray objects in kwargs with their underlying data
++        # to avoid triggering __array_ufunc__ recursively when func is called
++        # with extracted numpy arrays later.
++        from xarray.computation.arithmetic import SupportsArithmetic
++
++        processed_kwargs = {}
++        for k, v in kwargs.items():
++            if isinstance(v, SupportsArithmetic):
++                processed_kwargs[k] = v.data
++            elif isinstance(v, tuple):
++                processed_kwargs[k] = tuple(
++                    vv.data if isinstance(vv, SupportsArithmetic) else vv
++                    for vv in v
++                )
++            else:
++                processed_kwargs[k] = v
++        func = functools.partial(func, **processed_kwargs)
+ 
+     if keep_attrs is None:
+         keep_attrs = _get_keep_attrs(default=False)
+diff --git a/xarray/namedarray/utils.py b/xarray/namedarray/utils.py
+index 96060730..b7e16338 100644
+--- a/xarray/namedarray/utils.py
++++ b/xarray/namedarray/utils.py
+@@ -62,11 +62,11 @@ def module_available(module: str, minversion: str | None = None) -> bool:
+ 
+ def is_dask_collection(x: object) -> TypeGuard[DaskCollection]:
+     if module_available("dask"):
+-        from dask.base import is_dask_collection
++        from dask.base import is_dask_collection as _dask_is_dask_collection
+ 
+         # use is_dask_collection function instead of dask.typing.DaskCollection
+         # see https://github.com/pydata/xarray/pull/8241#discussion_r1476276023
+-        return is_dask_collection(x)
++        return _dask_is_dask_collection(x)
+     return False
+ 
+ 

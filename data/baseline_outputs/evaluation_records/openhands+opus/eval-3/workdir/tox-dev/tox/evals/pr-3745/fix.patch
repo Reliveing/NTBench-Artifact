@@ -1,0 +1,20 @@
+diff --git a/docs/changelog/3145.bugfix.rst b/docs/changelog/3145.bugfix.rst
+new file mode 100644
+index 00000000..f82a5a52
+--- /dev/null
++++ b/docs/changelog/3145.bugfix.rst
+@@ -0,0 +1 @@
++Honor environment markers when assessing provision requirements, avoiding an infinite provisioning loop when a requirement's marker does not match the current environment - by :user:`gaborbernat`.
+diff --git a/src/tox/provision.py b/src/tox/provision.py
+index c7d9a90d..6c150bdf 100644
+--- a/src/tox/provision.py
++++ b/src/tox/provision.py
+@@ -129,6 +129,8 @@ def provision(state: State) -> int | bool:
+ def _get_missing(requires: list[Requirement]) -> list[tuple[Requirement, str | None]]:
+     missing: list[tuple[Requirement, str | None]] = []
+     for package in requires:
++        if package.marker and not package.marker.evaluate():
++            continue
+         package_name = canonicalize_name(package.name)
+         try:
+             dist = distribution(package_name)

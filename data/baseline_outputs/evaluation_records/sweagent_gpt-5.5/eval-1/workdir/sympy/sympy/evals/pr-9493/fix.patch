@@ -1,0 +1,27 @@
+diff --git a/sympy/core/numbers.py b/sympy/core/numbers.py
+index d1e4f02f47..f1454cdec0 100644
+--- a/sympy/core/numbers.py
++++ b/sympy/core/numbers.py
+@@ -2461,15 +2461,21 @@ def _eval_power(self, expt):
+         NegativeInfinity
+ 
+         """
++        if expt.is_zero:
++            return S.One
+         if expt.is_positive:
+             return S.Infinity
+         if expt.is_negative:
+             return S.Zero
+         if expt is S.NaN:
+             return S.NaN
++        if expt is S.ComplexInfinity:
++            return S.NaN
+ 
+         if expt.is_number:
+-            return self**expt.evalf()
++            expt_evalf = expt.evalf()
++            if expt_evalf != expt:
++                return self**expt_evalf
+ 
+     def _as_mpf_val(self, prec):
+         return mlib.finf

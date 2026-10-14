@@ -1,0 +1,68 @@
+diff --git a/sklearn/svm/_base.py b/sklearn/svm/_base.py
+index 6c8b981be5..9ada5519c4 100644
+--- a/sklearn/svm/_base.py
++++ b/sklearn/svm/_base.py
+@@ -1256,7 +1256,9 @@ def _fit_liblinear(
+     n_iter_max = max(n_iter_)
+     if n_iter_max >= max_iter:
+         warnings.warn(
+-            "Liblinear failed to converge, increase the number of iterations.",
++            "Liblinear failed to converge, increase the number of iterations."
++            " You might also want to scale the data as shown in:"
++            " https://scikit-learn.org/stable/modules/preprocessing.html",
+             ConvergenceWarning,
+         )
+ 
+diff --git a/sklearn/svm/src/liblinear/tron.cpp b/sklearn/svm/src/liblinear/tron.cpp
+index ae1dae88da..91eed547c1 100644
+--- a/sklearn/svm/src/liblinear/tron.cpp
++++ b/sklearn/svm/src/liblinear/tron.cpp
+@@ -54,6 +54,7 @@ int TRON::tron(double *w)
+ 	double delta, snorm;
+ 	double alpha, f, fnew, prered, actred, gs;
+ 	int search = 1, iter = 1, inc = 1;
++	bool reach_max_iter = false;
+ 	double *s = new double[n];
+ 	double *r = new double[n];
+ 	double *w_new = new double[n];
+@@ -76,6 +77,11 @@ int TRON::tron(double *w)
+ 	while (iter <= max_iter && search)
+ 	{
+ 		cg_iter = trcg(delta, g, s, r);
++		if (cg_iter < 0)
++		{
++			reach_max_iter = true;
++			break;
++		}
+ 
+ 		memcpy(w_new, w, sizeof(double)*n);
+ 		blas->axpy(n, 1.0, s, inc, w_new, inc);
+@@ -143,7 +149,7 @@ int TRON::tron(double *w)
+ 	delete[] r;
+ 	delete[] w_new;
+ 	delete[] s;
+-	return --iter;
++	return reach_max_iter ? max_iter : --iter;
+ }
+ 
+ int TRON::trcg(double delta, double *g, double *s, double *r)
+@@ -171,7 +177,18 @@ int TRON::trcg(double delta, double *g, double *s, double *r)
+ 		cg_iter++;
+ 		fun_obj->Hv(d, Hd);
+ 
+-		alpha = rTr / blas->dot(n, d, inc, Hd, inc);
++		double dHdr = blas->dot(n, d, inc, Hd, inc);
++		if (dHdr <= 0 || !isfinite(dHdr))
++		{
++			cg_iter = -1;
++			break;
++		}
++		alpha = rTr / dHdr;
++		if (!isfinite(alpha))
++		{
++			cg_iter = -1;
++			break;
++		}
+ 		blas->axpy(n, alpha, d, inc, s, inc);
+ 		if (blas->nrm2(n, s, inc) > delta)
+ 		{

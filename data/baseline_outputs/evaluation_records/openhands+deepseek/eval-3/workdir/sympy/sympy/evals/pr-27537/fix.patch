@@ -1,0 +1,45 @@
+diff --git a/sympy/simplify/simplify.py b/sympy/simplify/simplify.py
+index 20cbe19669..8fad861386 100644
+--- a/sympy/simplify/simplify.py
++++ b/sympy/simplify/simplify.py
+@@ -984,6 +984,18 @@ def _nthroot_solve(p, n, prec):
+                 return sol
+ 
+ 
++def _pow_safe(base, exp):
++    """Create a power ``base**exp`` without evaluating if ``exp`` is an Integer.
++
++    This prevents the expensive computation of large integer powers.
++    """
++    if exp is S.One:
++        return base
++    if isinstance(exp, int) or exp.is_Integer:
++        return Pow(base, exp, evaluate=False)
++    return base**exp
++
++
+ def logcombine(expr, force=False):
+     """
+     Takes logarithms and combines them using the following rules:
+@@ -1091,10 +1103,10 @@ def goodlog(l):
+         # let the user decide
+         for o, e, l in logs:
+             l = list(ordered(l))
+-            e = log(l.pop(0).args[0]**Mul(*e))
++            e = log(_pow_safe(l.pop(0).args[0], Mul(*e)))
+             while l:
+                 li = l.pop(0)
+-                e = log(li.args[0]**e)
++                e = log(_pow_safe(li.args[0], e))
+             c, l = Mul(*o), e
+             if isinstance(l, log):  # it should be, but check to be sure
+                 log1[(c,)].append(([], l))
+@@ -1104,7 +1116,7 @@ def goodlog(l):
+         # logs that have the same coefficient can multiply
+         for k in list(log1.keys()):
+             log1[Mul(*k)] = log(logcombine(Mul(*[
+-                l.args[0]**Mul(*c) for c, l in log1.pop(k)]),
++                _pow_safe(l.args[0], Mul(*c)) for c, l in log1.pop(k)]),
+                 force=force), evaluate=False)
+ 
+         # logs that have oppositely signed coefficients can divide

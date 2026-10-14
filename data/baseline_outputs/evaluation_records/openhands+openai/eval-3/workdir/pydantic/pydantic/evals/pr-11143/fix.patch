@@ -1,0 +1,36 @@
+diff --git a/pydantic/_internal/_model_construction.py b/pydantic/_internal/_model_construction.py
+index aed979bbf..94108488d 100644
+--- a/pydantic/_internal/_model_construction.py
++++ b/pydantic/_internal/_model_construction.py
+@@ -23,7 +23,7 @@ from ._config import ConfigWrapper
+ from ._decorators import DecoratorInfos, PydanticDescriptorProxy, get_attribute_from_bases, unwrap_wrapped_function
+ from ._fields import collect_model_fields, is_valid_field_name, is_valid_privateattr_name
+ from ._generate_schema import GenerateSchema
+-from ._generics import PydanticGenericMetadata, get_model_typevars_map
++from ._generics import PydanticGenericMetadata, get_model_typevars_map, replace_types
+ from ._import_utils import import_cached_base_model, import_cached_field_info
+ from ._mock_val_ser import set_model_mocks
+ from ._namespace_utils import NsResolver
+@@ -291,7 +291,21 @@ class ModelMetaclass(ABCMeta):
+             elif base not in indexed_origins and base_params:
+                 assert set(base_params) <= param_dict.keys(), assert_err_msg
+                 new_base_args = tuple(param_dict[param] for param in base_params)
+-                new_base = base[new_base_args]  # type: ignore
++                base_metadata = base.__pydantic_generic_metadata__
++                base_origin_type = base_origin or base
++                typevars_map = dict(zip(base_params, new_base_args))
++                base_args = tuple(replace_types(arg, typevars_map) for arg in base_metadata['args']) or new_base_args
++
++                new_base = next(
++                    (
++                        mro_base
++                        for prior_base in new_mro
++                        for mro_base in (getattr(prior_base, '__mro__', None) or ())
++                        if getattr(mro_base, '__pydantic_generic_metadata__', {}).get('origin') is base_origin_type
++                        and getattr(mro_base, '__pydantic_generic_metadata__', {}).get('args') == base_args
++                    ),
++                    None,
++                ) or base[new_base_args]  # type: ignore
+                 new_mro.append(new_base)
+ 
+                 indexed_origins.add(base_origin or base)

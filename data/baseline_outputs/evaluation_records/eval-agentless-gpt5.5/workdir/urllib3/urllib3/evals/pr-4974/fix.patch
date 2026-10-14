@@ -1,0 +1,20 @@
+diff --git a/src/urllib3/response.py b/src/urllib3/response.py
+index 46c7e4b..b686b16 100644
+--- a/src/urllib3/response.py
++++ b/src/urllib3/response.py
+@@ -1376,6 +1376,9 @@ class HTTPResponse(BaseHTTPResponse):
+             If True, will attempt to decode the body based on the
+             'content-encoding' header.
+         """
++        if amt == 0:
++            return
++
+         self._init_decoder()
+         # FIXME: Rewrite this method and make it a class with a better structured logic.
+         if not self.chunked:
+@@ -1472,4 +1475,4 @@ class HTTPResponse(BaseHTTPResponse):
+             else:
+                 buffer.append(chunk)
+         if buffer:
+-            yield b"".join(buffer)
++            yield b"".join(buffer)

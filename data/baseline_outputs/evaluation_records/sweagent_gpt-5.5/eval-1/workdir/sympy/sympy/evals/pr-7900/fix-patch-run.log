@@ -1,0 +1,506 @@
+Obtaining file:///home/sympy
+  Preparing metadata (setup.py): started
+  Preparing metadata (setup.py): finished with status 'done'
+Installing collected packages: sympy
+  Attempting uninstall: sympy
+    Found existing installation: sympy 0.7.5.dev0
+    Uninstalling sympy-0.7.5.dev0:
+      Successfully uninstalled sympy-0.7.5.dev0
+  DEPRECATION: Legacy editable install of sympy==0.7.5.dev0 from file:///home/sympy (setup.py develop) is deprecated. pip 25.1 will enforce this behaviour change. A possible replacement is to add a pyproject.toml or enable --use-pep517, and use setuptools >= 64. If the resulting installation is not behaving as expected, try using --config-settings editable_mode=compat. Please consult the setuptools documentation for more information. Discussion can be found at https://github.com/pypa/pip/issues/11457
+  Running setup.py develop for sympy
+Successfully installed sympy
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+============================= test session starts ==============================
+collecting ... collected 96 items
+
+sympy/core/tests/test_expand.py::test_numerically ERROR                  [  1%]
+sympy/core/tests/test_expand.py::test_expand_no_log PASSED               [  2%]
+sympy/core/tests/test_expand.py::test_expand_no_multinomial PASSED       [  3%]
+sympy/core/tests/test_expand.py::test_expand_negative_integer_powers PASSED [  4%]
+sympy/core/tests/test_expand.py::test_expand_non_commutative PASSED      [  5%]
+sympy/core/tests/test_expand.py::test_expand_radicals PASSED             [  6%]
+sympy/core/tests/test_expand.py::test_expand_modulus PASSED              [  7%]
+sympy/core/tests/test_expand.py::test_issue_5743 PASSED                  [  8%]
+sympy/core/tests/test_expand.py::test_expand_frac PASSED                 [  9%]
+sympy/core/tests/test_expand.py::test_issue_6121 PASSED                  [ 10%]
+sympy/core/tests/test_expand.py::test_expand_power_base PASSED           [ 11%]
+sympy/core/tests/test_expand.py::test_expand_arit PASSED                 [ 12%]
+sympy/core/tests/test_expand.py::test_power_expand PASSED                [ 13%]
+sympy/core/tests/test_expand.py::test_issues_5919_6830 PASSED            [ 14%]
+sympy/core/tests/test_expand.py::test_expand_log PASSED                  [ 15%]
+sympy/solvers/tests/test_solvers.py::test_swap_back PASSED               [ 16%]
+sympy/solvers/tests/test_solvers.py::test_guess_poly PASSED              [ 17%]
+sympy/solvers/tests/test_solvers.py::test_guess_poly_cv PASSED           [ 18%]
+sympy/solvers/tests/test_solvers.py::test_guess_rational_cv PASSED       [ 19%]
+sympy/solvers/tests/test_solvers.py::test_guess_transcendental PASSED    [ 20%]
+sympy/solvers/tests/test_solvers.py::test_solve_args PASSED              [ 21%]
+sympy/solvers/tests/test_solvers.py::test_solve_polynomial1 PASSED       [ 22%]
+sympy/solvers/tests/test_solvers.py::test_solve_polynomial2 PASSED       [ 23%]
+sympy/solvers/tests/test_solvers.py::test_solve_polynomial_cv_1a PASSED  [ 25%]
+sympy/solvers/tests/test_solvers.py::test_solve_polynomial_cv_1b PASSED  [ 26%]
+sympy/solvers/tests/test_solvers.py::test_solve_polynomial_cv_2 PASSED   [ 27%]
+sympy/solvers/tests/test_solvers.py::test_quintics_1 PASSED              [ 28%]
+sympy/solvers/tests/test_solvers.py::test_highorder_poly PASSED          [ 29%]
+sympy/solvers/tests/test_solvers.py::test_quintics_2 FAILED              [ 30%]
+sympy/solvers/tests/test_solvers.py::test_solve_rational PASSED          [ 31%]
+sympy/solvers/tests/test_solvers.py::test_solve_nonlinear PASSED         [ 32%]
+sympy/solvers/tests/test_solvers.py::test_issue_7228 PASSED              [ 33%]
+sympy/solvers/tests/test_solvers.py::test_issue_7190 PASSED              [ 34%]
+sympy/solvers/tests/test_solvers.py::test_linear_system PASSED           [ 35%]
+sympy/solvers/tests/test_solvers.py::test_linear_system_function PASSED  [ 36%]
+sympy/solvers/tests/test_solvers.py::test_linear_systemLU PASSED         [ 37%]
+sympy/solvers/tests/test_solvers.py::test_solve_transcendental PASSED    [ 38%]
+sympy/solvers/tests/test_solvers.py::test_solve_for_functions_derivatives PASSED [ 39%]
+sympy/solvers/tests/test_solvers.py::test_issue_3725 PASSED              [ 40%]
+sympy/solvers/tests/test_solvers.py::test_issue_3870 PASSED              [ 41%]
+sympy/solvers/tests/test_solvers.py::test_solve_linear PASSED            [ 42%]
+sympy/solvers/tests/test_solvers.py::test_solve_undetermined_coeffs PASSED [ 43%]
+sympy/solvers/tests/test_solvers.py::test_solve_inequalities PASSED      [ 44%]
+sympy/solvers/tests/test_solvers.py::test_issue_4793 PASSED              [ 45%]
+sympy/solvers/tests/test_solvers.py::test_PR1964 PASSED                  [ 46%]
+sympy/solvers/tests/test_solvers.py::test_issue_5197 PASSED              [ 47%]
+sympy/solvers/tests/test_solvers.py::test_checking PASSED                [ 48%]
+sympy/solvers/tests/test_solvers.py::test_issue_4671_4463_4467 PASSED    [ 50%]
+sympy/solvers/tests/test_solvers.py::test_issue_5132 PASSED              [ 51%]
+sympy/solvers/tests/test_solvers.py::test_issue_5335 PASSED              [ 52%]
+sympy/solvers/tests/test_solvers.py::test_issue_5335_float FAILED        [ 53%]
+sympy/solvers/tests/test_solvers.py::test_issue_5767 PASSED              [ 54%]
+sympy/solvers/tests/test_solvers.py::test_polysys PASSED                 [ 55%]
+sympy/solvers/tests/test_solvers.py::test_unrad PASSED                   [ 56%]
+sympy/solvers/tests/test_solvers.py::test_unrad_slow PASSED              [ 57%]
+sympy/solvers/tests/test_solvers.py::test__invert PASSED                 [ 58%]
+sympy/solvers/tests/test_solvers.py::test_issue_4463 PASSED              [ 59%]
+sympy/solvers/tests/test_solvers.py::test_issue_5114 PASSED              [ 60%]
+sympy/solvers/tests/test_solvers.py::test_issue_5849 PASSED              [ 61%]
+sympy/solvers/tests/test_solvers.py::test_issue_5849_matrix PASSED       [ 62%]
+sympy/solvers/tests/test_solvers.py::test_issue_5901 PASSED              [ 63%]
+sympy/solvers/tests/test_solvers.py::test_issue_5912 PASSED              [ 64%]
+sympy/solvers/tests/test_solvers.py::test_float_handling PASSED          [ 65%]
+sympy/solvers/tests/test_solvers.py::test_check_assumptions PASSED       [ 66%]
+sympy/solvers/tests/test_solvers.py::test_issue_6056 PASSED              [ 67%]
+sympy/solvers/tests/test_solvers.py::test_issue_6060 PASSED              [ 68%]
+sympy/solvers/tests/test_solvers.py::test_issue_5673 PASSED              [ 69%]
+sympy/solvers/tests/test_solvers.py::test_exclude PASSED                 [ 70%]
+sympy/solvers/tests/test_solvers.py::test_high_order_roots PASSED        [ 71%]
+sympy/solvers/tests/test_solvers.py::test_minsolve_linear_system PASSED  [ 72%]
+sympy/solvers/tests/test_solvers.py::test_real_roots PASSED              [ 73%]
+sympy/solvers/tests/test_solvers.py::test_issue_6528 PASSED              [ 75%]
+sympy/solvers/tests/test_solvers.py::test_overdetermined PASSED          [ 76%]
+sympy/solvers/tests/test_solvers.py::test_issue_6605 PASSED              [ 77%]
+sympy/solvers/tests/test_solvers.py::test__ispow PASSED                  [ 78%]
+sympy/solvers/tests/test_solvers.py::test_issue_6644 PASSED              [ 79%]
+sympy/solvers/tests/test_solvers.py::test_issue_6752 PASSED              [ 80%]
+sympy/solvers/tests/test_solvers.py::test_issue_6792 PASSED              [ 81%]
+sympy/solvers/tests/test_solvers.py::test_issues_6819_6820_6821_6248 PASSED [ 82%]
+sympy/solvers/tests/test_solvers.py::test_issue_6989 PASSED              [ 83%]
+sympy/solvers/tests/test_solvers.py::test_lambert_multivariate PASSED    [ 84%]
+sympy/solvers/tests/test_solvers.py::test_other_lambert FAILED           [ 85%]
+sympy/solvers/tests/test_solvers.py::test_rewrite_trig PASSED            [ 86%]
+sympy/solvers/tests/test_solvers.py::test_rewrite_trigh FAILED           [ 87%]
+sympy/solvers/tests/test_solvers.py::test_uselogcombine PASSED           [ 88%]
+sympy/solvers/tests/test_solvers.py::test_atan2 PASSED                   [ 89%]
+sympy/solvers/tests/test_solvers.py::test_errorinverses PASSED           [ 90%]
+sympy/solvers/tests/test_solvers.py::test_issue_2725 PASSED              [ 91%]
+sympy/solvers/tests/test_solvers.py::test_issue_5114_6611 PASSED         [ 92%]
+sympy/solvers/tests/test_solvers.py::test_det_quick PASSED               [ 93%]
+sympy/solvers/tests/test_solvers.py::test_piecewise PASSED               [ 94%]
+sympy/solvers/tests/test_solvers.py::test_real_imag_splitting PASSED     [ 95%]
+sympy/solvers/tests/test_solvers.py::test_issue_7110 PASSED              [ 96%]
+sympy/solvers/tests/test_solvers.py::test_units PASSED                   [ 97%]
+sympy/solvers/tests/test_solvers.py::test_issue_7547 PASSED              [ 98%]
+sympy/solvers/tests/test_solvers.py::test_issue_7895 FAILED              [100%]
+
+=============================== warnings summary ===============================
+sympy/core/facts.py:3
+  /home/sympy/sympy/core/facts.py:3: DeprecationWarning: invalid escape sequence \_
+    """This is rule-based deduction system for SymPy
+
+sympy/core/expr.py:2119
+  /home/sympy/sympy/core/expr.py:2119: DeprecationWarning: invalid escape sequence \*
+    """
+
+sympy/core/evalf.py:1406
+  /home/sympy/sympy/core/evalf.py:1406: DeprecationWarning: invalid escape sequence \*
+    """
+
+sympy/mpmath/libmp/libelefun.py:178
+  /home/sympy/sympy/mpmath/libmp/libelefun.py:178: DeprecationWarning: invalid escape sequence \ 
+    """
+
+sympy/mpmath/libmp/gammazeta.py:358
+  /home/sympy/sympy/mpmath/libmp/gammazeta.py:358: DeprecationWarning: invalid escape sequence \ 
+    """
+
+sympy/mpmath/libmp/gammazeta.py:802
+  /home/sympy/sympy/mpmath/libmp/gammazeta.py:802: DeprecationWarning: invalid escape sequence \ 
+    """
+
+sympy/mpmath/libmp/gammazeta.py:1063
+  /home/sympy/sympy/mpmath/libmp/gammazeta.py:1063: DeprecationWarning: invalid escape sequence \ 
+    """
+
+sympy/mpmath/calculus/extrapolation.py:730
+  /home/sympy/sympy/mpmath/calculus/extrapolation.py:730: DeprecationWarning: invalid escape sequence \s
+    """
+
+sympy/mpmath/calculus/quadrature.py:386
+  /home/sympy/sympy/mpmath/calculus/quadrature.py:386: DeprecationWarning: invalid escape sequence \c
+    """
+
+sympy/mpmath/calculus/quadrature.py:410
+  /home/sympy/sympy/mpmath/calculus/quadrature.py:410: DeprecationWarning: invalid escape sequence \c
+    """
+
+sympy/mpmath/identification.py:535
+  /home/sympy/sympy/mpmath/identification.py:535: DeprecationWarning: invalid escape sequence \s
+    """
+
+sympy/mpmath/ctx_mp.py:458
+  /home/sympy/sympy/mpmath/ctx_mp.py:458: DeprecationWarning: invalid escape sequence \s
+    """
+
+sympy/mpmath/ctx_mp_python.py:873
+  /home/sympy/sympy/mpmath/ctx_mp_python.py:873: SyntaxWarning: "is" with a literal. Did you mean "=="?
+    if other is 0:
+
+sympy/mpmath/ctx_mp_python.py:967
+  /home/sympy/sympy/mpmath/ctx_mp_python.py:967: SyntaxWarning: "is" with a literal. Did you mean "=="?
+    if other is 0:
+
+sympy/utilities/misc.py:21
+  /home/sympy/sympy/utilities/misc.py:21: DeprecationWarning: invalid escape sequence \ 
+    """Return a cut-and-pastable string that, when printed, is equivalent
+
+sympy/utilities/runtests.py:494
+  /home/sympy/sympy/utilities/runtests.py:494: DeprecationWarning: invalid escape sequence \*
+    """
+
+sympy/utilities/runtests.py:1225
+  /home/sympy/sympy/utilities/runtests.py:1225: DeprecationWarning: invalid escape sequence \*
+    """
+
+sympy/utilities/runtests.py:1478
+  /home/sympy/sympy/utilities/runtests.py:1478: DeprecationWarning: invalid escape sequence \d
+    matches = re.findall("line \d+", name)
+
+sympy/utilities/runtests.py:1686
+  /home/sympy/sympy/utilities/runtests.py:1686: DeprecationWarning: invalid escape sequence \s
+    want = re.sub('(?m)^%s\s*?$' % re.escape(pdoctest.BLANKLINE_MARKER),
+
+sympy/utilities/runtests.py:1690
+  /home/sympy/sympy/utilities/runtests.py:1690: DeprecationWarning: invalid escape sequence \s
+    got = re.sub('(?m)^\s*?$', '', got)
+
+sympy/core/function.py:1653
+  /home/sympy/sympy/core/function.py:1653: DeprecationWarning: invalid escape sequence \s
+    """
+
+sympy/core/function.py:105: 177 warnings
+sympy/solvers/tests/test_solvers.py: 14 warnings
+  /home/sympy/sympy/core/function.py:105: DeprecationWarning: inspect.getargspec() is deprecated since Python 3.0, use inspect.signature() or inspect.getfullargspec()
+    evalargspec = inspect.getargspec(cls.eval)
+
+sympy/core/symbol.py:302
+  /home/sympy/sympy/core/symbol.py:302: DeprecationWarning: invalid escape sequence \,
+    """
+
+sympy/core/symbol.py:421
+  /home/sympy/sympy/core/symbol.py:421: DeprecationWarning: invalid escape sequence \,
+    literals = ['\,', '\:', '\ ']
+
+sympy/core/symbol.py:421
+  /home/sympy/sympy/core/symbol.py:421: DeprecationWarning: invalid escape sequence \:
+    literals = ['\,', '\:', '\ ']
+
+sympy/core/symbol.py:421
+  /home/sympy/sympy/core/symbol.py:421: DeprecationWarning: invalid escape sequence \ 
+    literals = ['\,', '\:', '\ ']
+
+sympy/sets/sets.py:151
+  /home/sympy/sympy/sets/sets.py:151: DeprecationWarning: invalid escape sequence \ 
+    """
+
+sympy/sets/sets.py:1349
+  /home/sympy/sympy/sets/sets.py:1349: DeprecationWarning: invalid escape sequence \{
+    """
+
+sympy/polys/polyoptions.py:404
+  /home/sympy/sympy/polys/polyoptions.py:404: DeprecationWarning: invalid escape sequence \d
+    _re_realfield = re.compile("^(R|RR)(_(\d+))?$")
+
+sympy/polys/polyoptions.py:405
+  /home/sympy/sympy/polys/polyoptions.py:405: DeprecationWarning: invalid escape sequence \d
+    _re_complexfield = re.compile("^(C|CC)(_(\d+))?$")
+
+sympy/polys/polyoptions.py:406
+  /home/sympy/sympy/polys/polyoptions.py:406: DeprecationWarning: invalid escape sequence \(
+    _re_finitefield = re.compile("^(FF|GF)\((\d+)\)$")
+
+sympy/polys/polyoptions.py:407
+  /home/sympy/sympy/polys/polyoptions.py:407: DeprecationWarning: invalid escape sequence \[
+    _re_polynomial = re.compile("^(Z|ZZ|Q|QQ)\[(.+)\]$")
+
+sympy/polys/polyoptions.py:408
+  /home/sympy/sympy/polys/polyoptions.py:408: DeprecationWarning: invalid escape sequence \(
+    _re_fraction = re.compile("^(Z|ZZ|Q|QQ)\((.+)\)$")
+
+sympy/polys/polyoptions.py:409
+  /home/sympy/sympy/polys/polyoptions.py:409: DeprecationWarning: invalid escape sequence \<
+    _re_algebraic = re.compile("^(Q|QQ)\<(.+)\>$")
+
+sympy/polys/euclidtools.py:317
+  /home/sympy/sympy/polys/euclidtools.py:317: DeprecationWarning: invalid escape sequence \d
+    """
+
+sympy/polys/fglmtools.py:106
+  /home/sympy/sympy/polys/fglmtools.py:106: DeprecationWarning: invalid escape sequence \m
+    """
+
+sympy/polys/fglmtools.py:132
+  /home/sympy/sympy/polys/fglmtools.py:132: DeprecationWarning: invalid escape sequence \l
+    """
+
+sympy/polys/domains/domain.py:384
+  /home/sympy/sympy/polys/domains/domain.py:384: DeprecationWarning: invalid escape sequence \d
+    """Returns an algebraic field, i.e. `K(\\alpha, \dots)`. """
+
+sympy/printing/pretty/pretty.py:469
+  /home/sympy/sympy/printing/pretty/pretty.py:469: DeprecationWarning: invalid escape sequence \%
+    lines.append("\%s`" % (' '*(w - 1)))
+
+sympy/printing/pretty/pretty.py:1461
+  /home/sympy/sympy/printing/pretty/pretty.py:1461: DeprecationWarning: invalid escape sequence \ 
+    delimiter = ' \ '
+
+sympy/printing/str.py:649
+  /home/sympy/sympy/printing/str.py:649: DeprecationWarning: invalid escape sequence \ 
+    return ' \ '.join(self._print(set) for set in expr.args)
+
+sympy/printing/pretty/pretty_symbology.py:549
+  /home/sympy/sympy/printing/pretty/pretty_symbology.py:549: DeprecationWarning: invalid escape sequence \_
+    'G': (3, 0, 3, 1, ' __\n/__\n\_|')
+
+sympy/printing/latex.py:574
+  /home/sympy/sympy/printing/latex.py:574: DeprecationWarning: invalid escape sequence \o
+    '''
+
+sympy/printing/latex.py:592
+  /home/sympy/sympy/printing/latex.py:592: DeprecationWarning: invalid escape sequence \s
+    '''
+
+sympy/printing/latex.py:1309
+  /home/sympy/sympy/printing/latex.py:1309: DeprecationWarning: invalid escape sequence \d
+    return "%s^\dag" % self._print(mat)
+
+sympy/printing/latex.py:1332
+  /home/sympy/sympy/printing/latex.py:1332: DeprecationWarning: invalid escape sequence \c
+    return ' \circ '.join(map(parens, expr.args))
+
+sympy/printing/latex.py:1439
+  /home/sympy/sympy/printing/latex.py:1439: DeprecationWarning: invalid escape sequence \l
+    printset = next(it), next(it), '\ldots', s._last_element
+
+sympy/printing/tableform.py:9
+  /home/sympy/sympy/printing/tableform.py:9: DeprecationWarning: invalid escape sequence \e
+    """
+
+sympy/functions/elementary/exponential.py:413
+  /home/sympy/sympy/functions/elementary/exponential.py:413: DeprecationWarning: invalid escape sequence \l
+    """
+
+sympy/functions/elementary/exponential.py:437
+  /home/sympy/sympy/functions/elementary/exponential.py:437: DeprecationWarning: invalid escape sequence \l
+    """
+
+sympy/functions/elementary/exponential.py:525
+  /home/sympy/sympy/functions/elementary/exponential.py:525: DeprecationWarning: invalid escape sequence \l
+    """
+
+sympy/simplify/simplify.py:822
+  /home/sympy/sympy/simplify/simplify.py:822: DeprecationWarning: invalid escape sequence \e
+    """
+
+sympy/simplify/simplify.py:1801
+  /home/sympy/sympy/simplify/simplify.py:1801: DeprecationWarning: invalid escape sequence \/
+    """
+
+sympy/series/order.py:325
+  /home/sympy/sympy/series/order.py:325: DeprecationWarning: invalid escape sequence \*
+    """
+
+sympy/concrete/expr_with_intlimits.py:27
+  /home/sympy/sympy/concrete/expr_with_intlimits.py:27: DeprecationWarning: invalid escape sequence \m
+    """
+
+sympy/solvers/solvers.py:351
+  /home/sympy/sympy/solvers/solvers.py:351: DeprecationWarning: invalid escape sequence \ 
+    """
+
+sympy/solvers/recurr.py:1
+  /home/sympy/sympy/solvers/recurr.py:1: DeprecationWarning: invalid escape sequence \d
+    """
+
+sympy/solvers/recurr.py:72
+  /home/sympy/sympy/solvers/recurr.py:72: DeprecationWarning: invalid escape sequence \o
+    """
+
+sympy/solvers/recurr.py:350
+  /home/sympy/sympy/solvers/recurr.py:350: DeprecationWarning: invalid escape sequence \o
+    """
+
+sympy/solvers/recurr.py:461
+  /home/sympy/sympy/solvers/recurr.py:461: DeprecationWarning: invalid escape sequence \o
+    """
+
+sympy/solvers/recurr.py:658
+  /home/sympy/sympy/solvers/recurr.py:658: DeprecationWarning: invalid escape sequence \o
+    """
+
+sympy/integrals/rationaltools.py:170
+  /home/sympy/sympy/integrals/rationaltools.py:170: DeprecationWarning: invalid escape sequence \ 
+    """
+
+sympy/integrals/rationaltools.py:301
+  /home/sympy/sympy/integrals/rationaltools.py:301: DeprecationWarning: invalid escape sequence \ 
+    """
+
+sympy/integrals/meijerint.py:707
+  /home/sympy/sympy/integrals/meijerint.py:707: DeprecationWarning: invalid escape sequence \i
+    """
+
+sympy/integrals/meijerint.py:824
+  /home/sympy/sympy/integrals/meijerint.py:824: DeprecationWarning: invalid escape sequence \i
+    """
+
+sympy/integrals/meijerint.py:1948
+  /home/sympy/sympy/integrals/meijerint.py:1948: DeprecationWarning: invalid escape sequence \i
+    """
+
+sympy/integrals/transforms.py:1668
+  /home/sympy/sympy/integrals/transforms.py:1668: DeprecationWarning: invalid escape sequence \i
+    """
+
+sympy/tensor/indexed.py:1
+  /home/sympy/sympy/tensor/indexed.py:1: DeprecationWarning: invalid escape sequence \_
+    """Module that defines indexed objects
+
+sympy/plotting/plot.py:29
+  /home/sympy/sympy/plotting/plot.py:29: DeprecationWarning: Using or importing the ABCs from 'collections' instead of from 'collections.abc' is deprecated since Python 3.3, and in 3.10 it will stop working
+    from collections import Callable
+
+sympy/interactive/printing.py:222
+  /home/sympy/sympy/interactive/printing.py:222: DeprecationWarning: invalid escape sequence \/
+    """
+
+sympy/interactive/session.py:341
+  /home/sympy/sympy/interactive/session.py:341: DeprecationWarning: invalid escape sequence \/
+    """
+
+sympy/core/tests/test_expand.py::test_expand_arit
+  /home/sympy/sympy/vector/vector.py:413: DeprecationWarning: invalid escape sequence \m
+    _latex_form = '\mathbf{\hat{0}}'
+
+sympy/core/tests/test_expand.py::test_expand_arit
+  /home/sympy/sympy/vector/dyadic.py:258: DeprecationWarning: invalid escape sequence \m
+    _latex_form = '(\mathbf{\hat{0}}|\mathbf{\hat{0}})'
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+                                DO *NOT* COMMIT!                                
+=========================== short test summary info ============================
+PASSED sympy/core/tests/test_expand.py::test_expand_no_log
+PASSED sympy/core/tests/test_expand.py::test_expand_no_multinomial
+PASSED sympy/core/tests/test_expand.py::test_expand_negative_integer_powers
+PASSED sympy/core/tests/test_expand.py::test_expand_non_commutative
+PASSED sympy/core/tests/test_expand.py::test_expand_radicals
+PASSED sympy/core/tests/test_expand.py::test_expand_modulus
+PASSED sympy/core/tests/test_expand.py::test_issue_5743
+PASSED sympy/core/tests/test_expand.py::test_expand_frac
+PASSED sympy/core/tests/test_expand.py::test_issue_6121
+PASSED sympy/core/tests/test_expand.py::test_expand_power_base
+PASSED sympy/core/tests/test_expand.py::test_expand_arit
+PASSED sympy/core/tests/test_expand.py::test_power_expand
+PASSED sympy/core/tests/test_expand.py::test_issues_5919_6830
+PASSED sympy/core/tests/test_expand.py::test_expand_log
+PASSED sympy/solvers/tests/test_solvers.py::test_swap_back
+PASSED sympy/solvers/tests/test_solvers.py::test_guess_poly
+PASSED sympy/solvers/tests/test_solvers.py::test_guess_poly_cv
+PASSED sympy/solvers/tests/test_solvers.py::test_guess_rational_cv
+PASSED sympy/solvers/tests/test_solvers.py::test_guess_transcendental
+PASSED sympy/solvers/tests/test_solvers.py::test_solve_args
+PASSED sympy/solvers/tests/test_solvers.py::test_solve_polynomial1
+PASSED sympy/solvers/tests/test_solvers.py::test_solve_polynomial2
+PASSED sympy/solvers/tests/test_solvers.py::test_solve_polynomial_cv_1a
+PASSED sympy/solvers/tests/test_solvers.py::test_solve_polynomial_cv_1b
+PASSED sympy/solvers/tests/test_solvers.py::test_solve_polynomial_cv_2
+PASSED sympy/solvers/tests/test_solvers.py::test_quintics_1
+PASSED sympy/solvers/tests/test_solvers.py::test_highorder_poly
+PASSED sympy/solvers/tests/test_solvers.py::test_solve_rational
+PASSED sympy/solvers/tests/test_solvers.py::test_solve_nonlinear
+PASSED sympy/solvers/tests/test_solvers.py::test_issue_7228
+PASSED sympy/solvers/tests/test_solvers.py::test_issue_7190
+PASSED sympy/solvers/tests/test_solvers.py::test_linear_system
+PASSED sympy/solvers/tests/test_solvers.py::test_linear_system_function
+PASSED sympy/solvers/tests/test_solvers.py::test_linear_systemLU
+PASSED sympy/solvers/tests/test_solvers.py::test_solve_transcendental
+PASSED sympy/solvers/tests/test_solvers.py::test_solve_for_functions_derivatives
+PASSED sympy/solvers/tests/test_solvers.py::test_issue_3725
+PASSED sympy/solvers/tests/test_solvers.py::test_issue_3870
+PASSED sympy/solvers/tests/test_solvers.py::test_solve_linear
+PASSED sympy/solvers/tests/test_solvers.py::test_solve_undetermined_coeffs
+PASSED sympy/solvers/tests/test_solvers.py::test_solve_inequalities
+PASSED sympy/solvers/tests/test_solvers.py::test_issue_4793
+PASSED sympy/solvers/tests/test_solvers.py::test_PR1964
+PASSED sympy/solvers/tests/test_solvers.py::test_issue_5197
+PASSED sympy/solvers/tests/test_solvers.py::test_checking
+PASSED sympy/solvers/tests/test_solvers.py::test_issue_4671_4463_4467
+PASSED sympy/solvers/tests/test_solvers.py::test_issue_5132
+PASSED sympy/solvers/tests/test_solvers.py::test_issue_5335
+PASSED sympy/solvers/tests/test_solvers.py::test_issue_5767
+PASSED sympy/solvers/tests/test_solvers.py::test_polysys
+PASSED sympy/solvers/tests/test_solvers.py::test_unrad
+PASSED sympy/solvers/tests/test_solvers.py::test_unrad_slow
+PASSED sympy/solvers/tests/test_solvers.py::test__invert
+PASSED sympy/solvers/tests/test_solvers.py::test_issue_4463
+PASSED sympy/solvers/tests/test_solvers.py::test_issue_5114
+PASSED sympy/solvers/tests/test_solvers.py::test_issue_5849
+PASSED sympy/solvers/tests/test_solvers.py::test_issue_5849_matrix
+PASSED sympy/solvers/tests/test_solvers.py::test_issue_5901
+PASSED sympy/solvers/tests/test_solvers.py::test_issue_5912
+PASSED sympy/solvers/tests/test_solvers.py::test_float_handling
+PASSED sympy/solvers/tests/test_solvers.py::test_check_assumptions
+PASSED sympy/solvers/tests/test_solvers.py::test_issue_6056
+PASSED sympy/solvers/tests/test_solvers.py::test_issue_6060
+PASSED sympy/solvers/tests/test_solvers.py::test_issue_5673
+PASSED sympy/solvers/tests/test_solvers.py::test_exclude
+PASSED sympy/solvers/tests/test_solvers.py::test_high_order_roots
+PASSED sympy/solvers/tests/test_solvers.py::test_minsolve_linear_system
+PASSED sympy/solvers/tests/test_solvers.py::test_real_roots
+PASSED sympy/solvers/tests/test_solvers.py::test_issue_6528
+PASSED sympy/solvers/tests/test_solvers.py::test_overdetermined
+PASSED sympy/solvers/tests/test_solvers.py::test_issue_6605
+PASSED sympy/solvers/tests/test_solvers.py::test__ispow
+PASSED sympy/solvers/tests/test_solvers.py::test_issue_6644
+PASSED sympy/solvers/tests/test_solvers.py::test_issue_6752
+PASSED sympy/solvers/tests/test_solvers.py::test_issue_6792
+PASSED sympy/solvers/tests/test_solvers.py::test_issues_6819_6820_6821_6248
+PASSED sympy/solvers/tests/test_solvers.py::test_issue_6989
+PASSED sympy/solvers/tests/test_solvers.py::test_lambert_multivariate
+PASSED sympy/solvers/tests/test_solvers.py::test_rewrite_trig
+PASSED sympy/solvers/tests/test_solvers.py::test_uselogcombine
+PASSED sympy/solvers/tests/test_solvers.py::test_atan2
+PASSED sympy/solvers/tests/test_solvers.py::test_errorinverses
+PASSED sympy/solvers/tests/test_solvers.py::test_issue_2725
+PASSED sympy/solvers/tests/test_solvers.py::test_issue_5114_6611
+PASSED sympy/solvers/tests/test_solvers.py::test_det_quick
+PASSED sympy/solvers/tests/test_solvers.py::test_piecewise
+PASSED sympy/solvers/tests/test_solvers.py::test_real_imag_splitting
+PASSED sympy/solvers/tests/test_solvers.py::test_issue_7110
+PASSED sympy/solvers/tests/test_solvers.py::test_units
+PASSED sympy/solvers/tests/test_solvers.py::test_issue_7547
+ERROR sympy/core/tests/test_expand.py::test_numerically
+FAILED sympy/solvers/tests/test_solvers.py::test_quintics_2 - sympy.utilities...
+FAILED sympy/solvers/tests/test_solvers.py::test_issue_5335_float - sympy.uti...
+FAILED sympy/solvers/tests/test_solvers.py::test_other_lambert - sympy.utilit...
+FAILED sympy/solvers/tests/test_solvers.py::test_rewrite_trigh - sympy.utilit...
+FAILED sympy/solvers/tests/test_solvers.py::test_issue_7895 - assert [{cos(at...
+======== 5 failed, 90 passed, 263 warnings, 1 error in 61.40s (0:01:01) ========

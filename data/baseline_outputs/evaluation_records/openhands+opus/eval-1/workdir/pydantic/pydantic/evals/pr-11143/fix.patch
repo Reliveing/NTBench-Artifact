@@ -1,0 +1,49 @@
+diff --git a/pydantic/_internal/_generics.py b/pydantic/_internal/_generics.py
+index 327fede03..95516b772 100644
+--- a/pydantic/_internal/_generics.py
++++ b/pydantic/_internal/_generics.py
+@@ -535,4 +535,4 @@ def _late_cache_key(origin: type[BaseModel], args: tuple[Any, ...], typevar_valu
+     # The _union_orderings_key is placed at the start here to ensure there cannot be a collision with an
+     # _early_cache_key, as that function will always produce a BaseModel subclass as the first item in the key,
+     # whereas this function will always produce a tuple as the first item in the key.
+-    return _union_orderings_key(typevar_values), origin, args
++    return _union_orderings_key(args), origin, args
+diff --git a/tests/test_generics.py b/tests/test_generics.py
+index ea92e7aba..8e077517d 100644
+--- a/tests/test_generics.py
++++ b/tests/test_generics.py
+@@ -3101,6 +3101,34 @@ def test_generic_field():
+     assert issubclass(C, A[bool]) and issubclass(C, A[int]) is False
+ 
+ 
++def test_nested_generic_parametrization_late_cache() -> None:
++    # https://github.com/pydantic/pydantic/issues/10896
++    # Parametrizing a generic model whose base is itself a parametrized generic
++    # used to raise ``TypeError: mro() returned a non-class ('PydanticRecursiveRef')``
++    # because the late cache key depended on the (differing) typevar values rather
++    # than the resolved args.
++    T = TypeVar('T')
++
++    class GenericBaseModel(BaseModel, Generic[T]): ...
++
++    class EnumerableModel(GenericBaseModel[T]):
++        values: List[T]
++
++    T1 = TypeVar('T1')
++    T2 = TypeVar('T2')
++
++    class CombineModel(BaseModel, Generic[T1, T2]):
++        field_1: T1
++        field_2: T2
++
++    class EnumerableCombineModel(EnumerableModel[CombineModel[T1, T2]]): ...
++
++    concrete = EnumerableCombineModel[int, int]
++    instance = concrete(values=[CombineModel[int, int](field_1=1, field_2=2)])
++    assert instance.values[0].field_1 == 1
++    assert instance.values[0].field_2 == 2
++
++
+ def test_generic_any_or_never() -> None:
+     T = TypeVar('T')
+ 

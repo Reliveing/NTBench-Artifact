@@ -1,0 +1,62 @@
+diff --git a/sympy/solvers/simplex.py b/sympy/solvers/simplex.py
+index f140268b79..1432f91d54 100644
+--- a/sympy/solvers/simplex.py
++++ b/sympy/solvers/simplex.py
+@@ -323,28 +323,16 @@ def _simplex(A, B, C, D=None, dual=False):
+         _, c = min((X[i], i) for i in piv_cols) # Bland's rule
+ 
+         # Choose pivot row, r
+-        piv_rows = [_ for _ in range(A.rows) if A[_, c] > 0 and B[_] > 0]
+-        piv_rows.append(k)
+-        r = _choose_pivot_row(A, B, piv_rows, c, Y)
++        # Always use row k (the row with negative B) to pivot,
++        # as in the dual simplex method. This makes progress by
++        # making B[k] positive and, with Bland's rule for column
++        # selection, prevents cycling during Phase 1.
++        r = k
+ 
+         # check for oscillation
+         if (r, c) == last:
+-            # Not sure what to do here; it looks like there will be
+-            # oscillations; see o1 test added at this commit to
+-            # see a system with no solution and the o2 for one
+-            # with a solution. In the case of o2, the solution
+-            # from linprog is the same as the one from lpmin, but
+-            # the matrices created in the lpmin case are different
+-            # than those created without replacements in linprog and
+-            # the matrices in the linprog case lead to oscillations.
+-            # If the matrices could be re-written in linprog like
+-            # lpmin does, this behavior could be avoided and then
+-            # perhaps the oscillating case would only occur when
+-            # there is no solution. For now, the output is checked
+-            # before exit if oscillations were detected and an
+-            # error is raised there if the solution was invalid.
+-            #
+-            # cf section 6 of Ferguson for a non-cycling modification
++            # If the same pivot repeats after several iterations,
++            # the problem is infeasible.
+             last = True
+             break
+         last = r, c
+@@ -390,11 +378,16 @@ def _simplex(A, B, C, D=None, dual=False):
+         else:
+             argmax[n] = M[i, -1]
+ 
+-    if last and not all(i >= 0 for i in argmax + argmin_dual):
+-        raise InfeasibleLPError(filldedent("""
+-            Oscillating system led to invalid solution.
+-            If you believe there was a valid solution, please
+-            report this as a bug."""))
++    if last:
++        # When oscillation is detected in Phase 1, verify that all
++        # B values are nonnegative (i.e., a feasible solution was
++        # found). If not, the problem is infeasible.
++        B = M[:-1, -1]
++        if not all(B[i] >= 0 for i in range(B.rows)):
++            raise InfeasibleLPError(filldedent("""
++                Oscillating system led to invalid solution.
++                If you believe there was a valid solution, please
++                report this as a bug."""))
+     return -M[-1, -1], argmax, argmin_dual
+ 
+ 

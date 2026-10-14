@@ -1,0 +1,48 @@
+diff --git a/sympy/simplify/simplify.py b/sympy/simplify/simplify.py
+index 20cbe19669..e8cc70c8e5 100644
+--- a/sympy/simplify/simplify.py
++++ b/sympy/simplify/simplify.py
+@@ -1091,10 +1091,10 @@ def goodlog(l):
+         # let the user decide
+         for o, e, l in logs:
+             l = list(ordered(l))
+-            e = log(l.pop(0).args[0]**Mul(*e))
++            e = log(_pow(l.pop(0).args[0], Mul(*e)))
+             while l:
+                 li = l.pop(0)
+-                e = log(li.args[0]**e)
++                e = log(_pow(li.args[0], e))
+             c, l = Mul(*o), e
+             if isinstance(l, log):  # it should be, but check to be sure
+                 log1[(c,)].append(([], l))
+@@ -1103,9 +1103,12 @@ def goodlog(l):
+ 
+         # logs that have the same coefficient can multiply
+         for k in list(log1.keys()):
+-            log1[Mul(*k)] = log(logcombine(Mul(*[
+-                l.args[0]**Mul(*c) for c, l in log1.pop(k)]),
+-                force=force), evaluate=False)
++            merged = Mul(*[_pow(l.args[0], Mul(*c)) for c, l in log1.pop(k)], evaluate=False)
++            combined = logcombine(merged, force=force)
++            # If combined is a simple Mul of numbers, evaluate it
++            if combined.is_Mul and all(a.is_Number for a in combined.args):
++                combined = Mul(*combined.args)
++            log1[Mul(*k)] = log(combined, evaluate=False)
+ 
+         # logs that have oppositely signed coefficients can divide
+         for k in ordered(list(log1.keys())):
+@@ -1125,6 +1128,14 @@ def goodlog(l):
+ 
+         return Add(*other)
+ 
++    def _pow(b, e):
++        # Use evaluate=False to avoid expensive computation of large
++        # integer powers (e.g., 10**1000000000).
++        if e == 1:
++            return b
++        else:
++            return Pow(b, e, evaluate=False)
++
+     return _bottom_up(expr, f)
+ 
+ 

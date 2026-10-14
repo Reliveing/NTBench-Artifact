@@ -1,0 +1,25 @@
+diff --git a/sympy/core/basic.py b/sympy/core/basic.py
+index a134fab92b..e485ba1ee5 100644
+--- a/sympy/core/basic.py
++++ b/sympy/core/basic.py
+@@ -1117,6 +1117,20 @@ def _eval_subs(self, old, new):
+ 
+         See also: _subs
+         """
++        from .power import Pow
++        if isinstance(old, Pow) and not isinstance(self, Pow) and self == old.base:
++            # self = old.base, so self = old**(1/old.exp)
++            # e.g., x.subs(sqrt(x), y) -> y**2
++            # Only allow if 1/old.exp is a positive integer
++            # to avoid issues like x.subs(1/x, z) -> 1/z
++            exp = old.exp
++            if exp.is_Number and exp > 0:
++                try:
++                    pow = S.One / exp
++                    if pow.is_Integer and pow > 0:
++                        return new**pow
++                except (TypeError, ValueError):
++                    pass
+         return None
+ 
+     def xreplace(self, rule):

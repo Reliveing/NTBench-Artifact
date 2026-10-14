@@ -1,0 +1,15 @@
+--- a/sympy/core/add.py
++++ b/sympy/core/add.py
+@@ -1071,6 +1071,12 @@
+             while res.is_Order:
+                 res = old._eval_nseries(x, n=n0+incr, logx=logx, cdir=cdir).cancel().powsimp().trigsimp()
+                 incr *= 2
++                if incr > 100:
++                    if res.is_Order:
++                        return old
++                    break
++            if res == old or res == expr:
++                return res
+             return res.as_leading_term(x, logx=logx, cdir=cdir)
+ 
+         elif new_expr is S.NaN:

@@ -1,0 +1,26 @@
+diff --git a/sympy/functions/combinatorial/factorials.py b/sympy/functions/combinatorial/factorials.py
+index ea9e5a5ec0..cb0cdbbcb5 100644
+--- a/sympy/functions/combinatorial/factorials.py
++++ b/sympy/functions/combinatorial/factorials.py
+@@ -330,8 +330,9 @@ def eval(cls, arg):
+         # TODO: extend this to complex numbers?
+ 
+         if arg.is_Number:
+-            if arg.is_infinite:
+-                return
++            if not arg.is_Integer or arg.is_negative and arg.is_even:
++                raise ValueError("argument must be nonnegative integer "
++                                    "or negative odd integer")
+ 
+             # This implementation is faster than the recursive one
+             # It also avoids "maximum recursion depth exceeded" runtime error
+@@ -342,9 +343,6 @@ def eval(cls, arg):
+ 
+                 return factorial(arg) / factorial2(arg - 1)
+ 
+-            if arg.is_even:
+-                raise ValueError("argument must be nonnegative or odd")
+-
+             return arg * (S.NegativeOne) ** ((1 - arg) / 2) / factorial2(-arg)
+ 
+     def _eval_is_even(self):

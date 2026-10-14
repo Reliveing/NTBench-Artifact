@@ -1,0 +1,214 @@
+Obtaining file:///home/sympy
+  Preparing metadata (setup.py): started
+  Preparing metadata (setup.py): finished with status 'done'
+Requirement already satisfied: mpmath>=0.19 in /usr/local/lib/python3.8/site-packages (from sympy==1.1.2.dev0) (1.3.0)
+Installing collected packages: sympy
+  Attempting uninstall: sympy
+    Found existing installation: sympy 1.1.2.dev0
+    Uninstalling sympy-1.1.2.dev0:
+      Successfully uninstalled sympy-1.1.2.dev0
+  DEPRECATION: Legacy editable install of sympy==1.1.2.dev0 from file:///home/sympy (setup.py develop) is deprecated. pip 25.1 will enforce this behaviour change. A possible replacement is to add a pyproject.toml or enable --use-pep517, and use setuptools >= 64. If the resulting installation is not behaving as expected, try using --config-settings editable_mode=compat. Please consult the setuptools documentation for more information. Discussion can be found at https://github.com/pypa/pip/issues/11457
+  Running setup.py develop for sympy
+Successfully installed sympy
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+============================= test session starts ==============================
+collecting ... collected 84 items
+
+sympy/core/tests/test_arit.py::test_bug1 PASSED                          [  1%]
+sympy/core/tests/test_arit.py::test_Symbol PASSED                        [  2%]
+sympy/core/tests/test_arit.py::test_arit0 PASSED                         [  3%]
+sympy/core/tests/test_arit.py::test_div PASSED                           [  4%]
+sympy/core/tests/test_arit.py::test_pow PASSED                           [  5%]
+sympy/core/tests/test_arit.py::test_pow2 PASSED                          [  7%]
+sympy/core/tests/test_arit.py::test_pow3 PASSED                          [  8%]
+sympy/core/tests/test_arit.py::test_mod_pow PASSED                       [  9%]
+sympy/core/tests/test_arit.py::test_pow_E PASSED                         [ 10%]
+sympy/core/tests/test_arit.py::test_pow_issue_3516 PASSED                [ 11%]
+sympy/core/tests/test_arit.py::test_pow_im PASSED                        [ 13%]
+sympy/core/tests/test_arit.py::test_real_mul PASSED                      [ 14%]
+sympy/core/tests/test_arit.py::test_ncmul PASSED                         [ 15%]
+sympy/core/tests/test_arit.py::test_ncpow PASSED                         [ 16%]
+sympy/core/tests/test_arit.py::test_powerbug PASSED                      [ 17%]
+sympy/core/tests/test_arit.py::test_Mul_doesnt_expand_exp PASSED         [ 19%]
+sympy/core/tests/test_arit.py::test_Add_Mul_is_integer PASSED            [ 20%]
+sympy/core/tests/test_arit.py::test_Add_Mul_is_finite PASSED             [ 21%]
+sympy/core/tests/test_arit.py::test_Mul_is_even_odd PASSED               [ 22%]
+sympy/core/tests/test_arit.py::test_evenness_in_ternary_integer_product_with_odd FAILED [ 23%]
+sympy/core/tests/test_arit.py::test_evenness_in_ternary_integer_product_with_even PASSED [ 25%]
+sympy/core/tests/test_arit.py::test_oddness_in_ternary_integer_product_with_odd FAILED [ 26%]
+sympy/core/tests/test_arit.py::test_oddness_in_ternary_integer_product_with_even PASSED [ 27%]
+sympy/core/tests/test_arit.py::test_Mul_is_rational PASSED               [ 28%]
+sympy/core/tests/test_arit.py::test_Add_is_rational PASSED               [ 29%]
+sympy/core/tests/test_arit.py::test_Add_is_even_odd PASSED               [ 30%]
+sympy/core/tests/test_arit.py::test_Mul_is_negative_positive PASSED      [ 32%]
+sympy/core/tests/test_arit.py::test_Mul_is_negative_positive_2 PASSED    [ 33%]
+sympy/core/tests/test_arit.py::test_Mul_is_nonpositive_nonnegative PASSED [ 34%]
+sympy/core/tests/test_arit.py::test_Add_is_negative_positive PASSED      [ 35%]
+sympy/core/tests/test_arit.py::test_Add_is_nonpositive_nonnegative PASSED [ 36%]
+sympy/core/tests/test_arit.py::test_Pow_is_integer PASSED                [ 38%]
+sympy/core/tests/test_arit.py::test_Pow_is_real PASSED                   [ 39%]
+sympy/core/tests/test_arit.py::test_real_Pow PASSED                      [ 40%]
+sympy/core/tests/test_arit.py::test_Pow_is_finite PASSED                 [ 41%]
+sympy/core/tests/test_arit.py::test_Pow_is_even_odd PASSED               [ 42%]
+sympy/core/tests/test_arit.py::test_Pow_is_negative_positive PASSED      [ 44%]
+sympy/core/tests/test_arit.py::test_Pow_is_zero PASSED                   [ 45%]
+sympy/core/tests/test_arit.py::test_Pow_is_nonpositive_nonnegative PASSED [ 46%]
+sympy/core/tests/test_arit.py::test_Mul_is_imaginary_real PASSED         [ 47%]
+sympy/core/tests/test_arit.py::test_Mul_hermitian_antihermitian PASSED   [ 48%]
+sympy/core/tests/test_arit.py::test_Add_is_comparable PASSED             [ 50%]
+sympy/core/tests/test_arit.py::test_Mul_is_comparable PASSED             [ 51%]
+sympy/core/tests/test_arit.py::test_Pow_is_comparable PASSED             [ 52%]
+sympy/core/tests/test_arit.py::test_Add_is_positive_2 PASSED             [ 53%]
+sympy/core/tests/test_arit.py::test_Add_is_irrational PASSED             [ 54%]
+sympy/core/tests/test_arit.py::test_issue_3531 FAILED                    [ 55%]
+sympy/core/tests/test_arit.py::test_issue_3531b PASSED                   [ 57%]
+sympy/core/tests/test_arit.py::test_bug3 PASSED                          [ 58%]
+sympy/core/tests/test_arit.py::test_suppressed_evaluation PASSED         [ 59%]
+sympy/core/tests/test_arit.py::test_Add_as_coeff_mul PASSED              [ 60%]
+sympy/core/tests/test_arit.py::test_Pow_as_coeff_mul_doesnt_expand PASSED [ 61%]
+sympy/core/tests/test_arit.py::test_issue_3514 PASSED                    [ 63%]
+sympy/core/tests/test_arit.py::test_make_args PASSED                     [ 64%]
+sympy/core/tests/test_arit.py::test_issue_5126 PASSED                    [ 65%]
+sympy/core/tests/test_arit.py::test_Rational_as_content_primitive PASSED [ 66%]
+sympy/core/tests/test_arit.py::test_Add_as_content_primitive PASSED      [ 67%]
+sympy/core/tests/test_arit.py::test_Mul_as_content_primitive PASSED      [ 69%]
+sympy/core/tests/test_arit.py::test_Pow_as_content_primitive PASSED      [ 70%]
+sympy/core/tests/test_arit.py::test_issue_5460 PASSED                    [ 71%]
+sympy/core/tests/test_arit.py::test_product_irrational PASSED            [ 72%]
+sympy/core/tests/test_arit.py::test_issue_5919 PASSED                    [ 73%]
+sympy/core/tests/test_arit.py::test_Mod PASSED                           [ 75%]
+sympy/core/tests/test_arit.py::test_Mod_is_integer PASSED                [ 76%]
+sympy/core/tests/test_arit.py::test_Mod_is_nonposneg PASSED              [ 77%]
+sympy/core/tests/test_arit.py::test_issue_6001 PASSED                    [ 78%]
+sympy/core/tests/test_arit.py::test_polar PASSED                         [ 79%]
+sympy/core/tests/test_arit.py::test_issue_6040 PASSED                    [ 80%]
+sympy/core/tests/test_arit.py::test_issue_6082 PASSED                    [ 82%]
+sympy/core/tests/test_arit.py::test_issue_6077 PASSED                    [ 83%]
+sympy/core/tests/test_arit.py::test_mul_flatten_oo PASSED                [ 84%]
+sympy/core/tests/test_arit.py::test_add_flatten PASSED                   [ 85%]
+sympy/core/tests/test_arit.py::test_issue_5160_6087_6089_6090 PASSED     [ 86%]
+sympy/core/tests/test_arit.py::test_float_int PASSED                     [ 88%]
+sympy/core/tests/test_arit.py::test_issue_6611a PASSED                   [ 89%]
+sympy/core/tests/test_arit.py::test_denest_add_mul PASSED                [ 90%]
+sympy/core/tests/test_arit.py::test_mul_coeff PASSED                     [ 91%]
+sympy/core/tests/test_arit.py::test_mul_zero_detection PASSED            [ 92%]
+sympy/core/tests/test_arit.py::test_Mul_with_zero_infinite PASSED        [ 94%]
+sympy/core/tests/test_arit.py::test_Mul_does_not_cancel_infinities PASSED [ 95%]
+sympy/core/tests/test_arit.py::test_Mul_does_not_distribute_infinity PASSED [ 96%]
+sympy/core/tests/test_arit.py::test_issue_8247_8354 PASSED               [ 97%]
+sympy/core/tests/test_arit.py::test_Add_is_zero PASSED                   [ 98%]
+sympy/core/tests/test_arit.py::test_issue_14392 PASSED                   [100%]
+
+=============================== warnings summary ===============================
+sympy/core/basic.py:3
+  /home/sympy/sympy/core/basic.py:3: DeprecationWarning: Using or importing the ABCs from 'collections' instead of from 'collections.abc' is deprecated since Python 3.3, and in 3.10 it will stop working
+    from collections import Mapping, defaultdict
+
+sympy/core/expr.py:12
+  /home/sympy/sympy/core/expr.py:12: DeprecationWarning: Using or importing the ABCs from 'collections' instead of from 'collections.abc' is deprecated since Python 3.3, and in 3.10 it will stop working
+    from collections import defaultdict, Iterable
+
+sympy/core/containers.py:271
+  /home/sympy/sympy/core/containers.py:271: DeprecationWarning: Using or importing the ABCs from 'collections' instead of from 'collections.abc' is deprecated since Python 3.3, and in 3.10 it will stop working
+    class OrderedSet(collections.MutableSet):
+
+sympy/solvers/diophantine.py:3188
+  /home/sympy/sympy/solvers/diophantine.py:3188: SyntaxWarning: "is" with a literal. Did you mean "=="?
+    if feasible is 1:  # it's prime and k == 2
+
+sympy/plotting/plot.py:28
+  /home/sympy/sympy/plotting/plot.py:28: DeprecationWarning: Using or importing the ABCs from 'collections' instead of from 'collections.abc' is deprecated since Python 3.3, and in 3.10 it will stop working
+    from collections import Callable
+
+sympy/core/tests/test_arit.py::test_real_Pow
+  /home/sympy/sympy/assumptions/sathandlers.py:3: DeprecationWarning: Using or importing the ABCs from 'collections' instead of from 'collections.abc' is deprecated since Python 3.3, and in 3.10 it will stop working
+    from collections import MutableMapping, defaultdict
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+                                DO *NOT* COMMIT!                                
+=========================== short test summary info ============================
+PASSED sympy/core/tests/test_arit.py::test_bug1
+PASSED sympy/core/tests/test_arit.py::test_Symbol
+PASSED sympy/core/tests/test_arit.py::test_arit0
+PASSED sympy/core/tests/test_arit.py::test_div
+PASSED sympy/core/tests/test_arit.py::test_pow
+PASSED sympy/core/tests/test_arit.py::test_pow2
+PASSED sympy/core/tests/test_arit.py::test_pow3
+PASSED sympy/core/tests/test_arit.py::test_mod_pow
+PASSED sympy/core/tests/test_arit.py::test_pow_E
+PASSED sympy/core/tests/test_arit.py::test_pow_issue_3516
+PASSED sympy/core/tests/test_arit.py::test_pow_im
+PASSED sympy/core/tests/test_arit.py::test_real_mul
+PASSED sympy/core/tests/test_arit.py::test_ncmul
+PASSED sympy/core/tests/test_arit.py::test_ncpow
+PASSED sympy/core/tests/test_arit.py::test_powerbug
+PASSED sympy/core/tests/test_arit.py::test_Mul_doesnt_expand_exp
+PASSED sympy/core/tests/test_arit.py::test_Add_Mul_is_integer
+PASSED sympy/core/tests/test_arit.py::test_Add_Mul_is_finite
+PASSED sympy/core/tests/test_arit.py::test_Mul_is_even_odd
+PASSED sympy/core/tests/test_arit.py::test_evenness_in_ternary_integer_product_with_even
+PASSED sympy/core/tests/test_arit.py::test_oddness_in_ternary_integer_product_with_even
+PASSED sympy/core/tests/test_arit.py::test_Mul_is_rational
+PASSED sympy/core/tests/test_arit.py::test_Add_is_rational
+PASSED sympy/core/tests/test_arit.py::test_Add_is_even_odd
+PASSED sympy/core/tests/test_arit.py::test_Mul_is_negative_positive
+PASSED sympy/core/tests/test_arit.py::test_Mul_is_negative_positive_2
+PASSED sympy/core/tests/test_arit.py::test_Mul_is_nonpositive_nonnegative
+PASSED sympy/core/tests/test_arit.py::test_Add_is_negative_positive
+PASSED sympy/core/tests/test_arit.py::test_Add_is_nonpositive_nonnegative
+PASSED sympy/core/tests/test_arit.py::test_Pow_is_integer
+PASSED sympy/core/tests/test_arit.py::test_Pow_is_real
+PASSED sympy/core/tests/test_arit.py::test_real_Pow
+PASSED sympy/core/tests/test_arit.py::test_Pow_is_finite
+PASSED sympy/core/tests/test_arit.py::test_Pow_is_even_odd
+PASSED sympy/core/tests/test_arit.py::test_Pow_is_negative_positive
+PASSED sympy/core/tests/test_arit.py::test_Pow_is_zero
+PASSED sympy/core/tests/test_arit.py::test_Pow_is_nonpositive_nonnegative
+PASSED sympy/core/tests/test_arit.py::test_Mul_is_imaginary_real
+PASSED sympy/core/tests/test_arit.py::test_Mul_hermitian_antihermitian
+PASSED sympy/core/tests/test_arit.py::test_Add_is_comparable
+PASSED sympy/core/tests/test_arit.py::test_Mul_is_comparable
+PASSED sympy/core/tests/test_arit.py::test_Pow_is_comparable
+PASSED sympy/core/tests/test_arit.py::test_Add_is_positive_2
+PASSED sympy/core/tests/test_arit.py::test_Add_is_irrational
+PASSED sympy/core/tests/test_arit.py::test_issue_3531b
+PASSED sympy/core/tests/test_arit.py::test_bug3
+PASSED sympy/core/tests/test_arit.py::test_suppressed_evaluation
+PASSED sympy/core/tests/test_arit.py::test_Add_as_coeff_mul
+PASSED sympy/core/tests/test_arit.py::test_Pow_as_coeff_mul_doesnt_expand
+PASSED sympy/core/tests/test_arit.py::test_issue_3514
+PASSED sympy/core/tests/test_arit.py::test_make_args
+PASSED sympy/core/tests/test_arit.py::test_issue_5126
+PASSED sympy/core/tests/test_arit.py::test_Rational_as_content_primitive
+PASSED sympy/core/tests/test_arit.py::test_Add_as_content_primitive
+PASSED sympy/core/tests/test_arit.py::test_Mul_as_content_primitive
+PASSED sympy/core/tests/test_arit.py::test_Pow_as_content_primitive
+PASSED sympy/core/tests/test_arit.py::test_issue_5460
+PASSED sympy/core/tests/test_arit.py::test_product_irrational
+PASSED sympy/core/tests/test_arit.py::test_issue_5919
+PASSED sympy/core/tests/test_arit.py::test_Mod
+PASSED sympy/core/tests/test_arit.py::test_Mod_is_integer
+PASSED sympy/core/tests/test_arit.py::test_Mod_is_nonposneg
+PASSED sympy/core/tests/test_arit.py::test_issue_6001
+PASSED sympy/core/tests/test_arit.py::test_polar
+PASSED sympy/core/tests/test_arit.py::test_issue_6040
+PASSED sympy/core/tests/test_arit.py::test_issue_6082
+PASSED sympy/core/tests/test_arit.py::test_issue_6077
+PASSED sympy/core/tests/test_arit.py::test_mul_flatten_oo
+PASSED sympy/core/tests/test_arit.py::test_add_flatten
+PASSED sympy/core/tests/test_arit.py::test_issue_5160_6087_6089_6090
+PASSED sympy/core/tests/test_arit.py::test_float_int
+PASSED sympy/core/tests/test_arit.py::test_issue_6611a
+PASSED sympy/core/tests/test_arit.py::test_denest_add_mul
+PASSED sympy/core/tests/test_arit.py::test_mul_coeff
+PASSED sympy/core/tests/test_arit.py::test_mul_zero_detection
+PASSED sympy/core/tests/test_arit.py::test_Mul_with_zero_infinite
+PASSED sympy/core/tests/test_arit.py::test_Mul_does_not_cancel_infinities
+PASSED sympy/core/tests/test_arit.py::test_Mul_does_not_distribute_infinity
+PASSED sympy/core/tests/test_arit.py::test_issue_8247_8354
+PASSED sympy/core/tests/test_arit.py::test_Add_is_zero
+PASSED sympy/core/tests/test_arit.py::test_issue_14392
+FAILED sympy/core/tests/test_arit.py::test_evenness_in_ternary_integer_product_with_odd
+FAILED sympy/core/tests/test_arit.py::test_oddness_in_ternary_integer_product_with_odd
+FAILED sympy/core/tests/test_arit.py::test_issue_3531 - sympy.utilities.pytes...
+=================== 3 failed, 81 passed, 6 warnings in 6.79s ===================

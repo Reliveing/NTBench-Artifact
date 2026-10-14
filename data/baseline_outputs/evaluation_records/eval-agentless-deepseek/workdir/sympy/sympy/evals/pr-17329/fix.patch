@@ -1,0 +1,51 @@
+diff --git a/sympy/calculus/util.py b/sympy/calculus/util.py
+index 50feb12..94c1a35 100644
+--- a/sympy/calculus/util.py
++++ b/sympy/calculus/util.py
+@@ -213,10 +213,37 @@ def function_range(f, symbol, domain):
+             if not iterable(solution):
+                 raise NotImplementedError('Unable to find critical points for {}'.format(f))
+ 
+-            critical_points += solution
++            # Check if solution is infinite (e.g., ImageSet)
++            if solution.is_infinite:
++                # For infinite critical points, we need to handle them differently
++                # We can't iterate over them, so we'll use limits at the boundaries
++                # and check if the function is bounded
++                from sympy import oo, Limit
++                
++                # Check limits at infinity if interval is unbounded
++                if interval.start is S.NegativeInfinity:
++                    limit_at_neg_inf = limit(f, symbol, S.NegativeInfinity)
++                    if limit_at_neg_inf is not S.NaN:
++                        vals += FiniteSet(limit_at_neg_inf)
++                if interval.end is S.Infinity:
++                    limit_at_pos_inf = limit(f, symbol, S.Infinity)
++                    if limit_at_pos_inf is not S.NaN:
++                        vals += FiniteSet(limit_at_pos_inf)
++                
++                # For bounded intervals, we can still use the endpoints
++                if interval.start is not S.NegativeInfinity:
++                    vals += FiniteSet(f.subs(symbol, interval.start))
++                if interval.end is not S.Infinity:
++                    vals += FiniteSet(f.subs(symbol, interval.end))
++                
++                # If we still have no values, we can't determine the range
++                if vals is S.EmptySet:
++                    raise NotImplementedError('Unable to find range for infinite critical points')
++            else:
++                critical_points += solution
+ 
+-            for critical_point in critical_points:
+-                vals += FiniteSet(f.subs(symbol, critical_point))
++                for critical_point in critical_points:
++                    vals += FiniteSet(f.subs(symbol, critical_point))
+ 
+             left_open, right_open = False, False
+ 
+@@ -1591,4 +1618,4 @@ class AccumulationBounds(AtomicExpr):
+ 
+ 
+ # setting an alias for AccumulationBounds
+-AccumBounds = AccumulationBounds
++AccumBounds = AccumulationBounds

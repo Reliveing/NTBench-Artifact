@@ -1,0 +1,25 @@
+diff --git a/pylint/lint/pylinter.py b/pylint/lint/pylinter.py
+index 053f5dcb5..9276d6699 100644
+--- a/pylint/lint/pylinter.py
++++ b/pylint/lint/pylinter.py
+@@ -994,7 +994,19 @@ class PyLinter(
+         The initialize() method should be called before calling this method
+         """
+         with self._astroid_module_checker() as check_astroid_module:
+-            self._check_file(self.get_ast, check_astroid_module, file)
++            try:
++                self._check_file(self.get_ast, check_astroid_module, file)
++            except Exception as ex:  # pylint: disable=broad-except
++                template_path = prepare_crash_report(
++                    ex, file.filepath, self.crash_file_path
++                )
++                msg = get_fatal_error_message(file.filepath, template_path)
++                if isinstance(ex, AstroidError):
++                    symbol = "astroid-error"
++                    self.add_message(symbol, args=(file.filepath, msg))
++                else:
++                    symbol = "fatal"
++                    self.add_message(symbol, args=msg)
+ 
+     def _check_files(
+         self,

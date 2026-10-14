@@ -1,0 +1,25 @@
+diff --git a/pydantic/_internal/_model_construction.py b/pydantic/_internal/_model_construction.py
+index f9430cc..6397c03 100644
+--- a/pydantic/_internal/_model_construction.py
++++ b/pydantic/_internal/_model_construction.py
+@@ -305,7 +305,13 @@ class ModelMetaclass(ABCMeta):
+         )
+         return super().register(subclass)
+ 
+-    __instancecheck__ = type.__instancecheck__  # pyright: ignore[reportAssignmentType]
++    def __instancecheck__(cls, instance: Any) -> bool:
++        """Check if an instance is of this class without triggering recursion."""
++        try:
++            return hasattr(instance, '__pydantic_validator__') and super().__instancecheck__(instance)
++        except RecursionError:
++            return False
++
+     __subclasscheck__ = type.__subclasscheck__  # pyright: ignore[reportAssignmentType]
+ 
+     @staticmethod
+@@ -859,4 +865,4 @@ def default_ignored_types() -> tuple[type[Any], ...]:
+     if sys.version_info >= (3, 12):
+         ignored_types.append(typing.TypeAliasType)
+ 
+-    return tuple(ignored_types)
++    return tuple(ignored_types)

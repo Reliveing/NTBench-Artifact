@@ -1,0 +1,66 @@
+diff --git a/sympy/logic/algorithms/dpll2.py b/sympy/logic/algorithms/dpll2.py
+index 75115e01ef..4f43d1512c 100644
+--- a/sympy/logic/algorithms/dpll2.py
++++ b/sympy/logic/algorithms/dpll2.py
+@@ -236,17 +236,22 @@ def _find_model(self):
+                     if res is None or res[0]:
+                         yield {self.symbols[abs(lit) - 1]:
+                                     lit > 0 for lit in self.var_settings}
+-                    else:
+-                        self._simple_add_learned_clause(res[1])
+ 
+-                    while self._current_level.flipped:
++                        while self._current_level.flipped:
++                            self._undo()
++                        if len(self.levels) == 1:
++                            return
++                        flip_lit = -self._current_level.decision
+                         self._undo()
+-                    if len(self.levels) == 1:
+-                        return
+-                    flip_lit = -self._current_level.decision
+-                    self._undo()
+-                    self.levels.append(Level(flip_lit, flipped=True))
+-                    flip_var = True
++                        self.levels.append(Level(flip_lit, flipped=True))
++                        flip_var = True
++                    else:
++                        conflict = res[1]
++                        self._simple_add_learned_clause(conflict)
++                        if not self._backtrack_to_unfalsified_clause(conflict):
++                            return
++                        self._unit_prop_clause(conflict)
++                        self._simplify()
+                     continue
+ 
+                 # Start the new decision level
+@@ -327,6 +332,29 @@ def _clause_sat(self, cls):
+                 return True
+         return False
+ 
++    def _clause_is_falsified(self, cls):
++        return all(-lit in self.var_settings for lit in cls)
++
++    def _unit_prop_clause(self, cls):
++        unassigned = []
++        for lit in cls:
++            if lit in self.var_settings:
++                return
++            if not self.variable_set[abs(lit)]:
++                unassigned.append(lit)
++
++        if len(unassigned) == 0:
++            self.is_unsatisfied = True
++        elif len(unassigned) == 1:
++            self._unit_prop_queue.append(unassigned[0])
++
++    def _backtrack_to_unfalsified_clause(self, cls):
++        while self._clause_is_falsified(cls):
++            if len(self.levels) == 1:
++                return False
++            self._undo()
++        return True
++
+     def _is_sentinel(self, lit, cls):
+         """Check if a literal is a sentinel of a given clause.
+ 

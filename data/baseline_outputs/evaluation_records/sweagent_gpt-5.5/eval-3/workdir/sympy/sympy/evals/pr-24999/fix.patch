@@ -1,0 +1,21 @@
+diff --git a/sympy/solvers/solvers.py b/sympy/solvers/solvers.py
+index fcc7e13c31..979377c4d3 100644
+--- a/sympy/solvers/solvers.py
++++ b/sympy/solvers/solvers.py
+@@ -1359,6 +1359,16 @@ def _solve(f, *symbols, **flags):
+     f = f.replace(lambda e: isinstance(e, binomial) and e.has(symbol),
+         lambda e: expand_func(e))
+ 
++    # If the equation simplifies to an identity there is no constraint on
++    # the symbol being solved for.  Detect this before trying the more
++    # specialised inversion routines below: those routines can otherwise
++    # recursively rewrite complicated unevaluated identities (for example
++    # involving Mod/floor) without making progress.
++    if flags.get('simplify', True) and f.has(symbol):
++        f_simplified = simplify(f)
++        if f_simplified.is_zero:
++            return []
++
+     # checking will be done unless it is turned off before making a
+     # recursive call; the variables `checkdens` and `check` are
+     # captured here (for reference below) in case flag value changes

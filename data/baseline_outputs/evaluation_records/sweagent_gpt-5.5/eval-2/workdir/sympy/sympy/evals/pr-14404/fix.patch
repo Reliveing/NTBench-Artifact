@@ -1,0 +1,22 @@
+diff --git a/sympy/core/power.py b/sympy/core/power.py
+index bd4bb7ae15..c69b6e74d6 100644
+--- a/sympy/core/power.py
++++ b/sympy/core/power.py
+@@ -1085,9 +1085,15 @@ def as_real_imag(self, deep=True, **hints):
+             a, b = symbols('a b', cls=Dummy)
+             if exp >= 0:
+                 if re.is_Number and im.is_Number:
+-                    # We can be more efficient in this case
++                    # We can be more efficient in this case if expansion
++                    # actually rewrites the power.  Some functions with
++                    # undefined numeric arguments (e.g. sin(zoo)) have
++                    # numeric real and imaginary parts but remain unevaluated
++                    # under expansion; recursing on the unchanged expression
++                    # would therefore never terminate.
+                     expr = expand_multinomial(self.base**exp)
+-                    return expr.as_real_imag()
++                    if expr != self:
++                        return expr.as_real_imag()
+ 
+                 expr = poly(
+                     (a + b)**exp)  # a = re, b = im; expr = (a + b*I)**exp

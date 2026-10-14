@@ -1,0 +1,24 @@
+diff --git a/dask/dataframe/multi.py b/dask/dataframe/multi.py
+index 278d434ac..3c8aa61c4 100644
+--- a/dask/dataframe/multi.py
++++ b/dask/dataframe/multi.py
+@@ -817,7 +817,18 @@ def merge_asof_indexed(left, right, **kwargs):
+         heads = compute_heads(right, by=kwargs["right_by"])
+         dependencies.append(heads)
+ 
+-    for i, J in enumerate(pair_partitions(left.divisions, right.divisions)):
++    # An empty right frame has divisions that consist entirely of missing
++    # values (e.g. ``(NaT, NaT)`` or ``(nan, nan)``) for which all comparisons
++    # are ``False``. This confuses ``pair_partitions`` (which can end up in an
++    # infinite loop), so handle it explicitly: every left partition is simply
++    # paired with the single (empty) right partition, filling the right columns
++    # with missing values.
++    if any(map(pd.isnull, right.divisions)):
++        pairs = [[(0, None, None)] for _ in range(left.npartitions)]
++    else:
++        pairs = pair_partitions(left.divisions, right.divisions)
++
++    for i, J in enumerate(pairs):
+         frames = []
+         for j, lower, upper in J:
+             slice = (methods.boundary_slice, (left._name, i), lower, upper, False)

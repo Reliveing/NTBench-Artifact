@@ -1,0 +1,64 @@
+============================= test session starts ==============================
+platform linux -- Python 3.10.19, pytest-6.2.5, py-1.11.0, pluggy-1.6.0
+benchmark: 3.4.1 (defaults: timer=time.perf_counter disable_gc=False min_rounds=5 min_time=0.000005 max_time=1.0 calibration_precision=10 warmup=False warmup_iterations=100000)
+rootdir: /home/pylint, configfile: setup.cfg
+plugins: profiling-1.8.1, forked-1.6.0, benchmark-3.4.1, xdist-2.5.0, cov-2.12.1
+collected 19 items
+
+tests/test_regr.py ...................                                   [100%]
+
+=============================== warnings summary ===============================
+../../usr/local/lib/python3.10/site-packages/astroid/interpreter/_import/util.py:6
+  /usr/local/lib/python3.10/site-packages/astroid/interpreter/_import/util.py:6: DeprecationWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html
+    import pkg_resources
+
+../../usr/local/lib/python3.10/site-packages/astroid/node_classes.py:90
+  /usr/local/lib/python3.10/site-packages/astroid/node_classes.py:90: DeprecationWarning: The 'astroid.node_classes' module is deprecated and will be replaced by 'astroid.nodes' in astroid 3.0.0
+    warnings.warn(
+
+../../usr/local/lib/python3.10/site-packages/astroid/scoped_nodes.py:26
+  /usr/local/lib/python3.10/site-packages/astroid/scoped_nodes.py:26: DeprecationWarning: The 'astroid.scoped_nodes' module is deprecated and will be replaced by 'astroid.nodes' in astroid 3.0.0
+    warnings.warn(
+
+tests/test_regr.py:158
+  /home/pylint/tests/test_regr.py:158: PytestUnknownMarkWarning: Unknown pytest.mark.slow - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/mark.html
+    @pytest.mark.slow
+
+tests/test_regr.py:159
+  /home/pylint/tests/test_regr.py:159: PytestUnknownMarkWarning: Unknown pytest.mark.serial - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/mark.html
+    @pytest.mark.serial
+
+tests/test_regr.py: 22 warnings
+  /home/pylint/pylint/message/message.py:67: DeprecationWarning: In pylint 3.0, Messages will only accept a MessageLocationTuple as location parameter
+    warn(
+
+tests/test_regr.py::test_crash[/home/pylint/tests/regrtest_data/import_assign.py]
+tests/test_regr.py::test_crash[/home/pylint/tests/regrtest_data/special_attr_scope_lookup_crash.py]
+tests/test_regr.py::test_crash[/home/pylint/tests/regrtest_data/try_finally_disable_msg_crash]
+tests/test_regr.py::test_hang[/home/pylint/tests/regrtest_data/hang/pkg4972.string-30.0]
+  /home/pylint/pylint/lint/pylinter.py:951: DeprecationWarning: In pylint 3.0, the checkers check function will only accept sequence of string
+    warnings.warn(
+
+-- Docs: https://docs.pytest.org/en/stable/warnings.html
+==================================== PASSES ====================================
+=========================== short test summary info ============================
+PASSED tests/test_regr.py::test_package[file_name0-<lambda>]
+PASSED tests/test_regr.py::test_package[file_name1-<lambda>]
+PASSED tests/test_regr.py::test_package[file_name2-<lambda>]
+PASSED tests/test_regr.py::test_package[file_name3-<lambda>]
+PASSED tests/test_regr.py::test_package[file_name4-<lambda>]
+PASSED tests/test_regr.py::test_package[file_name5-<lambda>]
+PASSED tests/test_regr.py::test_package[file_name6-<lambda>]
+PASSED tests/test_regr.py::test_package[file_name7-<lambda>]
+PASSED tests/test_regr.py::test_package[file_name8-<lambda>]
+PASSED tests/test_regr.py::test_crash[/home/pylint/tests/regrtest_data/import_assign.py]
+PASSED tests/test_regr.py::test_crash[/home/pylint/tests/regrtest_data/special_attr_scope_lookup_crash.py]
+PASSED tests/test_regr.py::test_crash[/home/pylint/tests/regrtest_data/try_finally_disable_msg_crash]
+PASSED tests/test_regr.py::test_descriptor_crash[application_crash.py]
+PASSED tests/test_regr.py::test_descriptor_crash[try_finally_disable_msg_crash.py]
+PASSED tests/test_regr.py::test_descriptor_crash[descriptor_crash.py]
+PASSED tests/test_regr.py::test_descriptor_crash[special_attr_scope_lookup_crash.py]
+PASSED tests/test_regr.py::test_check_package___init__
+PASSED tests/test_regr.py::test_pylint_config_attr
+PASSED tests/test_regr.py::test_hang[/home/pylint/tests/regrtest_data/hang/pkg4972.string-30.0]
+======================= 19 passed, 31 warnings in 2.92s ========================

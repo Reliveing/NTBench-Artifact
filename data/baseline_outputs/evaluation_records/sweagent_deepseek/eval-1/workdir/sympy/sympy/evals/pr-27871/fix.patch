@@ -1,0 +1,29 @@
+diff --git a/sympy/functions/combinatorial/numbers.py b/sympy/functions/combinatorial/numbers.py
+index 3903be6476..c2e4bd75f7 100644
+--- a/sympy/functions/combinatorial/numbers.py
++++ b/sympy/functions/combinatorial/numbers.py
+@@ -918,14 +918,22 @@ def eval(cls, n, m=None):
+             if n.is_negative and (m.is_integer is False or m.is_nonpositive is False):
+                 return S.ComplexInfinity if m is S.One else S.NaN
+             if n.is_nonnegative:
++                # For large n, computing the exact rational is too slow and the
++                # resulting fraction has too many digits to print. Return
++                # unevaluated so that numerical evaluation can be used instead.
++                # Numerical evaluation uses mp.harmonic which is fast even for
++                # large arguments.
++                n_int = int(n)
++                if n_int >= 10000:
++                    return
+                 if m.is_Integer:
+                     if m not in cls.harmonic_cache:
+                         @recurrence_memo([0])
+                         def f(n, prev):
+                             return prev[-1] + S.One / n**m
+                         cls.harmonic_cache[m] = f
+-                    return cls.harmonic_cache[m](int(n))
+-                return Add(*(k**(-m) for k in range(1, int(n) + 1)))
++                    return cls.harmonic_cache[m](n_int)
++                return Add(*(k**(-m) for k in range(1, n_int + 1)))
+ 
+     def _eval_rewrite_as_polygamma(self, n, m=S.One, **kwargs):
+         from sympy.functions.special.gamma_functions import gamma, polygamma

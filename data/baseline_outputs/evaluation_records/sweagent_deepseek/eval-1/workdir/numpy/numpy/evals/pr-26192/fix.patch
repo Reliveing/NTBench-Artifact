@@ -1,0 +1,14 @@
+diff --git a/numpy/_core/numeric.py b/numpy/_core/numeric.py
+index 429620da53..b4d2555ff3 100644
+--- a/numpy/_core/numeric.py
++++ b/numpy/_core/numeric.py
+@@ -2142,6 +2142,9 @@ def base_repr(number, base=2, padding=0):
+     elif base < 2:
+         raise ValueError("Bases less than 2 not handled in base_repr.")
+ 
++    # Ensure that number is a Python integer to avoid overflow or unwanted
++    # casts to floating point.
++    number = operator.index(number)
+     num = abs(number)
+     res = []
+     while num:

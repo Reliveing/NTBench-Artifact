@@ -1,0 +1,17 @@
+diff --git a/sympy/solvers/solvers.py b/sympy/solvers/solvers.py
+index 9bc2b7b3a5..6840735902 100644
+--- a/sympy/solvers/solvers.py
++++ b/sympy/solvers/solvers.py
+@@ -706,8 +706,10 @@ def _sympified_list(w):
+         freei = f[i].free_symbols
+         if freei and all(s.is_real or s.is_imaginary for s in freei):
+             fr, fi = f[i].as_real_imag()
+-            if fr and fi and not any(i.has(re, im, arg) for i in (fr, fi)) \
+-                    and fr != fi:
++            # as_real_imag may introduce atan2 for powers with real bases;
++            # splitting in that form can make solve_system miss valid roots.
++            if fr and fi and not any(i.has(re, im, arg, atan2)
++                    for i in (fr, fi)) and fr != fi:
+                 if bare_f:
+                     bare_f = False
+                 f[i: i + 1] = [fr, fi]

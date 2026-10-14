@@ -1,0 +1,131 @@
+diff --git a/sympy/functions/combinatorial/numbers.py b/sympy/functions/combinatorial/numbers.py
+index 3903be6476..035274f838 100644
+--- a/sympy/functions/combinatorial/numbers.py
++++ b/sympy/functions/combinatorial/numbers.py
+@@ -9,7 +9,7 @@
+ from __future__ import annotations
+ from math import prod
+ from collections import defaultdict
+-from typing import Callable, Tuple as tTuple
++from typing import Tuple as tTuple
+ 
+ from sympy.core import S, Symbol, Add, Dummy
+ from sympy.core.cache import cacheit
+@@ -891,9 +891,6 @@ class harmonic(DefinedFunction):
+ 
+     """
+ 
+-    # This prevents redundant recalculations and speeds up harmonic number computations.
+-    harmonic_cache: dict[Integer, Callable[[int], Rational]] = {}
+-
+     @classmethod
+     def eval(cls, n, m=None):
+         from sympy.functions.special.zeta_functions import zeta
+@@ -919,14 +916,34 @@ def eval(cls, n, m=None):
+                 return S.ComplexInfinity if m is S.One else S.NaN
+             if n.is_nonnegative:
+                 if m.is_Integer:
+-                    if m not in cls.harmonic_cache:
+-                        @recurrence_memo([0])
+-                        def f(n, prev):
+-                            return prev[-1] + S.One / n**m
+-                        cls.harmonic_cache[m] = f
+-                    return cls.harmonic_cache[m](int(n))
++                    return cls._eval_harmonic_integer(int(n), int(m))
+                 return Add(*(k**(-m) for k in range(1, int(n) + 1)))
+ 
++    @staticmethod
++    def _eval_harmonic_integer(n, m):
++        """Compute the generalized harmonic number ``H_{n, m}`` for integer
++        ``n >= 0`` and positive integer ``m`` using binary splitting.
++
++        Summing ``1/k**m`` term by term builds up increasingly large
++        intermediate rationals and is quadratic in ``n``. Binary splitting
++        pairs up partial sums so the numerators/denominators stay balanced,
++        giving a large speed-up for big ``n`` (e.g. ``harmonic(100000)``).
++        """
++        if n == 0:
++            return S.Zero
++
++        def rat_sum(a, b):
++            # returns (p, q) with sum_{k=a}^{b-1} 1/k**m == p/q
++            if b - a == 1:
++                return (1, a ** m)
++            mid = (a + b) // 2
++            p1, q1 = rat_sum(a, mid)
++            p2, q2 = rat_sum(mid, b)
++            return (p1 * q2 + p2 * q1, q1 * q2)
++
++        p, q = rat_sum(1, n + 1)
++        return Rational(p, q)
++
+     def _eval_rewrite_as_polygamma(self, n, m=S.One, **kwargs):
+         from sympy.functions.special.gamma_functions import gamma, polygamma
+         if m.is_integer and m.is_positive:
+diff --git a/sympy/printing/str.py b/sympy/printing/str.py
+index d6d3f1b4ce..a136546952 100644
+--- a/sympy/printing/str.py
++++ b/sympy/printing/str.py
+@@ -17,6 +17,27 @@
+ from mpmath.libmp import prec_to_dps, to_str as mlib_to_str
+ 
+ 
++def _int_to_str(i):
++    """Convert an integer to a string, bypassing the CPython limit on the
++    number of digits allowed in an integer-to-string conversion.
++
++    CPython (3.11+) raises ``ValueError`` when converting an integer with
++    more than ``sys.get_int_max_str_digits()`` digits to a string. SymPy can
++    easily produce such large integers (e.g. ``harmonic(10000)``), so the
++    limit is temporarily lifted here to allow them to be printed.
++    """
++    try:
++        return str(i)
++    except ValueError:
++        import sys
++        old_limit = sys.get_int_max_str_digits()
++        try:
++            sys.set_int_max_str_digits(0)
++            return str(i)
++        finally:
++            sys.set_int_max_str_digits(old_limit)
++
++
+ class StrPrinter(Printer):
+     printmethod = "_sympystr"
+     _default_settings: dict[str, Any] = {
+@@ -676,8 +697,8 @@ def _print_MatPow(self, expr):
+ 
+     def _print_Integer(self, expr):
+         if self._settings.get("sympy_integers", False):
+-            return "S(%s)" % (expr)
+-        return str(expr.p)
++            return "S(%s)" % _int_to_str(expr.p)
++        return _int_to_str(expr.p)
+ 
+     def _print_Integers(self, expr):
+         return 'Integers'
+@@ -704,18 +725,18 @@ def _print_EmptySequence(self, expr):
+         return 'EmptySequence'
+ 
+     def _print_int(self, expr):
+-        return str(expr)
++        return _int_to_str(expr)
+ 
+     def _print_mpz(self, expr):
+-        return str(expr)
++        return _int_to_str(expr)
+ 
+     def _print_Rational(self, expr):
+         if expr.q == 1:
+-            return str(expr.p)
++            return _int_to_str(expr.p)
+         else:
+             if self._settings.get("sympy_integers", False):
+-                return "S(%s)/%s" % (expr.p, expr.q)
+-            return "%s/%s" % (expr.p, expr.q)
++                return "S(%s)/%s" % (_int_to_str(expr.p), _int_to_str(expr.q))
++            return "%s/%s" % (_int_to_str(expr.p), _int_to_str(expr.q))
+ 
+     def _print_PythonRational(self, expr):
+         if expr.q == 1:

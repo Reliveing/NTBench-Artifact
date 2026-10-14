@@ -1,0 +1,26 @@
+diff --git a/sympy/vector/basisdependent.py b/sympy/vector/basisdependent.py
+index 53e4efc0bf..efe89cdf46 100644
+--- a/sympy/vector/basisdependent.py
++++ b/sympy/vector/basisdependent.py
+@@ -269,6 +269,9 @@ def _new(cls, *args, **options):
+                 expr = arg
+             elif isinstance(arg, (Cross, Dot, Curl, Gradient)):
+                 extra_args.append(arg)
++            elif isinstance(arg, BasisDependent):
++                count += 1
++                expr = arg
+             else:
+                 measure_number *= arg
+         # Make sure incompatible types weren't multiplied
+@@ -287,6 +290,11 @@ def _new(cls, *args, **options):
+                        x in expr.args]
+             return cls._add_func(*newargs)
+ 
++        # If expr is a plain expr_type (e.g., Vector that is not
++        # VectorAdd/VectorMul/BaseVector), process through add_func
++        if not isinstance(expr, (cls._base_func, cls._mul_func)):
++            return cls._new(measure_number, cls._add_func(*expr.args), *extra_args)
++
+         obj = super().__new__(cls, measure_number,
+                               expr._base_instance,
+                               *extra_args,

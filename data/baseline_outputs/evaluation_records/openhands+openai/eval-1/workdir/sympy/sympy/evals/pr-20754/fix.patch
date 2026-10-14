@@ -1,0 +1,32 @@
+diff --git a/sympy/core/add.py b/sympy/core/add.py
+index ca9bcfc4a3..3d190d1061 100644
+--- a/sympy/core/add.py
++++ b/sympy/core/add.py
+@@ -1011,11 +1011,13 @@ def _eval_as_leading_term(self, x, cdir=0):
+         if not new_expr:
+             # simple leading term analysis gave us cancelled terms but we have to send
+             # back a term, so compute the leading term (via series)
++            from sympy.functions.elementary.exponential import log
+             n0 = min.getn()
+             res = Order(1)
+             incr = S.One
++            logx = log(x)
+             while res.is_Order:
+-                res = old._eval_nseries(x, n=n0+incr, logx=None, cdir=cdir).cancel().powsimp().trigsimp()
++                res = old._eval_nseries(x, n=n0+incr, logx=logx, cdir=cdir).cancel().powsimp().trigsimp()
+                 incr *= 2
+             return res.as_leading_term(x, cdir=cdir)
+ 
+diff --git a/sympy/functions/elementary/complexes.py b/sympy/functions/elementary/complexes.py
+index 84930497b5..d577b5316e 100644
+--- a/sympy/functions/elementary/complexes.py
++++ b/sympy/functions/elementary/complexes.py
+@@ -662,6 +662,8 @@ def _eval_nseries(self, x, n, logx, cdir=0):
+         if direction.has(log(x)):
+             direction = direction.subs(log(x), logx)
+         s = self.args[0]._eval_nseries(x, n=n, logx=logx)
++        if logx is not None:
++            return (sign(direction)*s).expand()
+         when = Eq(direction, 0)
+         return Piecewise(
+             ((s.subs(direction, 0)), when),

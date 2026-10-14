@@ -1,0 +1,28 @@
+diff --git a/sympy/core/mod.py b/sympy/core/mod.py
+index 86e04850be..88b9e32810 100644
+--- a/sympy/core/mod.py
++++ b/sympy/core/mod.py
+@@ -116,6 +116,23 @@ def number_eval(p, q):
+         if rv is not None:
+             return rv
+ 
++        if q in (S.One, S.NegativeOne):
++            # If cancellation can reveal that the dividend is an integer,
++            # then the remainder modulo +/-1 is zero. This keeps expressions
++            # like Mod((x**2 + 2*x + 1)/(x + 1), 1) from remaining
++            # unevaluated just because the integrality of the unsimplified
++            # quotient is not immediately known.
++            from sympy.polys.polyerrors import PolynomialError
++            from sympy.polys.polytools import cancel
++            try:
++                pcancel = cancel(p)
++            except PolynomialError:
++                pass
++            else:
++                rv = number_eval(pcancel, q)
++                if rv is not None:
++                    return rv
++
+         # denest
+         if isinstance(p, cls):
+             qinner = p.args[1]

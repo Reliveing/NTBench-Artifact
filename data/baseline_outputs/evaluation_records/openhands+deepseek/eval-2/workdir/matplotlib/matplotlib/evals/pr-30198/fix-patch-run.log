@@ -1,0 +1,205 @@
+============================= test session starts ==============================
+platform linux -- Python 3.11.14, pytest-9.0.2, pluggy-1.6.0 -- /usr/local/bin/python3.11
+cachedir: .pytest_cache
+rootdir: /home/matplotlib
+configfile: pyproject.toml
+plugins: xdist-3.8.0, cov-7.1.0, timeout-2.4.0
+timeout: 20.0s
+timeout method: signal
+timeout func_only: False
+collecting ... collected 98 items
+
+lib/matplotlib/tests/test_path.py::test_empty_closed_path PASSED         [  1%]
+lib/matplotlib/tests/test_path.py::test_readonly_path PASSED             [  2%]
+lib/matplotlib/tests/test_path.py::test_path_exceptions PASSED           [  3%]
+lib/matplotlib/tests/test_path.py::test_point_in_path PASSED             [  4%]
+lib/matplotlib/tests/test_path.py::test_contains_path[other_path0-True-False] PASSED [  5%]
+lib/matplotlib/tests/test_path.py::test_contains_path[other_path1-False-True] PASSED [  6%]
+lib/matplotlib/tests/test_path.py::test_contains_path[other_path2-False-False] PASSED [  7%]
+lib/matplotlib/tests/test_path.py::test_contains_path[other_path3-False-False] PASSED [  8%]
+lib/matplotlib/tests/test_path.py::test_contains_path[other_path4-False-False] PASSED [  9%]
+lib/matplotlib/tests/test_path.py::test_contains_path[other_path5-False-False] PASSED [ 10%]
+lib/matplotlib/tests/test_path.py::test_contains_points_negative_radius PASSED [ 11%]
+lib/matplotlib/tests/test_path.py::test_exact_extents[path0-extents0] PASSED [ 12%]
+lib/matplotlib/tests/test_path.py::test_exact_extents[path1-extents1] PASSED [ 13%]
+lib/matplotlib/tests/test_path.py::test_exact_extents[path2-extents2] PASSED [ 14%]
+lib/matplotlib/tests/test_path.py::test_exact_extents[path3-extents3] PASSED [ 15%]
+lib/matplotlib/tests/test_path.py::test_extents_with_ignored_codes[ignored_code0] PASSED [ 16%]
+lib/matplotlib/tests/test_path.py::test_extents_with_ignored_codes[ignored_code1] PASSED [ 17%]
+lib/matplotlib/tests/test_path.py::test_point_in_path_nan PASSED         [ 18%]
+lib/matplotlib/tests/test_path.py::test_nonlinear_containment PASSED     [ 19%]
+lib/matplotlib/tests/test_path.py::test_arrow_contains_point[png] FAILED [ 20%]
+lib/matplotlib/tests/test_path.py::test_path_clipping[svg] SKIPPED (...) [ 21%]
+lib/matplotlib/tests/test_path.py::test_log_transform_with_zero[png] PASSED [ 22%]
+lib/matplotlib/tests/test_path.py::test_make_compound_path_empty PASSED  [ 23%]
+lib/matplotlib/tests/test_path.py::test_make_compound_path_stops PASSED  [ 24%]
+lib/matplotlib/tests/test_path.py::test_xkcd[png] PASSED                 [ 25%]
+lib/matplotlib/tests/test_path.py::test_xkcd_marker[png] PASSED          [ 26%]
+lib/matplotlib/tests/test_path.py::test_marker_paths_pdf[pdf] SKIPPED    [ 27%]
+lib/matplotlib/tests/test_path.py::test_nan_isolated_points[pdf] SKIPPED [ 28%]
+lib/matplotlib/tests/test_path.py::test_nan_isolated_points[svg] SKIPPED [ 29%]
+lib/matplotlib/tests/test_path.py::test_nan_isolated_points[eps] SKIPPED [ 30%]
+lib/matplotlib/tests/test_path.py::test_nan_isolated_points[png] PASSED  [ 31%]
+lib/matplotlib/tests/test_path.py::test_path_no_doubled_point_in_to_polygon PASSED [ 32%]
+lib/matplotlib/tests/test_path.py::test_path_to_polygons PASSED          [ 33%]
+lib/matplotlib/tests/test_path.py::test_path_deepcopy FAILED             [ 34%]
+lib/matplotlib/tests/test_path.py::test_path_deepcopy_cycle FAILED       [ 35%]
+lib/matplotlib/tests/test_path.py::test_path_shallowcopy PASSED          [ 36%]
+lib/matplotlib/tests/test_path.py::test_path_intersect_path[phi0] PASSED [ 37%]
+lib/matplotlib/tests/test_path.py::test_path_intersect_path[phi1] PASSED [ 38%]
+lib/matplotlib/tests/test_path.py::test_path_intersect_path[phi2] PASSED [ 39%]
+lib/matplotlib/tests/test_path.py::test_path_intersect_path[phi3] PASSED [ 40%]
+lib/matplotlib/tests/test_path.py::test_path_intersect_path[phi4] PASSED [ 41%]
+lib/matplotlib/tests/test_path.py::test_path_intersect_path[phi5] PASSED [ 42%]
+lib/matplotlib/tests/test_path.py::test_path_intersect_path[phi6] PASSED [ 43%]
+lib/matplotlib/tests/test_path.py::test_path_intersect_path[phi7] PASSED [ 44%]
+lib/matplotlib/tests/test_path.py::test_path_intersect_path[phi8] PASSED [ 45%]
+lib/matplotlib/tests/test_path.py::test_path_intersect_path[phi9] PASSED [ 46%]
+lib/matplotlib/tests/test_path.py::test_path_intersect_path[phi10] PASSED [ 47%]
+lib/matplotlib/tests/test_path.py::test_path_intersect_path[phi11] PASSED [ 48%]
+lib/matplotlib/tests/test_path.py::test_path_intersect_path[phi12] PASSED [ 50%]
+lib/matplotlib/tests/test_path.py::test_path_intersect_path[phi13] PASSED [ 51%]
+lib/matplotlib/tests/test_path.py::test_path_intersect_path[phi14] PASSED [ 52%]
+lib/matplotlib/tests/test_path.py::test_path_intersect_path[phi15] PASSED [ 53%]
+lib/matplotlib/tests/test_path.py::test_path_intersect_path[phi16] PASSED [ 54%]
+lib/matplotlib/tests/test_path.py::test_path_intersect_path[phi17] PASSED [ 55%]
+lib/matplotlib/tests/test_path.py::test_path_intersect_path[phi18] PASSED [ 56%]
+lib/matplotlib/tests/test_path.py::test_path_intersect_path[phi19] PASSED [ 57%]
+lib/matplotlib/tests/test_path.py::test_path_intersect_path[phi20] PASSED [ 58%]
+lib/matplotlib/tests/test_path.py::test_path_intersect_path[phi21] PASSED [ 59%]
+lib/matplotlib/tests/test_path.py::test_path_intersect_path[phi22] PASSED [ 60%]
+lib/matplotlib/tests/test_path.py::test_path_intersect_path[phi23] PASSED [ 61%]
+lib/matplotlib/tests/test_path.py::test_path_intersect_path[phi24] PASSED [ 62%]
+lib/matplotlib/tests/test_path.py::test_path_intersect_path[phi25] PASSED [ 63%]
+lib/matplotlib/tests/test_path.py::test_path_intersect_path[phi26] PASSED [ 64%]
+lib/matplotlib/tests/test_path.py::test_path_intersect_path[phi27] PASSED [ 65%]
+lib/matplotlib/tests/test_path.py::test_path_intersect_path[phi28] PASSED [ 66%]
+lib/matplotlib/tests/test_path.py::test_path_intersect_path[phi29] PASSED [ 67%]
+lib/matplotlib/tests/test_path.py::test_full_arc[-720] PASSED            [ 68%]
+lib/matplotlib/tests/test_path.py::test_full_arc[-675] PASSED            [ 69%]
+lib/matplotlib/tests/test_path.py::test_full_arc[-630] PASSED            [ 70%]
+lib/matplotlib/tests/test_path.py::test_full_arc[-585] PASSED            [ 71%]
+lib/matplotlib/tests/test_path.py::test_full_arc[-540] PASSED            [ 72%]
+lib/matplotlib/tests/test_path.py::test_full_arc[-495] PASSED            [ 73%]
+lib/matplotlib/tests/test_path.py::test_full_arc[-450] PASSED            [ 74%]
+lib/matplotlib/tests/test_path.py::test_full_arc[-405] PASSED            [ 75%]
+lib/matplotlib/tests/test_path.py::test_full_arc[-360] PASSED            [ 76%]
+lib/matplotlib/tests/test_path.py::test_full_arc[-315] PASSED            [ 77%]
+lib/matplotlib/tests/test_path.py::test_full_arc[-270] PASSED            [ 78%]
+lib/matplotlib/tests/test_path.py::test_full_arc[-225] PASSED            [ 79%]
+lib/matplotlib/tests/test_path.py::test_full_arc[-180] PASSED            [ 80%]
+lib/matplotlib/tests/test_path.py::test_full_arc[-135] PASSED            [ 81%]
+lib/matplotlib/tests/test_path.py::test_full_arc[-90] PASSED             [ 82%]
+lib/matplotlib/tests/test_path.py::test_full_arc[-45] PASSED             [ 83%]
+lib/matplotlib/tests/test_path.py::test_full_arc[0] PASSED               [ 84%]
+lib/matplotlib/tests/test_path.py::test_full_arc[45] PASSED              [ 85%]
+lib/matplotlib/tests/test_path.py::test_full_arc[90] PASSED              [ 86%]
+lib/matplotlib/tests/test_path.py::test_full_arc[135] PASSED             [ 87%]
+lib/matplotlib/tests/test_path.py::test_full_arc[180] PASSED             [ 88%]
+lib/matplotlib/tests/test_path.py::test_full_arc[225] PASSED             [ 89%]
+lib/matplotlib/tests/test_path.py::test_full_arc[270] PASSED             [ 90%]
+lib/matplotlib/tests/test_path.py::test_full_arc[315] PASSED             [ 91%]
+lib/matplotlib/tests/test_path.py::test_full_arc[360] PASSED             [ 92%]
+lib/matplotlib/tests/test_path.py::test_disjoint_zero_length_segment PASSED [ 93%]
+lib/matplotlib/tests/test_path.py::test_intersect_zero_length_segment PASSED [ 94%]
+lib/matplotlib/tests/test_path.py::test_cleanup_closepoly PASSED         [ 95%]
+lib/matplotlib/tests/test_path.py::test_interpolated_moveto PASSED       [ 96%]
+lib/matplotlib/tests/test_path.py::test_interpolated_closepoly PASSED    [ 97%]
+lib/matplotlib/tests/test_path.py::test_interpolated_moveto_closepoly PASSED [ 98%]
+lib/matplotlib/tests/test_path.py::test_interpolated_empty_path PASSED   [100%]
+
+=================================== FAILURES ===================================
+________________________ test_arrow_contains_point[png] ________________________
+/usr/local/lib/python3.11/contextlib.py:81: in inner
+    return func(*args, **kwds)
+           ^^^^^^^^^^^^^^^^^^^
+lib/matplotlib/figure.py:3488: in savefig
+    self.canvas.print_figure(fname, **kwargs)
+lib/matplotlib/backend_bases.py:2186: in print_figure
+    result = print_method(
+lib/matplotlib/backend_bases.py:2043: in <lambda>
+    print_method = functools.wraps(meth)(lambda *args, **kwargs: meth(
+lib/matplotlib/backends/backend_agg.py:481: in print_png
+    self._print_pil(filename_or_obj, "png", pil_kwargs, metadata)
+lib/matplotlib/backends/backend_agg.py:430: in _print_pil
+    mpl.image.imsave(
+lib/matplotlib/image.py:1680: in imsave
+    "Software": (f"Matplotlib version{mpl.__version__}, "
+                                      ^^^^^^^^^^^^^^^
+lib/matplotlib/_api/__init__.py:226: in __getattr__
+    return props[name].__get__(instance)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+lib/matplotlib/__init__.py:241: in <lambda>
+    __version__ = property(lambda self: _get_version())
+                                        ^^^^^^^^^^^^^^
+lib/matplotlib/__init__.py:227: in _get_version
+    return setuptools_scm.get_version(
+/usr/local/lib/python3.11/site-packages/setuptools_scm/_get_version_impl.py:235: in get_version
+    maybe_version = _get_version(config, force_write_version_files=True)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.11/site-packages/setuptools_scm/_get_version_impl.py:105: in _get_version
+    parsed_version = parse_version(config)
+                     ^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.11/site-packages/setuptools_scm/_get_version_impl.py:63: in parse_version
+    or parse_scm_version(config)
+       ^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.11/site-packages/setuptools_scm/_get_version_impl.py:41: in parse_scm_version
+    return _entrypoints.version_from_entrypoint(
+/usr/local/lib/python3.11/site-packages/setuptools_scm/_entrypoints.py:56: in version_from_entrypoint
+    maybe_version: version.ScmVersion | None = fn(root, config=config)
+                                               ^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.11/site-packages/setuptools_scm/git.py:319: in parse
+    return _git_parse_inner(
+/usr/local/lib/python3.11/site-packages/setuptools_scm/git.py:361: in _git_parse_inner
+    version = version_from_describe(wd, config, describe_command)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.11/site-packages/setuptools_scm/git.py:343: in version_from_describe
+    describe_res = wd.default_describe()
+                   ^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.11/site-packages/setuptools_scm/git.py:196: in default_describe
+    return run_git(DEFAULT_DESCRIBE[1:], self.path)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.11/site-packages/setuptools_scm/git.py:72: in run_git
+    return _run(
+/usr/local/lib/python3.11/site-packages/setuptools_scm/_run_cmd.py:157: in run
+    res = subprocess.run(
+/usr/local/lib/python3.11/subprocess.py:550: in run
+    stdout, stderr = process.communicate(input, timeout=timeout)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.11/subprocess.py:1209: in communicate
+    stdout, stderr = self._communicate(input, endtime, timeout)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.11/subprocess.py:2115: in _communicate
+    ready = selector.select(timeout)
+            ^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.11/selectors.py:415: in select
+    fd_event_list = self._selector.poll(timeout)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   Failed: Timeout (>20.0s) from pytest-timeout.
+------------------------------ Captured log setup ------------------------------
+WARNING  matplotlib.testing:__init__.py:40 Could not set locale to English/United States. Some date-related tests may fail.
+______________________________ test_path_deepcopy ______________________________
+lib/matplotlib/tests/test_path.py:360: in test_path_deepcopy
+    path1_copy = path1.deepcopy()
+                 ^^^^^^^^^^^^^^^^
+lib/matplotlib/path.py:286: in __deepcopy__
+    memo[id(self)] = p
+    ^^^^^^^^^^^^^^
+E   TypeError: 'NoneType' object does not support item assignment
+------------------------------ Captured log setup ------------------------------
+WARNING  matplotlib.testing:__init__.py:40 Could not set locale to English/United States. Some date-related tests may fail.
+___________________________ test_path_deepcopy_cycle ___________________________
+lib/matplotlib/tests/test_path.py:383: in test_path_deepcopy_cycle
+    p_copy = p.deepcopy()
+             ^^^^^^^^^^^^
+lib/matplotlib/path.py:286: in __deepcopy__
+    memo[id(self)] = p
+    ^^^^^^^^^^^^^^
+E   TypeError: 'NoneType' object does not support item assignment
+------------------------------ Captured log setup ------------------------------
+WARNING  matplotlib.testing:__init__.py:40 Could not set locale to English/United States. Some date-related tests may fail.
+=========================== short test summary info ============================
+FAILED lib/matplotlib/tests/test_path.py::test_arrow_contains_point[png] - Fa...
+FAILED lib/matplotlib/tests/test_path.py::test_path_deepcopy - TypeError: 'No...
+FAILED lib/matplotlib/tests/test_path.py::test_path_deepcopy_cycle - TypeErro...
+=================== 3 failed, 90 passed, 5 skipped in 47.54s ===================

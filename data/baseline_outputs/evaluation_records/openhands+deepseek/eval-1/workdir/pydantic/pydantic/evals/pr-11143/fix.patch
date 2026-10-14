@@ -1,0 +1,31 @@
+diff --git a/pydantic/_internal/_generics.py b/pydantic/_internal/_generics.py
+index 327fede03..7e5a89943 100644
+--- a/pydantic/_internal/_generics.py
++++ b/pydantic/_internal/_generics.py
+@@ -437,7 +437,7 @@ def generic_recursion_self_type(
+ 
+ def recursively_defined_type_refs() -> set[str]:
+     visited = _generic_recursion_cache.get()
+-    if not visited:
++    if visited is None:
+         return set()  # not in a generic recursion, so there are no types
+ 
+     return visited.copy()  # don't allow modifications
+diff --git a/pydantic/_internal/_model_construction.py b/pydantic/_internal/_model_construction.py
+index aed979bbf..608c20e0c 100644
+--- a/pydantic/_internal/_model_construction.py
++++ b/pydantic/_internal/_model_construction.py
+@@ -292,7 +292,12 @@ class ModelMetaclass(ABCMeta):
+                 assert set(base_params) <= param_dict.keys(), assert_err_msg
+                 new_base_args = tuple(param_dict[param] for param in base_params)
+                 new_base = base[new_base_args]  # type: ignore
+-                new_mro.append(new_base)
++                if isinstance(new_base, type):
++                    new_mro.append(new_base)
++                else:
++                    # `base[new_base_args]` can return a `PydanticRecursiveRef` when a recursive generic
++                    # definition is detected; in this case we just use the unparameterized base class.
++                    new_mro.append(base)
+ 
+                 indexed_origins.add(base_origin or base)
+ 

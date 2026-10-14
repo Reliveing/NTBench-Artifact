@@ -1,0 +1,112 @@
+diff --git a/sklearn/cluster/_k_means_common.pyx b/sklearn/cluster/_k_means_common.pyx
+index 151af55076..3f8b795ac5 100644
+--- a/sklearn/cluster/_k_means_common.pyx
++++ b/sklearn/cluster/_k_means_common.pyx
+@@ -184,22 +184,42 @@ cpdef void _relocate_empty_clusters_dense(
+         return
+ 
+     cdef:
++        int n_samples = X.shape[0]
+         int n_features = X.shape[1]
+ 
+         floating[::1] distances = ((np.asarray(X) - np.asarray(centers_old)[labels])**2).sum(axis=1)
+-        int[::1] far_from_centers = np.argpartition(distances, -n_empty)[:-n_empty-1:-1].astype(np.int32)
++        # Sort samples by decreasing distance to their assigned center. Samples
++        # far from their center are the best candidates to be relocated into an
++        # empty cluster.
++        int[::1] far_from_centers = np.argsort(distances)[::-1].astype(np.int32)
++        # Number of samples currently assigned to each cluster. It is used to
++        # make sure we never empty a cluster while relocating samples, which
++        # could otherwise lead to an infinite loop.
++        int[::1] samples_in_cluster = np.bincount(
++            np.asarray(labels), minlength=centers_old.shape[0]).astype(np.int32)
+ 
+         int new_cluster_id, old_cluster_id, far_idx, idx, k
++        int candidate_idx = 0
+         floating weight
+ 
+     for idx in range(n_empty):
+ 
+         new_cluster_id = empty_clusters[idx]
+ 
+-        far_idx = far_from_centers[idx]
+-        weight = sample_weight[far_idx]
++        # Find the next candidate sample that is not the only sample of its
++        # cluster, so that relocating it does not create a new empty cluster.
++        while candidate_idx < n_samples:
++            far_idx = far_from_centers[candidate_idx]
++            old_cluster_id = labels[far_idx]
++            candidate_idx += 1
++            if samples_in_cluster[old_cluster_id] > 1:
++                break
++        else:
++            # No suitable candidate found; leave the remaining empty clusters
++            # as they are.
++            break
+ 
+-        old_cluster_id = labels[far_idx]
++        weight = sample_weight[far_idx]
+ 
+         for k in range(n_features):
+             centers_new[old_cluster_id, k] -= X[far_idx, k] * weight
+@@ -207,6 +227,8 @@ cpdef void _relocate_empty_clusters_dense(
+ 
+         weight_in_clusters[new_cluster_id] = weight
+         weight_in_clusters[old_cluster_id] -= weight
++        samples_in_cluster[old_cluster_id] -= 1
++        samples_in_cluster[new_cluster_id] += 1
+ 
+ 
+ cpdef void _relocate_empty_clusters_sparse(
+@@ -242,19 +264,38 @@ cpdef void _relocate_empty_clusters_sparse(
+             centers_old[j], centers_squared_norms[j], True)
+ 
+     cdef:
+-        int[::1] far_from_centers = np.argpartition(distances, -n_empty)[:-n_empty-1:-1].astype(np.int32)
++        # Sort samples by decreasing distance to their assigned center. Samples
++        # far from their center are the best candidates to be relocated into an
++        # empty cluster.
++        int[::1] far_from_centers = np.argsort(distances)[::-1].astype(np.int32)
++        # Number of samples currently assigned to each cluster. It is used to
++        # make sure we never empty a cluster while relocating samples, which
++        # could otherwise lead to an infinite loop.
++        int[::1] samples_in_cluster = np.bincount(
++            np.asarray(labels), minlength=centers_old.shape[0]).astype(np.int32)
+ 
+         int new_cluster_id, old_cluster_id, far_idx, idx
++        int candidate_idx = 0
+         floating weight
+ 
+     for idx in range(n_empty):
+ 
+         new_cluster_id = empty_clusters[idx]
+ 
+-        far_idx = far_from_centers[idx]
+-        weight = sample_weight[far_idx]
++        # Find the next candidate sample that is not the only sample of its
++        # cluster, so that relocating it does not create a new empty cluster.
++        while candidate_idx < n_samples:
++            far_idx = far_from_centers[candidate_idx]
++            old_cluster_id = labels[far_idx]
++            candidate_idx += 1
++            if samples_in_cluster[old_cluster_id] > 1:
++                break
++        else:
++            # No suitable candidate found; leave the remaining empty clusters
++            # as they are.
++            break
+ 
+-        old_cluster_id = labels[far_idx]
++        weight = sample_weight[far_idx]
+ 
+         for k in range(X_indptr[far_idx], X_indptr[far_idx + 1]):
+             centers_new[old_cluster_id, X_indices[k]] -= X_data[k] * weight
+@@ -262,6 +303,8 @@ cpdef void _relocate_empty_clusters_sparse(
+ 
+         weight_in_clusters[new_cluster_id] = weight
+         weight_in_clusters[old_cluster_id] -= weight
++        samples_in_cluster[old_cluster_id] -= 1
++        samples_in_cluster[new_cluster_id] += 1
+ 
+ 
+ cdef void _average_centers(

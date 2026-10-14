@@ -1,0 +1,28 @@
+diff --git a/dask/array/creation.py b/dask/array/creation.py
+index 9df5d674b..130e30b57 100644
+--- a/dask/array/creation.py
++++ b/dask/array/creation.py
+@@ -7,7 +7,7 @@ from operator import add, getitem
+ import numpy as np
+ from tlz import accumulate, sliding_window
+ 
+-from ..base import tokenize
++from ..base import is_dask_collection, tokenize
+ from ..highlevelgraph import HighLevelGraph
+ from ..utils import derived_from
+ from . import chunk
+@@ -295,6 +295,14 @@ def linspace(
+ 
+     chunks = normalize_chunks(chunks, (num,), dtype=dtype)
+ 
++    # Compute start and stop if they are dask collections to avoid embedding
++    # them in the task graph (which would lead to infinite recursion when the
++    # blocks are materialized via ``np.linspace``).
++    if is_dask_collection(start) or is_dask_collection(stop):
++        from .core import compute
++
++        start, stop = compute(start, stop)
++
+     range_ = stop - start
+ 
+     div = (num - 1) if endpoint else num

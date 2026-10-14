@@ -1,0 +1,22 @@
+diff --git a/src/tox/config/loader/toml/_replace.py b/src/tox/config/loader/toml/_replace.py
+index a95bb2e..af618b7 100644
+--- a/src/tox/config/loader/toml/_replace.py
++++ b/src/tox/config/loader/toml/_replace.py
+@@ -74,7 +74,10 @@ class Unroll:
+ 
+             res_dict: dict[str, TomlTypes] = {}
+             for key, val in value.items():  # apply replacement for every entry
+-                res_dict[key] = self(val, depth)
++                # SetEnv resolves its values lazily after the environment has
++                # been constructed. Eagerly unrolling this mapping can recurse
++                # through environment creation while loading configuration.
++                res_dict[key] = val if key == "set_env" else self(val, depth)
+             value = res_dict
+         return value
+ 
+@@ -159,4 +162,4 @@ class RawLoader:
+ 
+ __all__ = [
+     "Unroll",
+-]
++]

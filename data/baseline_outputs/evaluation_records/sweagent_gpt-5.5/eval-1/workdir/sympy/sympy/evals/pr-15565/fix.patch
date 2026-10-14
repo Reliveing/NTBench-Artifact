@@ -1,0 +1,19 @@
+diff --git a/sympy/core/symbol.py b/sympy/core/symbol.py
+index c5e7807312..276977574f 100644
+--- a/sympy/core/symbol.py
++++ b/sympy/core/symbol.py
+@@ -251,6 +251,14 @@ def _hashable_content(self):
+         # Note: user-specified assumptions not hashed, just derived ones
+         return (self.name,) + tuple(sorted(self.assumptions0.items()))
+ 
++    def _eval_subs(self, old, new):
++        if old.is_Pow and old.base == self and old.exp.is_positive:
++            # Treat a symbol as a power with exponent 1 so the existing
++            # power-substitution logic can recognize, for example,
++            # x == (sqrt(x))**2 when replacing sqrt(x).
++            from sympy.core.power import Pow
++            return Pow(self, S.One, evaluate=False)._eval_subs(old, new)
++
+     @property
+     def assumptions0(self):
+         return dict((key, value) for key, value

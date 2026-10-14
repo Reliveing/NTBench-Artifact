@@ -1,0 +1,120 @@
+diff --git a/sympy/solvers/simplex.py b/sympy/solvers/simplex.py
+index f140268b79..ae21b05771 100644
+--- a/sympy/solvers/simplex.py
++++ b/sympy/solvers/simplex.py
+@@ -298,37 +298,39 @@ def _simplex(A, B, C, D=None, dual=False):
+ 
+     # Phase 1: find a feasible solution or determine none exist
+ 
+-    ## keep track of last pivot row and column
++    ## keep track of last pivot row and column and all pivots
+     last = None
++    seen_pivots = set()
+ 
+     while True:
+-        B = M[:-1, -1]
+-        A = M[:-1, :-1]
+-        if all(B[i] >= 0 for i in range(B.rows)):
++        Bvals = M[:-1, -1]
++        Amat = M[:-1, :-1]
++        if all(Bvals[i] >= 0 for i in range(Bvals.rows)):
+             # We have found a feasible solution
+             break
+ 
+         # Find k: first row with a negative rightmost entry
+-        for k in range(B.rows):
+-            if B[k] < 0:
++        for k in range(Bvals.rows):
++            if Bvals[k] < 0:
+                 break  # use current value of k below
+         else:
+             pass  # error will raise below
+ 
+         # Choose pivot column, c
+-        piv_cols = [_ for _ in range(A.cols) if A[k, _] < 0]
++        piv_cols = [_ for _ in range(Amat.cols) if Amat[k, _] < 0]
+         if not piv_cols:
+             raise InfeasibleLPError(filldedent("""
+                 The constraint set is empty!"""))
+         _, c = min((X[i], i) for i in piv_cols) # Bland's rule
+ 
+         # Choose pivot row, r
+-        piv_rows = [_ for _ in range(A.rows) if A[_, c] > 0 and B[_] > 0]
++        piv_rows = [_ for _ in range(Amat.rows) if Amat[_, c] > 0 and Bvals[_] > 0]
+         piv_rows.append(k)
+-        r = _choose_pivot_row(A, B, piv_rows, c, Y)
++        r = _choose_pivot_row(Amat, Bvals, piv_rows, c, Y)
+ 
+-        # check for oscillation
++        # check for oscillation/cycling
+         if (r, c) == last:
++            # immediate repeat: oscillation detected
+             # Not sure what to do here; it looks like there will be
+             # oscillations; see o1 test added at this commit to
+             # see a system with no solution and the o2 for one
+@@ -347,30 +349,35 @@ def _simplex(A, B, C, D=None, dual=False):
+             # cf section 6 of Ferguson for a non-cycling modification
+             last = True
+             break
++        if (r, c) in seen_pivots:
++            # multi-step cycle: no feasible solution exists
++            raise InfeasibleLPError(filldedent("""
++                The constraint set is empty!"""))
+         last = r, c
++        seen_pivots.add((r, c))
+ 
+         M = _pivot(M, r, c)
+         X[c], Y[r] = Y[r], X[c]
+ 
+     # Phase 2: from a feasible solution, pivot to optimal
+     while True:
+-        B = M[:-1, -1]
+-        A = M[:-1, :-1]
+-        C = M[-1, :-1]
++        Bvals = M[:-1, -1]
++        Amat = M[:-1, :-1]
++        Cvals = M[-1, :-1]
+ 
+         # Choose a pivot column, c
+-        piv_cols = [_ for _ in range(n) if C[_] < 0]
++        piv_cols = [_ for _ in range(n) if Cvals[_] < 0]
+         if not piv_cols:
+             break
+         _, c = min((X[i], i) for i in piv_cols)  # Bland's rule
+ 
+         # Choose a pivot row, r
+-        piv_rows = [_ for _ in range(m) if A[_, c] > 0]
++        piv_rows = [_ for _ in range(m) if Amat[_, c] > 0]
+         if not piv_rows:
+             raise UnboundedLPError(filldedent("""
+                 Objective function can assume
+                 arbitrarily large values!"""))
+-        r = _choose_pivot_row(A, B, piv_rows, c, Y)
++        r = _choose_pivot_row(Amat, Bvals, piv_rows, c, Y)
+ 
+         M = _pivot(M, r, c)
+         X[c], Y[r] = Y[r], X[c]
+@@ -378,17 +385,17 @@ def _simplex(A, B, C, D=None, dual=False):
+     argmax = [None] * n
+     argmin_dual = [None] * m
+ 
+-    for i, (v, n) in enumerate(X):
++    for i, (v, n_val) in enumerate(X):
+         if v == False:
+-            argmax[n] = 0
++            argmax[n_val] = 0
+         else:
+-            argmin_dual[n] = M[-1, i]
++            argmin_dual[n_val] = M[-1, i]
+ 
+-    for i, (v, n) in enumerate(Y):
++    for i, (v, n_val) in enumerate(Y):
+         if v == True:
+-            argmin_dual[n] = 0
++            argmin_dual[n_val] = 0
+         else:
+-            argmax[n] = M[i, -1]
++            argmax[n_val] = M[i, -1]
+ 
+     if last and not all(i >= 0 for i in argmax + argmin_dual):
+         raise InfeasibleLPError(filldedent("""

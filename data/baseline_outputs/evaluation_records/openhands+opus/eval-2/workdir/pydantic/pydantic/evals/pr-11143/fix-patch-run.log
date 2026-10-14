@@ -1,0 +1,3 @@
+error: patch failed: tests/test_generics.py:3178
+error: tests/test_generics.py: patch does not apply
+Error: git apply failed

@@ -1,0 +1,18 @@
+diff --git a/sympy/solvers/solveset.py b/sympy/solvers/solveset.py
+index 34fa8f03bf..e2762416fa 100644
+--- a/sympy/solvers/solveset.py
++++ b/sympy/solvers/solveset.py
+@@ -856,6 +856,13 @@ def _solve_radical(f, symbol, solveset_solver):
+     res = unrad(f)
+     eq, cov = res if res else (f, [])
+     if not cov:
++        if eq == f:
++            # unrad returned None so the radical(s) could not be
++            # cleared; solving the unchanged equation would lead to
++            # infinite recursion (see issue #20698), so return an
++            # unevaluated ConditionSet over the working domain instead.
++            domain = solveset_solver(S.Zero, symbol)
++            return ConditionSet(symbol, Eq(f, 0), domain)
+         result = solveset_solver(eq, symbol) - \
+             Union(*[solveset_solver(g, symbol) for g in denoms(f, symbol)])
+     else:

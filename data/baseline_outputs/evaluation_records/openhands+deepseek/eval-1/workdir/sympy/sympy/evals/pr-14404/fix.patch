@@ -1,0 +1,22 @@
+diff --git a/sympy/core/power.py b/sympy/core/power.py
+index bd4bb7ae15..46769f5bd7 100644
+--- a/sympy/core/power.py
++++ b/sympy/core/power.py
+@@ -1084,7 +1084,7 @@ def as_real_imag(self, deep=True, **hints):
+                 return self, S.Zero
+             a, b = symbols('a b', cls=Dummy)
+             if exp >= 0:
+-                if re.is_Number and im.is_Number:
++                if re.is_Number and im.is_Number and not re.has(S.NaN) and not im.has(S.NaN):
+                     # We can be more efficient in this case
+                     expr = expand_multinomial(self.base**exp)
+                     return expr.as_real_imag()
+@@ -1094,7 +1094,7 @@ def as_real_imag(self, deep=True, **hints):
+             else:
+                 mag = re**2 + im**2
+                 re, im = re/mag, -im/mag
+-                if re.is_Number and im.is_Number:
++                if re.is_Number and im.is_Number and not re.has(S.NaN) and not im.has(S.NaN):
+                     # We can be more efficient in this case
+                     expr = expand_multinomial((re + im*S.ImaginaryUnit)**-exp)
+                     return expr.as_real_imag()

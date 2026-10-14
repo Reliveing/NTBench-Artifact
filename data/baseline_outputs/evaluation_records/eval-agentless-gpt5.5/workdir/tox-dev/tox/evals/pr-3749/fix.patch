@@ -1,0 +1,46 @@
+diff --git a/src/tox/config/loader/replacer.py b/src/tox/config/loader/replacer.py
+index 18fe242..452f35c 100644
+--- a/src/tox/config/loader/replacer.py
++++ b/src/tox/config/loader/replacer.py
+@@ -234,6 +234,12 @@ class Replacer:
+         return f"{REPLACE_START}%s{REPLACE_END}" % ARG_DELIMITER.join(flattened_args)
+ 
+ 
++from contextvars import ContextVar
++
++
++_POS_ARGS_CHANGE_DIR_RESOLUTION = ContextVar("tox_pos_args_change_dir_resolution", default=False)
++
++
+ def replace_pos_args(conf: Config, args: list[str], conf_args: ConfigLoadArgs) -> str:
+     pos_args = load_posargs(conf, conf_args)
+     # if we use the defaults, join back remaining args else take shell cmd.
+@@ -241,12 +247,21 @@ def replace_pos_args(conf: Config, args: list[str], conf_args: ConfigLoadArgs) -
+ 
+ 
+ def load_posargs(conf: Config, conf_args: ConfigLoadArgs) -> tuple[str, ...] | None:
++    # Resolving change_dir may itself contain {posargs}. In that case, do not
++    # resolve change_dir again; use the raw positional arguments instead.
++    if _POS_ARGS_CHANGE_DIR_RESOLUTION.get():
++        return conf.pos_args(None)
++
+     to_path: Path | None = None
+     if conf_args.env_name is not None:  # pragma: no branch
+         env_conf = conf.get_env(conf_args.env_name)
+         try:
+             if env_conf["args_are_paths"]:  # pragma: no branch
+-                to_path = env_conf["change_dir"]
++                token = _POS_ARGS_CHANGE_DIR_RESOLUTION.set(True)
++                try:
++                    to_path = env_conf["change_dir"]
++                finally:
++                    _POS_ARGS_CHANGE_DIR_RESOLUTION.reset(token)
+         except KeyError:
+             pass
+     return conf.pos_args(to_path)
+@@ -296,4 +311,4 @@ __all__ = [
+     "load_posargs",
+     "replace",
+     "replace_env",
+-]
++]

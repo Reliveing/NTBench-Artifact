@@ -1,0 +1,50 @@
+diff --git a/sympy/simplify/simplify.py b/sympy/simplify/simplify.py
+index 20cbe19669..41b794448c 100644
+--- a/sympy/simplify/simplify.py
++++ b/sympy/simplify/simplify.py
+@@ -1045,6 +1045,36 @@ def goodlog(l):
+             a = l.args[0]
+             return a.is_positive or force and a.is_nonpositive is not False
+ 
++        def goodcoeff(co, l):
++            # bool to tell whether the coefficients ``co`` can be moved
++            # inside ``log(l)`` as an exponent without creating an
++            # unreasonably large number, e.g. moving 10**9 into log(10)
++            # would create log(10**(10**9)) which is impractical to form.
++            arg = l.args[0]
++            if not arg.is_Number:
++                return True
++            c = Mul(*co)
++            if not c.is_Number:
++                return True
++            # estimate the number of decimal digits of arg**c
++            # Use a logarithmic estimate to avoid computing large numbers
++            try:
++                import math
++                # For arg**c, the number of digits is roughly c * log10(arg)
++                if arg.is_Rational:
++                    # For rationals, consider both numerator and denominator
++                    p, q = abs(arg.p), abs(arg.q)
++                    # Estimate digits as max(digits_in_p, digits_in_q) * abs(c)
++                    max_digits = max(len(str(p)), len(str(q)))
++                else:
++                    # For floats, use the mantissa
++                    max_digits = len(str(abs(float(arg))))
++                estimated_digits = abs(float(c)) * max_digits
++                return estimated_digits <= 1000
++            except (ValueError, OverflowError):
++                # If we can't estimate, be conservative and don't combine
++                return False
++
+         other = []
+         logs = []
+         log1 = defaultdict(list)
+@@ -1069,7 +1099,7 @@ def goodlog(l):
+                         ot.append(ai)
+                 if len(lo) > 1:
+                     logs.append((ot, co, lo))
+-                elif lo:
++                elif lo and goodcoeff(co, lo[0]):
+                     log1[tuple(ot)].append((co, lo[0]))
+                 else:
+                     other.append(a)

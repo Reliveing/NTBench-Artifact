@@ -1,0 +1,79 @@
+diff --git a/numpy/random/_generator.pyx b/numpy/random/_generator.pyx
+index d7c1879e7a..2c03afcf50 100644
+--- a/numpy/random/_generator.pyx
++++ b/numpy/random/_generator.pyx
+@@ -15,6 +15,7 @@
+ 
+ from .c_distributions cimport *
+ from libc cimport string
++from libc.math cimport sqrt
+ from libc.stdint cimport (uint8_t, uint16_t, uint32_t, uint64_t,
+                           int32_t, int64_t, INT64_MAX, SIZE_MAX)
+ from ._bounded_integers cimport (_rand_bool, _rand_int32, _rand_int64,
+@@ -59,6 +60,24 @@
+     return sum
+ 
+ 
++cdef int _check_negative_binomial_params(double n, double p) except -1:
++    cdef double q
++    cdef double mu
++    cdef double sigma
++
++    check_constraint(n, 'n', CONS_POSITIVE_NOT_NAN)
++    check_constraint(p, 'p', CONS_BOUNDED_GT_0_1)
++    if p == 1.0:
++        return 0
++
++    q = (1.0 - p) / p
++    mu = n * q
++    sigma = sqrt(n) * q
++    if not (mu + 10.0 * sigma <= POISSON_LAM_MAX):
++        raise ValueError('n too large or p too small, see Generator.negative_binomial Notes')
++    return 0
++
++
+ cdef inline void _shuffle_raw_wrap(bitgen_t *bitgen, np.npy_intp n,
+                                    np.npy_intp first, np.npy_intp itemsize,
+                                    np.npy_intp stride,
+@@ -2997,6 +3016,10 @@ def negative_binomial(self, n, p, size=None):
+         then the probability distribution of the number of non-"1"s that
+         appear before the third "1" is a negative binomial distribution.
+ 
++        Because this method relies on a Poisson random variable internally,
++        it raises a ValueError when parameters would make the intermediate
++        Poisson parameter too large to fit in a signed 64-bit integer.
++
+         References
+         ----------
+         .. [1] Weisstein, Eric W. "Negative Binomial Distribution." From
+@@ -3021,9 +3044,28 @@ def negative_binomial(self, n, p, size=None):
+         ...    print(i, "wells drilled, probability of one success =", probability)
+ 
+         """
++        cdef np.ndarray n_arr
++        cdef np.ndarray p_arr
++        cdef bint is_scalar
++
++        n_arr = <np.ndarray>np.PyArray_FROM_OTF(n, np.NPY_DOUBLE, np.NPY_ALIGNED)
++        p_arr = <np.ndarray>np.PyArray_FROM_OTF(p, np.NPY_DOUBLE, np.NPY_ALIGNED)
++        is_scalar = np.PyArray_NDIM(n_arr) == 0 and np.PyArray_NDIM(p_arr) == 0
++
++        if is_scalar:
++            _check_negative_binomial_params(PyFloat_AsDouble(n), PyFloat_AsDouble(p))
++        else:
++            check_array_constraint(n_arr, 'n', CONS_POSITIVE_NOT_NAN)
++            check_array_constraint(p_arr, 'p', CONS_BOUNDED_GT_0_1)
++            with np.errstate(all='ignore'):
++                if np.any(np.greater(n_arr * (1.0 - p_arr) / p_arr
++                                     + 10.0 * np.sqrt(n_arr) * (1.0 - p_arr) / p_arr,
++                                     POISSON_LAM_MAX)):
++                    raise ValueError('n too large or p too small, see Generator.negative_binomial Notes')
++
+         return disc(&random_negative_binomial, &self._bitgen, size, self.lock, 2, 0,
+-                    n, 'n', CONS_POSITIVE_NOT_NAN,
+-                    p, 'p', CONS_BOUNDED_GT_0_1,
++                    n, 'n', CONS_NONE,
++                    p, 'p', CONS_NONE,
+                     0.0, '', CONS_NONE)
+ 
+     def poisson(self, lam=1.0, size=None):

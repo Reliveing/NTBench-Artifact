@@ -1,0 +1,18 @@
+diff --git a/sympy/functions/elementary/complexes.py b/sympy/functions/elementary/complexes.py
+index 84930497b5..cccdc18428 100644
+--- a/sympy/functions/elementary/complexes.py
++++ b/sympy/functions/elementary/complexes.py
+@@ -426,6 +426,13 @@ def _eval_nseries(self, x, n, logx, cdir=0):
+         arg0 = self.args[0]
+         x0 = arg0.subs(x, 0)
+         if x0 != 0:
++            if x0.has(S.ComplexInfinity, S.Infinity, S.NegativeInfinity):
++                # arg0 tends to an infinity as x -> 0.  Substituting x = 0
++                # would give a meaningless result such as sign(zoo), so the
++                # sign is instead determined by the leading behaviour of the
++                # argument.
++                lt = arg0.as_leading_term(x, cdir=cdir)
++                return self.func(lt)
+             return self.func(x0)
+         if cdir != 0:
+             cdir = arg0.dir(x, cdir)

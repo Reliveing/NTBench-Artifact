@@ -1,0 +1,14 @@
+diff --git a/sympy/calculus/util.py b/sympy/calculus/util.py
+index 21d6e80a4d..b9da6899c6 100644
+--- a/sympy/calculus/util.py
++++ b/sympy/calculus/util.py
+@@ -344,6 +344,9 @@ def periodicity(f, symbol, check=False):
+         except NotImplementedError:
+             pass
+ 
++    if isinstance(f, Abs):
++        return periodicity(f.args[0], symbol)
++
+     if f.is_Pow:
+         base, expo = f.args
+         base_has_sym = base.has(symbol)

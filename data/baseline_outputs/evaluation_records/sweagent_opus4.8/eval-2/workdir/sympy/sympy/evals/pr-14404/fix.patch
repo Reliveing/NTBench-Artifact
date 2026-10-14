@@ -1,0 +1,44 @@
+diff --git a/sympy/functions/elementary/trigonometric.py b/sympy/functions/elementary/trigonometric.py
+index ea6a4deb3f..92b1527c68 100644
+--- a/sympy/functions/elementary/trigonometric.py
++++ b/sympy/functions/elementary/trigonometric.py
+@@ -265,6 +265,9 @@ def eval(cls, arg):
+             elif arg is S.Infinity or arg is S.NegativeInfinity:
+                 return AccumBounds(-1, 1)
+ 
++        if arg is S.ComplexInfinity:
++            return S.NaN
++
+         if isinstance(arg, AccumBounds):
+             min, max = arg.min, arg.max
+             d = floor(min/(2*S.Pi))
+@@ -541,6 +544,9 @@ def eval(cls, arg):
+                 # -1 and 1, where S.NaN does not do that.
+                 return AccumBounds(-1, 1)
+ 
++        if arg is S.ComplexInfinity:
++            return S.NaN
++
+         if isinstance(arg, AccumBounds):
+             return sin(arg + S.Pi/2)
+         elif isinstance(arg, SetExpr):
+@@ -959,6 +965,9 @@ def eval(cls, arg):
+             elif arg is S.Infinity or arg is S.NegativeInfinity:
+                 return AccumBounds(S.NegativeInfinity, S.Infinity)
+ 
++        if arg is S.ComplexInfinity:
++            return S.NaN
++
+         if isinstance(arg, AccumBounds):
+             min, max = arg.min, arg.max
+             d = floor(min/S.Pi)
+@@ -1252,6 +1261,9 @@ def eval(cls, arg):
+             if arg is S.Zero:
+                 return S.ComplexInfinity
+ 
++        if arg is S.ComplexInfinity:
++            return S.NaN
++
+         if isinstance(arg, AccumBounds):
+             return -tan(arg + S.Pi/2)
+ 

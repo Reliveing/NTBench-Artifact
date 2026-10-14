@@ -1,0 +1,22 @@
+diff --git a/sympy/vector/vector.py b/sympy/vector/vector.py
+index 77ee9bfa9f..09bc20fc24 100644
+--- a/sympy/vector/vector.py
++++ b/sympy/vector/vector.py
+@@ -37,6 +37,17 @@ class Vector(BasisDependent):
+ 
+     kind: VectorKind = VectorKind()
+ 
++    def __new__(cls, *args, **kwargs):
++        # Prevent direct instantiation of Vector base class
++        # Vector instances should be created through CoordSys3D or subclasses
++        if cls == Vector:
++            raise TypeError(
++                "Vector cannot be instantiated directly. "
++                "Use a CoordSys3D instance to create vectors, e.g., "
++                "C = CoordSys3D('C'); v = C.i + C.j + C.k"
++            )
++        return super().__new__(cls, *args, **kwargs)
++
+     @property
+     def components(self):
+         """

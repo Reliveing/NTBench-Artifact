@@ -1,0 +1,23 @@
+diff --git a/sympy/integrals/trigonometry.py b/sympy/integrals/trigonometry.py
+index 607e018..03510af 100644
+--- a/sympy/integrals/trigonometry.py
++++ b/sympy/integrals/trigonometry.py
+@@ -63,6 +63,12 @@ def trigintegrate(f, x, conds='piecewise'):
+     f = f.rewrite('sincos')
+     M = f.match(pat)
+ 
++    if M is None:
++        # Normalize quotients such as sin(2*x)/sin(x) by expanding
++        # multiple-angle arguments before attempting the power match.
++        f = expand_trig(f).cancel()
++        M = f.match(pat)
++
+     if M is None:
+         return
+ 
+@@ -330,4 +336,4 @@ def _cos_pow_integrate(n, x):
+     else:
+         # n == 0
+         #Recursion Break.
+-        return x
++        return x

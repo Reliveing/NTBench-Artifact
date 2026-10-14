@@ -1,0 +1,54 @@
+[
+  {
+    "instance_id": "matplotlib__matplotlib-30198",
+    "source_run": 1,
+    "removed_blocks": [
+      {
+        "path": "=10.0.0",
+        "reason": "generated_artifact_pollution"
+      },
+      {
+        "path": "subprojects/.wraplock",
+        "reason": "generated_artifact_pollution"
+      }
+    ],
+    "raw_sha256": "f701d4d0ae0e7eac7a060d4fa19eaa0be2122c1b0beee7b25219d085bd58ab34",
+    "eval_sha256": "88e28020d709ff90995ac1637cfb85356239597d86fdef50b606d6e41bacfff9"
+  },
+  {
+    "instance_id": "sympy__sympy-27537",
+    "source_run": 1,
+    "removed_blocks": [
+      {
+        "path": "sympy/simplify/tests/test_simplify.py",
+        "reason": "test_file"
+      }
+    ],
+    "raw_sha256": "782ea6550f10c5352b0c14a3e2ea3067a6b74b1502da8e12ea75795e3aec43bd",
+    "eval_sha256": "0822ea801deab5745ded01ca795963f8f76bcb3ee5f635a31292a4e673d682f0"
+  },
+  {
+    "instance_id": "pylint-dev__pylint-5062",
+    "source_run": 2,
+    "removed_blocks": [
+      {
+        "path": "tests/test_pylint_runners.py",
+        "reason": "test_file"
+      }
+    ],
+    "raw_sha256": "9a11291eff1309106e3165f78ca44cdee30f0a2a2a129f6b9e079a4220458a12",
+    "eval_sha256": "bd165c0e1070d18e2417b4189d5714ee574615de72bff4be85bb7c1cb13d95d0"
+  },
+  {
+    "instance_id": "urllib3__urllib3-4974",
+    "source_run": 2,
+    "removed_blocks": [
+      {
+        "path": "test/test_response.py",
+        "reason": "test_file"
+      }
+    ],
+    "raw_sha256": "3f989f9cb38977755e48645a8f4e4b54704253d469e703caa50e1453e4b712a0",
+    "eval_sha256": "ebba65621287e6e3f9d49800aaa4d0d20753f7d1858af6789c72f3559371eff5"
+  }
+]

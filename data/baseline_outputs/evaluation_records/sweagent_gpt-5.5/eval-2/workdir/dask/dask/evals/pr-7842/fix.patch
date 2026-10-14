@@ -1,0 +1,20 @@
+diff --git a/dask/dataframe/multi.py b/dask/dataframe/multi.py
+index 278d434ac..1043c2e29 100644
+--- a/dask/dataframe/multi.py
++++ b/dask/dataframe/multi.py
+@@ -740,6 +740,15 @@ def pair_partitions(L, R):
+     result = []
+ 
+     n, m = len(L) - 1, len(R) - 1
++
++    # Empty dataframes with known divisions may have all-missing divisions
++    # (for example ``(nan, nan)`` or ``(NaT, NaT)``).  Missing values are not
++    # orderable, so the advancement logic below can get stuck comparing normal
++    # left divisions against missing right divisions.  Since the RHS is empty,
++    # every left partition can be paired with a single empty right partition.
++    if m > 0 and all(pd.isna(r) for r in R):
++        return [[(0, None, None)] for _ in range(n)]
++
+     i, j = 0, -1
+     while j + 1 < m and R[j + 1] <= L[i]:
+         j += 1

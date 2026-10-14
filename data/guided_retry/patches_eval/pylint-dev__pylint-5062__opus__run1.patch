@@ -1,0 +1,22 @@
+diff --git a/pylint/lint/run.py b/pylint/lint/run.py
+index d84ed2703..d1cdcdccb 100644
+--- a/pylint/lint/run.py
++++ b/pylint/lint/run.py
+@@ -22,10 +22,13 @@ def _cpu_count() -> int:
+     sched_getaffinity = getattr(os, "sched_getaffinity", None)
+     # pylint: disable=not-callable,using-constant-test
+     if sched_getaffinity:
+-        return len(sched_getaffinity(0))
+-    if multiprocessing:
+-        return multiprocessing.cpu_count()
+-    return 1
++        cpu_count = len(sched_getaffinity(0))
++    elif multiprocessing:
++        cpu_count = multiprocessing.cpu_count()
++    else:
++        cpu_count = 1
++    # Ensure we always return at least 1 to avoid issues with multiprocessing.Pool
++    return cpu_count if cpu_count >= 1 else 1
+ 
+ 
+ def cb_list_extensions(option, optname, value, parser):

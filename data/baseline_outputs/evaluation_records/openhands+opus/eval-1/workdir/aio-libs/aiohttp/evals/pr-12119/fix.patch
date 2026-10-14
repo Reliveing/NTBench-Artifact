@@ -1,0 +1,25 @@
+diff --git a/CHANGES/10930.bugfix.rst b/CHANGES/10930.bugfix.rst
+new file mode 100644
+index 000000000..5a6fa2509
+--- /dev/null
++++ b/CHANGES/10930.bugfix.rst
+@@ -0,0 +1 @@
++Fixed the server hanging instead of returning a ``400 Bad Request`` when a chunked request had a chunk-size that did not match the actual chunk-data size -- by :user:`bdraco`.
+diff --git a/aiohttp/http_parser.py b/aiohttp/http_parser.py
+index c5560b7a5..eb8b56d98 100644
+--- a/aiohttp/http_parser.py
++++ b/aiohttp/http_parser.py
+@@ -889,6 +889,13 @@ class HttpPayloadParser:
+                     if chunk[: len(SEP)] == SEP:
+                         chunk = chunk[len(SEP) :]
+                         self._chunk = ChunkState.PARSE_CHUNKED_SIZE
++                    elif chunk and not SEP.startswith(chunk):
++                        # Data present that does not match the expected CRLF
++                        # terminating the chunk, so the chunk-size did not
++                        # match the actual chunk-data size.
++                        raise TransferEncodingError(
++                            "Chunk not properly terminated"
++                        )
+                     else:
+                         self._chunk_tail = chunk
+                         return False, b""

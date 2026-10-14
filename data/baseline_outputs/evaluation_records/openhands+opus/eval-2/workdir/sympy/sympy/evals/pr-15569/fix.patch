@@ -1,0 +1,52 @@
+diff --git a/sympy/series/limits.py b/sympy/series/limits.py
+index de5731ce14..ba17e73508 100644
+--- a/sympy/series/limits.py
++++ b/sympy/series/limits.py
+@@ -52,6 +52,11 @@ def limit(e, z, z0, dir="+"):
+     First we try some heuristics for easy and frequent cases like "x", "1/x",
+     "x**2" and similar, so that it's fast. For all other cases, we use the
+     Gruntz algorithm (see the gruntz() function).
++
++    See Also
++    ========
++
++    limit_seq : returns the limit of a sequence.
+     """
+ 
+     if dir == "+-":
+@@ -172,8 +177,18 @@ def free_symbols(self):
+ 
+ 
+     def doit(self, **hints):
+-        """Evaluates limit"""
+-        from sympy.series.limitseq import limit_seq
++        """Evaluates the limit.
++
++        Parameters
++        ==========
++
++        deep : bool, optional (default: True)
++            Invoke the ``doit`` method of the expressions involved before
++            taking the limit.
++
++        hints : optional keyword arguments
++            To be passed to ``doit`` methods; only used if deep is True.
++        """
+         from sympy.functions import RisingFactorial
+ 
+         e, z, z0, dir = self.args
+@@ -232,14 +247,5 @@ def doit(self, **hints):
+             r = heuristics(e, z, z0, dir)
+             if r is None:
+                 return self
+-        except NotImplementedError:
+-            # Trying finding limits of sequences
+-            if hints.get('sequence', True) and z0 is S.Infinity:
+-                trials = hints.get('trials', 5)
+-                r = limit_seq(e, z, trials)
+-                if r is None:
+-                    raise NotImplementedError()
+-            else:
+-                raise NotImplementedError()
+ 
+         return r

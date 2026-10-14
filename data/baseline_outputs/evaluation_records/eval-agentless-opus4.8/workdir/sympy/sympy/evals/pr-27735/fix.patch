@@ -1,0 +1,52 @@
+diff --git a/sympy/logic/algorithms/dpll2.py b/sympy/logic/algorithms/dpll2.py
+index 75115e0..dd2f620 100644
+--- a/sympy/logic/algorithms/dpll2.py
++++ b/sympy/logic/algorithms/dpll2.py
+@@ -236,18 +236,33 @@ class SATSolver:
+                     if res is None or res[0]:
+                         yield {self.symbols[abs(lit) - 1]:
+                                     lit > 0 for lit in self.var_settings}
++
++                        while self._current_level.flipped:
++                            self._undo()
++                        if len(self.levels) == 1:
++                            return
++                        flip_lit = -self._current_level.decision
++                        self._undo()
++                        self.levels.append(Level(flip_lit, flipped=True))
++                        flip_var = True
++                        continue
+                     else:
+                         self._simple_add_learned_clause(res[1])
+ 
+-                    while self._current_level.flipped:
++                        # We unroll all of the decisions until we can flip a literal
++                        while self._current_level.flipped:
++                            self._undo()
++
++                            # If we've unrolled all the way, the theory is unsat
++                            if 1 == len(self.levels):
++                                return
++
++                        # Try the opposite setting of the most recent decision
++                        flip_lit = -self._current_level.decision
+                         self._undo()
+-                    if len(self.levels) == 1:
+-                        return
+-                    flip_lit = -self._current_level.decision
+-                    self._undo()
+-                    self.levels.append(Level(flip_lit, flipped=True))
+-                    flip_var = True
+-                    continue
++                        self.levels.append(Level(flip_lit, flipped=True))
++                        flip_var = True
++                        continue
+ 
+                 # Start the new decision level
+                 self.levels.append(Level(lit))
+@@ -681,4 +696,4 @@ class Level:
+     def __init__(self, decision, flipped=False):
+         self.decision = decision
+         self.var_settings = set()
+-        self.flipped = flipped
++        self.flipped = flipped

@@ -1,0 +1,37 @@
+diff --git a/sympy/logic/algorithms/dpll2.py b/sympy/logic/algorithms/dpll2.py
+index 75115e01ef..46c22de80a 100644
+--- a/sympy/logic/algorithms/dpll2.py
++++ b/sympy/logic/algorithms/dpll2.py
+@@ -238,6 +238,32 @@ def _find_model(self):
+                                     lit > 0 for lit in self.var_settings}
+                     else:
+                         self._simple_add_learned_clause(res[1])
++                        # Backtrack to before any conflicting literals were
++                        # assigned so the new conflict clause is not immediately
++                        # falsified.
++                        conflict_lits = set(res[1])
++                        while len(self.levels) > 1:
++                            if all(-lit in self.var_settings
++                                   for lit in conflict_lits):
++                                self._undo()
++                            else:
++                                break
++                        # If the conflict clause is still falsified and we
++                        # are at the base level, the formula is UNSAT.
++                        if not (len(self.levels) == 1 and
++                                all(-lit in self.var_settings
++                                    for lit in conflict_lits)):
++                            # If the conflict clause is now unit (only one
++                            # unassigned literal, the rest false), queue it
++                            # for unit propagation.
++                            if not any(lit in self.var_settings
++                                       for lit in conflict_lits):
++                                unassigned = [lit for lit in conflict_lits
++                                              if -lit not in self.var_settings]
++                                if len(unassigned) == 1:
++                                    self._unit_prop_queue.append(
++                                        unassigned[0])
++                            continue
+ 
+                     while self._current_level.flipped:
+                         self._undo()

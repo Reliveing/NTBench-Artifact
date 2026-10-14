@@ -1,0 +1,30 @@
+diff --git a/numpy/random/_common.pyx b/numpy/random/_common.pyx
+index 607034a385..63d66373e5 100644
+--- a/numpy/random/_common.pyx
++++ b/numpy/random/_common.pyx
+@@ -708,6 +708,13 @@
+     if b_constraint != CONS_NONE:
+         check_array_constraint(b_arr, b_name, b_constraint)
+ 
++    # Combined overflow check for negative binomial
++    cdef np.ndarray _a_arr, _b_arr
++    _a_arr = <np.ndarray>a_arr
++    _b_arr = <np.ndarray>b_arr
++    if np.any(_a_arr * (1.0 - _b_arr) / _b_arr > POISSON_LAM_MAX):
++        raise ValueError("n value too large")
++
+     if size is not None:
+         randoms = <np.ndarray>np.empty(size, np.int64)
+     else:
+@@ -918,6 +925,11 @@
+             if c_constraint != CONS_NONE and is_scalar:
+                 check_constraint(<double>_ic, c_name, c_constraint)
+ 
++    # Combined overflow check for negative binomial (narg_double == 2, narg_int64 == 0)
++    if narg_double == 2 and narg_int64 == 0:
++        if _da * (1.0 - _db) / _db > POISSON_LAM_MAX:
++            raise ValueError("n value too large")
++
+     if size is None:
+         with lock:
+             if narg_int64 == 0:

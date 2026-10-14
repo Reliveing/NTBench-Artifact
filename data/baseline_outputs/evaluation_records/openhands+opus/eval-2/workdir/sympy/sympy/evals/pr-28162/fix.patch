@@ -1,0 +1,15 @@
+diff --git a/sympy/functions/special/singularity_functions.py b/sympy/functions/special/singularity_functions.py
+index a69026e6e6..d393ba82f2 100644
+--- a/sympy/functions/special/singularity_functions.py
++++ b/sympy/functions/special/singularity_functions.py
+@@ -229,7 +229,9 @@ def _eval_nseries(self, x, n, logx=None, cdir=0):
+             return S.Zero if cdir == -1 else S.One
+         elif shift.is_positive:
+             return ((z - a)**n)._eval_nseries(x, n, logx=logx, cdir=cdir)
+-        return S.Zero
++        elif shift.is_negative:
++            return S.Zero
++        return self.subs(x, S.Zero)
+ 
+     _eval_rewrite_as_DiracDelta = _eval_rewrite_as_Heaviside
+     _eval_rewrite_as_HeavisideDiracDelta = _eval_rewrite_as_Heaviside

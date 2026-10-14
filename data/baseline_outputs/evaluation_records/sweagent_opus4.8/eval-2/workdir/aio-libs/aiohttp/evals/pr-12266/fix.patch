@@ -1,0 +1,57 @@
+diff --git a/aiohttp/compression_utils.py b/aiohttp/compression_utils.py
+index 0bc4a30d8..c7ad78986 100644
+--- a/aiohttp/compression_utils.py
++++ b/aiohttp/compression_utils.py
+@@ -330,6 +330,9 @@ class ZSTDDecompressor(DecompressionBaseHandler):
+                 "Please install `backports.zstd` module"
+             )
+         self._obj = ZstdDecompressor()
++        # Holds the start of the next frame(s) when a previous call reached the
++        # configured output limit before all buffered input could be decoded.
++        self._unused_data = b""
+         super().__init__(executor=executor, max_sync_chunk_size=max_sync_chunk_size)
+ 
+     def decompress_sync(
+@@ -342,7 +345,41 @@ class ZSTDDecompressor(DecompressionBaseHandler):
+             if max_length == ZLIB_MAX_LENGTH_UNLIMITED
+             else max_length
+         )
+-        return self._obj.decompress(data, zstd_max_length)
++        # ZstdDecompressor does not transparently handle inputs containing
++        # multiple compressed frames: once it reaches the end of a frame it
++        # will refuse to decompress any trailing data. To support responses
++        # that are made up of several concatenated frames we detect the end
++        # of each frame and continue decoding the remaining data with a fresh
++        # decompressor. See https://docs.python.org/3/library/compression.zstd.html
++        # Prepend any input left over from a previous call (see below) and, if
++        # the previous frame ended exactly at the end of the last chunk, start
++        # with a fresh decompressor before feeding the next frame's data.
++        if self._unused_data:
++            data = self._unused_data + bytes(data)
++            self._unused_data = b""
++        if self._obj.eof:
++            self._obj = ZstdDecompressor()
++        chunks = []
++        remaining = zstd_max_length
++        while True:
++            chunk = self._obj.decompress(data, remaining)
++            chunks.append(chunk)
++            # If we did not reach the end of the current frame, or there is no
++            # trailing data to process, we are done for now.
++            if not self._obj.eof or not self._obj.unused_data:
++                break
++            # If a maximum length was requested and we have exhausted it, stop
++            # here so we do not decompress more than requested. The trailing
++            # frame(s) are stored and processed on the next call.
++            if remaining != ZSTD_MAX_LENGTH_UNLIMITED:
++                remaining -= len(chunk)
++                if remaining <= 0:
++                    self._unused_data = self._obj.unused_data
++                    break
++            # Continue with the next frame using a fresh decompressor.
++            data = self._obj.unused_data
++            self._obj = ZstdDecompressor()
++        return b"".join(chunks)
+ 
+     def flush(self) -> bytes:
+         return b""

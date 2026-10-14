@@ -1,0 +1,77 @@
+Obtaining file:///home/sympy
+  Installing build dependencies: started
+  Installing build dependencies: finished with status 'done'
+  Checking if build backend supports build_editable: started
+  Checking if build backend supports build_editable: finished with status 'done'
+  Getting requirements to build editable: started
+  Getting requirements to build editable: finished with status 'done'
+  Preparing editable metadata (pyproject.toml): started
+  Preparing editable metadata (pyproject.toml): finished with status 'done'
+Requirement already satisfied: mpmath>=1.1.0 in /usr/local/lib/python3.11/site-packages (from sympy==1.14.dev0) (1.4.1)
+Building wheels for collected packages: sympy
+  Building editable for sympy (pyproject.toml): started
+  Building editable for sympy (pyproject.toml): finished with status 'done'
+  Created wheel for sympy: filename=sympy-1.14.dev0-0.editable-py3-none-any.whl size=33289 sha256=f9b2ac3688c2fd65c630c739af0dcff88f3e4a1b3833553fc5099aa2e4557fcf
+  Stored in directory: /tmp/pip-ephem-wheel-cache-e_9ri9us/wheels/af/22/61/2ece34a734d21005537313f7f88a33ef281f3770719986eb88
+Successfully built sympy
+Installing collected packages: sympy
+  Attempting uninstall: sympy
+    Found existing installation: sympy 1.14.dev0
+    Uninstalling sympy-1.14.dev0:
+      Successfully uninstalled sympy-1.14.dev0
+Successfully installed sympy-1.14.dev0
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+
+[notice] A new release of pip is available: 26.0.1 -> 26.2.1
+[notice] To update, run: pip install --upgrade pip
+============================= test session starts ==============================
+collecting ... collected 19 items
+
+sympy/vector/tests/test_vector.py::test_cross PASSED                     [  5%]
+sympy/vector/tests/test_vector.py::test_cross_xfail XFAIL                [ 10%]
+sympy/vector/tests/test_vector.py::test_dot PASSED                       [ 15%]
+sympy/vector/tests/test_vector.py::test_vector_sympy PASSED              [ 21%]
+sympy/vector/tests/test_vector.py::test_kind PASSED                      [ 26%]
+sympy/vector/tests/test_vector.py::test_vectoradd PASSED                 [ 31%]
+sympy/vector/tests/test_vector.py::test_vector PASSED                    [ 36%]
+sympy/vector/tests/test_vector.py::test_vector_magnitude_normalize PASSED [ 42%]
+sympy/vector/tests/test_vector.py::test_vector_simplify PASSED           [ 47%]
+sympy/vector/tests/test_vector.py::test_vector_equals PASSED             [ 52%]
+sympy/vector/tests/test_vector.py::test_vector_conjugate PASSED          [ 57%]
+sympy/vector/tests/test_vector.py::test_vector_dot PASSED                [ 63%]
+sympy/vector/tests/test_vector.py::test_vector_cross PASSED              [ 68%]
+sympy/vector/tests/test_vector.py::test_projection PASSED                [ 73%]
+sympy/vector/tests/test_vector.py::test_vector_diff_integrate PASSED     [ 78%]
+sympy/vector/tests/test_vector.py::test_vector_args PASSED               [ 84%]
+sympy/vector/tests/test_vector.py::test_srepr PASSED                     [ 89%]
+sympy/vector/tests/test_vector.py::test_scalar PASSED                    [ 94%]
+sympy/vector/tests/test_vector.py::test_issue_27439 FAILED               [100%]
+
+=============================== warnings summary ===============================
+sympy/vector/tests/test_vector.py: 407 warnings
+  /usr/local/lib/python3.11/site-packages/mpmath/libmp/libintmath.py:75: DeprecationWarning: bitcount function is deprecated
+    warnings.warn("bitcount function is deprecated",
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+                                DO *NOT* COMMIT!                                
+=========================== short test summary info ============================
+PASSED sympy/vector/tests/test_vector.py::test_cross
+PASSED sympy/vector/tests/test_vector.py::test_dot
+PASSED sympy/vector/tests/test_vector.py::test_vector_sympy
+PASSED sympy/vector/tests/test_vector.py::test_kind
+PASSED sympy/vector/tests/test_vector.py::test_vectoradd
+PASSED sympy/vector/tests/test_vector.py::test_vector
+PASSED sympy/vector/tests/test_vector.py::test_vector_magnitude_normalize
+PASSED sympy/vector/tests/test_vector.py::test_vector_simplify
+PASSED sympy/vector/tests/test_vector.py::test_vector_equals
+PASSED sympy/vector/tests/test_vector.py::test_vector_conjugate
+PASSED sympy/vector/tests/test_vector.py::test_vector_dot
+PASSED sympy/vector/tests/test_vector.py::test_vector_cross
+PASSED sympy/vector/tests/test_vector.py::test_projection
+PASSED sympy/vector/tests/test_vector.py::test_vector_diff_integrate
+PASSED sympy/vector/tests/test_vector.py::test_vector_args
+PASSED sympy/vector/tests/test_vector.py::test_srepr
+PASSED sympy/vector/tests/test_vector.py::test_scalar
+XFAIL sympy/vector/tests/test_vector.py::test_cross_xfail
+FAILED sympy/vector/tests/test_vector.py::test_issue_27439 - Failed: DID NOT ...
+============ 1 failed, 17 passed, 1 xfailed, 407 warnings in 1.10s =============

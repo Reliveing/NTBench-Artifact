@@ -1,0 +1,73 @@
+diff --git a/lib/matplotlib/patches.py b/lib/matplotlib/patches.py
+index a6120d6450..a0683c1a64 100644
+--- a/lib/matplotlib/patches.py
++++ b/lib/matplotlib/patches.py
+@@ -3130,17 +3130,61 @@ class ArrowStyle(_Style):
+         @staticmethod
+         def ensure_quadratic_bezier(path):
+             """
+-            Some ArrowStyle class only works with a simple quadratic Bezier
+-            curve (created with Arc3Connetion or Angle3Connector). This static
+-            method is to check if the provided path is a simple quadratic
+-            Bezier curve and returns its control points if true.
++            Return a quadratic Bezier representation of *path*.
++
++            Some ArrowStyle classes operate on a single quadratic Bezier
++            segment.  If *path* already is such a segment (as created by the
++            Arc3 or Angle3 connection styles), return its three control points.
++            Otherwise, approximate the open path by a quadratic Bezier from its
++            first to last vertex whose midpoint lies on the original path.
+             """
+             segments = list(path.iter_segments())
+-            if (len(segments) != 2 or segments[0][1] != Path.MOVETO or
+-                    segments[1][1] != Path.CURVE3):
++            if (len(segments) == 2 and segments[0][1] == Path.MOVETO and
++                    segments[1][1] == Path.CURVE3):
++                return [*segments[0][0], *segments[1][0]]
++
++            # Convert straight or multi-segment connection paths to a single
++            # quadratic Bezier.  Pick the control point so that the Bezier
++            # passes through the arclength midpoint of the original path at
++            # t = 0.5: B(.5) = .25 * P0 + .5 * P1 + .25 * P2.
++            vertices = path.vertices
++            codes = path.codes
++            if codes is not None:
++                vertices = vertices[codes != Path.CLOSEPOLY]
++            if len(vertices) < 2:
+                 raise ValueError(
+                     "'path' is not a valid quadratic Bezier curve")
+-            return [*segments[0][0], *segments[1][0]]
++
++            x0, y0 = vertices[0]
++            x2, y2 = vertices[-1]
++            distances = np.hypot(np.diff(vertices[:, 0]),
++                                 np.diff(vertices[:, 1]))
++            total = distances.sum()
++
++            if total == 0:
++                xm = .5 * (x0 + x2)
++                ym = .5 * (y0 + y2)
++            else:
++                target = .5 * total
++                distance = 0
++                for (xa, ya), (xb, yb), segment_length in zip(
++                        vertices[:-1], vertices[1:], distances):
++                    if distance + segment_length >= target:
++                        if segment_length == 0:
++                            xm, ym = xb, yb
++                        else:
++                            fraction = ((target - distance)
++                                        / segment_length)
++                            xm = xa + fraction * (xb - xa)
++                            ym = ya + fraction * (yb - ya)
++                        break
++                    distance += segment_length
++                else:
++                    xm, ym = x2, y2
++
++            x1 = 2 * xm - .5 * (x0 + x2)
++            y1 = 2 * ym - .5 * (y0 + y2)
++            return [x0, y0, x1, y1, x2, y2]
+ 
+         def transmute(self, path, mutation_size, linewidth):
+             """

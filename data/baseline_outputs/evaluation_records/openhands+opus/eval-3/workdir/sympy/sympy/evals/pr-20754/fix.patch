@@ -1,0 +1,36 @@
+diff --git a/sympy/functions/elementary/complexes.py b/sympy/functions/elementary/complexes.py
+index 84930497b5..cda70452bd 100644
+--- a/sympy/functions/elementary/complexes.py
++++ b/sympy/functions/elementary/complexes.py
+@@ -422,6 +422,15 @@ def _eval_power(self, other):
+         ):
+             return S.One
+ 
++    def _eval_as_leading_term(self, x, cdir=0):
++        arg = self.args[0]
++        x0 = arg.subs(x, 0)
++        if x0 != 0:
++            return self.func(x0)
++        if cdir != 0:
++            cdir = arg.dir(x, cdir)
++        return -S.One if re(cdir) < 0 else S.One
++
+     def _eval_nseries(self, x, n, logx, cdir=0):
+         arg0 = self.args[0]
+         x0 = arg0.subs(x, 0)
+@@ -668,6 +677,15 @@ def _eval_nseries(self, x, n, logx, cdir=0):
+             (sign(direction)*s, True),
+         )
+ 
++    def _eval_as_leading_term(self, x, cdir=0):
++        arg = self.args[0]
++        x0 = arg.subs(x, 0)
++        if x0 != 0:
++            return self.func(x0)
++        else:
++            direction = arg.leadterm(x)[0]
++            return sign(direction)*arg.as_leading_term(x, cdir=cdir)
++
+     def _sage_(self):
+         import sage.all as sage
+         return sage.abs_symbolic(self.args[0]._sage_())

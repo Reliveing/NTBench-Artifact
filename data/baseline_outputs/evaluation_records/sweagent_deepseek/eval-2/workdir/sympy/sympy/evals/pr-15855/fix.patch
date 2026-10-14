@@ -1,0 +1,71 @@
+diff --git a/sympy/logic/boolalg.py b/sympy/logic/boolalg.py
+index b0f64ec841..87fb1c966e 100644
+--- a/sympy/logic/boolalg.py
++++ b/sympy/logic/boolalg.py
+@@ -534,18 +534,59 @@ class And(LatticeOp, BooleanFunction):
+ 
+     @classmethod
+     def _new_args_filter(cls, args):
++        from sympy.functions import Abs
++        from sympy.core.relational import (Relational, StrictLessThan,
++            StrictGreaterThan, LessThan, GreaterThan)
++
++        def _normalize_abs_rel(rel):
++            """Normalize Abs inequalities like Abs(1/x) < 1 -> Abs(x) > 1."""
++            if not isinstance(rel, Relational):
++                return rel
++            lhs, rhs = rel.lhs, rel.rhs
++            if isinstance(lhs, Abs) and len(lhs.args) == 1:
++                arg = lhs.args[0]
++                if arg.is_Pow and arg.exp == -1:
++                    f = arg.base
++                    if isinstance(rel, StrictLessThan):
++                        return Abs(f) > 1/rhs
++                    elif isinstance(rel, LessThan):
++                        return Abs(f) >= 1/rhs
++                    elif isinstance(rel, StrictGreaterThan):
++                        return Abs(f) < 1/rhs
++                    elif isinstance(rel, GreaterThan):
++                        return Abs(f) <= 1/rhs
++            return rel
++
++        def _implies(r, nc):
++            """Check if relational r implies relational nc (r is stricter)."""
++            if not isinstance(r, Relational) or not isinstance(nc, Relational):
++                return False
++            if r.lhs != nc.lhs or r.rhs != nc.rhs:
++                return False
++            if isinstance(r, StrictLessThan) and isinstance(nc, LessThan):
++                return True
++            if isinstance(r, StrictGreaterThan) and isinstance(nc, GreaterThan):
++                return True
++            return False
++
+         newargs = []
+-        rel = []
++        rel = []  # list of original canonical forms for deduplication
++        rel_norm = []  # list of normalized canonical forms for contradiction detection
+         args = BooleanFunction.binary_check_and_simplify(*args)
+         for x in reversed(args):
+             if x.is_Relational:
+-                c = x.canonical
+-                if c in rel:
++                c_orig = x.canonical
++                if c_orig in rel:
+                     continue
+-                nc = (~c).canonical
+-                if any(r == nc for r in rel):
+-                    return [S.false]
+-                rel.append(c)
++                # Normalize for contradiction detection
++                x_norm = _normalize_abs_rel(x)
++                c_norm = x_norm.canonical
++                nc = (~c_norm).canonical
++                for r in rel_norm:
++                    if r == nc or _implies(r, nc):
++                        return [S.false]
++                rel.append(c_orig)
++                rel_norm.append(c_norm)
+             newargs.append(x)
+         return LatticeOp._new_args_filter(newargs, And)
+ 

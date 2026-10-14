@@ -1,0 +1,85 @@
+diff --git a/numpy/random/_generator.pyx b/numpy/random/_generator.pyx
+index d7c1879e7a..305972e4ae 100644
+--- a/numpy/random/_generator.pyx
++++ b/numpy/random/_generator.pyx
+@@ -15,6 +15,7 @@
+ 
+ from .c_distributions cimport *
+ from libc cimport string
++from libc.math cimport sqrt
+ from libc.stdint cimport (uint8_t, uint16_t, uint32_t, uint64_t,
+                           int32_t, int64_t, INT64_MAX, SIZE_MAX)
+ from ._bounded_integers cimport (_rand_bool, _rand_int32, _rand_int64,
+@@ -41,6 +42,32 @@
+ 
+ np.import_array()
+ 
++
++cdef bint _negative_binomial_too_large(double n, double p):
++    cdef double q = 1.0 - p
++    cdef double mean = n * q / p
++    cdef double gamma_10_sigma = 10.0 * sqrt(n) * q / p
++    return mean + gamma_10_sigma > POISSON_LAM_MAX
++
++
++cdef int _check_negative_binomial_limit(double n, double p) except -1:
++    if _negative_binomial_too_large(n, p):
++        raise ValueError("n too large or p too small, see "
++                         "Generator.negative_binomial Notes")
++    return 0
++
++
++cdef int _check_array_negative_binomial_limit(
++        np.ndarray n, np.ndarray p) except -1:
++    with np.errstate(over='ignore', invalid='ignore'):
++        over_limit = (n * (1.0 - p) / p
++                      + 10.0 * np.sqrt(n) * (1.0 - p) / p)
++    if np.any(np.greater(over_limit, POISSON_LAM_MAX)):
++        raise ValueError("n too large or p too small, see "
++                         "Generator.negative_binomial Notes")
++    return 0
++
++
+ cdef int64_t _safe_sum_nonneg_int64(size_t num_colors, int64_t *colors):
+     """
+     Sum the values in the array `colors`.
+@@ -2993,6 +3020,10 @@ def negative_binomial(self, n, p, size=None):
+         binomial distribution gives the probability of N failures given n
+         successes, with a success on the last trial.
+ 
++        This method uses a gamma-Poisson mixture and rejects parameters that
++        may lead to samples exceeding the maximum representable signed 64-bit
++        integer.
++
+         If one throws a die repeatedly until the third time a "1" appears,
+         then the probability distribution of the number of non-"1"s that
+         appear before the third "1" is a negative binomial distribution.
+@@ -3021,6 +3052,28 @@ def negative_binomial(self, n, p, size=None):
+         ...    print(i, "wells drilled, probability of one success =", probability)
+ 
+         """
++        cdef double _dn = 0
++        cdef double _dp = 0
++        cdef bint is_scalar = True
++        cdef np.ndarray n_arr
++        cdef np.ndarray p_arr
++
++        n_arr = <np.ndarray>np.PyArray_FROM_OTF(n, np.NPY_DOUBLE, np.NPY_ALIGNED)
++        is_scalar = is_scalar and np.PyArray_NDIM(n_arr) == 0
++        p_arr = <np.ndarray>np.PyArray_FROM_OTF(p, np.NPY_DOUBLE, np.NPY_ALIGNED)
++        is_scalar = is_scalar and np.PyArray_NDIM(p_arr) == 0
++
++        if is_scalar:
++            _dn = PyFloat_AsDouble(n)
++            _dp = PyFloat_AsDouble(p)
++            check_constraint(_dn, 'n', CONS_POSITIVE_NOT_NAN)
++            check_constraint(_dp, 'p', CONS_BOUNDED_GT_0_1)
++            _check_negative_binomial_limit(_dn, _dp)
++        else:
++            check_array_constraint(n_arr, 'n', CONS_POSITIVE_NOT_NAN)
++            check_array_constraint(p_arr, 'p', CONS_BOUNDED_GT_0_1)
++            _check_array_negative_binomial_limit(n_arr, p_arr)
++
+         return disc(&random_negative_binomial, &self._bitgen, size, self.lock, 2, 0,
+                     n, 'n', CONS_POSITIVE_NOT_NAN,
+                     p, 'p', CONS_BOUNDED_GT_0_1,

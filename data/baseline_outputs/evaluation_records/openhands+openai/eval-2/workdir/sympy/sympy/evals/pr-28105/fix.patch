@@ -1,0 +1,74 @@
+diff --git a/sympy/solvers/simplex.py b/sympy/solvers/simplex.py
+index f140268b79..25d059fdca 100644
+--- a/sympy/solvers/simplex.py
++++ b/sympy/solvers/simplex.py
+@@ -300,8 +300,14 @@ def _simplex(A, B, C, D=None, dual=False):
+ 
+     ## keep track of last pivot row and column
+     last = None
++    seen = set()
+ 
+     while True:
++        state = (tuple(M), tuple(X), tuple(Y))
++        if state in seen:
++            raise InfeasibleLPError(filldedent("""
++                The constraint set is empty!"""))
++        seen.add(state)
+         B = M[:-1, -1]
+         A = M[:-1, :-1]
+         if all(B[i] >= 0 for i in range(B.rows)):
+@@ -395,6 +401,7 @@ def _simplex(A, B, C, D=None, dual=False):
+             Oscillating system led to invalid solution.
+             If you believe there was a valid solution, please
+             report this as a bug."""))
++
+     return -M[-1, -1], argmax, argmin_dual
+ 
+ 
+@@ -806,6 +813,11 @@ def _lp(min_max, f, constr):
+         # don't show aux
+         p = {k: p[k] for k in ordered(p) if k not in aux}
+ 
++    for i in constr:
++        if sympify(i).subs(p) != True:
++            raise InfeasibleLPError(filldedent("""
++                Inconsistent/False constraint"""))
++
+     # not returning dual since there may be extra constraints
+     # when a variable has finite bounds
+     return o, p
+@@ -1013,6 +1025,9 @@ def linprog(c, A=None, b=None, A_eq=None, b_eq=None, bounds=None):
+         b = b.col_join(b_eq)
+         b = b.col_join(-b_eq)
+ 
++    A0, b0 = A.copy(), b.copy()
++    bounds0 = [(0, None)]*A.cols
++
+     if not (bounds is None or bounds == {} or bounds == (0, None)):
+         ## the bounds are interpreted
+         if type(bounds) is tuple and len(bounds) == 2:
+@@ -1031,6 +1046,7 @@ def linprog(c, A=None, b=None, A_eq=None, b_eq=None, bounds=None):
+                 bounds[i] = j  # IndexError if out-of-bounds indices
+         else:
+             raise ValueError("unexpected bounds %s" % bounds)
++        bounds0 = bounds
+         A_, b_ = _handle_bounds(bounds)
+         aux = A_.cols - A.cols
+         if A:
+@@ -1044,7 +1060,15 @@ def linprog(c, A=None, b=None, A_eq=None, b_eq=None, bounds=None):
+         aux = -A.cols  # set so -aux will give all cols below
+ 
+     o, p, d = _simplex(A, b, C)
+-    return o, p[:-aux]  # don't include aux values
++    p = p[:-aux]  # don't include aux values
++    if A0.rows and any(i > 0 for i in A0*Matrix(p) - b0):
++        raise InfeasibleLPError(filldedent("""
++            The constraint set is empty!"""))
++    for x, (lo, hi) in zip(p, bounds0):
++        if (lo is not None and x < lo) or (hi is not None and x > hi):
++            raise InfeasibleLPError(filldedent("""
++                The constraint set is empty!"""))
++    return o, p
+ 
+ def show_linprog(c, A=None, b=None, A_eq=None, b_eq=None, bounds=None):
+     from sympy import symbols

@@ -1,0 +1,23 @@
+diff --git a/sympy/core/mul.py b/sympy/core/mul.py
+index 5fb540a..a924654 100644
+--- a/sympy/core/mul.py
++++ b/sympy/core/mul.py
+@@ -1886,10 +1886,10 @@ class Mul(Expr, AssocOp):
+                 else:
+                     raise ValueError
+ 
+-            n0 = sum(t[1] for t in ords)
++            n0 = sum(t[1] for t in ords if t[1].is_number)
+             facs = []
+             for t, m in ords:
+-                n1 = ceiling(n - n0 + m)
++                n1 = ceiling(n - n0 + (m if m.is_number else 0))
+                 s = t.nseries(x, n=n1, logx=logx, cdir=cdir)
+                 ns = s.getn()
+                 if ns is not None:
+@@ -2095,4 +2095,4 @@ def expand_2arg(e):
+ 
+ from .numbers import Rational
+ from .power import Pow
+-from .add import Add, _addsort, _unevaluated_Add
++from .add import Add, _addsort, _unevaluated_Add

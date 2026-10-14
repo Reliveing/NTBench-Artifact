@@ -1,0 +1,320 @@
+Obtaining file:///home/sympy
+  Installing build dependencies: started
+  Installing build dependencies: finished with status 'done'
+  Checking if build backend supports build_editable: started
+  Checking if build backend supports build_editable: finished with status 'done'
+  Getting requirements to build editable: started
+  Getting requirements to build editable: finished with status 'done'
+  Preparing editable metadata (pyproject.toml): started
+  Preparing editable metadata (pyproject.toml): finished with status 'done'
+Requirement already satisfied: mpmath>=0.19 in /usr/local/lib/python3.11/site-packages (from sympy==1.13.dev0) (1.4.1)
+Building wheels for collected packages: sympy
+  Building editable for sympy (pyproject.toml): started
+  Building editable for sympy (pyproject.toml): finished with status 'done'
+  Created wheel for sympy: filename=sympy-1.13.dev0-0.editable-py3-none-any.whl size=31396 sha256=6e604f7eb31f9848622fec67be73051ab2db930d02a099826eede3e7fa1ebc10
+  Stored in directory: /tmp/pip-ephem-wheel-cache-inp6_bg2/wheels/af/22/61/2ece34a734d21005537313f7f88a33ef281f3770719986eb88
+Successfully built sympy
+Installing collected packages: sympy
+  Attempting uninstall: sympy
+    Found existing installation: sympy 1.13.dev0
+    Uninstalling sympy-1.13.dev0:
+      Successfully uninstalled sympy-1.13.dev0
+Successfully installed sympy-1.13.dev0
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+
+[notice] A new release of pip is available: 26.0.1 -> 26.2.1
+[notice] To update, run: pip install --upgrade pip
+============================= test session starts ==============================
+collecting ... collected 144 items / 10 deselected / 134 selected
+
+sympy/solvers/tests/test_solvers.py::test_swap_back PASSED               [  0%]
+sympy/solvers/tests/test_solvers.py::test_guess_poly PASSED              [  1%]
+sympy/solvers/tests/test_solvers.py::test_guess_poly_cv PASSED           [  2%]
+sympy/solvers/tests/test_solvers.py::test_guess_rational_cv PASSED       [  2%]
+sympy/solvers/tests/test_solvers.py::test_guess_transcendental PASSED    [  3%]
+sympy/solvers/tests/test_solvers.py::test_solve_args PASSED              [  4%]
+sympy/solvers/tests/test_solvers.py::test_solve_polynomial1 PASSED       [  5%]
+sympy/solvers/tests/test_solvers.py::test_solve_polynomial2 PASSED       [  5%]
+sympy/solvers/tests/test_solvers.py::test_solve_polynomial_cv_1a PASSED  [  6%]
+sympy/solvers/tests/test_solvers.py::test_solve_polynomial_cv_1b PASSED  [  7%]
+sympy/solvers/tests/test_solvers.py::test_solve_polynomial_cv_2 PASSED   [  8%]
+sympy/solvers/tests/test_solvers.py::test_quintics_1 PASSED              [  8%]
+sympy/solvers/tests/test_solvers.py::test_quintics_2 PASSED              [  9%]
+sympy/solvers/tests/test_solvers.py::test_quintics_3 PASSED              [ 10%]
+sympy/solvers/tests/test_solvers.py::test_highorder_poly PASSED          [ 11%]
+sympy/solvers/tests/test_solvers.py::test_solve_rational PASSED          [ 11%]
+sympy/solvers/tests/test_solvers.py::test_solve_conjugate PASSED         [ 12%]
+sympy/solvers/tests/test_solvers.py::test_solve_nonlinear PASSED         [ 13%]
+sympy/solvers/tests/test_solvers.py::test_issue_8666 PASSED              [ 14%]
+sympy/solvers/tests/test_solvers.py::test_issue_7228 PASSED              [ 14%]
+sympy/solvers/tests/test_solvers.py::test_issue_7190 PASSED              [ 15%]
+sympy/solvers/tests/test_solvers.py::test_issue_21004 PASSED             [ 16%]
+sympy/solvers/tests/test_solvers.py::test_issue_24650 PASSED             [ 17%]
+sympy/solvers/tests/test_solvers.py::test_linear_system PASSED           [ 17%]
+sympy/solvers/tests/test_solvers.py::test_linear_system_xfail XFAIL      [ 18%]
+sympy/solvers/tests/test_solvers.py::test_linear_system_function PASSED  [ 19%]
+sympy/solvers/tests/test_solvers.py::test_linear_system_symbols_doesnt_hang_1 PASSED [ 20%]
+sympy/solvers/tests/test_solvers.py::test_linear_system_symbols_doesnt_hang_2 PASSED [ 20%]
+sympy/solvers/tests/test_solvers.py::test_linear_systemLU PASSED         [ 21%]
+sympy/solvers/tests/test_solvers.py::test_solve_for_functions_derivatives PASSED [ 22%]
+sympy/solvers/tests/test_solvers.py::test_issue_3725 PASSED              [ 23%]
+sympy/solvers/tests/test_solvers.py::test_issue_3870 PASSED              [ 23%]
+sympy/solvers/tests/test_solvers.py::test_solve_linear PASSED            [ 24%]
+sympy/solvers/tests/test_solvers.py::test_solve_undetermined_coeffs PASSED [ 25%]
+sympy/solvers/tests/test_solvers.py::test_solve_inequalities PASSED      [ 26%]
+sympy/solvers/tests/test_solvers.py::test_issue_4793 PASSED              [ 26%]
+sympy/solvers/tests/test_solvers.py::test_PR1964 PASSED                  [ 27%]
+sympy/solvers/tests/test_solvers.py::test_issue_5197 PASSED              [ 28%]
+sympy/solvers/tests/test_solvers.py::test_checking PASSED                [ 29%]
+sympy/solvers/tests/test_solvers.py::test_issue_4671_4463_4467 PASSED    [ 29%]
+sympy/solvers/tests/test_solvers.py::test_issue_5132 PASSED              [ 30%]
+sympy/solvers/tests/test_solvers.py::test_issue_5335 PASSED              [ 31%]
+sympy/solvers/tests/test_solvers.py::test_issue_5767 PASSED              [ 32%]
+sympy/solvers/tests/test_solvers.py::test_issue_24609 PASSED             [ 32%]
+sympy/solvers/tests/test_solvers.py::test_issue_24609_xfail XFAIL        [ 33%]
+sympy/solvers/tests/test_solvers.py::test_polysys PASSED                 [ 34%]
+sympy/solvers/tests/test_solvers.py::test_unrad_fail XFAIL               [ 35%]
+sympy/solvers/tests/test_solvers.py::test_checksol PASSED                [ 35%]
+sympy/solvers/tests/test_solvers.py::test__invert PASSED                 [ 36%]
+sympy/solvers/tests/test_solvers.py::test_issue_4463 PASSED              [ 37%]
+sympy/solvers/tests/test_solvers.py::test_issue_5849 PASSED              [ 38%]
+sympy/solvers/tests/test_solvers.py::test_issue_5849_matrix PASSED       [ 38%]
+sympy/solvers/tests/test_solvers.py::test_issue_21882 PASSED             [ 39%]
+sympy/solvers/tests/test_solvers.py::test_issue_5901 PASSED              [ 40%]
+sympy/solvers/tests/test_solvers.py::test_issue_5912 PASSED              [ 41%]
+sympy/solvers/tests/test_solvers.py::test_float_handling PASSED          [ 41%]
+sympy/solvers/tests/test_solvers.py::test_check_assumptions PASSED       [ 42%]
+sympy/solvers/tests/test_solvers.py::test_issue_6056 PASSED              [ 43%]
+sympy/solvers/tests/test_solvers.py::test_issue_5673 PASSED              [ 44%]
+sympy/solvers/tests/test_solvers.py::test_exclude PASSED                 [ 44%]
+sympy/solvers/tests/test_solvers.py::test_high_order_roots PASSED        [ 45%]
+sympy/solvers/tests/test_solvers.py::test_minsolve_linear_system PASSED  [ 46%]
+sympy/solvers/tests/test_solvers.py::test_real_roots PASSED              [ 47%]
+sympy/solvers/tests/test_solvers.py::test_issue_6528 PASSED              [ 47%]
+sympy/solvers/tests/test_solvers.py::test_overdetermined PASSED          [ 48%]
+sympy/solvers/tests/test_solvers.py::test_issue_6605 PASSED              [ 49%]
+sympy/solvers/tests/test_solvers.py::test__ispow PASSED                  [ 50%]
+sympy/solvers/tests/test_solvers.py::test_issue_6644 PASSED              [ 50%]
+sympy/solvers/tests/test_solvers.py::test_issue_6752 PASSED              [ 51%]
+sympy/solvers/tests/test_solvers.py::test_issue_6792 PASSED              [ 52%]
+sympy/solvers/tests/test_solvers.py::test_issues_6819_6820_6821_6248_8692 PASSED [ 52%]
+sympy/solvers/tests/test_solvers.py::test_issue_17638 PASSED             [ 53%]
+sympy/solvers/tests/test_solvers.py::test_issue_14607 PASSED             [ 54%]
+sympy/solvers/tests/test_solvers.py::test_lambert_multivariate PASSED    [ 55%]
+sympy/solvers/tests/test_solvers.py::test_other_lambert XFAIL            [ 55%]
+sympy/solvers/tests/test_solvers.py::test_rewrite_trig PASSED            [ 56%]
+sympy/solvers/tests/test_solvers.py::test_rewrite_trigh XFAIL            [ 57%]
+sympy/solvers/tests/test_solvers.py::test_uselogcombine PASSED           [ 58%]
+sympy/solvers/tests/test_solvers.py::test_atan2 PASSED                   [ 58%]
+sympy/solvers/tests/test_solvers.py::test_errorinverses PASSED           [ 59%]
+sympy/solvers/tests/test_solvers.py::test_issue_2725 PASSED              [ 60%]
+sympy/solvers/tests/test_solvers.py::test_issue_5114_6611 PASSED         [ 61%]
+sympy/solvers/tests/test_solvers.py::test_det_quick PASSED               [ 61%]
+sympy/solvers/tests/test_solvers.py::test_real_imag_splitting PASSED     [ 62%]
+sympy/solvers/tests/test_solvers.py::test_issue_7110 PASSED              [ 63%]
+sympy/solvers/tests/test_solvers.py::test_units PASSED                   [ 64%]
+sympy/solvers/tests/test_solvers.py::test_issue_7547 PASSED              [ 64%]
+sympy/solvers/tests/test_solvers.py::test_issue_7895 PASSED              [ 65%]
+sympy/solvers/tests/test_solvers.py::test_issue_2777 PASSED              [ 66%]
+sympy/solvers/tests/test_solvers.py::test_issue_7322 PASSED              [ 67%]
+sympy/solvers/tests/test_solvers.py::test_nsolve PASSED                  [ 67%]
+sympy/solvers/tests/test_solvers.py::test_base_0_exp_0 PASSED            [ 68%]
+sympy/solvers/tests/test_solvers.py::test__simple_dens PASSED            [ 69%]
+sympy/solvers/tests/test_solvers.py::test_issue_8755 PASSED              [ 70%]
+sympy/solvers/tests/test_solvers.py::test_issue_9567 PASSED              [ 70%]
+sympy/solvers/tests/test_solvers.py::test_issue_11538 PASSED             [ 71%]
+sympy/solvers/tests/test_solvers.py::test_inf PASSED                     [ 72%]
+sympy/solvers/tests/test_solvers.py::test_issue_12448 PASSED             [ 73%]
+sympy/solvers/tests/test_solvers.py::test_denoms PASSED                  [ 73%]
+sympy/solvers/tests/test_solvers.py::test_issue_12476 PASSED             [ 74%]
+sympy/solvers/tests/test_solvers.py::test_issue_13849 PASSED             [ 75%]
+sympy/solvers/tests/test_solvers.py::test_issue_14860 PASSED             [ 76%]
+sympy/solvers/tests/test_solvers.py::test_issue_14721 PASSED             [ 76%]
+sympy/solvers/tests/test_solvers.py::test_issue_14779 PASSED             [ 77%]
+sympy/solvers/tests/test_solvers.py::test_issue_15307 PASSED             [ 78%]
+sympy/solvers/tests/test_solvers.py::test_issue_15415 PASSED             [ 79%]
+sympy/solvers/tests/test_solvers.py::test_issue_10933 PASSED             [ 79%]
+sympy/solvers/tests/test_solvers.py::test_Abs_handling PASSED            [ 80%]
+sympy/solvers/tests/test_solvers.py::test_issue_7982 PASSED              [ 81%]
+sympy/solvers/tests/test_solvers.py::test_issue_14645 PASSED             [ 82%]
+sympy/solvers/tests/test_solvers.py::test_issue_12024 PASSED             [ 82%]
+sympy/solvers/tests/test_solvers.py::test_issue_17452 PASSED             [ 83%]
+sympy/solvers/tests/test_solvers.py::test_issue_17799 PASSED             [ 84%]
+sympy/solvers/tests/test_solvers.py::test_issue_17650 PASSED             [ 85%]
+sympy/solvers/tests/test_solvers.py::test_issue_17882 PASSED             [ 85%]
+sympy/solvers/tests/test_solvers.py::test_issue_17949 PASSED             [ 86%]
+sympy/solvers/tests/test_solvers.py::test_issue_10993 PASSED             [ 87%]
+sympy/solvers/tests/test_solvers.py::test_issue_11553 PASSED             [ 88%]
+sympy/solvers/tests/test_solvers.py::test_issue_19113_19102 PASSED       [ 88%]
+sympy/solvers/tests/test_solvers.py::test_issue_19509 PASSED             [ 89%]
+sympy/solvers/tests/test_solvers.py::test_issue_20747 PASSED             [ 90%]
+sympy/solvers/tests/test_solvers.py::test_issue_20902 PASSED             [ 91%]
+sympy/solvers/tests/test_solvers.py::test_issue_21034 PASSED             [ 91%]
+sympy/solvers/tests/test_solvers.py::test_issue_4886 PASSED              [ 92%]
+sympy/solvers/tests/test_solvers.py::test_issue_6819 PASSED              [ 93%]
+sympy/solvers/tests/test_solvers.py::test_issue_17454 PASSED             [ 94%]
+sympy/solvers/tests/test_solvers.py::test_issue_21852 PASSED             [ 94%]
+sympy/solvers/tests/test_solvers.py::test_issue_21942 PASSED             [ 95%]
+sympy/solvers/tests/test_solvers.py::test_solver_flags PASSED            [ 96%]
+sympy/solvers/tests/test_solvers.py::test_issue_22768 PASSED             [ 97%]
+sympy/solvers/tests/test_solvers.py::test_issue_22717 PASSED             [ 97%]
+sympy/solvers/tests/test_solvers.py::test_issue_10169 PASSED             [ 98%]
+sympy/solvers/tests/test_solvers.py::test_solve_undetermined_coeffs_issue_23927 PASSED [ 99%]
+sympy/solvers/tests/test_solvers.py::test_issue_24368 PASSED             [100%]
+
+=============================== warnings summary ===============================
+../../usr/local/lib/python3.11/site-packages/mpmath/ctx_mp.py:35
+  /usr/local/lib/python3.11/site-packages/mpmath/ctx_mp.py:35: DeprecationWarning: mpnumeric is deprecated
+    warnings.warn(f"{name} is deprecated", DeprecationWarning)
+
+../../usr/local/lib/python3.11/site-packages/mpmath/rational.py:4
+../../usr/local/lib/python3.11/site-packages/mpmath/rational.py:4
+../../usr/local/lib/python3.11/site-packages/mpmath/rational.py:4
+  /usr/local/lib/python3.11/site-packages/mpmath/rational.py:4: DeprecationWarning: the rational private module is deprecated
+    warnings.warn("the rational private module is deprecated",
+
+sympy/solvers/tests/test_solvers.py: 58474 warnings
+  /usr/local/lib/python3.11/site-packages/mpmath/libmp/libintmath.py:75: DeprecationWarning: bitcount function is deprecated
+    warnings.warn("bitcount function is deprecated",
+
+sympy/solvers/tests/test_solvers.py::test_issue_5912
+  /usr/local/lib/python3.11/site-packages/mpmath/calculus/polynomials.py:177: DeprecationWarning: Descending (wrt powers) order of polynomial coefficients is deprecated, please adapt you code to use ascending order, asc=True.
+    warnings.warn("Descending (wrt powers) order of polynomial "
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+PASSED sympy/solvers/tests/test_solvers.py::test_swap_back
+PASSED sympy/solvers/tests/test_solvers.py::test_guess_poly
+PASSED sympy/solvers/tests/test_solvers.py::test_guess_poly_cv
+PASSED sympy/solvers/tests/test_solvers.py::test_guess_rational_cv
+PASSED sympy/solvers/tests/test_solvers.py::test_guess_transcendental
+PASSED sympy/solvers/tests/test_solvers.py::test_solve_args
+PASSED sympy/solvers/tests/test_solvers.py::test_solve_polynomial1
+PASSED sympy/solvers/tests/test_solvers.py::test_solve_polynomial2
+PASSED sympy/solvers/tests/test_solvers.py::test_solve_polynomial_cv_1a
+PASSED sympy/solvers/tests/test_solvers.py::test_solve_polynomial_cv_1b
+PASSED sympy/solvers/tests/test_solvers.py::test_solve_polynomial_cv_2
+PASSED sympy/solvers/tests/test_solvers.py::test_quintics_1
+PASSED sympy/solvers/tests/test_solvers.py::test_quintics_2
+PASSED sympy/solvers/tests/test_solvers.py::test_quintics_3
+PASSED sympy/solvers/tests/test_solvers.py::test_highorder_poly
+PASSED sympy/solvers/tests/test_solvers.py::test_solve_rational
+PASSED sympy/solvers/tests/test_solvers.py::test_solve_conjugate
+PASSED sympy/solvers/tests/test_solvers.py::test_solve_nonlinear
+PASSED sympy/solvers/tests/test_solvers.py::test_issue_8666
+PASSED sympy/solvers/tests/test_solvers.py::test_issue_7228
+PASSED sympy/solvers/tests/test_solvers.py::test_issue_7190
+PASSED sympy/solvers/tests/test_solvers.py::test_issue_21004
+PASSED sympy/solvers/tests/test_solvers.py::test_issue_24650
+PASSED sympy/solvers/tests/test_solvers.py::test_linear_system
+PASSED sympy/solvers/tests/test_solvers.py::test_linear_system_function
+PASSED sympy/solvers/tests/test_solvers.py::test_linear_system_symbols_doesnt_hang_1
+PASSED sympy/solvers/tests/test_solvers.py::test_linear_system_symbols_doesnt_hang_2
+PASSED sympy/solvers/tests/test_solvers.py::test_linear_systemLU
+PASSED sympy/solvers/tests/test_solvers.py::test_solve_for_functions_derivatives
+PASSED sympy/solvers/tests/test_solvers.py::test_issue_3725
+PASSED sympy/solvers/tests/test_solvers.py::test_issue_3870
+PASSED sympy/solvers/tests/test_solvers.py::test_solve_linear
+PASSED sympy/solvers/tests/test_solvers.py::test_solve_undetermined_coeffs
+PASSED sympy/solvers/tests/test_solvers.py::test_solve_inequalities
+PASSED sympy/solvers/tests/test_solvers.py::test_issue_4793
+PASSED sympy/solvers/tests/test_solvers.py::test_PR1964
+PASSED sympy/solvers/tests/test_solvers.py::test_issue_5197
+PASSED sympy/solvers/tests/test_solvers.py::test_checking
+PASSED sympy/solvers/tests/test_solvers.py::test_issue_4671_4463_4467
+PASSED sympy/solvers/tests/test_solvers.py::test_issue_5132
+PASSED sympy/solvers/tests/test_solvers.py::test_issue_5335
+PASSED sympy/solvers/tests/test_solvers.py::test_issue_5767
+PASSED sympy/solvers/tests/test_solvers.py::test_issue_24609
+PASSED sympy/solvers/tests/test_solvers.py::test_polysys
+PASSED sympy/solvers/tests/test_solvers.py::test_checksol
+PASSED sympy/solvers/tests/test_solvers.py::test__invert
+PASSED sympy/solvers/tests/test_solvers.py::test_issue_4463
+PASSED sympy/solvers/tests/test_solvers.py::test_issue_5849
+PASSED sympy/solvers/tests/test_solvers.py::test_issue_5849_matrix
+PASSED sympy/solvers/tests/test_solvers.py::test_issue_21882
+PASSED sympy/solvers/tests/test_solvers.py::test_issue_5901
+PASSED sympy/solvers/tests/test_solvers.py::test_issue_5912
+PASSED sympy/solvers/tests/test_solvers.py::test_float_handling
+PASSED sympy/solvers/tests/test_solvers.py::test_check_assumptions
+PASSED sympy/solvers/tests/test_solvers.py::test_issue_6056
+PASSED sympy/solvers/tests/test_solvers.py::test_issue_5673
+PASSED sympy/solvers/tests/test_solvers.py::test_exclude
+PASSED sympy/solvers/tests/test_solvers.py::test_high_order_roots
+PASSED sympy/solvers/tests/test_solvers.py::test_minsolve_linear_system
+PASSED sympy/solvers/tests/test_solvers.py::test_real_roots
+PASSED sympy/solvers/tests/test_solvers.py::test_issue_6528
+PASSED sympy/solvers/tests/test_solvers.py::test_overdetermined
+PASSED sympy/solvers/tests/test_solvers.py::test_issue_6605
+PASSED sympy/solvers/tests/test_solvers.py::test__ispow
+PASSED sympy/solvers/tests/test_solvers.py::test_issue_6644
+PASSED sympy/solvers/tests/test_solvers.py::test_issue_6752
+PASSED sympy/solvers/tests/test_solvers.py::test_issue_6792
+PASSED sympy/solvers/tests/test_solvers.py::test_issues_6819_6820_6821_6248_8692
+PASSED sympy/solvers/tests/test_solvers.py::test_issue_17638
+PASSED sympy/solvers/tests/test_solvers.py::test_issue_14607
+PASSED sympy/solvers/tests/test_solvers.py::test_lambert_multivariate
+PASSED sympy/solvers/tests/test_solvers.py::test_rewrite_trig
+PASSED sympy/solvers/tests/test_solvers.py::test_uselogcombine
+PASSED sympy/solvers/tests/test_solvers.py::test_atan2
+PASSED sympy/solvers/tests/test_solvers.py::test_errorinverses
+PASSED sympy/solvers/tests/test_solvers.py::test_issue_2725
+PASSED sympy/solvers/tests/test_solvers.py::test_issue_5114_6611
+PASSED sympy/solvers/tests/test_solvers.py::test_det_quick
+PASSED sympy/solvers/tests/test_solvers.py::test_real_imag_splitting
+PASSED sympy/solvers/tests/test_solvers.py::test_issue_7110
+PASSED sympy/solvers/tests/test_solvers.py::test_units
+PASSED sympy/solvers/tests/test_solvers.py::test_issue_7547
+PASSED sympy/solvers/tests/test_solvers.py::test_issue_7895
+PASSED sympy/solvers/tests/test_solvers.py::test_issue_2777
+PASSED sympy/solvers/tests/test_solvers.py::test_issue_7322
+PASSED sympy/solvers/tests/test_solvers.py::test_nsolve
+PASSED sympy/solvers/tests/test_solvers.py::test_base_0_exp_0
+PASSED sympy/solvers/tests/test_solvers.py::test__simple_dens
+PASSED sympy/solvers/tests/test_solvers.py::test_issue_8755
+PASSED sympy/solvers/tests/test_solvers.py::test_issue_9567
+PASSED sympy/solvers/tests/test_solvers.py::test_issue_11538
+PASSED sympy/solvers/tests/test_solvers.py::test_inf
+PASSED sympy/solvers/tests/test_solvers.py::test_issue_12448
+PASSED sympy/solvers/tests/test_solvers.py::test_denoms
+PASSED sympy/solvers/tests/test_solvers.py::test_issue_12476
+PASSED sympy/solvers/tests/test_solvers.py::test_issue_13849
+PASSED sympy/solvers/tests/test_solvers.py::test_issue_14860
+PASSED sympy/solvers/tests/test_solvers.py::test_issue_14721
+PASSED sympy/solvers/tests/test_solvers.py::test_issue_14779
+PASSED sympy/solvers/tests/test_solvers.py::test_issue_15307
+PASSED sympy/solvers/tests/test_solvers.py::test_issue_15415
+PASSED sympy/solvers/tests/test_solvers.py::test_issue_10933
+PASSED sympy/solvers/tests/test_solvers.py::test_Abs_handling
+PASSED sympy/solvers/tests/test_solvers.py::test_issue_7982
+PASSED sympy/solvers/tests/test_solvers.py::test_issue_14645
+PASSED sympy/solvers/tests/test_solvers.py::test_issue_12024
+PASSED sympy/solvers/tests/test_solvers.py::test_issue_17452
+PASSED sympy/solvers/tests/test_solvers.py::test_issue_17799
+PASSED sympy/solvers/tests/test_solvers.py::test_issue_17650
+PASSED sympy/solvers/tests/test_solvers.py::test_issue_17882
+PASSED sympy/solvers/tests/test_solvers.py::test_issue_17949
+PASSED sympy/solvers/tests/test_solvers.py::test_issue_10993
+PASSED sympy/solvers/tests/test_solvers.py::test_issue_11553
+PASSED sympy/solvers/tests/test_solvers.py::test_issue_19113_19102
+PASSED sympy/solvers/tests/test_solvers.py::test_issue_19509
+PASSED sympy/solvers/tests/test_solvers.py::test_issue_20747
+PASSED sympy/solvers/tests/test_solvers.py::test_issue_20902
+PASSED sympy/solvers/tests/test_solvers.py::test_issue_21034
+PASSED sympy/solvers/tests/test_solvers.py::test_issue_4886
+PASSED sympy/solvers/tests/test_solvers.py::test_issue_6819
+PASSED sympy/solvers/tests/test_solvers.py::test_issue_17454
+PASSED sympy/solvers/tests/test_solvers.py::test_issue_21852
+PASSED sympy/solvers/tests/test_solvers.py::test_issue_21942
+PASSED sympy/solvers/tests/test_solvers.py::test_solver_flags
+PASSED sympy/solvers/tests/test_solvers.py::test_issue_22768
+PASSED sympy/solvers/tests/test_solvers.py::test_issue_22717
+PASSED sympy/solvers/tests/test_solvers.py::test_issue_10169
+PASSED sympy/solvers/tests/test_solvers.py::test_solve_undetermined_coeffs_issue_23927
+PASSED sympy/solvers/tests/test_solvers.py::test_issue_24368
+XFAIL sympy/solvers/tests/test_solvers.py::test_linear_system_xfail
+XFAIL sympy/solvers/tests/test_solvers.py::test_issue_24609_xfail
+XFAIL sympy/solvers/tests/test_solvers.py::test_unrad_fail
+XFAIL sympy/solvers/tests/test_solvers.py::test_other_lambert
+XFAIL sympy/solvers/tests/test_solvers.py::test_rewrite_trigh
+=== 129 passed, 10 deselected, 5 xfailed, 58479 warnings in 93.58s (0:01:33) ===

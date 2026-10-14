@@ -1,0 +1,98 @@
+key,evidence_basis,evidence_source,final_label,final_reason
+Agentless|deepseek|sympy__sympy-15855|selected,recorded_runtime,evaluator log,O2,Target test(s) still failed after the patch.
+Agentless|deepseek|sympy__sympy-27537|selected,recorded_runtime,evaluator log,O2,Target test(s) still failed after the patch.
+Agentless|deepseek|tox-dev__tox-3749|selected,recorded_runtime,evaluator log,O2,Target test(s) still failed after the patch.
+Agentless|gpt|matplotlib__matplotlib-30198|selected,recorded_runtime,evaluator log,O5,A previously passing test failed after the patch.
+Agentless|gpt|matplotlib__matplotlib-6919|selected,recorded_runtime,evaluator log,O2,Target test(s) still failed after the patch.
+Agentless|gpt|sympy__sympy-24826|selected,recorded_runtime,evaluator log,O2,Target test(s) still failed after the patch.
+Agentless|gpt|sympy__sympy-24999|selected,recorded_runtime,evaluator log,O2,Target test(s) still failed after the patch.
+Agentless|gpt|sympy__sympy-25844|selected,recorded_runtime,evaluator log,O2,Target test(s) still failed after the patch.
+Agentless|gpt|sympy__sympy-27537|selected,recorded_runtime,evaluator log,O2,Target test(s) still failed after the patch.
+Agentless|gpt|sympy__sympy-9844|selected,recorded_runtime,evaluator log,O2,Target test(s) still failed after the patch.
+Agentless|gpt|tox-dev__tox-3749|selected,recorded_runtime,evaluator log,O2,Target test(s) still failed after the patch.
+Agentless|opus|numpy__numpy-10609|selected,recorded_runtime,evaluator log,O2,Target test(s) still failed after the patch.
+Agentless|opus|sympy__sympy-25844|selected,recorded_runtime,evaluator log,O5,A previously passing test failed after the patch.
+Agentless|opus|sympy__sympy-27537|selected,recorded_runtime,evaluator log,O2,Target test(s) still failed after the patch.
+OpenHands|deepseek|aio-libs__aiohttp-12119|2,absence_record,delivery record,O1,The run was missing.
+OpenHands|deepseek|dask__dask-7667|3,recorded_runtime,evaluator log,O2,Target test(s) still failed after the patch.
+OpenHands|deepseek|matplotlib__matplotlib-30198|2,recorded_runtime,evaluator log,O5,A previously passing test failed after the patch.
+OpenHands|deepseek|matplotlib__matplotlib-30198|3,recorded_runtime,evaluator log,O5,A previously passing test failed after the patch.
+OpenHands|deepseek|matplotlib__matplotlib-6919|2,recorded_runtime,evaluator log,O2,Target test(s) still failed after the patch.
+OpenHands|deepseek|numpy__numpy-10609|2,recorded_runtime,evaluator log,O2,Target test(s) still failed after the patch.
+OpenHands|deepseek|scikit-learn__scikit-learn-28165|1,recorded_runtime,patch and trajectory review,O5,A previously passing test failed after the patch.
+OpenHands|deepseek|scikit-learn__scikit-learn-28165|2,static_patch,patch and trajectory review,O3,"Some required cases passed, while others still failed."
+OpenHands|deepseek|sympy__sympy-20754|1,recorded_runtime,patch-delivery record,O1,No usable patch was delivered.
+OpenHands|deepseek|sympy__sympy-20754|2,recorded_runtime,evaluator log,O2,Target test(s) still failed after the patch.
+OpenHands|deepseek|sympy__sympy-20754|3,recorded_runtime,evaluator log,O2,Target test(s) still failed after the patch.
+OpenHands|deepseek|sympy__sympy-24826|3,recorded_runtime,evaluator log,O2,Target test(s) still failed after the patch.
+OpenHands|deepseek|sympy__sympy-25844|1,recorded_runtime,required-case results,O3,"Some required cases passed, while others still failed."
+OpenHands|deepseek|sympy__sympy-25844|3,recorded_runtime,evaluator log,O2,Target test(s) still failed after the patch.
+OpenHands|deepseek|sympy__sympy-27537|1,recorded_runtime,evaluator log,O2,Target test(s) still failed after the patch.
+OpenHands|deepseek|sympy__sympy-27537|2,recorded_runtime,evaluator log,O2,Target test(s) still failed after the patch.
+OpenHands|deepseek|sympy__sympy-27537|3,recorded_runtime,evaluator log,O2,Target test(s) still failed after the patch.
+OpenHands|deepseek|sympy__sympy-28162|1,recorded_runtime,required-case results,O3,"Some required cases passed, while others still failed."
+OpenHands|deepseek|sympy__sympy-28162|2,recorded_runtime,patch and trajectory review,O4,The target terminated but produced an incorrect result.
+OpenHands|deepseek|tox-dev__tox-3759|2,recorded_runtime,patch and trajectory review,U,The available evidence remained insufficient or conflicting.
+OpenHands|gpt|matplotlib__matplotlib-26767|2,absence_record,delivery record,O1,The run was missing.
+OpenHands|gpt|matplotlib__matplotlib-6919|1,recorded_runtime,evaluator log,O2,Target test(s) still failed after the patch.
+OpenHands|gpt|matplotlib__matplotlib-6919|2,recorded_runtime,evaluator log,O2,Target test(s) still failed after the patch.
+OpenHands|gpt|matplotlib__matplotlib-6919|3,recorded_runtime,evaluator log,O2,Target test(s) still failed after the patch.
+OpenHands|gpt|pydata__xarray-10248|2,recorded_runtime,patch-delivery record,O1,No usable patch was delivered.
+OpenHands|gpt|sympy__sympy-15565|3,recorded_runtime,evaluator log,O2,Target test(s) still failed after the patch.
+OpenHands|gpt|sympy__sympy-20754|2,recorded_runtime,patch-delivery record,O1,No usable patch was delivered.
+OpenHands|gpt|sympy__sympy-20754|3,recorded_runtime,evaluator log,O2,Target test(s) still failed after the patch.
+OpenHands|gpt|sympy__sympy-24999|2,recorded_runtime,evaluator log,O2,Target test(s) still failed after the patch.
+OpenHands|gpt|sympy__sympy-25844|2,recorded_runtime,evaluator log,O2,Target test(s) still failed after the patch.
+OpenHands|gpt|sympy__sympy-25844|3,recorded_runtime,evaluator log,O2,Target test(s) still failed after the patch.
+OpenHands|gpt|sympy__sympy-27537|1,recorded_runtime,evaluator log,O2,Target test(s) still failed after the patch.
+OpenHands|gpt|sympy__sympy-27537|2,recorded_runtime,evaluator log,O2,Target test(s) still failed after the patch.
+OpenHands|gpt|sympy__sympy-27537|3,recorded_runtime,evaluator log,O2,Target test(s) still failed after the patch.
+OpenHands|gpt|sympy__sympy-28162|2,recorded_runtime,patch and trajectory review,O4,The target terminated but produced an incorrect result.
+OpenHands|gpt|urllib3__urllib3-4974|3,recorded_runtime,patch-delivery record,O1,No usable patch was delivered.
+OpenHands|opus|Textualize__rich-3480|1,recorded_runtime,evaluator log,O2,Target test(s) still failed after the patch.
+OpenHands|opus|aio-libs__aiohttp-12119|1,recorded_runtime,evaluator log,O5,A previously passing test failed after the patch.
+OpenHands|opus|matplotlib__matplotlib-26767|2,recorded_runtime,patch and trajectory review,U,The available evidence remained insufficient or conflicting.
+OpenHands|opus|matplotlib__matplotlib-26767|3,recorded_runtime,patch and trajectory review,U,The available evidence remained insufficient or conflicting.
+OpenHands|opus|matplotlib__matplotlib-30198|1,recorded_runtime,evaluator log,O2,Target test(s) still failed after the patch.
+OpenHands|opus|matplotlib__matplotlib-6919|1,recorded_runtime,evaluator log,O2,Target test(s) still failed after the patch.
+OpenHands|opus|matplotlib__matplotlib-6919|2,recorded_runtime,evaluator log,O2,Target test(s) still failed after the patch.
+OpenHands|opus|numpy__numpy-10609|1,recorded_runtime,evaluator log,O2,Target test(s) still failed after the patch.
+OpenHands|opus|numpy__numpy-10609|3,recorded_runtime,evaluator log,O2,Target test(s) still failed after the patch.
+OpenHands|opus|numpy__numpy-26022|1,recorded_runtime,patch-delivery record,O1,No usable patch was delivered.
+OpenHands|opus|numpy__numpy-26192|3,recorded_runtime,patch-delivery record,O1,No usable patch was delivered.
+OpenHands|opus|pydantic__pydantic-11143|2,recorded_runtime,patch-delivery record,O1,No usable patch was delivered.
+OpenHands|opus|sympy__sympy-20754|1,recorded_runtime,patch-delivery record,O1,No usable patch was delivered.
+OpenHands|opus|sympy__sympy-20754|2,recorded_runtime,patch-delivery record,O1,No usable patch was delivered.
+OpenHands|opus|sympy__sympy-20754|3,recorded_runtime,evaluator log,O2,Target test(s) still failed after the patch.
+OpenHands|opus|sympy__sympy-24999|2,recorded_runtime,patch-delivery record,O1,No usable patch was delivered.
+OpenHands|opus|sympy__sympy-27488|1,recorded_runtime,evaluator log,O2,Target test(s) still failed after the patch.
+OpenHands|opus|sympy__sympy-27488|2,recorded_runtime,evaluator log,O2,Target test(s) still failed after the patch.
+OpenHands|opus|sympy__sympy-27488|3,recorded_runtime,evaluator log,O2,Target test(s) still failed after the patch.
+OpenHands|opus|sympy__sympy-27537|1,recorded_runtime,evaluator log,O2,Target test(s) still failed after the patch.
+OpenHands|opus|sympy__sympy-27537|2,recorded_runtime,evaluator log,O2,Target test(s) still failed after the patch.
+OpenHands|opus|sympy__sympy-27537|3,recorded_runtime,evaluator log,O2,Target test(s) still failed after the patch.
+OpenHands|opus|sympy__sympy-28162|1,recorded_runtime,patch and trajectory review,O4,The target terminated but produced an incorrect result.
+OpenHands|opus|sympy__sympy-28162|2,recorded_runtime,patch and trajectory review,O4,The target terminated but produced an incorrect result.
+OpenHands|opus|sympy__sympy-7900|1,recorded_runtime,patch-delivery record,O1,No usable patch was delivered.
+mini-swe-agent|deepseek|dask__dask-7842|2,recorded_runtime,evaluator log,O2,Target test(s) still failed after the patch.
+mini-swe-agent|deepseek|dask__dask-7842|3,recorded_runtime,evaluator log,O2,Target test(s) still failed after the patch.
+mini-swe-agent|deepseek|matplotlib__matplotlib-30198|1,recorded_runtime,evaluator log,O5,A previously passing test failed after the patch.
+mini-swe-agent|deepseek|matplotlib__matplotlib-30198|2,recorded_runtime,evaluator log,O5,A previously passing test failed after the patch.
+mini-swe-agent|deepseek|sympy__sympy-15855|1,recorded_runtime,patch-delivery record,O1,No usable patch was delivered.
+mini-swe-agent|deepseek|sympy__sympy-24826|1,recorded_runtime,patch-delivery record,O1,No usable patch was delivered.
+mini-swe-agent|deepseek|sympy__sympy-27537|2,recorded_runtime,evaluator log,O2,Target test(s) still failed after the patch.
+mini-swe-agent|deepseek|sympy__sympy-27871|1,recorded_runtime,evaluator log,O2,Target test(s) still failed after the patch.
+mini-swe-agent|deepseek|sympy__sympy-27871|2,recorded_runtime,evaluator log,O2,Target test(s) still failed after the patch.
+mini-swe-agent|deepseek|sympy__sympy-27871|3,recorded_runtime,evaluator log,O2,Target test(s) still failed after the patch.
+mini-swe-agent|gpt|matplotlib__matplotlib-30198|1,recorded_runtime,evaluator log,O5,A previously passing test failed after the patch.
+mini-swe-agent|gpt|matplotlib__matplotlib-30198|2,recorded_runtime,evaluator log,O5,A previously passing test failed after the patch.
+mini-swe-agent|gpt|sympy__sympy-27537|1,recorded_runtime,evaluator log,O2,Target test(s) still failed after the patch.
+mini-swe-agent|gpt|sympy__sympy-27537|2,recorded_runtime,evaluator log,O2,Target test(s) still failed after the patch.
+mini-swe-agent|gpt|sympy__sympy-27537|3,recorded_runtime,evaluator log,O2,Target test(s) still failed after the patch.
+mini-swe-agent|gpt|sympy__sympy-27871|1,recorded_runtime,evaluator log,O2,Target test(s) still failed after the patch.
+mini-swe-agent|gpt|sympy__sympy-27871|3,recorded_runtime,evaluator log,O2,Target test(s) still failed after the patch.
+mini-swe-agent|opus|sympy__sympy-27537|1,recorded_runtime,evaluator log,O2,Target test(s) still failed after the patch.
+mini-swe-agent|opus|sympy__sympy-27537|2,recorded_runtime,evaluator log,O2,Target test(s) still failed after the patch.
+mini-swe-agent|opus|sympy__sympy-27537|3,recorded_runtime,evaluator log,O2,Target test(s) still failed after the patch.
+mini-swe-agent|opus|sympy__sympy-27871|1,recorded_runtime,evaluator log,O2,Target test(s) still failed after the patch.
+mini-swe-agent|opus|sympy__sympy-27871|2,recorded_runtime,evaluator log,O2,Target test(s) still failed after the patch.

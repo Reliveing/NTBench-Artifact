@@ -1,0 +1,16 @@
+diff --git a/src/tox/config/loader/replacer.py b/src/tox/config/loader/replacer.py
+index 18fe2422..880c6e8c 100644
+--- a/src/tox/config/loader/replacer.py
++++ b/src/tox/config/loader/replacer.py
+@@ -246,7 +246,10 @@ def load_posargs(conf: Config, conf_args: ConfigLoadArgs) -> tuple[str, ...] | N
+         env_conf = conf.get_env(conf_args.env_name)
+         try:
+             if env_conf["args_are_paths"]:  # pragma: no branch
+-                to_path = env_conf["change_dir"]
++                try:
++                    to_path = env_conf.load("change_dir", chain=conf_args.chain)
++                except CircularChainError:
++                    pass
+         except KeyError:
+             pass
+     return conf.pos_args(to_path)

@@ -1,0 +1,14 @@
+repository,total,IL_LOGICAL_ERROR,IL_GENERAL_PROGRAMMING_ERROR,IR_INCORRECT_RECURSION_DESIGN,IR_UNEXPECTED_RECURSION
+aio-libs/aiohttp,2,1,1,0,0
+dask/dask,2,0,1,0,1
+matplotlib/matplotlib,3,1,1,0,1
+numpy/numpy,4,0,3,0,1
+psf/requests,1,1,0,0,0
+pydantic/pydantic,2,0,0,1,1
+pydata/xarray,1,0,0,0,1
+pylint-dev/pylint,1,1,0,0,0
+scikit-learn/scikit-learn,3,1,2,0,0
+sympy/sympy,28,5,6,10,7
+Textualize/rich,2,2,0,0,0
+tox-dev/tox,3,0,1,0,2
+urllib3/urllib3,1,0,1,0,0

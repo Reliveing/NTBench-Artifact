@@ -1,0 +1,74 @@
+diff --git a/sympy/core/basic.py b/sympy/core/basic.py
+index a134fab92b..7d6464f477 100644
+--- a/sympy/core/basic.py
++++ b/sympy/core/basic.py
+@@ -1108,7 +1108,14 @@ def fallback(self, old, new):
+ 
+         rv = self._eval_subs(old, new)
+         if rv is None:
+-            rv = fallback(self, old, new)
++            if (old.is_Pow and old.exp.is_positive and self.is_Atom and
++                    hasattr(self, 'as_base_exp')):
++                b, e = self.as_base_exp()
++                if b == old.base and e is S.One:
++                    from sympy.core.power import Pow
++                    rv = Pow(self, S.One, evaluate=False)._eval_subs(old, new)
++            if rv is None:
++                rv = fallback(self, old, new)
+         return rv
+ 
+     def _eval_subs(self, old, new):
+diff --git a/sympy/integrals/trigonometry.py b/sympy/integrals/trigonometry.py
+index 607e018524..d57819a324 100644
+--- a/sympy/integrals/trigonometry.py
++++ b/sympy/integrals/trigonometry.py
+@@ -4,6 +4,7 @@
+ 
+ from sympy.core.compatibility import range
+ from sympy.core import cacheit, Dummy, Ne, Integer, Rational, S, Wild
++from sympy.core.function import expand_trig
+ from sympy.functions import binomial, sin, cos, Piecewise
+ 
+ # TODO sin(a*x)*cos(b*x) -> sin((a+b)x) + sin((a-b)x) ?
+@@ -64,11 +65,17 @@ def trigintegrate(f, x, conds='piecewise'):
+     M = f.match(pat)
+ 
+     if M is None:
+-        return
++        f = expand_trig(f)
++        coeff, f = f.as_independent(x)
++        M = f.rewrite('sincos').match(pat)
++        if M is None:
++            return
++    else:
++        coeff = S.One
+ 
+     n, m = M[n], M[m]
+     if n is S.Zero and m is S.Zero:
+-        return x
++        return coeff*x
+     zz = x if n is S.Zero else S.Zero
+ 
+     a = M[a]
+@@ -114,8 +121,8 @@ def trigintegrate(f, x, conds='piecewise'):
+         fi = integrate(ff, u)  # XXX cyclic deps
+         fx = fi.subs(u, uu)
+         if conds == 'piecewise':
+-            return Piecewise((fx / a, Ne(a, 0)), (zz, True))
+-        return fx / a
++            return coeff*Piecewise((fx / a, Ne(a, 0)), (zz, True))
++        return coeff*fx / a
+ 
+     # n & m are both even
+     #
+@@ -242,8 +249,8 @@ def trigintegrate(f, x, conds='piecewise'):
+                        Rational(n - 1, m + 1) *
+                        integrate(cos(x)**(m + 2)*sin(x)**(n - 2), x))
+     if conds == 'piecewise':
+-        return Piecewise((res.subs(x, a*x) / a, Ne(a, 0)), (zz, True))
+-    return res.subs(x, a*x) / a
++        return coeff*Piecewise((res.subs(x, a*x) / a, Ne(a, 0)), (zz, True))
++    return coeff*res.subs(x, a*x) / a
+ 
+ 
+ def _sin_pow_integrate(n, x):

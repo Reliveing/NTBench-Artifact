@@ -1,0 +1,114 @@
+diff --git a/pydantic/json_schema.py b/pydantic/json_schema.py
+index f5cc325be..387bea603 100644
+--- a/pydantic/json_schema.py
++++ b/pydantic/json_schema.py
+@@ -397,11 +397,18 @@ class GenerateJsonSchema:
+             )
+ 
+         json_schema: JsonSchemaValue = self.generate_inner(schema)
++        json_schema_with_definitions = _add_json_schema_definition_views(json_schema, self.definitions)
+         json_ref_counts = self.get_json_ref_counts(json_schema)
+ 
+         ref = cast(JsonRef, json_schema.get('$ref'))
+         while ref is not None:  # may need to unpack multiple levels
+-            ref_json_schema = self.get_schema_from_definitions(ref)
++            try:
++                ref_json_schema = self.get_schema_from_definitions(ref)
++            except KeyError:
++                if ref in _get_all_locally_resolvable_json_refs(json_schema_with_definitions):
++                    ref_json_schema = None
++                else:
++                    raise
+             if json_ref_counts[ref] == 1 and ref_json_schema is not None and len(json_schema) == 1:
+                 # "Unpack" the ref since this is the only reference and there are no sibling keys
+                 json_schema = ref_json_schema.copy()  # copy to prevent recursive dict reference
+@@ -413,7 +420,7 @@ class GenerateJsonSchema:
+         definitions_remapping = self._build_definitions_remapping()
+ 
+         if self.definitions:
+-            json_schema['$defs'] = self.definitions
++            json_schema['$defs'] = {**json_schema.get('$defs', {}), **self.definitions}
+ 
+         json_schema = definitions_remapping.remap_json_schema(json_schema)
+ 
+@@ -2350,6 +2357,9 @@ class GenerateJsonSchema:
+     def get_json_ref_counts(self, json_schema: JsonSchemaValue) -> dict[JsonRef, int]:
+         """Get all values corresponding to the key '$ref' anywhere in the json_schema."""
+         json_refs: dict[JsonRef, int] = Counter()
++        locally_resolvable_refs = _get_all_locally_resolvable_json_refs(
++            _add_json_schema_definition_views(json_schema, self.definitions)
++        )
+ 
+         def _add_json_refs(schema: Any) -> None:
+             if isinstance(schema, dict):
+@@ -2367,7 +2377,7 @@ class GenerateJsonSchema:
+                             raise self._core_defs_invalid_for_json_schema[defs_ref]
+                         _add_json_refs(self.definitions[defs_ref])
+                     except KeyError:
+-                        if not json_ref.startswith(('http://', 'https://')):
++                        if not json_ref.startswith(('http://', 'https://')) and json_ref not in locally_resolvable_refs:
+                             raise
+ 
+                 for k, v in schema.items():
+@@ -2426,6 +2436,8 @@ class GenerateJsonSchema:
+ 
+     def _garbage_collect_definitions(self, schema: JsonSchemaValue) -> None:
+         visited_defs_refs: set[DefsRef] = set()
++        schema_with_definitions = _add_json_schema_definition_views(schema, self.definitions)
++        locally_resolvable_refs = _get_all_locally_resolvable_json_refs(schema_with_definitions)
+         unvisited_json_refs = _get_all_json_refs(schema)
+         while unvisited_json_refs:
+             next_json_ref = unvisited_json_refs.pop()
+@@ -2436,7 +2448,7 @@ class GenerateJsonSchema:
+                 visited_defs_refs.add(next_defs_ref)
+                 unvisited_json_refs.update(_get_all_json_refs(self.definitions[next_defs_ref]))
+             except KeyError:
+-                if not next_json_ref.startswith(('http://', 'https://')):
++                if not next_json_ref.startswith(('http://', 'https://')) and next_json_ref not in locally_resolvable_refs:
+                     raise
+ 
+         self.definitions = {k: v for k, v in self.definitions.items() if k in visited_defs_refs}
+@@ -2660,6 +2672,43 @@ class Examples:
+         return hash(type(self.mode))
+ 
+ 
++def _add_json_schema_definition_views(
++    json_schema: JsonSchemaValue, definitions: dict[DefsRef, JsonSchemaValue]
++) -> JsonSchemaValue:
++    if not definitions:
++        return json_schema
++
++    json_schema = json_schema.copy()
++    json_schema['$defs'] = {**json_schema.get('$defs', {}), **definitions}
++    return json_schema
++
++
++def _get_all_locally_resolvable_json_refs(item: Any) -> set[JsonRef]:
++    refs: set[JsonRef] = set()
++    stack: list[tuple[Any, str]] = [(item, '#')]
++
++    while stack:
++        current, path = stack.pop()
++        if isinstance(current, dict):
++            refs.add(JsonRef(path))
++            for key, value in current.items():
++                escaped_key = str(key).replace('~', '~0').replace('/', '~1')
++                if isinstance(value, dict):
++                    stack.append((value, f'{path}/{escaped_key}'))
++                elif isinstance(value, list):
++                    stack.extend(
++                        (item, f'{path}/{escaped_key}/{index}')
++                        for index, item in enumerate(value)
++                        if isinstance(item, (dict, list))
++                    )
++        elif isinstance(current, list):
++            stack.extend(
++                (item, f'{path}/{index}') for index, item in enumerate(current) if isinstance(item, (dict, list))
++            )
++
++    return refs
++
++
+ def _get_all_json_refs(item: Any) -> set[JsonRef]:
+     """Get all the definitions references from a JSON schema."""
+     refs: set[JsonRef] = set()

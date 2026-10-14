@@ -1,0 +1,25 @@
+diff --git a/lib/matplotlib/ticker.py b/lib/matplotlib/ticker.py
+index a2be7cb..6698204 100644
+--- a/lib/matplotlib/ticker.py
++++ b/lib/matplotlib/ticker.py
+@@ -1689,7 +1689,13 @@ class MaxNLocator(Locator):
+     def _try_raw_ticks(self, vmin, vmax, nbins):
+         scale, offset = scale_range(vmin, vmax, nbins)
+         if self._integer:
+-            scale = max(1, scale)
++            # Only force integer tick spacing when the current view interval
++            # actually contains enough integer values to satisfy min_n_ticks.
++            # Otherwise, short intervals such as (0.5, 1.5) can never produce
++            # enough integer ticks, causing _raw_ticks to increase nbins
++            # forever.
++            if np.floor(vmax) - np.ceil(vmin) >= self._min_n_ticks - 1:
++                scale = max(1, scale)
+         vmin = vmin - offset
+         vmax = vmax - offset
+         raw_step = (vmax - vmin) / nbins
+@@ -2316,4 +2322,4 @@ class OldAutoLocator(Locator):
+                 ticksize = base / 5.0
+             locator = MultipleLocator(ticksize)
+ 
+-        return locator
++        return locator

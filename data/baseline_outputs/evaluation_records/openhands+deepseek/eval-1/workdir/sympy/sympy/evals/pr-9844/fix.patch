@@ -1,0 +1,44 @@
+diff --git a/sympy/integrals/manualintegrate.py b/sympy/integrals/manualintegrate.py
+index 50d75d5f92..f0f2172f8a 100644
+--- a/sympy/integrals/manualintegrate.py
++++ b/sympy/integrals/manualintegrate.py
+@@ -149,9 +149,30 @@ def possible_subterms(term):
+             return r
+         return []
+ 
++    def _count_constant_base_pows(expr):
++        """Count Pow terms with constant bases (w.r.t. symbol) in expr."""
++        if isinstance(expr, sympy.Pow):
++            if expr.args[0].is_constant(symbol):
++                return 1
++        count = 0
++        if hasattr(expr, 'args'):
++            for arg in expr.args:
++                count += _count_constant_base_pows(arg)
++        return count
++
+     for u in possible_subterms(integrand):
+         if u == symbol:
+             continue
++        # Skip linear homogeneous subterms with numeric coefficient
++        # (c*symbol where c is a Number) when the integrand contains
++        # at least two constant-base powers. Such substitutions don't
++        # simplify the integrand and can cause cyclic substitutions.
++        if u.is_polynomial(symbol):
++            poly = u.as_poly(symbol)
++            if (poly.degree() == 1 and poly.TC() == 0 and
++                    poly.LC().is_Number and
++                    _count_constant_base_pows(integrand) >= 2):
++                continue
+         u_diff = manual_diff(u, symbol)
+         new_integrand = test_subterm(u, u_diff)
+         if new_integrand is not False:
+@@ -813,7 +834,7 @@ def substitution_rule(integral):
+         all(arg.is_Pow or arg.is_polynomial(symbol) for arg in integrand.args)
+         or isinstance(integrand, sympy.Pow)
+         or isinstance(integrand, sympy.Mul)),
+-    lambda integrand, symbol: integrand.expand())
++    lambda integrand, symbol: sympy.powsimp(integrand.expand()))
+ 
+ def derivative_rule(integral):
+     variables = integral[0].args[1:]

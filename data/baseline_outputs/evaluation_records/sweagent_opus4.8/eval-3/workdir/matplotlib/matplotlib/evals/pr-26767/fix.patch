@@ -1,0 +1,14 @@
+diff --git a/src/_backend_agg.h b/src/_backend_agg.h
+index f15fa05dd5..3324b4e106 100644
+--- a/src/_backend_agg.h
++++ b/src/_backend_agg.h
+@@ -1191,6 +1191,9 @@ inline void RendererAgg::_draw_gouraud_triangle(PointArray &points,
+     for (int i = 0; i < 3; ++i) {
+         for (int j = 0; j < 2; ++j) {
+             tpoints[i][j] = points(i, j);
++            if (!(std::isfinite(tpoints[i][j]))) {
++                return;
++            }
+         }
+         trans.transform(&tpoints[i][0], &tpoints[i][1]);
+     }

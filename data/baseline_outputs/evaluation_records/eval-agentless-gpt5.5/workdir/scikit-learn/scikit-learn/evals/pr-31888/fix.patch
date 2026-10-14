@@ -1,0 +1,58 @@
+diff --git a/sklearn/linear_model/_logistic.py b/sklearn/linear_model/_logistic.py
+index f921f47..69fe5dc 100644
+--- a/sklearn/linear_model/_logistic.py
++++ b/sklearn/linear_model/_logistic.py
+@@ -99,6 +99,29 @@ def _check_multi_class(multi_class, solver, n_classes):
+     return multi_class
+ 
+ 
++def _check_large_feature_values(X, solver):
++    """Guard against liblinear hangs caused by extremely large feature values."""
++    if solver != "liblinear":
++        return
++
++    values = X.data if sparse.issparse(X) else X
++    if values.size == 0:
++        return
++
++    max_abs_value = np.max(np.abs(values))
++    if not np.isfinite(max_abs_value):
++        raise ValueError("Input contains NaN or infinity.")
++
++    # liblinear's TRON implementation can fail to terminate on data that is
++    # far from numerically scaled. Catch such inputs early and suggest scaling.
++    if max_abs_value > 1e50:
++        raise ValueError(
++            "The liblinear solver does not support datasets with very large "
++            "feature values. Please scale your data, for example with "
++            "StandardScaler, before fitting LogisticRegression."
++        )
++
++
+ def _logistic_regression_path(
+     X,
+     y,
+@@ -288,6 +311,8 @@ def _logistic_regression_path(
+         )
+         y = check_array(y, ensure_2d=False, dtype=None)
+         check_consistent_length(X, y)
++
++    _check_large_feature_values(X, solver)
+     n_samples, n_features = X.shape
+ 
+     classes = np.unique(y)
+@@ -1256,6 +1281,8 @@ class LogisticRegression(LinearClassifierMixin, SparseCoefMixin, BaseEstimator):
+             order="C",
+             accept_large_sparse=solver not in ["liblinear", "sag", "saga"],
+         )
++
++        _check_large_feature_values(X, solver)
+         check_classification_targets(y)
+         self.classes_ = np.unique(y)
+ 
+@@ -2332,4 +2359,4 @@ class LogisticRegressionCV(LogisticRegression, LinearClassifierMixin, BaseEstima
+     def __sklearn_tags__(self):
+         tags = super().__sklearn_tags__()
+         tags.input_tags.sparse = True
+-        return tags
++        return tags

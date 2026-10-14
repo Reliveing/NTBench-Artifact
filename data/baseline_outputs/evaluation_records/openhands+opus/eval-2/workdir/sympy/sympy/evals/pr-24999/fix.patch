@@ -1,0 +1,43 @@
+diff --git a/sympy/solvers/solvers.py b/sympy/solvers/solvers.py
+index fcc7e13c31..78004ad01f 100644
+--- a/sympy/solvers/solvers.py
++++ b/sympy/solvers/solvers.py
+@@ -2771,6 +2771,20 @@ def equal(expr1, expr2):
+ 
+         rewrite = lhs.rewrite(exp)
+         if rewrite != lhs:
++            # ``rewrite(exp)`` may oscillate for some equations (e.g. those
++            # involving Mod, where 1/(x + 1) <-> exp(-log(x + 1)) toggles back
++            # and forth) leading to infinite recursion. Guard against re-
++            # entering this branch with an equation that only differs from a
++            # previously seen one by its (freshly generated) Dummy symbols.
++            # See issue #25297.
++            saw = flags.setdefault('tsolve_rewrite_saw', [])
++            dummies = sorted((rewrite - rhs).atoms(Dummy), key=default_sort_key)
++            reps = {d: Symbol('_tsolve_canon_%d' % i)
++                    for i, d in enumerate(dummies)}
++            canon = (rewrite - rhs).xreplace(reps)
++            if canon in saw:
++                raise NotImplementedError
++            saw.append(canon)
+             return _vsolve(rewrite - rhs, sym, **flags)
+     except NotImplementedError:
+         pass
+diff --git a/sympy/solvers/tests/test_solvers.py b/sympy/solvers/tests/test_solvers.py
+index c13aa051c9..73b3b6711e 100644
+--- a/sympy/solvers/tests/test_solvers.py
++++ b/sympy/solvers/tests/test_solvers.py
+@@ -2646,3 +2646,13 @@ def test_solve_undetermined_coeffs_issue_23927():
+         phi: 2*atan((A + sqrt(A**2 + B**2))/B),
+         r: (A**2 + A*sqrt(A**2 + B**2) + B**2)/(A + sqrt(A**2 + B**2))/-1
+         }]
++
++
++def test_issue_25297():
++    from sympy.core.mod import Mod
++    from sympy.functions.elementary.integers import floor
++    s2 = Symbol('s2', integer=True, positive=True)
++    f = floor(s2/2 - S.Half)
++    m = Mod(f**2/(f + 1) + 2*f/(f + 1) + 1/(f + 1), 1)
++    # this used to raise a RecursionError
++    raises(NotImplementedError, lambda: solve(m*f + m, s2))

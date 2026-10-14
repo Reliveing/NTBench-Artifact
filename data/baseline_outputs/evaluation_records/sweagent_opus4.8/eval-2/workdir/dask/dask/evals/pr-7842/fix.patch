@@ -1,0 +1,22 @@
+diff --git a/dask/dataframe/multi.py b/dask/dataframe/multi.py
+index 278d434ac..fec711aee 100644
+--- a/dask/dataframe/multi.py
++++ b/dask/dataframe/multi.py
+@@ -740,6 +740,17 @@ def pair_partitions(L, R):
+     result = []
+ 
+     n, m = len(L) - 1, len(R) - 1
++
++    # If any of the divisions of the right frame are unknown (``NaN``), the
++    # comparison-based algorithm below cannot make progress (all comparisons
++    # against ``NaN`` return ``False``), leading to an infinite loop. This can
++    # happen, for example, when the right frame is empty. In that case simply
++    # pair every left partition with every right partition using no bounds.
++    if any(pd.isnull(r) for r in R):
++        for i in range(n):
++            result.append([(j, None, None) for j in range(m)])
++        return result
++
+     i, j = 0, -1
+     while j + 1 < m and R[j + 1] <= L[i]:
+         j += 1

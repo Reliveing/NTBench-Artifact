@@ -1,0 +1,150 @@
+diff --git a/sympy/solvers/simplex.py b/sympy/solvers/simplex.py
+index f140268b79..48682aea84 100644
+--- a/sympy/solvers/simplex.py
++++ b/sympy/solvers/simplex.py
+@@ -68,7 +68,7 @@
+ from sympy.core.symbol import Dummy
+ from sympy.core.sorting import ordered
+ from sympy.functions.elementary.complexes import sign
+-from sympy.matrices.dense import Matrix, zeros
++from sympy.matrices.dense import Matrix, eye, zeros
+ from sympy.solvers.solveset import linear_eq_to_matrix
+ from sympy.utilities.iterables import numbered_symbols
+ from sympy.utilities.misc import filldedent
+@@ -147,10 +147,36 @@ def _pivot(M, i, j):
+     return A
+ 
+ 
+-def _choose_pivot_row(A, B, candidate_rows, pivot_col, Y):
+-    # Choose row with smallest ratio
+-    # If there are ties, pick using Bland's rule
+-    return min(candidate_rows, key=lambda i: (B[i] / A[i, pivot_col], Y[i]))
++def _pivot_tracker(T, pivcol, r, c, piv):
++    """Apply to the basis-inverse tracker ``T`` the same transformation
++    that :func:`_pivot` applies to a non-pivot column when pivoting
++    ``M`` about ``M[r, c]``.  ``pivcol`` is the (constraint part of the)
++    pivot column ``M[:m, c]`` and ``piv`` is the pivot value ``M[r, c]``.
++    ``T`` starts as the identity and, transformed in lockstep with the
++    constant column of ``M``, provides the perturbation used by the
++    lexicographic minimum-ratio rule to prevent cycling.
++    """
++    Ti = T[r, :]
++    new = T - pivcol * (Ti / piv)
++    new[r, :] = Ti / piv
++    return new
++
++
++def _choose_pivot_row(A, B, candidate_rows, pivot_col, T, Y):
++    # Choose the leaving variable with the lexicographic minimum ratio
++    # rule. The plain minimum ratio rule (B[i]/A[i, pivot_col]) can lead
++    # to cycling on degenerate problems; comparing, in the case of ties,
++    # the ratios formed with the columns of the tracked basis-inverse
++    # matrix ``T`` (which starts as the identity) makes the choice
++    # equivalent to a lexicographic perturbation of ``B`` and guarantees
++    # that the simplex method terminates without cycling.  ``Y`` is used
++    # as a final, deterministic tie-breaker.
++    def key(i):
++        d = A[i, pivot_col]
++        return tuple([B[i] / d] + [T[i, j] / d for j in range(T.cols)] +
++            [Y[i]])
++
++    return min(candidate_rows, key=key)
+ 
+ 
+ def _simplex(A, B, C, D=None, dual=False):
+@@ -296,10 +322,22 @@ def _simplex(A, B, C, D=None, dual=False):
+     X = [(False, j) for j in range(n)]
+     Y = [(True, i) for i in range(m)]
+ 
++    # ``T`` tracks the basis-inverse (it starts as the m x m identity
++    # and is pivoted in lockstep with ``M``); it is used to implement a
++    # lexicographic minimum-ratio rule that prevents the simplex method
++    # from cycling on degenerate problems.
++    T = eye(m)
++
+     # Phase 1: find a feasible solution or determine none exist
+ 
+-    ## keep track of last pivot row and column
+-    last = None
++    ## A feasible basis is sought by driving out the negative entries
++    ## of ``B``.  The lexicographic minimum-ratio rule implemented by
++    ## ``_choose_pivot_row`` (via the tracked basis-inverse ``T``)
++    ## guarantees that no basis is visited twice, so this loop is
++    ## guaranteed to terminate.  As a safeguard, the visited bases are
++    ## also recorded and, should one ever repeat, the system is
++    ## reported as infeasible rather than looping indefinitely.
++    seen = set()
+ 
+     while True:
+         B = M[:-1, -1]
+@@ -308,6 +346,12 @@ def _simplex(A, B, C, D=None, dual=False):
+             # We have found a feasible solution
+             break
+ 
++        basis = tuple(Y)
++        if basis in seen:
++            raise InfeasibleLPError(filldedent("""
++                The constraint set is empty!"""))
++        seen.add(basis)
++
+         # Find k: first row with a negative rightmost entry
+         for k in range(B.rows):
+             if B[k] < 0:
+@@ -325,30 +369,11 @@ def _simplex(A, B, C, D=None, dual=False):
+         # Choose pivot row, r
+         piv_rows = [_ for _ in range(A.rows) if A[_, c] > 0 and B[_] > 0]
+         piv_rows.append(k)
+-        r = _choose_pivot_row(A, B, piv_rows, c, Y)
+-
+-        # check for oscillation
+-        if (r, c) == last:
+-            # Not sure what to do here; it looks like there will be
+-            # oscillations; see o1 test added at this commit to
+-            # see a system with no solution and the o2 for one
+-            # with a solution. In the case of o2, the solution
+-            # from linprog is the same as the one from lpmin, but
+-            # the matrices created in the lpmin case are different
+-            # than those created without replacements in linprog and
+-            # the matrices in the linprog case lead to oscillations.
+-            # If the matrices could be re-written in linprog like
+-            # lpmin does, this behavior could be avoided and then
+-            # perhaps the oscillating case would only occur when
+-            # there is no solution. For now, the output is checked
+-            # before exit if oscillations were detected and an
+-            # error is raised there if the solution was invalid.
+-            #
+-            # cf section 6 of Ferguson for a non-cycling modification
+-            last = True
+-            break
+-        last = r, c
++        r = _choose_pivot_row(A, B, piv_rows, c, T, Y)
+ 
++        # transform the basis-inverse tracker with the same column
++        # operation that ``_pivot`` applies to the constant column
++        T = _pivot_tracker(T, M[:m, c], r, c, M[r, c])
+         M = _pivot(M, r, c)
+         X[c], Y[r] = Y[r], X[c]
+ 
+@@ -370,8 +395,9 @@ def _simplex(A, B, C, D=None, dual=False):
+             raise UnboundedLPError(filldedent("""
+                 Objective function can assume
+                 arbitrarily large values!"""))
+-        r = _choose_pivot_row(A, B, piv_rows, c, Y)
++        r = _choose_pivot_row(A, B, piv_rows, c, T, Y)
+ 
++        T = _pivot_tracker(T, M[:m, c], r, c, M[r, c])
+         M = _pivot(M, r, c)
+         X[c], Y[r] = Y[r], X[c]
+ 
+@@ -390,11 +416,6 @@ def _simplex(A, B, C, D=None, dual=False):
+         else:
+             argmax[n] = M[i, -1]
+ 
+-    if last and not all(i >= 0 for i in argmax + argmin_dual):
+-        raise InfeasibleLPError(filldedent("""
+-            Oscillating system led to invalid solution.
+-            If you believe there was a valid solution, please
+-            report this as a bug."""))
+     return -M[-1, -1], argmax, argmin_dual
+ 
+ 

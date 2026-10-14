@@ -1,0 +1,54 @@
+diff --git a/.github/workflows/publish.yml b/.github/workflows/publish.yml
+index b84d2a97..7f6cb7ce 100644
+--- a/.github/workflows/publish.yml
++++ b/.github/workflows/publish.yml
+@@ -84,7 +84,7 @@ jobs:
+         gh release upload "$GITHUB_REF_NAME" dist/* --repo "$GITHUB_REPOSITORY"
+ 
+     - name: "Publish dists to PyPI"
+-      uses: pypa/gh-action-pypi-publish@cef221092ed1bacb1cc03d23a2d87d1d172e277b # v1.14.0
++      uses: pypa/gh-action-pypi-publish@ed0c53931b1dc9bd32cbe73a98c7f6766f8a527e # v1.13.0
+       with:
+         attestations: true
+ 
+@@ -105,7 +105,7 @@ jobs:
+         path: "dist/"
+ 
+     - name: "Publish dists to Test PyPI"
+-      uses: pypa/gh-action-pypi-publish@cef221092ed1bacb1cc03d23a2d87d1d172e277b # v1.14.0
++      uses: pypa/gh-action-pypi-publish@ed0c53931b1dc9bd32cbe73a98c7f6766f8a527e # v1.13.0
+       with:
+         repository-url: https://test.pypi.org/legacy/
+         attestations: true
+diff --git a/docs/v2-migration-guide.rst b/docs/v2-migration-guide.rst
+index e5ab9292..5db521da 100644
+--- a/docs/v2-migration-guide.rst
++++ b/docs/v2-migration-guide.rst
+@@ -284,7 +284,7 @@ for requests and ``HTTPResponse.json()`` method on responses:
+ 
+ 
+ **✨ Optimized for Python 3.10+**
+----------------------------------
++--------------------------------
+ 
+ urllib3 2.x specifically targets CPython 3.10+ and PyPy 7.3.17+ (compatible with CPython 3.10)
+ and dropping support for Python versions 2.7, and 3.5 to 3.9.
+diff --git a/src/urllib3/util/retry.py b/src/urllib3/util/retry.py
+index 7649898e..b21b4b64 100644
+--- a/src/urllib3/util/retry.py
++++ b/src/urllib3/util/retry.py
+@@ -157,14 +157,6 @@ class Retry:
+ 
+         By default, backoff is disabled (factor set to 0).
+ 
+-    :param float backoff_max:
+-        The maximum backoff time (in seconds) between retry attempts.
+-        This value caps the computed backoff from `backoff_factor`.
+-
+-    :param float backoff_jitter:
+-        Random jitter amount (in seconds) added to the computed backoff.
+-        Jitter is sampled uniformly from `0` to `backoff_jitter`.
+-
+     :param bool raise_on_redirect: Whether, if the number of redirects is
+         exhausted, to raise a MaxRetryError, or to return a response with a
+         response code in the 3xx range.

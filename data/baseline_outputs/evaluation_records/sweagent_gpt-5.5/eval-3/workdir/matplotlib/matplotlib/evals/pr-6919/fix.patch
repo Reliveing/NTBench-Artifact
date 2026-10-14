@@ -1,0 +1,27 @@
+diff --git a/lib/matplotlib/ticker.py b/lib/matplotlib/ticker.py
+index a2be7cbd80..dec7a7e790 100644
+--- a/lib/matplotlib/ticker.py
++++ b/lib/matplotlib/ticker.py
+@@ -1676,10 +1676,21 @@ class MaxNLocator(Locator):
+         else:
+             nbins = self._nbins
+ 
++        min_n_ticks = self._min_n_ticks
++        # When tick locations are restricted to integers, the requested
++        # minimum number of ticks may be impossible to satisfy for short
++        # intervals; e.g. there is only one integer in [0.5, 1.5].  In that
++        # case, cap the required number of in-range ticks at the number of
++        # integers actually present in the interval, otherwise increasing
++        # nbins cannot make progress and the loop below never terminates.
++        if self._integer:
++            min_n_ticks = min(
++                min_n_ticks, max(0, math.floor(vmax) - math.ceil(vmin) + 1))
++
+         while True:
+             ticks = self._try_raw_ticks(vmin, vmax, nbins)
+             nticks = ((ticks <= vmax) & (ticks >= vmin)).sum()
+-            if nticks >= self._min_n_ticks:
++            if nticks >= min_n_ticks:
+                 break
+             nbins += 1
+ 

@@ -1,0 +1,37 @@
+--- /home/sympy/sympy/simplify/cse_main.py.bak	2026-06-25 11:53:07.553882786 +0000
++++ /home/sympy/sympy/simplify/cse_main.py	2026-06-25 11:53:26.589021802 +0000
+@@ -649,6 +649,10 @@
+ 
+     replacements = []
+ 
++    # Track expressions currently being rebuilt to avoid infinite recursion
++    # from circular opt_subs.
++    _rebuilding = set()
++
+     subs = {}
+ 
+     def _rebuild(expr):
+@@ -666,7 +670,12 @@
+             return subs[expr]
+ 
+         orig_expr = expr
+-        if expr in opt_subs:
++        if expr in _rebuilding:
++            # If we encounter an expression that is already being rebuilt,
++            # we are in a cycle. Skip opt_subs for this expression to
++            # break the cycle.
++            pass
++        elif expr in opt_subs:
+             expr = opt_subs[expr]
+ 
+         # If enabled, parse Muls and Adds arguments by order to ensure
+@@ -685,7 +694,9 @@
+         else:
+             args = expr.args
+ 
++        _rebuilding.add(orig_expr)
+         new_args = list(map(_rebuild, args))
++        _rebuilding.discard(orig_expr)
+         if isinstance(expr, Unevaluated) or new_args != args:
+             new_expr = expr.func(*new_args)
+         else:

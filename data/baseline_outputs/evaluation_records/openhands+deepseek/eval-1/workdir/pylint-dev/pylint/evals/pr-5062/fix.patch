@@ -1,0 +1,155 @@
+diff --git a/pylint/lint/parallel.py b/pylint/lint/parallel.py
+index 1896fc95f..ae0173547 100644
+--- a/pylint/lint/parallel.py
++++ b/pylint/lint/parallel.py
+@@ -3,6 +3,7 @@
+ 
+ import collections
+ import functools
++import sys
+ from typing import TYPE_CHECKING, Any, DefaultDict, Dict, Iterable, List, Tuple, Union
+ 
+ from pylint import reporters
+@@ -18,6 +19,11 @@ try:
+ except ImportError:
+     multiprocessing = None  # type: ignore
+ 
++try:
++    from concurrent.futures import ProcessPoolExecutor
++except ImportError:
++    ProcessPoolExecutor = None  # type: ignore
++
+ # PyLinter object used by worker processes when checking files using multiprocessing
+ # should only be used by the worker processes
+ _worker_linter = None
+@@ -129,42 +135,69 @@ def check_parallel(linter, jobs, files: Iterable[FileItem], arguments=None):
+     # is identical to the linter object here. This is required so that
+     # a custom PyLinter object can be used.
+     initializer = functools.partial(_worker_initialize, arguments=arguments)
+-    pool = multiprocessing.Pool(  # pylint: disable=consider-using-with
+-        jobs, initializer=initializer, initargs=[linter]
+-    )
+-    # ..and now when the workers have inherited the linter, the actual reporter
+-    # can be set back here on the parent process so that results get stored into
+-    # correct reporter
+-    linter.set_reporter(original_reporter)
+-    linter.open()
+-    try:
+-        all_stats = []
+-        all_mapreduce_data = collections.defaultdict(list)
+-
+-        # Maps each file to be worked on by a single _worker_check_single_file() call,
+-        # collecting any map/reduce data by checker module so that we can 'reduce' it
+-        # later.
+-        for (
+-            worker_idx,  # used to merge map/reduce data across workers
+-            module,
+-            file_path,
+-            base_name,
+-            messages,
+-            stats,
+-            msg_status,
+-            mapreduce_data,
+-        ) in pool.imap_unordered(_worker_check_single_file, files):
+-            linter.file_state.base_name = base_name
+-            linter.set_current_module(module, file_path)
+-            for msg in messages:
+-                msg = Message(*msg)
+-                linter.reporter.handle_message(msg)  # type: ignore  # linter.set_reporter() call above makes linter have a reporter attr
+-            all_stats.append(stats)
+-            all_mapreduce_data[worker_idx].append(mapreduce_data)
+-            linter.msg_status |= msg_status
+-    finally:
+-        pool.close()
+-        pool.join()
++    if ProcessPoolExecutor is not None and sys.version_info >= (3, 7):
++        # Use ProcessPoolExecutor to avoid deadlocks when a worker process
++        # terminates unexpectedly (e.g. due to OOM or segfault).
++        # Unlike multiprocessing.Pool, ProcessPoolExecutor raises a
++        # BrokenProcessPool exception instead of silently replacing the
++        # worker and hanging.
++        with ProcessPoolExecutor(  # pylint: disable=consider-using-with
++            max_workers=jobs, initializer=initializer, initargs=(linter,)
++        ) as executor:
++            linter.set_reporter(original_reporter)
++            linter.open()
++            all_stats = []
++            all_mapreduce_data = collections.defaultdict(list)
++
++            for (
++                worker_idx,
++                module,
++                file_path,
++                base_name,
++                messages,
++                stats,
++                msg_status,
++                mapreduce_data,
++            ) in executor.map(_worker_check_single_file, files):
++                linter.file_state.base_name = base_name
++                linter.set_current_module(module, file_path)
++                for msg in messages:
++                    msg = Message(*msg)
++                    linter.reporter.handle_message(msg)  # type: ignore  # linter.set_reporter() call above makes linter have a reporter attr
++                all_stats.append(stats)
++                all_mapreduce_data[worker_idx].append(mapreduce_data)
++                linter.msg_status |= msg_status
++    else:
++        pool = multiprocessing.Pool(  # pylint: disable=consider-using-with
++            jobs, initializer=initializer, initargs=[linter]
++        )
++        linter.set_reporter(original_reporter)
++        linter.open()
++        try:
++            all_stats = []
++            all_mapreduce_data = collections.defaultdict(list)
++
++            for (
++                worker_idx,
++                module,
++                file_path,
++                base_name,
++                messages,
++                stats,
++                msg_status,
++                mapreduce_data,
++            ) in pool.imap_unordered(_worker_check_single_file, files):
++                linter.file_state.base_name = base_name
++                linter.set_current_module(module, file_path)
++                for msg in messages:
++                    msg = Message(*msg)
++                    linter.reporter.handle_message(msg)  # type: ignore  # linter.set_reporter() call above makes linter have a reporter attr
++                all_stats.append(stats)
++                all_mapreduce_data[worker_idx].append(mapreduce_data)
++                linter.msg_status |= msg_status
++        finally:
++            pool.close()
++            pool.join()
+ 
+     _merge_mapreduce_data(linter, all_mapreduce_data)
+     linter.stats = _merge_stats([linter.stats] + all_stats)
+diff --git a/pylint/lint/run.py b/pylint/lint/run.py
+index d84ed2703..55d7e9546 100644
+--- a/pylint/lint/run.py
++++ b/pylint/lint/run.py
+@@ -16,6 +16,11 @@ try:
+ except ImportError:
+     multiprocessing = None  # type: ignore
+ 
++try:
++    from concurrent.futures import ProcessPoolExecutor
++except ImportError:
++    ProcessPoolExecutor = None  # type: ignore
++
+ 
+ def _cpu_count() -> int:
+     """Use sched_affinity if available for virtualized or containerized environments."""
+@@ -345,7 +350,7 @@ group are mutually exclusive.",
+             )
+             sys.exit(32)
+         if linter.config.jobs > 1 or linter.config.jobs == 0:
+-            if multiprocessing is None:
++            if ProcessPoolExecutor is None and multiprocessing is None:
+                 print(
+                     "Multiprocessing library is missing, fallback to single process",
+                     file=sys.stderr,

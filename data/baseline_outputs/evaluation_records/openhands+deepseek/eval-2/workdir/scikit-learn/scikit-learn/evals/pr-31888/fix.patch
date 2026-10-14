@@ -1,0 +1,34 @@
+diff --git a/sklearn/svm/src/liblinear/tron.cpp b/sklearn/svm/src/liblinear/tron.cpp
+index ae1dae88da..bb15ecc55a 100644
+--- a/sklearn/svm/src/liblinear/tron.cpp
++++ b/sklearn/svm/src/liblinear/tron.cpp
+@@ -137,6 +137,11 @@ int TRON::tron(double *w)
+ 			info("WARNING: actred and prered too small\n");
+ 			break;
+ 		}
++		if (fnew != fnew || actred != actred || prered != prered)
++		{
++			info("WARNING: numerical NaN encountered\n");
++			break;
++		}
+ 	}
+ 
+ 	delete[] g;
+@@ -163,11 +168,17 @@ int TRON::trcg(double delta, double *g, double *s, double *r)
+ 	cgtol = 0.1 * blas->nrm2(n, g, inc);
+ 
+ 	int cg_iter = 0;
++	int cg_max_iter = max(n, 100);
+ 	rTr = blas->dot(n, r, inc, r, inc);
+ 	while (1)
+ 	{
+ 		if (blas->nrm2(n, r, inc) <= cgtol)
+ 			break;
++		if (cg_iter >= cg_max_iter)
++		{
++			info("Warning: CG reaches max number of iterations\n");
++			break;
++		}
+ 		cg_iter++;
+ 		fun_obj->Hv(d, Hd);
+ 

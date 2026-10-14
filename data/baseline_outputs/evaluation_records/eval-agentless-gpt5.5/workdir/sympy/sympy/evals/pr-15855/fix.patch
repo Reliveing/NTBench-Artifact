@@ -1,0 +1,39 @@
+diff --git a/sympy/logic/boolalg.py b/sympy/logic/boolalg.py
+index b0f64ec..0b1af83 100644
+--- a/sympy/logic/boolalg.py
++++ b/sympy/logic/boolalg.py
+@@ -534,8 +534,14 @@ class And(LatticeOp, BooleanFunction):
+ 
+     @classmethod
+     def _new_args_filter(cls, args):
++        from sympy.functions.elementary.complexes import Abs
++
+         newargs = []
+         rel = []
++        # Track strict bounds of the form Abs(a) < 1 so that we can detect
++        # contradictions like Abs(x) < 1 & Abs(1/x) < 1.
++        abs_lt_one = set()
++
+         args = BooleanFunction.binary_check_and_simplify(*args)
+         for x in reversed(args):
+             if x.is_Relational:
+@@ -545,6 +551,13 @@ class And(LatticeOp, BooleanFunction):
+                 nc = (~c).canonical
+                 if any(r == nc for r in rel):
+                     return [S.false]
++
++                if c.rel_op == '<' and c.rhs == S.One and c.lhs.func is Abs:
++                    a = c.lhs.args[0]
++                    if 1/a in abs_lt_one:
++                        return [S.false]
++                    abs_lt_one.add(a)
++
+                 rel.append(c)
+             newargs.append(x)
+         return LatticeOp._new_args_filter(newargs, And)
+@@ -2182,4 +2195,4 @@ def bool_map(bool1, bool2):
+     m = match(a, b)
+     if m:
+         return a, m
+-    return m
++    return m

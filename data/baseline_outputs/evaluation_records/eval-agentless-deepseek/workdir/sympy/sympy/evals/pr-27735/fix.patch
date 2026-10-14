@@ -1,0 +1,29 @@
+diff --git a/sympy/logic/algorithms/dpll2.py b/sympy/logic/algorithms/dpll2.py
+index 75115e0..be03ccd 100644
+--- a/sympy/logic/algorithms/dpll2.py
++++ b/sympy/logic/algorithms/dpll2.py
+@@ -238,6 +238,18 @@ class SATSolver:
+                                     lit > 0 for lit in self.var_settings}
+                     else:
+                         self._simple_add_learned_clause(res[1])
++                        # Backtrack to a state before the conflicting literals
++                        # were assigned, so the learned clause can be used
++                        while len(self.levels) > 1:
++                            self._undo()
++                        if len(self.levels) == 1:
++                            return
++                        # Now we can flip the decision at the current level
++                        flip_lit = -self._current_level.decision
++                        self._undo()
++                        self.levels.append(Level(flip_lit, flipped=True))
++                        flip_var = True
++                        continue
+ 
+                     while self._current_level.flipped:
+                         self._undo()
+@@ -681,4 +693,4 @@ class Level:
+     def __init__(self, decision, flipped=False):
+         self.decision = decision
+         self.var_settings = set()
+-        self.flipped = flipped
++        self.flipped = flipped

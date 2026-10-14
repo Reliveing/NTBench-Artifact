@@ -1,0 +1,25 @@
+diff --git a/lib/matplotlib/ticker.py b/lib/matplotlib/ticker.py
+index a2be7cb..d9b83cd 100644
+--- a/lib/matplotlib/ticker.py
++++ b/lib/matplotlib/ticker.py
+@@ -1679,8 +1679,14 @@ class MaxNLocator(Locator):
+         while True:
+             ticks = self._try_raw_ticks(vmin, vmax, nbins)
+             nticks = ((ticks <= vmax) & (ticks >= vmin)).sum()
++            # Some sanity checks that we don't loop forever: when integer
++            # ticks are requested and the data range is small, increasing
++            # nbins will never yield enough ticks within [vmin, vmax], so
++            # bail out once the step size can't get any smaller.
+             if nticks >= self._min_n_ticks:
+                 break
++            if self._integer and (vmax - vmin) < (nbins + 1):
++                break
+             nbins += 1
+ 
+         self._nbins_used = nbins  # Maybe useful for troubleshooting.
+@@ -2316,4 +2322,4 @@ class OldAutoLocator(Locator):
+                 ticksize = base / 5.0
+             locator = MultipleLocator(ticksize)
+ 
+-        return locator
++        return locator

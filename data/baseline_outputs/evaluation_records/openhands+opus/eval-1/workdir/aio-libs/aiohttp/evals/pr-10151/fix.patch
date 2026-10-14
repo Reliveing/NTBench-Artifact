@@ -1,0 +1,23 @@
+diff --git a/CHANGES/10346.bugfix.rst b/CHANGES/10346.bugfix.rst
+new file mode 100644
+index 000000000..f4fa25ad0
+--- /dev/null
++++ b/CHANGES/10346.bugfix.rst
+@@ -0,0 +1,4 @@
++Fixed an infinite loop that can occur when using aiohttp in combination with
++`async-solipsism`_ -- by :user:`bmerry`.
++
++.. _async-solipsism: https://github.com/bmerry/async-solipsism
+diff --git a/aiohttp/web_protocol.py b/aiohttp/web_protocol.py
+index 0bffc8498..3d76fc1f1 100644
+--- a/aiohttp/web_protocol.py
++++ b/aiohttp/web_protocol.py
+@@ -487,7 +487,7 @@ class RequestHandler(BaseProtocol, Generic[_Request]):
+         loop = self._loop
+         now = loop.time()
+         close_time = self._next_keepalive_close_time
+-        if now <= close_time:
++        if now < close_time:
+             # Keep alive close check fired too early, reschedule
+             self._keepalive_handle = loop.call_at(close_time, self._process_keepalive)
+             return

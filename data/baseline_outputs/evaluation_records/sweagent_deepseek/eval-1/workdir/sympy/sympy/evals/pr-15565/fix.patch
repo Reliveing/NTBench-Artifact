@@ -1,0 +1,31 @@
+diff --git a/sympy/core/basic.py b/sympy/core/basic.py
+index a134fab92b..253fdcd604 100644
+--- a/sympy/core/basic.py
++++ b/sympy/core/basic.py
+@@ -1109,6 +1109,26 @@ def fallback(self, old, new):
+         rv = self._eval_subs(old, new)
+         if rv is None:
+             rv = fallback(self, old, new)
++        if rv is self and old.is_Pow and self == old.base and self.is_Atom:
++            from sympy import Symbol, exp as exp_
++            from sympy.core.numbers import as_int
++            ct1 = S.One.as_independent(Symbol, as_Add=False)
++            ct2 = old.exp.as_independent(Symbol, as_Add=False)
++            coeff1, terms1 = ct1
++            coeff2, terms2 = ct2
++            if terms1 == terms2:
++                if old.is_commutative:
++                    pow = coeff1/coeff2
++                    try:
++                        pow = as_int(pow)
++                        ok = pow > 0
++                    except ValueError:
++                        from sympy.core.power import Pow
++                        ok = isinstance(Pow._eval_power(
++                            Pow(*old.as_base_exp(), evaluate=False),
++                            pow), (Pow, exp_))
++                    if ok:
++                        return new**pow
+         return rv
+ 
+     def _eval_subs(self, old, new):

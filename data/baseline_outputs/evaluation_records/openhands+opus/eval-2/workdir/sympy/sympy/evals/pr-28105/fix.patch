@@ -1,0 +1,68 @@
+diff --git a/sympy/solvers/simplex.py b/sympy/solvers/simplex.py
+index f140268b79..dfd8db0118 100644
+--- a/sympy/solvers/simplex.py
++++ b/sympy/solvers/simplex.py
+@@ -300,6 +300,11 @@ def _simplex(A, B, C, D=None, dual=False):
+ 
+     ## keep track of last pivot row and column
+     last = None
++    ## keep track of the bases that have been visited in order to
++    ## detect cycling; the Phase 1 pivoting used here is not guaranteed
++    ## to be cycle-free (Bland's rule prevents cycling in Phase 2 only)
++    ## so revisiting a basis means we are oscillating
++    seen = set()
+ 
+     while True:
+         B = M[:-1, -1]
+@@ -328,25 +333,18 @@ def _simplex(A, B, C, D=None, dual=False):
+         r = _choose_pivot_row(A, B, piv_rows, c, Y)
+ 
+         # check for oscillation
+-        if (r, c) == last:
+-            # Not sure what to do here; it looks like there will be
+-            # oscillations; see o1 test added at this commit to
+-            # see a system with no solution and the o2 for one
+-            # with a solution. In the case of o2, the solution
+-            # from linprog is the same as the one from lpmin, but
+-            # the matrices created in the lpmin case are different
+-            # than those created without replacements in linprog and
+-            # the matrices in the linprog case lead to oscillations.
+-            # If the matrices could be re-written in linprog like
+-            # lpmin does, this behavior could be avoided and then
+-            # perhaps the oscillating case would only occur when
+-            # there is no solution. For now, the output is checked
+-            # before exit if oscillations were detected and an
+-            # error is raised there if the solution was invalid.
++        state = (tuple(X), tuple(Y))
++        if (r, c) == last or state in seen:
++            # Cycling has been detected. Break out of Phase 1 with the
++            # current (possibly infeasible) basis; the resulting point
++            # is validated against the original constraints before it is
++            # returned and an InfeasibleLPError is raised there if it is
++            # not actually a solution.
+             #
+             # cf section 6 of Ferguson for a non-cycling modification
+             last = True
+             break
++        seen.add(state)
+         last = r, c
+ 
+         M = _pivot(M, r, c)
+@@ -806,6 +804,17 @@ def _lp(min_max, f, constr):
+         # don't show aux
+         p = {k: p[k] for k in ordered(p) if k not in aux}
+ 
++    # Phase 1 pivoting may terminate on a basis that does not
++    # correspond to a feasible point when the system oscillates
++    # (see _simplex). In that case the reported point can violate the
++    # original constraints, so verify the solution satisfies all of
++    # them and raise InfeasibleLPError if it does not.
++    for c in constr:
++        if sympify(c).subs(p) == False:
++            raise InfeasibleLPError(filldedent("""
++                Infeasible constraints; no solution exists that
++                satisfies all of the given constraints."""))
++
+     # not returning dual since there may be extra constraints
+     # when a variable has finite bounds
+     return o, p

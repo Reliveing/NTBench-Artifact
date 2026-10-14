@@ -1,0 +1,63 @@
+diff --git a/pydantic/main.py b/pydantic/main.py
+index 26fc876a0..85345d1b3 100644
+--- a/pydantic/main.py
++++ b/pydantic/main.py
+@@ -11,6 +11,7 @@ import sys
+ import types
+ import warnings
+ from collections.abc import Generator, Mapping
++from contextvars import ContextVar
+ from copy import copy, deepcopy
+ from functools import cached_property
+ from typing import (
+@@ -77,6 +78,7 @@ TupleGenerator: TypeAlias = Generator[tuple[str, Any], None, None]
+ IncEx: TypeAlias = Union[set[int], set[str], Mapping[int, Union['IncEx', bool]], Mapping[str, Union['IncEx', bool]]]
+ 
+ _object_setattr = _model_construction.object_setattr
++_eq_recursion_context: ContextVar[set[tuple[int, int]] | None] = ContextVar('_eq_recursion_context', default=None)
+ 
+ 
+ def _check_frozen(model_cls: type[BaseModel], name: str, value: Any) -> None:
+@@ -1159,7 +1161,26 @@ class BaseModel(metaclass=_model_construction.ModelMetaclass):
+     if not TYPE_CHECKING:
+ 
+         def __eq__(self, other: Any) -> bool:
+-            if isinstance(other, BaseModel):
++            if not isinstance(other, BaseModel):
++                return NotImplemented  # delegate to the other item in the comparison
++
++            self_id = id(self)
++            other_id = id(other)
++            if self_id > other_id:
++                self_id, other_id = other_id, self_id
++            comparison_pair = self_id, other_id
++
++            eq_context = _eq_recursion_context.get()
++            if eq_context is None:
++                eq_context = set()
++                token = _eq_recursion_context.set(eq_context)
++            elif comparison_pair in eq_context:
++                return True
++            else:
++                token = None
++
++            eq_context.add(comparison_pair)
++            try:
+                 # When comparing instances of generic types for equality, as long as all field values are equal,
+                 # only require their generic origin types to be equal, rather than exact type equality.
+                 # This prevents headaches like MyGeneric(x=1) != MyGeneric[Any](x=1).
+@@ -1208,10 +1229,10 @@ class BaseModel(metaclass=_model_construction.ModelMetaclass):
+                     self_fields_proxy = _utils.SafeGetItemProxy(self.__dict__)
+                     other_fields_proxy = _utils.SafeGetItemProxy(other.__dict__)
+                     return getter(self_fields_proxy) == getter(other_fields_proxy)
+-
+-            # other instance is not a BaseModel
+-            else:
+-                return NotImplemented  # delegate to the other item in the comparison
++            finally:
++                eq_context.remove(comparison_pair)
++                if token is not None:
++                    _eq_recursion_context.reset(token)
+ 
+     if TYPE_CHECKING:
+         # We put `__init_subclass__` in a TYPE_CHECKING block because, even though we want the type-checking benefits

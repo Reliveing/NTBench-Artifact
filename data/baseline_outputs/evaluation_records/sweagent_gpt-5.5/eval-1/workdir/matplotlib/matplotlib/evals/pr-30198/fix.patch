@@ -1,0 +1,20 @@
+diff --git a/lib/matplotlib/path.py b/lib/matplotlib/path.py
+index a021706fb1..b6acd541e4 100644
+--- a/lib/matplotlib/path.py
++++ b/lib/matplotlib/path.py
+@@ -280,8 +280,14 @@ class Path:
+         Return a deepcopy of the `Path`.  The `Path` will not be
+         readonly, even if the source `Path` is.
+         """
++        if memo is None:
++            memo = {}
++
+         # Deepcopying arrays (vertices, codes) strips the writeable=False flag.
+-        p = copy.deepcopy(super(), memo)
++        # Use the default pickle reducer directly instead of deep-copying a
++        # ``super()`` proxy, as the latter can recurse indefinitely on some
++        # Python versions.
++        p = copy._reconstruct(self, memo, *object.__reduce_ex__(self, 4))
+         p._readonly = False
+         return p
+ 

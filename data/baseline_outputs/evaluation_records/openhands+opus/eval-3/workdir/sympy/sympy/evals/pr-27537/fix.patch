@@ -1,0 +1,20 @@
+diff --git a/sympy/simplify/simplify.py b/sympy/simplify/simplify.py
+index 20cbe19669..dcb00c120e 100644
+--- a/sympy/simplify/simplify.py
++++ b/sympy/simplify/simplify.py
+@@ -1067,6 +1067,15 @@ def goodlog(l):
+                         co.append(ai)
+                     else:
+                         ot.append(ai)
++                # Do not absorb a numeric coefficient into a log whose
++                # argument is a number: turning ``c*log(n)`` into
++                # ``log(n**c)`` is not a simplification and can blow up
++                # (e.g. ``10**1000000000``) for large coefficients.
++                if len(lo) == 1 and lo[0].args[0].is_Number:
++                    num_co = [c for c in co if c.is_Number]
++                    if num_co:
++                        co = [c for c in co if not c.is_Number]
++                        ot.extend(num_co)
+                 if len(lo) > 1:
+                     logs.append((ot, co, lo))
+                 elif lo:

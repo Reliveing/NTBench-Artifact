@@ -1,0 +1,30 @@
+diff --git a/sympy/functions/elementary/trigonometric.py b/sympy/functions/elementary/trigonometric.py
+index ea6a4de..e8ccce3 100644
+--- a/sympy/functions/elementary/trigonometric.py
++++ b/sympy/functions/elementary/trigonometric.py
+@@ -289,6 +289,9 @@ class sin(TrigonometricFunction):
+         elif isinstance(arg, SetExpr):
+             return arg._eval_func(cls)
+ 
++        if arg is S.ComplexInfinity:
++            return S.NaN
++
+         if arg.could_extract_minus_sign():
+             return -cls(-arg)
+ 
+@@ -546,6 +549,9 @@ class cos(TrigonometricFunction):
+         elif isinstance(arg, SetExpr):
+             return arg._eval_func(cls)
+ 
++        if arg is S.ComplexInfinity:
++            return S.NaN
++
+         if arg.could_extract_minus_sign():
+             return cls(-arg)
+ 
+@@ -2928,4 +2934,4 @@ class atan2(InverseTrigonometricFunction):
+     def _eval_evalf(self, prec):
+         y, x = self.args
+         if x.is_real and y.is_real:
+-            super(atan2, self)._eval_evalf(prec)
++            super(atan2, self)._eval_evalf(prec)

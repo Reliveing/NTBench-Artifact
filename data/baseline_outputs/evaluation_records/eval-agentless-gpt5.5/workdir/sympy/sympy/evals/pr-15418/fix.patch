@@ -1,0 +1,36 @@
+diff --git a/sympy/solvers/solvers.py b/sympy/solvers/solvers.py
+index b7d66bb..364547e 100644
+--- a/sympy/solvers/solvers.py
++++ b/sympy/solvers/solvers.py
+@@ -1079,10 +1079,23 @@ def solve(f, *symbols, **flags):
+         # The reason for doing this filtering is to allow an answer
+         # to be obtained to queries like solve((x - y, y), x); without
+         # this mod the return value is []
++        #
++        # Equations coming from Eq are rewritten as unevaluated Adds in
++        # order to preserve structure.  That can leave an expression with
++        # superficial occurrences of a solve symbol although the symbol
++        # cancels algebraically, e.g. Eq(y + x, y + 1).  If such an
++        # expression is passed as part of a system, _solve_system can spend
++        # a very long time trying to invert it for that cancelled symbol.
++        # Use the numerator form for the interest-symbol test when doing so
++        # removes all solve symbols.
+         ok = False
+         if fi.has(*symset):
+-            ok = True
+-        else:
++            fi_num = fi.as_numer_denom()[0]
++            if fi_num != fi and not fi_num.has(*symset):
++                fi = fi_num
++            else:
++                ok = True
++        if not ok:
+             free = fi.free_symbols
+             if not free:
+                 if fi.is_Number:
+@@ -3514,4 +3527,4 @@ def unrad(eq, *syms, **flags):
+     return eq, cov
+ 
+ from sympy.solvers.bivariate import (
+-    bivariate_type, _solve_lambert, _filtered_gens)
++    bivariate_type, _solve_lambert, _filtered_gens)

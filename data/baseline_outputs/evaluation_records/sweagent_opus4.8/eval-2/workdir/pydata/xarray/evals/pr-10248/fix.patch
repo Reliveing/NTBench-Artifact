@@ -1,0 +1,50 @@
+diff --git a/xarray/computation/arithmetic.py b/xarray/computation/arithmetic.py
+index 7c2058f9..727a2465 100644
+--- a/xarray/computation/arithmetic.py
++++ b/xarray/computation/arithmetic.py
+@@ -81,15 +81,42 @@ class SupportsArithmetic:
+ 
+         join = dataset_join = OPTIONS["arithmetic_join"]
+ 
++        func = ufunc
++        input_core_dims = ((),) * ufunc.nin
++
++        # The ``where`` keyword argument may itself be an xarray object or duck
++        # array (e.g. as produced internally by functions such as ``np.fix``).
++        # If we pass it through unchanged, applying the ufunc to the unlabeled
++        # arrays would trigger ``__array_ufunc__`` again on that object, leading
++        # to infinite recursion. To avoid this, treat such a ``where`` argument
++        # as an additional input so that it is broadcast and unwrapped like the
++        # other inputs.
++        where = kwargs.get("where", None)
++        if where is not None and (
++            isinstance(where, SupportsArithmetic) or is_duck_array(where)
++        ):
++            # Drop ``where`` (moved to inputs) and ``out`` (apply_ufunc
++            # allocates its own output, and a pre-allocated ``out`` may have the
++            # wrong shape once inputs are broadcast).
++            kwargs = {
++                k: v for k, v in kwargs.items() if k not in ("where", "out")
++            }
++            inputs = inputs + (where,)
++            input_core_dims = input_core_dims + ((),)
++
++            def func(*arrays, __ufunc=ufunc, __where_kwargs=kwargs):
++                *ufunc_inputs, where_arg = arrays
++                return __ufunc(*ufunc_inputs, where=where_arg, **__where_kwargs)
++
+         return apply_ufunc(
+-            ufunc,
++            func,
+             *inputs,
+-            input_core_dims=((),) * ufunc.nin,
++            input_core_dims=input_core_dims,
+             output_core_dims=((),) * ufunc.nout,
+             join=join,
+             dataset_join=dataset_join,
+             dataset_fill_value=np.nan,
+-            kwargs=kwargs,
++            kwargs=kwargs if func is ufunc else {},
+             dask="allowed",
+             keep_attrs=_get_keep_attrs(default=True),
+         )

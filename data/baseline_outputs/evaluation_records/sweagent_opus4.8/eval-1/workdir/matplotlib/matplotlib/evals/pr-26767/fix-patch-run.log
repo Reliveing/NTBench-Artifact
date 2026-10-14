@@ -1,0 +1,424 @@
+Using pip 26.0.1 from /usr/local/lib/python3.11/site-packages/pip (python 3.11)
+Obtaining file:///home/matplotlib
+  Installing build dependencies: started
+  Running command installing build dependencies
+  Using pip 26.0.1 from /usr/local/lib/python3.11/site-packages/pip (python 3.11)
+  Collecting certifi>=2020.06.20
+    Obtaining dependency information for certifi>=2020.06.20 from https://files.pythonhosted.org/packages/0b/a7/71ac2cff56fec219ed242bb11b8efb69fcc4bec75db06fb7bfe35de520e6/certifi-2026.7.22-py3-none-any.whl.metadata
+    Downloading certifi-2026.7.22-py3-none-any.whl.metadata (2.5 kB)
+    Link requires a different Python (3.11.14 not in: '>=3.7,<3.11'): https://files.pythonhosted.org/packages/3a/be/650f9c091ef71cb01d735775d554e068752d3ff63d7943b26316dc401749/numpy-1.21.2.zip (from https://pypi.org/simple/numpy/) (requires-python:>=3.7,<3.11)
+    Link requires a different Python (3.11.14 not in: '>=3.7,<3.11'): https://files.pythonhosted.org/packages/5f/d6/ad58ded26556eaeaa8c971e08b6466f17c4ac4d786cd3d800e26ce59cc01/numpy-1.21.3.zip (from https://pypi.org/simple/numpy/) (requires-python:>=3.7,<3.11)
+    Link requires a different Python (3.11.14 not in: '>=3.7,<3.11'): https://files.pythonhosted.org/packages/fb/48/b0708ebd7718a8933f0d3937513ef8ef2f4f04529f1f66ca86d873043921/numpy-1.21.4.zip (from https://pypi.org/simple/numpy/) (requires-python:>=3.7,<3.11)
+    Link requires a different Python (3.11.14 not in: '>=3.7,<3.11'): https://files.pythonhosted.org/packages/c2/a8/a924a09492bdfee8c2ec3094d0a13f2799800b4fdc9c890738aeeb12c72e/numpy-1.21.5.zip (from https://pypi.org/simple/numpy/) (requires-python:>=3.7,<3.11)
+    Link requires a different Python (3.11.14 not in: '>=3.7,<3.11'): https://files.pythonhosted.org/packages/45/b7/de7b8e67f2232c26af57c205aaad29fe17754f793404f59c8a730c7a191a/numpy-1.21.6.zip (from https://pypi.org/simple/numpy/) (requires-python:>=3.7,<3.11)
+    Link requires a different Python (3.11.14 not in: '>=3.12'): https://files.pythonhosted.org/packages/d3/e1/f2fe8f6113a657a1da83b358b16755e528a602c6976a43724a88f42b482a/numpy-2.5.0rc1.tar.gz (from https://pypi.org/simple/numpy/) (requires-python:>=3.12)
+    Link requires a different Python (3.11.14 not in: '>=3.12'): https://files.pythonhosted.org/packages/e7/05/3d27272d30698dc0ecb7fdfaa41ad70303b444f81722bb99bce1d818638a/numpy-2.5.0.tar.gz (from https://pypi.org/simple/numpy/) (requires-python:>=3.12)
+    Link requires a different Python (3.11.14 not in: '>=3.12'): https://files.pythonhosted.org/packages/22/fd/89965aa4ac08c74998539fcbf24fa3540f3e15237fbeb6bcf9c908f4aade/numpy-2.5.1.tar.gz (from https://pypi.org/simple/numpy/) (requires-python:>=3.12)
+    Link requires a different Python (3.11.14 not in: '>=3.12'): https://files.pythonhosted.org/packages/9a/80/db0b4559e57ec36362bedbb05530a87fafbcb6067708c946967a41d449e7/numpy-2.5.2.tar.gz (from https://pypi.org/simple/numpy/) (requires-python:>=3.12)
+    Link requires a different Python (3.11.14 not in: '>=3.12'): https://files.pythonhosted.org/packages/13/01/11703282db468b85f6f7b8c7f22d058de5970d5c7e60a3a8aaa313c3de36/numpy-2.5.3.tar.gz (from https://pypi.org/simple/numpy/) (requires-python:>=3.12)
+  Collecting numpy>=1.25
+    Obtaining dependency information for numpy>=1.25 from https://files.pythonhosted.org/packages/02/03/74fe2a4cb3817d94d86402f2506554130a2f01414e299b5a843e5a8a957f/numpy-2.4.6-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata
+    Downloading numpy-2.4.6-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (6.6 kB)
+  Collecting pybind11>=2.6
+    Obtaining dependency information for pybind11>=2.6 from https://files.pythonhosted.org/packages/33/fd/8762f7ee3e4e4be6d1d846cffb4916dd9bb02b2f800d3603718a0efe494c/pybind11-3.1.0-py3-none-any.whl.metadata
+    Downloading pybind11-3.1.0-py3-none-any.whl.metadata (10 kB)
+  Collecting setuptools>=42
+    Obtaining dependency information for setuptools>=42 from https://files.pythonhosted.org/packages/95/9c/c510029fc6ef33a6275cd2c5d3cecd6613dfd6aa401d57c54f1c18852ccf/setuptools-84.0.0-py3-none-any.whl.metadata
+    Downloading setuptools-84.0.0-py3-none-any.whl.metadata (6.6 kB)
+  Collecting setuptools_scm>=7
+    Obtaining dependency information for setuptools_scm>=7 from https://files.pythonhosted.org/packages/da/f5/54538a1f17ea753c42b0928dc2e62986d463f8c393340b9a1e602f2d4dd9/setuptools_scm-10.3.4-py3-none-any.whl.metadata
+    Downloading setuptools_scm-10.3.4-py3-none-any.whl.metadata (6.7 kB)
+  Collecting vcs-versioning<3,>=2.5.0.dev0 (from setuptools_scm>=7)
+    Obtaining dependency information for vcs-versioning<3,>=2.5.0.dev0 from https://files.pythonhosted.org/packages/e4/e6/b4dedd1efea8a1e432123575896328dec83c26327164f7098db415d13f6f/vcs_versioning-2.5.0-py3-none-any.whl.metadata
+    Downloading vcs_versioning-2.5.0-py3-none-any.whl.metadata (1.7 kB)
+  Collecting packaging>=20 (from setuptools_scm>=7)
+    Obtaining dependency information for packaging>=20 from https://files.pythonhosted.org/packages/63/34/ba1c580383c9eada3711951fef0795c80b829a078d72188184bcab9dd527/packaging-26.3-py3-none-any.whl.metadata
+    Downloading packaging-26.3-py3-none-any.whl.metadata (3.5 kB)
+  Downloading certifi-2026.7.22-py3-none-any.whl (136 kB)
+  Downloading numpy-2.4.6-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (16.9 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 16.9/16.9 MB 5.1 MB/s  0:00:03
+  Downloading pybind11-3.1.0-py3-none-any.whl (319 kB)
+  Downloading setuptools-84.0.0-py3-none-any.whl (818 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 818.2/818.2 kB 737.5 kB/s  0:00:00
+  Downloading setuptools_scm-10.3.4-py3-none-any.whl (33 kB)
+  Downloading vcs_versioning-2.5.0-py3-none-any.whl (122 kB)
+  Downloading packaging-26.3-py3-none-any.whl (129 kB)
+  Installing collected packages: setuptools, pybind11, packaging, numpy, certifi, vcs-versioning, setuptools_scm
+    Creating /tmp/pip-build-env-xvm3tlmy/overlay/bin
+    changing mode of /tmp/pip-build-env-xvm3tlmy/overlay/bin/pybind11-config to 755
+    changing mode of /tmp/pip-build-env-xvm3tlmy/overlay/bin/f2py to 755
+    changing mode of /tmp/pip-build-env-xvm3tlmy/overlay/bin/numpy-config to 755
+    changing mode of /tmp/pip-build-env-xvm3tlmy/overlay/bin/vcs-versioning to 755
+    changing mode of /tmp/pip-build-env-xvm3tlmy/overlay/bin/setuptools-scm to 755
+
+  Successfully installed certifi-2026.7.22 numpy-2.4.6 packaging-26.3 pybind11-3.1.0 setuptools-84.0.0 setuptools_scm-10.3.4 vcs-versioning-2.5.0
+  WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+  Installing build dependencies: finished with status 'done'
+  Checking if build backend supports build_editable: started
+  Running command Checking if build backend supports build_editable
+  Checking if build backend supports build_editable: finished with status 'done'
+  Getting requirements to build editable: started
+  Running command Getting requirements to build editable
+  /tmp/pip-build-env-xvm3tlmy/overlay/lib/python3.11/site-packages/setuptools/dist.py:765: SetuptoolsDeprecationWarning: License classifiers are deprecated.
+  !!
+
+          ********************************************************************************
+          Please consider removing the following classifiers in favor of a SPDX license expression:
+
+          License :: OSI Approved :: Python Software Foundation License
+
+          See https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#license for details.
+          ********************************************************************************
+
+  !!
+    self._finalize_license_expression()
+
+  Edit mplsetup.cfg to change the build options; suppress output with --quiet.
+
+  BUILDING MATPLOTLIB
+        python: yes [3.11.14 (main, Dec 30 2025, 00:42:31) [GCC 14.2.0]]
+      platform: yes [linux]
+         tests: no  [skipping due to configuration]
+        macosx: no  [Mac OS-X only]
+
+  running egg_info
+  writing lib/matplotlib.egg-info/PKG-INFO
+  writing dependency_links to lib/matplotlib.egg-info/dependency_links.txt
+  writing requirements to lib/matplotlib.egg-info/requires.txt
+  writing top-level names to lib/matplotlib.egg-info/top_level.txt
+  adding license file 'LICENSE/LICENSE'
+  adding license file 'LICENSE/LICENSE_AMSFONTS'
+  adding license file 'LICENSE/LICENSE_BAKOMA'
+  adding license file 'LICENSE/LICENSE_CARLOGO'
+  adding license file 'LICENSE/LICENSE_COLORBREWER'
+  adding license file 'LICENSE/LICENSE_COURIERTEN'
+  adding license file 'LICENSE/LICENSE_JSXTOOLS_RESIZE_OBSERVER'
+  adding license file 'LICENSE/LICENSE_QHULL'
+  adding license file 'LICENSE/LICENSE_QT4_EDITOR'
+  adding license file 'LICENSE/LICENSE_SOLARIZED'
+  adding license file 'LICENSE/LICENSE_STIX'
+  adding license file 'LICENSE/LICENSE_YORICK'
+  writing manifest file 'lib/matplotlib.egg-info/SOURCES.txt'
+  Getting requirements to build editable: finished with status 'done'
+  Preparing editable metadata (pyproject.toml): started
+  Running command Preparing editable metadata (pyproject.toml)
+  /tmp/pip-build-env-xvm3tlmy/overlay/lib/python3.11/site-packages/setuptools/dist.py:765: SetuptoolsDeprecationWarning: License classifiers are deprecated.
+  !!
+
+          ********************************************************************************
+          Please consider removing the following classifiers in favor of a SPDX license expression:
+
+          License :: OSI Approved :: Python Software Foundation License
+
+          See https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#license for details.
+          ********************************************************************************
+
+  !!
+    self._finalize_license_expression()
+
+  Edit mplsetup.cfg to change the build options; suppress output with --quiet.
+
+  BUILDING MATPLOTLIB
+        python: yes [3.11.14 (main, Dec 30 2025, 00:42:31) [GCC 14.2.0]]
+      platform: yes [linux]
+         tests: no  [skipping due to configuration]
+        macosx: no  [Mac OS-X only]
+
+  running dist_info
+  creating /tmp/pip-modern-metadata-115g9zw5/matplotlib.egg-info
+  writing /tmp/pip-modern-metadata-115g9zw5/matplotlib.egg-info/PKG-INFO
+  writing dependency_links to /tmp/pip-modern-metadata-115g9zw5/matplotlib.egg-info/dependency_links.txt
+  writing requirements to /tmp/pip-modern-metadata-115g9zw5/matplotlib.egg-info/requires.txt
+  writing top-level names to /tmp/pip-modern-metadata-115g9zw5/matplotlib.egg-info/top_level.txt
+  writing manifest file '/tmp/pip-modern-metadata-115g9zw5/matplotlib.egg-info/SOURCES.txt'
+  adding license file 'LICENSE/LICENSE'
+  adding license file 'LICENSE/LICENSE_AMSFONTS'
+  adding license file 'LICENSE/LICENSE_BAKOMA'
+  adding license file 'LICENSE/LICENSE_CARLOGO'
+  adding license file 'LICENSE/LICENSE_COLORBREWER'
+  adding license file 'LICENSE/LICENSE_COURIERTEN'
+  adding license file 'LICENSE/LICENSE_JSXTOOLS_RESIZE_OBSERVER'
+  adding license file 'LICENSE/LICENSE_QHULL'
+  adding license file 'LICENSE/LICENSE_QT4_EDITOR'
+  adding license file 'LICENSE/LICENSE_SOLARIZED'
+  adding license file 'LICENSE/LICENSE_STIX'
+  adding license file 'LICENSE/LICENSE_YORICK'
+  writing manifest file '/tmp/pip-modern-metadata-115g9zw5/matplotlib.egg-info/SOURCES.txt'
+  creating '/tmp/pip-modern-metadata-115g9zw5/matplotlib-3.8.0.dev1978+g01360ed3e.d20260926.dist-info'
+  Preparing editable metadata (pyproject.toml): finished with status 'done'
+Requirement already satisfied: contourpy>=1.0.1 in /usr/local/lib/python3.11/site-packages (from matplotlib==3.8.0.dev1978+g01360ed3e.d20260926) (1.3.3)
+Requirement already satisfied: cycler>=0.10 in /usr/local/lib/python3.11/site-packages (from matplotlib==3.8.0.dev1978+g01360ed3e.d20260926) (0.12.1)
+Requirement already satisfied: fonttools>=4.22.0 in /usr/local/lib/python3.11/site-packages (from matplotlib==3.8.0.dev1978+g01360ed3e.d20260926) (4.62.1)
+Requirement already satisfied: kiwisolver>=1.0.1 in /usr/local/lib/python3.11/site-packages (from matplotlib==3.8.0.dev1978+g01360ed3e.d20260926) (1.5.0)
+Requirement already satisfied: numpy>=1.21 in /usr/local/lib/python3.11/site-packages (from matplotlib==3.8.0.dev1978+g01360ed3e.d20260926) (1.26.4)
+Requirement already satisfied: packaging>=20.0 in /usr/local/lib/python3.11/site-packages (from matplotlib==3.8.0.dev1978+g01360ed3e.d20260926) (26.0)
+Requirement already satisfied: pillow>=6.2.0 in /usr/local/lib/python3.11/site-packages (from matplotlib==3.8.0.dev1978+g01360ed3e.d20260926) (12.1.1)
+Requirement already satisfied: pyparsing>=2.3.1 in /usr/local/lib/python3.11/site-packages (from matplotlib==3.8.0.dev1978+g01360ed3e.d20260926) (3.0.9)
+Requirement already satisfied: python-dateutil>=2.7 in /usr/local/lib/python3.11/site-packages (from matplotlib==3.8.0.dev1978+g01360ed3e.d20260926) (2.9.0.post0)
+Requirement already satisfied: setuptools_scm>=7 in /usr/local/lib/python3.11/site-packages (from matplotlib==3.8.0.dev1978+g01360ed3e.d20260926) (9.2.2)
+Requirement already satisfied: six>=1.5 in /usr/local/lib/python3.11/site-packages (from python-dateutil>=2.7->matplotlib==3.8.0.dev1978+g01360ed3e.d20260926) (1.17.0)
+Requirement already satisfied: setuptools in /usr/local/lib/python3.11/site-packages (from setuptools_scm>=7->matplotlib==3.8.0.dev1978+g01360ed3e.d20260926) (69.5.1)
+Building wheels for collected packages: matplotlib
+  Building editable for matplotlib (pyproject.toml): started
+  Running command Building editable for matplotlib (pyproject.toml)
+  /tmp/pip-build-env-xvm3tlmy/overlay/lib/python3.11/site-packages/setuptools/dist.py:765: SetuptoolsDeprecationWarning: License classifiers are deprecated.
+  !!
+
+          ********************************************************************************
+          Please consider removing the following classifiers in favor of a SPDX license expression:
+
+          License :: OSI Approved :: Python Software Foundation License
+
+          See https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#license for details.
+          ********************************************************************************
+
+  !!
+    self._finalize_license_expression()
+
+  Edit mplsetup.cfg to change the build options; suppress output with --quiet.
+
+  BUILDING MATPLOTLIB
+        python: yes [3.11.14 (main, Dec 30 2025, 00:42:31) [GCC 14.2.0]]
+      platform: yes [linux]
+         tests: no  [skipping due to configuration]
+        macosx: no  [Mac OS-X only]
+
+  running editable_wheel
+  creating /tmp/pip-ephem-wheel-cache-239r56tv/wheels/e4/43/ff/8b223901094ba164f6aee42b141c11537b3b31ba3e335977f0/tmpwpjsfddw/.tmp-qq6b7axc/matplotlib.egg-info
+  writing /tmp/pip-ephem-wheel-cache-239r56tv/wheels/e4/43/ff/8b223901094ba164f6aee42b141c11537b3b31ba3e335977f0/tmpwpjsfddw/.tmp-qq6b7axc/matplotlib.egg-info/PKG-INFO
+  writing dependency_links to /tmp/pip-ephem-wheel-cache-239r56tv/wheels/e4/43/ff/8b223901094ba164f6aee42b141c11537b3b31ba3e335977f0/tmpwpjsfddw/.tmp-qq6b7axc/matplotlib.egg-info/dependency_links.txt
+  writing requirements to /tmp/pip-ephem-wheel-cache-239r56tv/wheels/e4/43/ff/8b223901094ba164f6aee42b141c11537b3b31ba3e335977f0/tmpwpjsfddw/.tmp-qq6b7axc/matplotlib.egg-info/requires.txt
+  writing top-level names to /tmp/pip-ephem-wheel-cache-239r56tv/wheels/e4/43/ff/8b223901094ba164f6aee42b141c11537b3b31ba3e335977f0/tmpwpjsfddw/.tmp-qq6b7axc/matplotlib.egg-info/top_level.txt
+  writing manifest file '/tmp/pip-ephem-wheel-cache-239r56tv/wheels/e4/43/ff/8b223901094ba164f6aee42b141c11537b3b31ba3e335977f0/tmpwpjsfddw/.tmp-qq6b7axc/matplotlib.egg-info/SOURCES.txt'
+  adding license file 'LICENSE/LICENSE'
+  adding license file 'LICENSE/LICENSE_AMSFONTS'
+  adding license file 'LICENSE/LICENSE_BAKOMA'
+  adding license file 'LICENSE/LICENSE_CARLOGO'
+  adding license file 'LICENSE/LICENSE_COLORBREWER'
+  adding license file 'LICENSE/LICENSE_COURIERTEN'
+  adding license file 'LICENSE/LICENSE_JSXTOOLS_RESIZE_OBSERVER'
+  adding license file 'LICENSE/LICENSE_QHULL'
+  adding license file 'LICENSE/LICENSE_QT4_EDITOR'
+  adding license file 'LICENSE/LICENSE_SOLARIZED'
+  adding license file 'LICENSE/LICENSE_STIX'
+  adding license file 'LICENSE/LICENSE_YORICK'
+  writing manifest file '/tmp/pip-ephem-wheel-cache-239r56tv/wheels/e4/43/ff/8b223901094ba164f6aee42b141c11537b3b31ba3e335977f0/tmpwpjsfddw/.tmp-qq6b7axc/matplotlib.egg-info/SOURCES.txt'
+  creating '/tmp/pip-ephem-wheel-cache-239r56tv/wheels/e4/43/ff/8b223901094ba164f6aee42b141c11537b3b31ba3e335977f0/tmpwpjsfddw/.tmp-qq6b7axc/matplotlib-3.8.0.dev1978+g01360ed3e.d20260926.dist-info'
+  creating /tmp/pip-ephem-wheel-cache-239r56tv/wheels/e4/43/ff/8b223901094ba164f6aee42b141c11537b3b31ba3e335977f0/tmpwpjsfddw/.tmp-qq6b7axc/matplotlib-3.8.0.dev1978+g01360ed3e.d20260926.dist-info/WHEEL
+  running build_py
+  running build_ext
+  g++ -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC -I/usr/local/include/python3.11 -c /tmp/tmpg8g7hisf.cpp -o tmp/tmpg8g7hisf.o -fvisibility=hidden
+  g++ -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC -I/usr/local/include/python3.11 -c /tmp/tmpmfw2nvkv.cpp -o tmp/tmpmfw2nvkv.o -fvisibility-inlines-hidden
+  g++ -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC -I/usr/local/include/python3.11 -c /tmp/tmpoly14v_u.cpp -o tmp/tmpoly14v_u.o -flto
+  building 'matplotlib.backends._backend_agg' extension
+  g++ -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC -DPY_ARRAY_UNIQUE_SYMBOL=MPL_matplotlib_backends__backend_agg_ARRAY_API -DNPY_NO_DEPRECATED_API=NPY_1_7_API_VERSION -D__STDC_FORMAT_MACROS=1 -DFREETYPE_BUILD_TYPE=local -Ibuild/freetype-2.6.1/include -Iextern/agg24-svn/include -I/tmp/pip-build-env-xvm3tlmy/overlay/lib/python3.11/site-packages/numpy/_core/include -I/usr/local/include/python3.11 -c extern/agg24-svn/src/agg_bezier_arc.cpp -o /tmp/tmpgyt9cq82.build-temp/matplotlib.backends._backend_agg/extern/agg24-svn/src/agg_bezier_arc.o -fvisibility=hidden -flto
+  g++ -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC -DPY_ARRAY_UNIQUE_SYMBOL=MPL_matplotlib_backends__backend_agg_ARRAY_API -DNPY_NO_DEPRECATED_API=NPY_1_7_API_VERSION -D__STDC_FORMAT_MACROS=1 -DFREETYPE_BUILD_TYPE=local -Ibuild/freetype-2.6.1/include -Iextern/agg24-svn/include -I/tmp/pip-build-env-xvm3tlmy/overlay/lib/python3.11/site-packages/numpy/_core/include -I/usr/local/include/python3.11 -c extern/agg24-svn/src/agg_curves.cpp -o /tmp/tmpgyt9cq82.build-temp/matplotlib.backends._backend_agg/extern/agg24-svn/src/agg_curves.o -fvisibility=hidden -flto
+  g++ -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC -DPY_ARRAY_UNIQUE_SYMBOL=MPL_matplotlib_backends__backend_agg_ARRAY_API -DNPY_NO_DEPRECATED_API=NPY_1_7_API_VERSION -D__STDC_FORMAT_MACROS=1 -DFREETYPE_BUILD_TYPE=local -Ibuild/freetype-2.6.1/include -Iextern/agg24-svn/include -I/tmp/pip-build-env-xvm3tlmy/overlay/lib/python3.11/site-packages/numpy/_core/include -I/usr/local/include/python3.11 -c extern/agg24-svn/src/agg_image_filters.cpp -o /tmp/tmpgyt9cq82.build-temp/matplotlib.backends._backend_agg/extern/agg24-svn/src/agg_image_filters.o -fvisibility=hidden -flto
+  g++ -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC -DPY_ARRAY_UNIQUE_SYMBOL=MPL_matplotlib_backends__backend_agg_ARRAY_API -DNPY_NO_DEPRECATED_API=NPY_1_7_API_VERSION -D__STDC_FORMAT_MACROS=1 -DFREETYPE_BUILD_TYPE=local -Ibuild/freetype-2.6.1/include -Iextern/agg24-svn/include -I/tmp/pip-build-env-xvm3tlmy/overlay/lib/python3.11/site-packages/numpy/_core/include -I/usr/local/include/python3.11 -c extern/agg24-svn/src/agg_trans_affine.cpp -o /tmp/tmpgyt9cq82.build-temp/matplotlib.backends._backend_agg/extern/agg24-svn/src/agg_trans_affine.o -fvisibility=hidden -flto
+  g++ -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC -DPY_ARRAY_UNIQUE_SYMBOL=MPL_matplotlib_backends__backend_agg_ARRAY_API -DNPY_NO_DEPRECATED_API=NPY_1_7_API_VERSION -D__STDC_FORMAT_MACROS=1 -DFREETYPE_BUILD_TYPE=local -Ibuild/freetype-2.6.1/include -Iextern/agg24-svn/include -I/tmp/pip-build-env-xvm3tlmy/overlay/lib/python3.11/site-packages/numpy/_core/include -I/usr/local/include/python3.11 -c extern/agg24-svn/src/agg_vcgen_contour.cpp -o /tmp/tmpgyt9cq82.build-temp/matplotlib.backends._backend_agg/extern/agg24-svn/src/agg_vcgen_contour.o -fvisibility=hidden -flto
+  g++ -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC -DPY_ARRAY_UNIQUE_SYMBOL=MPL_matplotlib_backends__backend_agg_ARRAY_API -DNPY_NO_DEPRECATED_API=NPY_1_7_API_VERSION -D__STDC_FORMAT_MACROS=1 -DFREETYPE_BUILD_TYPE=local -Ibuild/freetype-2.6.1/include -Iextern/agg24-svn/include -I/tmp/pip-build-env-xvm3tlmy/overlay/lib/python3.11/site-packages/numpy/_core/include -I/usr/local/include/python3.11 -c extern/agg24-svn/src/agg_vcgen_dash.cpp -o /tmp/tmpgyt9cq82.build-temp/matplotlib.backends._backend_agg/extern/agg24-svn/src/agg_vcgen_dash.o -fvisibility=hidden -flto
+  g++ -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC -DPY_ARRAY_UNIQUE_SYMBOL=MPL_matplotlib_backends__backend_agg_ARRAY_API -DNPY_NO_DEPRECATED_API=NPY_1_7_API_VERSION -D__STDC_FORMAT_MACROS=1 -DFREETYPE_BUILD_TYPE=local -Ibuild/freetype-2.6.1/include -Iextern/agg24-svn/include -I/tmp/pip-build-env-xvm3tlmy/overlay/lib/python3.11/site-packages/numpy/_core/include -I/usr/local/include/python3.11 -c extern/agg24-svn/src/agg_vcgen_stroke.cpp -o /tmp/tmpgyt9cq82.build-temp/matplotlib.backends._backend_agg/extern/agg24-svn/src/agg_vcgen_stroke.o -fvisibility=hidden -flto
+  g++ -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC -DPY_ARRAY_UNIQUE_SYMBOL=MPL_matplotlib_backends__backend_agg_ARRAY_API -DNPY_NO_DEPRECATED_API=NPY_1_7_API_VERSION -D__STDC_FORMAT_MACROS=1 -DFREETYPE_BUILD_TYPE=local -Ibuild/freetype-2.6.1/include -Iextern/agg24-svn/include -I/tmp/pip-build-env-xvm3tlmy/overlay/lib/python3.11/site-packages/numpy/_core/include -I/usr/local/include/python3.11 -c extern/agg24-svn/src/agg_vpgen_segmentator.cpp -o /tmp/tmpgyt9cq82.build-temp/matplotlib.backends._backend_agg/extern/agg24-svn/src/agg_vpgen_segmentator.o -fvisibility=hidden -flto
+  g++ -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC -DPY_ARRAY_UNIQUE_SYMBOL=MPL_matplotlib_backends__backend_agg_ARRAY_API -DNPY_NO_DEPRECATED_API=NPY_1_7_API_VERSION -D__STDC_FORMAT_MACROS=1 -DFREETYPE_BUILD_TYPE=local -Ibuild/freetype-2.6.1/include -Iextern/agg24-svn/include -I/tmp/pip-build-env-xvm3tlmy/overlay/lib/python3.11/site-packages/numpy/_core/include -I/usr/local/include/python3.11 -c src/_backend_agg.cpp -o /tmp/tmpgyt9cq82.build-temp/matplotlib.backends._backend_agg/src/_backend_agg.o -fvisibility=hidden -flto
+  g++ -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC -DPY_ARRAY_UNIQUE_SYMBOL=MPL_matplotlib_backends__backend_agg_ARRAY_API -DNPY_NO_DEPRECATED_API=NPY_1_7_API_VERSION -D__STDC_FORMAT_MACROS=1 -DFREETYPE_BUILD_TYPE=local -Ibuild/freetype-2.6.1/include -Iextern/agg24-svn/include -I/tmp/pip-build-env-xvm3tlmy/overlay/lib/python3.11/site-packages/numpy/_core/include -I/usr/local/include/python3.11 -c src/_backend_agg_wrapper.cpp -o /tmp/tmpgyt9cq82.build-temp/matplotlib.backends._backend_agg/src/_backend_agg_wrapper.o -fvisibility=hidden -flto
+  gcc -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC -DPY_ARRAY_UNIQUE_SYMBOL=MPL_matplotlib_backends__backend_agg_ARRAY_API -DNPY_NO_DEPRECATED_API=NPY_1_7_API_VERSION -D__STDC_FORMAT_MACROS=1 -DFREETYPE_BUILD_TYPE=local -Ibuild/freetype-2.6.1/include -Iextern/agg24-svn/include -I/tmp/pip-build-env-xvm3tlmy/overlay/lib/python3.11/site-packages/numpy/_core/include -I/usr/local/include/python3.11 -c src/checkdep_freetype2.c -o /tmp/tmpgyt9cq82.build-temp/matplotlib.backends._backend_agg/src/checkdep_freetype2.o -fvisibility=hidden -flto
+  src/checkdep_freetype2.c:14:9: note: ‘#pragma message: Compiling with FreeType version 2.6.1.’
+     14 | #pragma message("Compiling with FreeType version " \
+        |         ^~~~~~~
+  g++ -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC -DPY_ARRAY_UNIQUE_SYMBOL=MPL_matplotlib_backends__backend_agg_ARRAY_API -DNPY_NO_DEPRECATED_API=NPY_1_7_API_VERSION -D__STDC_FORMAT_MACROS=1 -DFREETYPE_BUILD_TYPE=local -Ibuild/freetype-2.6.1/include -Iextern/agg24-svn/include -I/tmp/pip-build-env-xvm3tlmy/overlay/lib/python3.11/site-packages/numpy/_core/include -I/usr/local/include/python3.11 -c src/py_converters.cpp -o /tmp/tmpgyt9cq82.build-temp/matplotlib.backends._backend_agg/src/py_converters.o -fvisibility=hidden -flto
+  g++ -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -shared /tmp/tmpgyt9cq82.build-temp/matplotlib.backends._backend_agg/extern/agg24-svn/src/agg_bezier_arc.o /tmp/tmpgyt9cq82.build-temp/matplotlib.backends._backend_agg/extern/agg24-svn/src/agg_curves.o /tmp/tmpgyt9cq82.build-temp/matplotlib.backends._backend_agg/extern/agg24-svn/src/agg_image_filters.o /tmp/tmpgyt9cq82.build-temp/matplotlib.backends._backend_agg/extern/agg24-svn/src/agg_trans_affine.o /tmp/tmpgyt9cq82.build-temp/matplotlib.backends._backend_agg/extern/agg24-svn/src/agg_vcgen_contour.o /tmp/tmpgyt9cq82.build-temp/matplotlib.backends._backend_agg/extern/agg24-svn/src/agg_vcgen_dash.o /tmp/tmpgyt9cq82.build-temp/matplotlib.backends._backend_agg/extern/agg24-svn/src/agg_vcgen_stroke.o /tmp/tmpgyt9cq82.build-temp/matplotlib.backends._backend_agg/extern/agg24-svn/src/agg_vpgen_segmentator.o /tmp/tmpgyt9cq82.build-temp/matplotlib.backends._backend_agg/src/_backend_agg.o /tmp/tmpgyt9cq82.build-temp/matplotlib.backends._backend_agg/src/_backend_agg_wrapper.o /tmp/tmpgyt9cq82.build-temp/matplotlib.backends._backend_agg/src/checkdep_freetype2.o /tmp/tmpgyt9cq82.build-temp/matplotlib.backends._backend_agg/src/py_converters.o build/freetype-2.6.1/objs/.libs/libfreetype.a -L/usr/local/lib -o /tmp/tmp8d8gn9eh.build-lib/matplotlib/backends/_backend_agg.cpython-311-x86_64-linux-gnu.so
+  lto-wrapper: warning: using serial compilation of 4 LTRANS jobs
+  lto-wrapper: note: see the ‘-flto’ option documentation for more information
+  building 'matplotlib._c_internal_utils' extension
+  gcc -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC -I/usr/local/include/python3.11 -c src/_c_internal_utils.c -o /tmp/tmpgyt9cq82.build-temp/matplotlib._c_internal_utils/src/_c_internal_utils.o -fvisibility=hidden -flto
+  gcc -shared /tmp/tmpgyt9cq82.build-temp/matplotlib._c_internal_utils/src/_c_internal_utils.o -L/usr/local/lib -ldl -o /tmp/tmp8d8gn9eh.build-lib/matplotlib/_c_internal_utils.cpython-311-x86_64-linux-gnu.so
+  building 'matplotlib.ft2font' extension
+  gcc -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC -DFREETYPE_BUILD_TYPE=local -DPY_ARRAY_UNIQUE_SYMBOL=MPL_matplotlib_ft2font_ARRAY_API -DNPY_NO_DEPRECATED_API=NPY_1_7_API_VERSION -D__STDC_FORMAT_MACROS=1 -Iextern/agg24-svn/include -Ibuild/freetype-2.6.1/include -I/tmp/pip-build-env-xvm3tlmy/overlay/lib/python3.11/site-packages/numpy/_core/include -I/usr/local/include/python3.11 -c src/checkdep_freetype2.c -o /tmp/tmpgyt9cq82.build-temp/matplotlib.ft2font/src/checkdep_freetype2.o -fvisibility=hidden -flto
+  src/checkdep_freetype2.c:14:9: note: ‘#pragma message: Compiling with FreeType version 2.6.1.’
+     14 | #pragma message("Compiling with FreeType version " \
+        |         ^~~~~~~
+  g++ -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC -DFREETYPE_BUILD_TYPE=local -DPY_ARRAY_UNIQUE_SYMBOL=MPL_matplotlib_ft2font_ARRAY_API -DNPY_NO_DEPRECATED_API=NPY_1_7_API_VERSION -D__STDC_FORMAT_MACROS=1 -Iextern/agg24-svn/include -Ibuild/freetype-2.6.1/include -I/tmp/pip-build-env-xvm3tlmy/overlay/lib/python3.11/site-packages/numpy/_core/include -I/usr/local/include/python3.11 -c src/ft2font.cpp -o /tmp/tmpgyt9cq82.build-temp/matplotlib.ft2font/src/ft2font.o -fvisibility=hidden -flto
+  g++ -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC -DFREETYPE_BUILD_TYPE=local -DPY_ARRAY_UNIQUE_SYMBOL=MPL_matplotlib_ft2font_ARRAY_API -DNPY_NO_DEPRECATED_API=NPY_1_7_API_VERSION -D__STDC_FORMAT_MACROS=1 -Iextern/agg24-svn/include -Ibuild/freetype-2.6.1/include -I/tmp/pip-build-env-xvm3tlmy/overlay/lib/python3.11/site-packages/numpy/_core/include -I/usr/local/include/python3.11 -c src/ft2font_wrapper.cpp -o /tmp/tmpgyt9cq82.build-temp/matplotlib.ft2font/src/ft2font_wrapper.o -fvisibility=hidden -flto
+  g++ -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC -DFREETYPE_BUILD_TYPE=local -DPY_ARRAY_UNIQUE_SYMBOL=MPL_matplotlib_ft2font_ARRAY_API -DNPY_NO_DEPRECATED_API=NPY_1_7_API_VERSION -D__STDC_FORMAT_MACROS=1 -Iextern/agg24-svn/include -Ibuild/freetype-2.6.1/include -I/tmp/pip-build-env-xvm3tlmy/overlay/lib/python3.11/site-packages/numpy/_core/include -I/usr/local/include/python3.11 -c src/py_converters.cpp -o /tmp/tmpgyt9cq82.build-temp/matplotlib.ft2font/src/py_converters.o -fvisibility=hidden -flto
+  g++ -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -shared /tmp/tmpgyt9cq82.build-temp/matplotlib.ft2font/src/checkdep_freetype2.o /tmp/tmpgyt9cq82.build-temp/matplotlib.ft2font/src/ft2font.o /tmp/tmpgyt9cq82.build-temp/matplotlib.ft2font/src/ft2font_wrapper.o /tmp/tmpgyt9cq82.build-temp/matplotlib.ft2font/src/py_converters.o build/freetype-2.6.1/objs/.libs/libfreetype.a -L/usr/local/lib -o /tmp/tmp8d8gn9eh.build-lib/matplotlib/ft2font.cpython-311-x86_64-linux-gnu.so
+  lto-wrapper: warning: using serial compilation of 11 LTRANS jobs
+  lto-wrapper: note: see the ‘-flto’ option documentation for more information
+  building 'matplotlib._image' extension
+  g++ -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC -DPY_ARRAY_UNIQUE_SYMBOL=MPL_matplotlib__image_ARRAY_API -DNPY_NO_DEPRECATED_API=NPY_1_7_API_VERSION -D__STDC_FORMAT_MACROS=1 -Iextern/agg24-svn/include -I/tmp/pip-build-env-xvm3tlmy/overlay/lib/python3.11/site-packages/numpy/_core/include -I/usr/local/include/python3.11 -c extern/agg24-svn/src/agg_bezier_arc.cpp -o /tmp/tmpgyt9cq82.build-temp/matplotlib._image/extern/agg24-svn/src/agg_bezier_arc.o -fvisibility=hidden -flto -std=c++11
+  g++ -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC -DPY_ARRAY_UNIQUE_SYMBOL=MPL_matplotlib__image_ARRAY_API -DNPY_NO_DEPRECATED_API=NPY_1_7_API_VERSION -D__STDC_FORMAT_MACROS=1 -Iextern/agg24-svn/include -I/tmp/pip-build-env-xvm3tlmy/overlay/lib/python3.11/site-packages/numpy/_core/include -I/usr/local/include/python3.11 -c extern/agg24-svn/src/agg_curves.cpp -o /tmp/tmpgyt9cq82.build-temp/matplotlib._image/extern/agg24-svn/src/agg_curves.o -fvisibility=hidden -flto -std=c++11
+  g++ -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC -DPY_ARRAY_UNIQUE_SYMBOL=MPL_matplotlib__image_ARRAY_API -DNPY_NO_DEPRECATED_API=NPY_1_7_API_VERSION -D__STDC_FORMAT_MACROS=1 -Iextern/agg24-svn/include -I/tmp/pip-build-env-xvm3tlmy/overlay/lib/python3.11/site-packages/numpy/_core/include -I/usr/local/include/python3.11 -c extern/agg24-svn/src/agg_image_filters.cpp -o /tmp/tmpgyt9cq82.build-temp/matplotlib._image/extern/agg24-svn/src/agg_image_filters.o -fvisibility=hidden -flto -std=c++11
+  g++ -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC -DPY_ARRAY_UNIQUE_SYMBOL=MPL_matplotlib__image_ARRAY_API -DNPY_NO_DEPRECATED_API=NPY_1_7_API_VERSION -D__STDC_FORMAT_MACROS=1 -Iextern/agg24-svn/include -I/tmp/pip-build-env-xvm3tlmy/overlay/lib/python3.11/site-packages/numpy/_core/include -I/usr/local/include/python3.11 -c extern/agg24-svn/src/agg_trans_affine.cpp -o /tmp/tmpgyt9cq82.build-temp/matplotlib._image/extern/agg24-svn/src/agg_trans_affine.o -fvisibility=hidden -flto -std=c++11
+  g++ -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC -DPY_ARRAY_UNIQUE_SYMBOL=MPL_matplotlib__image_ARRAY_API -DNPY_NO_DEPRECATED_API=NPY_1_7_API_VERSION -D__STDC_FORMAT_MACROS=1 -Iextern/agg24-svn/include -I/tmp/pip-build-env-xvm3tlmy/overlay/lib/python3.11/site-packages/numpy/_core/include -I/usr/local/include/python3.11 -c extern/agg24-svn/src/agg_vcgen_contour.cpp -o /tmp/tmpgyt9cq82.build-temp/matplotlib._image/extern/agg24-svn/src/agg_vcgen_contour.o -fvisibility=hidden -flto -std=c++11
+  g++ -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC -DPY_ARRAY_UNIQUE_SYMBOL=MPL_matplotlib__image_ARRAY_API -DNPY_NO_DEPRECATED_API=NPY_1_7_API_VERSION -D__STDC_FORMAT_MACROS=1 -Iextern/agg24-svn/include -I/tmp/pip-build-env-xvm3tlmy/overlay/lib/python3.11/site-packages/numpy/_core/include -I/usr/local/include/python3.11 -c extern/agg24-svn/src/agg_vcgen_dash.cpp -o /tmp/tmpgyt9cq82.build-temp/matplotlib._image/extern/agg24-svn/src/agg_vcgen_dash.o -fvisibility=hidden -flto -std=c++11
+  g++ -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC -DPY_ARRAY_UNIQUE_SYMBOL=MPL_matplotlib__image_ARRAY_API -DNPY_NO_DEPRECATED_API=NPY_1_7_API_VERSION -D__STDC_FORMAT_MACROS=1 -Iextern/agg24-svn/include -I/tmp/pip-build-env-xvm3tlmy/overlay/lib/python3.11/site-packages/numpy/_core/include -I/usr/local/include/python3.11 -c extern/agg24-svn/src/agg_vcgen_stroke.cpp -o /tmp/tmpgyt9cq82.build-temp/matplotlib._image/extern/agg24-svn/src/agg_vcgen_stroke.o -fvisibility=hidden -flto -std=c++11
+  g++ -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC -DPY_ARRAY_UNIQUE_SYMBOL=MPL_matplotlib__image_ARRAY_API -DNPY_NO_DEPRECATED_API=NPY_1_7_API_VERSION -D__STDC_FORMAT_MACROS=1 -Iextern/agg24-svn/include -I/tmp/pip-build-env-xvm3tlmy/overlay/lib/python3.11/site-packages/numpy/_core/include -I/usr/local/include/python3.11 -c extern/agg24-svn/src/agg_vpgen_segmentator.cpp -o /tmp/tmpgyt9cq82.build-temp/matplotlib._image/extern/agg24-svn/src/agg_vpgen_segmentator.o -fvisibility=hidden -flto -std=c++11
+  g++ -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC -DPY_ARRAY_UNIQUE_SYMBOL=MPL_matplotlib__image_ARRAY_API -DNPY_NO_DEPRECATED_API=NPY_1_7_API_VERSION -D__STDC_FORMAT_MACROS=1 -Iextern/agg24-svn/include -I/tmp/pip-build-env-xvm3tlmy/overlay/lib/python3.11/site-packages/numpy/_core/include -I/usr/local/include/python3.11 -c src/_image_wrapper.cpp -o /tmp/tmpgyt9cq82.build-temp/matplotlib._image/src/_image_wrapper.o -fvisibility=hidden -flto -std=c++11
+  g++ -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC -DPY_ARRAY_UNIQUE_SYMBOL=MPL_matplotlib__image_ARRAY_API -DNPY_NO_DEPRECATED_API=NPY_1_7_API_VERSION -D__STDC_FORMAT_MACROS=1 -Iextern/agg24-svn/include -I/tmp/pip-build-env-xvm3tlmy/overlay/lib/python3.11/site-packages/numpy/_core/include -I/usr/local/include/python3.11 -c src/py_converters.cpp -o /tmp/tmpgyt9cq82.build-temp/matplotlib._image/src/py_converters.o -fvisibility=hidden -flto -std=c++11
+  g++ -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -shared /tmp/tmpgyt9cq82.build-temp/matplotlib._image/extern/agg24-svn/src/agg_bezier_arc.o /tmp/tmpgyt9cq82.build-temp/matplotlib._image/extern/agg24-svn/src/agg_curves.o /tmp/tmpgyt9cq82.build-temp/matplotlib._image/extern/agg24-svn/src/agg_image_filters.o /tmp/tmpgyt9cq82.build-temp/matplotlib._image/extern/agg24-svn/src/agg_trans_affine.o /tmp/tmpgyt9cq82.build-temp/matplotlib._image/extern/agg24-svn/src/agg_vcgen_contour.o /tmp/tmpgyt9cq82.build-temp/matplotlib._image/extern/agg24-svn/src/agg_vcgen_dash.o /tmp/tmpgyt9cq82.build-temp/matplotlib._image/extern/agg24-svn/src/agg_vcgen_stroke.o /tmp/tmpgyt9cq82.build-temp/matplotlib._image/extern/agg24-svn/src/agg_vpgen_segmentator.o /tmp/tmpgyt9cq82.build-temp/matplotlib._image/src/_image_wrapper.o /tmp/tmpgyt9cq82.build-temp/matplotlib._image/src/py_converters.o -L/usr/local/lib -o /tmp/tmp8d8gn9eh.build-lib/matplotlib/_image.cpython-311-x86_64-linux-gnu.so
+  lto-wrapper: warning: using serial compilation of 2 LTRANS jobs
+  lto-wrapper: note: see the ‘-flto’ option documentation for more information
+  building 'matplotlib._path' extension
+  g++ -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC -DPY_ARRAY_UNIQUE_SYMBOL=MPL_matplotlib__path_ARRAY_API -DNPY_NO_DEPRECATED_API=NPY_1_7_API_VERSION -D__STDC_FORMAT_MACROS=1 -Iextern/agg24-svn/include -I/tmp/pip-build-env-xvm3tlmy/overlay/lib/python3.11/site-packages/numpy/_core/include -I/usr/local/include/python3.11 -c extern/agg24-svn/src/agg_bezier_arc.cpp -o /tmp/tmpgyt9cq82.build-temp/matplotlib._path/extern/agg24-svn/src/agg_bezier_arc.o -fvisibility=hidden -flto -std=c++11
+  g++ -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC -DPY_ARRAY_UNIQUE_SYMBOL=MPL_matplotlib__path_ARRAY_API -DNPY_NO_DEPRECATED_API=NPY_1_7_API_VERSION -D__STDC_FORMAT_MACROS=1 -Iextern/agg24-svn/include -I/tmp/pip-build-env-xvm3tlmy/overlay/lib/python3.11/site-packages/numpy/_core/include -I/usr/local/include/python3.11 -c extern/agg24-svn/src/agg_curves.cpp -o /tmp/tmpgyt9cq82.build-temp/matplotlib._path/extern/agg24-svn/src/agg_curves.o -fvisibility=hidden -flto -std=c++11
+  g++ -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC -DPY_ARRAY_UNIQUE_SYMBOL=MPL_matplotlib__path_ARRAY_API -DNPY_NO_DEPRECATED_API=NPY_1_7_API_VERSION -D__STDC_FORMAT_MACROS=1 -Iextern/agg24-svn/include -I/tmp/pip-build-env-xvm3tlmy/overlay/lib/python3.11/site-packages/numpy/_core/include -I/usr/local/include/python3.11 -c extern/agg24-svn/src/agg_image_filters.cpp -o /tmp/tmpgyt9cq82.build-temp/matplotlib._path/extern/agg24-svn/src/agg_image_filters.o -fvisibility=hidden -flto -std=c++11
+  g++ -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC -DPY_ARRAY_UNIQUE_SYMBOL=MPL_matplotlib__path_ARRAY_API -DNPY_NO_DEPRECATED_API=NPY_1_7_API_VERSION -D__STDC_FORMAT_MACROS=1 -Iextern/agg24-svn/include -I/tmp/pip-build-env-xvm3tlmy/overlay/lib/python3.11/site-packages/numpy/_core/include -I/usr/local/include/python3.11 -c extern/agg24-svn/src/agg_trans_affine.cpp -o /tmp/tmpgyt9cq82.build-temp/matplotlib._path/extern/agg24-svn/src/agg_trans_affine.o -fvisibility=hidden -flto -std=c++11
+  g++ -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC -DPY_ARRAY_UNIQUE_SYMBOL=MPL_matplotlib__path_ARRAY_API -DNPY_NO_DEPRECATED_API=NPY_1_7_API_VERSION -D__STDC_FORMAT_MACROS=1 -Iextern/agg24-svn/include -I/tmp/pip-build-env-xvm3tlmy/overlay/lib/python3.11/site-packages/numpy/_core/include -I/usr/local/include/python3.11 -c extern/agg24-svn/src/agg_vcgen_contour.cpp -o /tmp/tmpgyt9cq82.build-temp/matplotlib._path/extern/agg24-svn/src/agg_vcgen_contour.o -fvisibility=hidden -flto -std=c++11
+  g++ -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC -DPY_ARRAY_UNIQUE_SYMBOL=MPL_matplotlib__path_ARRAY_API -DNPY_NO_DEPRECATED_API=NPY_1_7_API_VERSION -D__STDC_FORMAT_MACROS=1 -Iextern/agg24-svn/include -I/tmp/pip-build-env-xvm3tlmy/overlay/lib/python3.11/site-packages/numpy/_core/include -I/usr/local/include/python3.11 -c extern/agg24-svn/src/agg_vcgen_dash.cpp -o /tmp/tmpgyt9cq82.build-temp/matplotlib._path/extern/agg24-svn/src/agg_vcgen_dash.o -fvisibility=hidden -flto -std=c++11
+  g++ -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC -DPY_ARRAY_UNIQUE_SYMBOL=MPL_matplotlib__path_ARRAY_API -DNPY_NO_DEPRECATED_API=NPY_1_7_API_VERSION -D__STDC_FORMAT_MACROS=1 -Iextern/agg24-svn/include -I/tmp/pip-build-env-xvm3tlmy/overlay/lib/python3.11/site-packages/numpy/_core/include -I/usr/local/include/python3.11 -c extern/agg24-svn/src/agg_vcgen_stroke.cpp -o /tmp/tmpgyt9cq82.build-temp/matplotlib._path/extern/agg24-svn/src/agg_vcgen_stroke.o -fvisibility=hidden -flto -std=c++11
+  g++ -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC -DPY_ARRAY_UNIQUE_SYMBOL=MPL_matplotlib__path_ARRAY_API -DNPY_NO_DEPRECATED_API=NPY_1_7_API_VERSION -D__STDC_FORMAT_MACROS=1 -Iextern/agg24-svn/include -I/tmp/pip-build-env-xvm3tlmy/overlay/lib/python3.11/site-packages/numpy/_core/include -I/usr/local/include/python3.11 -c extern/agg24-svn/src/agg_vpgen_segmentator.cpp -o /tmp/tmpgyt9cq82.build-temp/matplotlib._path/extern/agg24-svn/src/agg_vpgen_segmentator.o -fvisibility=hidden -flto -std=c++11
+  g++ -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC -DPY_ARRAY_UNIQUE_SYMBOL=MPL_matplotlib__path_ARRAY_API -DNPY_NO_DEPRECATED_API=NPY_1_7_API_VERSION -D__STDC_FORMAT_MACROS=1 -Iextern/agg24-svn/include -I/tmp/pip-build-env-xvm3tlmy/overlay/lib/python3.11/site-packages/numpy/_core/include -I/usr/local/include/python3.11 -c src/_path_wrapper.cpp -o /tmp/tmpgyt9cq82.build-temp/matplotlib._path/src/_path_wrapper.o -fvisibility=hidden -flto -std=c++11
+  g++ -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC -DPY_ARRAY_UNIQUE_SYMBOL=MPL_matplotlib__path_ARRAY_API -DNPY_NO_DEPRECATED_API=NPY_1_7_API_VERSION -D__STDC_FORMAT_MACROS=1 -Iextern/agg24-svn/include -I/tmp/pip-build-env-xvm3tlmy/overlay/lib/python3.11/site-packages/numpy/_core/include -I/usr/local/include/python3.11 -c src/py_converters.cpp -o /tmp/tmpgyt9cq82.build-temp/matplotlib._path/src/py_converters.o -fvisibility=hidden -flto -std=c++11
+  g++ -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -shared /tmp/tmpgyt9cq82.build-temp/matplotlib._path/extern/agg24-svn/src/agg_bezier_arc.o /tmp/tmpgyt9cq82.build-temp/matplotlib._path/extern/agg24-svn/src/agg_curves.o /tmp/tmpgyt9cq82.build-temp/matplotlib._path/extern/agg24-svn/src/agg_image_filters.o /tmp/tmpgyt9cq82.build-temp/matplotlib._path/extern/agg24-svn/src/agg_trans_affine.o /tmp/tmpgyt9cq82.build-temp/matplotlib._path/extern/agg24-svn/src/agg_vcgen_contour.o /tmp/tmpgyt9cq82.build-temp/matplotlib._path/extern/agg24-svn/src/agg_vcgen_dash.o /tmp/tmpgyt9cq82.build-temp/matplotlib._path/extern/agg24-svn/src/agg_vcgen_stroke.o /tmp/tmpgyt9cq82.build-temp/matplotlib._path/extern/agg24-svn/src/agg_vpgen_segmentator.o /tmp/tmpgyt9cq82.build-temp/matplotlib._path/src/_path_wrapper.o /tmp/tmpgyt9cq82.build-temp/matplotlib._path/src/py_converters.o -L/usr/local/lib -o /tmp/tmp8d8gn9eh.build-lib/matplotlib/_path.cpython-311-x86_64-linux-gnu.so
+  lto-wrapper: warning: using serial compilation of 2 LTRANS jobs
+  lto-wrapper: note: see the ‘-flto’ option documentation for more information
+  building 'matplotlib._qhull' extension
+  gcc -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC -DMPL_DEVNULL=/dev/null -DPY_ARRAY_UNIQUE_SYMBOL=MPL_matplotlib__qhull_ARRAY_API -DNPY_NO_DEPRECATED_API=NPY_1_7_API_VERSION -D__STDC_FORMAT_MACROS=1 -Ibuild/qhull-2020.2/src -I/tmp/pip-build-env-xvm3tlmy/overlay/lib/python3.11/site-packages/numpy/_core/include -I/usr/local/include/python3.11 -c build/qhull-2020.2/src/libqhull_r/geom2_r.c -o /tmp/tmpgyt9cq82.build-temp/matplotlib._qhull/build/qhull-2020.2/src/libqhull_r/geom2_r.o -fvisibility=hidden -flto
+  gcc -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC -DMPL_DEVNULL=/dev/null -DPY_ARRAY_UNIQUE_SYMBOL=MPL_matplotlib__qhull_ARRAY_API -DNPY_NO_DEPRECATED_API=NPY_1_7_API_VERSION -D__STDC_FORMAT_MACROS=1 -Ibuild/qhull-2020.2/src -I/tmp/pip-build-env-xvm3tlmy/overlay/lib/python3.11/site-packages/numpy/_core/include -I/usr/local/include/python3.11 -c build/qhull-2020.2/src/libqhull_r/geom_r.c -o /tmp/tmpgyt9cq82.build-temp/matplotlib._qhull/build/qhull-2020.2/src/libqhull_r/geom_r.o -fvisibility=hidden -flto
+  gcc -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC -DMPL_DEVNULL=/dev/null -DPY_ARRAY_UNIQUE_SYMBOL=MPL_matplotlib__qhull_ARRAY_API -DNPY_NO_DEPRECATED_API=NPY_1_7_API_VERSION -D__STDC_FORMAT_MACROS=1 -Ibuild/qhull-2020.2/src -I/tmp/pip-build-env-xvm3tlmy/overlay/lib/python3.11/site-packages/numpy/_core/include -I/usr/local/include/python3.11 -c build/qhull-2020.2/src/libqhull_r/global_r.c -o /tmp/tmpgyt9cq82.build-temp/matplotlib._qhull/build/qhull-2020.2/src/libqhull_r/global_r.o -fvisibility=hidden -flto
+  gcc -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC -DMPL_DEVNULL=/dev/null -DPY_ARRAY_UNIQUE_SYMBOL=MPL_matplotlib__qhull_ARRAY_API -DNPY_NO_DEPRECATED_API=NPY_1_7_API_VERSION -D__STDC_FORMAT_MACROS=1 -Ibuild/qhull-2020.2/src -I/tmp/pip-build-env-xvm3tlmy/overlay/lib/python3.11/site-packages/numpy/_core/include -I/usr/local/include/python3.11 -c build/qhull-2020.2/src/libqhull_r/io_r.c -o /tmp/tmpgyt9cq82.build-temp/matplotlib._qhull/build/qhull-2020.2/src/libqhull_r/io_r.o -fvisibility=hidden -flto
+  gcc -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC -DMPL_DEVNULL=/dev/null -DPY_ARRAY_UNIQUE_SYMBOL=MPL_matplotlib__qhull_ARRAY_API -DNPY_NO_DEPRECATED_API=NPY_1_7_API_VERSION -D__STDC_FORMAT_MACROS=1 -Ibuild/qhull-2020.2/src -I/tmp/pip-build-env-xvm3tlmy/overlay/lib/python3.11/site-packages/numpy/_core/include -I/usr/local/include/python3.11 -c build/qhull-2020.2/src/libqhull_r/libqhull_r.c -o /tmp/tmpgyt9cq82.build-temp/matplotlib._qhull/build/qhull-2020.2/src/libqhull_r/libqhull_r.o -fvisibility=hidden -flto
+  gcc -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC -DMPL_DEVNULL=/dev/null -DPY_ARRAY_UNIQUE_SYMBOL=MPL_matplotlib__qhull_ARRAY_API -DNPY_NO_DEPRECATED_API=NPY_1_7_API_VERSION -D__STDC_FORMAT_MACROS=1 -Ibuild/qhull-2020.2/src -I/tmp/pip-build-env-xvm3tlmy/overlay/lib/python3.11/site-packages/numpy/_core/include -I/usr/local/include/python3.11 -c build/qhull-2020.2/src/libqhull_r/mem_r.c -o /tmp/tmpgyt9cq82.build-temp/matplotlib._qhull/build/qhull-2020.2/src/libqhull_r/mem_r.o -fvisibility=hidden -flto
+  gcc -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC -DMPL_DEVNULL=/dev/null -DPY_ARRAY_UNIQUE_SYMBOL=MPL_matplotlib__qhull_ARRAY_API -DNPY_NO_DEPRECATED_API=NPY_1_7_API_VERSION -D__STDC_FORMAT_MACROS=1 -Ibuild/qhull-2020.2/src -I/tmp/pip-build-env-xvm3tlmy/overlay/lib/python3.11/site-packages/numpy/_core/include -I/usr/local/include/python3.11 -c build/qhull-2020.2/src/libqhull_r/merge_r.c -o /tmp/tmpgyt9cq82.build-temp/matplotlib._qhull/build/qhull-2020.2/src/libqhull_r/merge_r.o -fvisibility=hidden -flto
+  gcc -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC -DMPL_DEVNULL=/dev/null -DPY_ARRAY_UNIQUE_SYMBOL=MPL_matplotlib__qhull_ARRAY_API -DNPY_NO_DEPRECATED_API=NPY_1_7_API_VERSION -D__STDC_FORMAT_MACROS=1 -Ibuild/qhull-2020.2/src -I/tmp/pip-build-env-xvm3tlmy/overlay/lib/python3.11/site-packages/numpy/_core/include -I/usr/local/include/python3.11 -c build/qhull-2020.2/src/libqhull_r/poly2_r.c -o /tmp/tmpgyt9cq82.build-temp/matplotlib._qhull/build/qhull-2020.2/src/libqhull_r/poly2_r.o -fvisibility=hidden -flto
+  gcc -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC -DMPL_DEVNULL=/dev/null -DPY_ARRAY_UNIQUE_SYMBOL=MPL_matplotlib__qhull_ARRAY_API -DNPY_NO_DEPRECATED_API=NPY_1_7_API_VERSION -D__STDC_FORMAT_MACROS=1 -Ibuild/qhull-2020.2/src -I/tmp/pip-build-env-xvm3tlmy/overlay/lib/python3.11/site-packages/numpy/_core/include -I/usr/local/include/python3.11 -c build/qhull-2020.2/src/libqhull_r/poly_r.c -o /tmp/tmpgyt9cq82.build-temp/matplotlib._qhull/build/qhull-2020.2/src/libqhull_r/poly_r.o -fvisibility=hidden -flto
+  gcc -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC -DMPL_DEVNULL=/dev/null -DPY_ARRAY_UNIQUE_SYMBOL=MPL_matplotlib__qhull_ARRAY_API -DNPY_NO_DEPRECATED_API=NPY_1_7_API_VERSION -D__STDC_FORMAT_MACROS=1 -Ibuild/qhull-2020.2/src -I/tmp/pip-build-env-xvm3tlmy/overlay/lib/python3.11/site-packages/numpy/_core/include -I/usr/local/include/python3.11 -c build/qhull-2020.2/src/libqhull_r/qset_r.c -o /tmp/tmpgyt9cq82.build-temp/matplotlib._qhull/build/qhull-2020.2/src/libqhull_r/qset_r.o -fvisibility=hidden -flto
+  gcc -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC -DMPL_DEVNULL=/dev/null -DPY_ARRAY_UNIQUE_SYMBOL=MPL_matplotlib__qhull_ARRAY_API -DNPY_NO_DEPRECATED_API=NPY_1_7_API_VERSION -D__STDC_FORMAT_MACROS=1 -Ibuild/qhull-2020.2/src -I/tmp/pip-build-env-xvm3tlmy/overlay/lib/python3.11/site-packages/numpy/_core/include -I/usr/local/include/python3.11 -c build/qhull-2020.2/src/libqhull_r/random_r.c -o /tmp/tmpgyt9cq82.build-temp/matplotlib._qhull/build/qhull-2020.2/src/libqhull_r/random_r.o -fvisibility=hidden -flto
+  gcc -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC -DMPL_DEVNULL=/dev/null -DPY_ARRAY_UNIQUE_SYMBOL=MPL_matplotlib__qhull_ARRAY_API -DNPY_NO_DEPRECATED_API=NPY_1_7_API_VERSION -D__STDC_FORMAT_MACROS=1 -Ibuild/qhull-2020.2/src -I/tmp/pip-build-env-xvm3tlmy/overlay/lib/python3.11/site-packages/numpy/_core/include -I/usr/local/include/python3.11 -c build/qhull-2020.2/src/libqhull_r/rboxlib_r.c -o /tmp/tmpgyt9cq82.build-temp/matplotlib._qhull/build/qhull-2020.2/src/libqhull_r/rboxlib_r.o -fvisibility=hidden -flto
+  gcc -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC -DMPL_DEVNULL=/dev/null -DPY_ARRAY_UNIQUE_SYMBOL=MPL_matplotlib__qhull_ARRAY_API -DNPY_NO_DEPRECATED_API=NPY_1_7_API_VERSION -D__STDC_FORMAT_MACROS=1 -Ibuild/qhull-2020.2/src -I/tmp/pip-build-env-xvm3tlmy/overlay/lib/python3.11/site-packages/numpy/_core/include -I/usr/local/include/python3.11 -c build/qhull-2020.2/src/libqhull_r/stat_r.c -o /tmp/tmpgyt9cq82.build-temp/matplotlib._qhull/build/qhull-2020.2/src/libqhull_r/stat_r.o -fvisibility=hidden -flto
+  gcc -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC -DMPL_DEVNULL=/dev/null -DPY_ARRAY_UNIQUE_SYMBOL=MPL_matplotlib__qhull_ARRAY_API -DNPY_NO_DEPRECATED_API=NPY_1_7_API_VERSION -D__STDC_FORMAT_MACROS=1 -Ibuild/qhull-2020.2/src -I/tmp/pip-build-env-xvm3tlmy/overlay/lib/python3.11/site-packages/numpy/_core/include -I/usr/local/include/python3.11 -c build/qhull-2020.2/src/libqhull_r/user_r.c -o /tmp/tmpgyt9cq82.build-temp/matplotlib._qhull/build/qhull-2020.2/src/libqhull_r/user_r.o -fvisibility=hidden -flto
+  gcc -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC -DMPL_DEVNULL=/dev/null -DPY_ARRAY_UNIQUE_SYMBOL=MPL_matplotlib__qhull_ARRAY_API -DNPY_NO_DEPRECATED_API=NPY_1_7_API_VERSION -D__STDC_FORMAT_MACROS=1 -Ibuild/qhull-2020.2/src -I/tmp/pip-build-env-xvm3tlmy/overlay/lib/python3.11/site-packages/numpy/_core/include -I/usr/local/include/python3.11 -c build/qhull-2020.2/src/libqhull_r/usermem_r.c -o /tmp/tmpgyt9cq82.build-temp/matplotlib._qhull/build/qhull-2020.2/src/libqhull_r/usermem_r.o -fvisibility=hidden -flto
+  gcc -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC -DMPL_DEVNULL=/dev/null -DPY_ARRAY_UNIQUE_SYMBOL=MPL_matplotlib__qhull_ARRAY_API -DNPY_NO_DEPRECATED_API=NPY_1_7_API_VERSION -D__STDC_FORMAT_MACROS=1 -Ibuild/qhull-2020.2/src -I/tmp/pip-build-env-xvm3tlmy/overlay/lib/python3.11/site-packages/numpy/_core/include -I/usr/local/include/python3.11 -c build/qhull-2020.2/src/libqhull_r/userprintf_r.c -o /tmp/tmpgyt9cq82.build-temp/matplotlib._qhull/build/qhull-2020.2/src/libqhull_r/userprintf_r.o -fvisibility=hidden -flto
+  gcc -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC -DMPL_DEVNULL=/dev/null -DPY_ARRAY_UNIQUE_SYMBOL=MPL_matplotlib__qhull_ARRAY_API -DNPY_NO_DEPRECATED_API=NPY_1_7_API_VERSION -D__STDC_FORMAT_MACROS=1 -Ibuild/qhull-2020.2/src -I/tmp/pip-build-env-xvm3tlmy/overlay/lib/python3.11/site-packages/numpy/_core/include -I/usr/local/include/python3.11 -c build/qhull-2020.2/src/libqhull_r/userprintf_rbox_r.c -o /tmp/tmpgyt9cq82.build-temp/matplotlib._qhull/build/qhull-2020.2/src/libqhull_r/userprintf_rbox_r.o -fvisibility=hidden -flto
+  g++ -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC -DMPL_DEVNULL=/dev/null -DPY_ARRAY_UNIQUE_SYMBOL=MPL_matplotlib__qhull_ARRAY_API -DNPY_NO_DEPRECATED_API=NPY_1_7_API_VERSION -D__STDC_FORMAT_MACROS=1 -Ibuild/qhull-2020.2/src -I/tmp/pip-build-env-xvm3tlmy/overlay/lib/python3.11/site-packages/numpy/_core/include -I/usr/local/include/python3.11 -c src/_qhull_wrapper.cpp -o /tmp/tmpgyt9cq82.build-temp/matplotlib._qhull/src/_qhull_wrapper.o -fvisibility=hidden -flto
+  g++ -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -shared /tmp/tmpgyt9cq82.build-temp/matplotlib._qhull/build/qhull-2020.2/src/libqhull_r/geom2_r.o /tmp/tmpgyt9cq82.build-temp/matplotlib._qhull/build/qhull-2020.2/src/libqhull_r/geom_r.o /tmp/tmpgyt9cq82.build-temp/matplotlib._qhull/build/qhull-2020.2/src/libqhull_r/global_r.o /tmp/tmpgyt9cq82.build-temp/matplotlib._qhull/build/qhull-2020.2/src/libqhull_r/io_r.o /tmp/tmpgyt9cq82.build-temp/matplotlib._qhull/build/qhull-2020.2/src/libqhull_r/libqhull_r.o /tmp/tmpgyt9cq82.build-temp/matplotlib._qhull/build/qhull-2020.2/src/libqhull_r/mem_r.o /tmp/tmpgyt9cq82.build-temp/matplotlib._qhull/build/qhull-2020.2/src/libqhull_r/merge_r.o /tmp/tmpgyt9cq82.build-temp/matplotlib._qhull/build/qhull-2020.2/src/libqhull_r/poly2_r.o /tmp/tmpgyt9cq82.build-temp/matplotlib._qhull/build/qhull-2020.2/src/libqhull_r/poly_r.o /tmp/tmpgyt9cq82.build-temp/matplotlib._qhull/build/qhull-2020.2/src/libqhull_r/qset_r.o /tmp/tmpgyt9cq82.build-temp/matplotlib._qhull/build/qhull-2020.2/src/libqhull_r/random_r.o /tmp/tmpgyt9cq82.build-temp/matplotlib._qhull/build/qhull-2020.2/src/libqhull_r/rboxlib_r.o /tmp/tmpgyt9cq82.build-temp/matplotlib._qhull/build/qhull-2020.2/src/libqhull_r/stat_r.o /tmp/tmpgyt9cq82.build-temp/matplotlib._qhull/build/qhull-2020.2/src/libqhull_r/user_r.o /tmp/tmpgyt9cq82.build-temp/matplotlib._qhull/build/qhull-2020.2/src/libqhull_r/usermem_r.o /tmp/tmpgyt9cq82.build-temp/matplotlib._qhull/build/qhull-2020.2/src/libqhull_r/userprintf_r.o /tmp/tmpgyt9cq82.build-temp/matplotlib._qhull/build/qhull-2020.2/src/libqhull_r/userprintf_rbox_r.o /tmp/tmpgyt9cq82.build-temp/matplotlib._qhull/src/_qhull_wrapper.o -L/usr/local/lib -lm -o /tmp/tmp8d8gn9eh.build-lib/matplotlib/_qhull.cpython-311-x86_64-linux-gnu.so
+  lto-wrapper: warning: using serial compilation of 6 LTRANS jobs
+  lto-wrapper: note: see the ‘-flto’ option documentation for more information
+  building 'matplotlib.backends._tkagg' extension
+  g++ -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC -DPY_ARRAY_UNIQUE_SYMBOL=MPL_matplotlib_backends__tkagg_ARRAY_API -DNPY_NO_DEPRECATED_API=NPY_1_7_API_VERSION -D__STDC_FORMAT_MACROS=1 -Iextern/agg24-svn/include -Isrc -I/tmp/pip-build-env-xvm3tlmy/overlay/lib/python3.11/site-packages/numpy/_core/include -I/usr/local/include/python3.11 -c src/_tkagg.cpp -o /tmp/tmpgyt9cq82.build-temp/matplotlib.backends._tkagg/src/_tkagg.o -fvisibility=hidden -flto -std=c++11
+  g++ -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -shared /tmp/tmpgyt9cq82.build-temp/matplotlib.backends._tkagg/src/_tkagg.o -L/usr/local/lib -ldl -o /tmp/tmp8d8gn9eh.build-lib/matplotlib/backends/_tkagg.cpython-311-x86_64-linux-gnu.so
+  building 'matplotlib._tri' extension
+  g++ -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC -I/tmp/pip-build-env-xvm3tlmy/overlay/lib/python3.11/site-packages/pybind11/include -I/usr/local/include/python3.11 -c src/tri/_tri.cpp -o /tmp/tmpgyt9cq82.build-temp/matplotlib._tri/src/tri/_tri.o -fvisibility=hidden -g0 -std=c++11 -fvisibility=hidden -flto -std=c++11
+  g++ -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC -I/tmp/pip-build-env-xvm3tlmy/overlay/lib/python3.11/site-packages/pybind11/include -I/usr/local/include/python3.11 -c src/tri/_tri_wrapper.cpp -o /tmp/tmpgyt9cq82.build-temp/matplotlib._tri/src/tri/_tri_wrapper.o -fvisibility=hidden -g0 -std=c++11 -fvisibility=hidden -flto -std=c++11
+  g++ -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -shared /tmp/tmpgyt9cq82.build-temp/matplotlib._tri/src/tri/_tri.o /tmp/tmpgyt9cq82.build-temp/matplotlib._tri/src/tri/_tri_wrapper.o -L/usr/local/lib -o /tmp/tmp8d8gn9eh.build-lib/matplotlib/_tri.cpython-311-x86_64-linux-gnu.so
+  lto-wrapper: warning: using serial compilation of 5 LTRANS jobs
+  lto-wrapper: note: see the ‘-flto’ option documentation for more information
+  building 'matplotlib._ttconv' extension
+  g++ -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC -Iextern -I/tmp/pip-build-env-xvm3tlmy/overlay/lib/python3.11/site-packages/pybind11/include -I/usr/local/include/python3.11 -c extern/ttconv/pprdrv_tt.cpp -o /tmp/tmpgyt9cq82.build-temp/matplotlib._ttconv/extern/ttconv/pprdrv_tt.o -fvisibility=hidden -g0 -std=c++11 -fvisibility=hidden -flto -std=c++11
+  g++ -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC -Iextern -I/tmp/pip-build-env-xvm3tlmy/overlay/lib/python3.11/site-packages/pybind11/include -I/usr/local/include/python3.11 -c extern/ttconv/pprdrv_tt2.cpp -o /tmp/tmpgyt9cq82.build-temp/matplotlib._ttconv/extern/ttconv/pprdrv_tt2.o -fvisibility=hidden -g0 -std=c++11 -fvisibility=hidden -flto -std=c++11
+  g++ -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC -Iextern -I/tmp/pip-build-env-xvm3tlmy/overlay/lib/python3.11/site-packages/pybind11/include -I/usr/local/include/python3.11 -c extern/ttconv/ttutil.cpp -o /tmp/tmpgyt9cq82.build-temp/matplotlib._ttconv/extern/ttconv/ttutil.o -fvisibility=hidden -g0 -std=c++11 -fvisibility=hidden -flto -std=c++11
+  g++ -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC -Iextern -I/tmp/pip-build-env-xvm3tlmy/overlay/lib/python3.11/site-packages/pybind11/include -I/usr/local/include/python3.11 -c src/_ttconv.cpp -o /tmp/tmpgyt9cq82.build-temp/matplotlib._ttconv/src/_ttconv.o -fvisibility=hidden -g0 -std=c++11 -fvisibility=hidden -flto -std=c++11
+  g++ -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -shared /tmp/tmpgyt9cq82.build-temp/matplotlib._ttconv/extern/ttconv/pprdrv_tt.o /tmp/tmpgyt9cq82.build-temp/matplotlib._ttconv/extern/ttconv/pprdrv_tt2.o /tmp/tmpgyt9cq82.build-temp/matplotlib._ttconv/extern/ttconv/ttutil.o /tmp/tmpgyt9cq82.build-temp/matplotlib._ttconv/src/_ttconv.o -L/usr/local/lib -o /tmp/tmp8d8gn9eh.build-lib/matplotlib/_ttconv.cpython-311-x86_64-linux-gnu.so
+  lto-wrapper: warning: using serial compilation of 3 LTRANS jobs
+  lto-wrapper: note: see the ‘-flto’ option documentation for more information
+  copying /tmp/tmp8d8gn9eh.build-lib/matplotlib/backends/_backend_agg.cpython-311-x86_64-linux-gnu.so -> lib/matplotlib/backends
+  copying /tmp/tmp8d8gn9eh.build-lib/matplotlib/_c_internal_utils.cpython-311-x86_64-linux-gnu.so -> lib/matplotlib
+  copying /tmp/tmp8d8gn9eh.build-lib/matplotlib/ft2font.cpython-311-x86_64-linux-gnu.so -> lib/matplotlib
+  copying /tmp/tmp8d8gn9eh.build-lib/matplotlib/_image.cpython-311-x86_64-linux-gnu.so -> lib/matplotlib
+  copying /tmp/tmp8d8gn9eh.build-lib/matplotlib/_path.cpython-311-x86_64-linux-gnu.so -> lib/matplotlib
+  copying /tmp/tmp8d8gn9eh.build-lib/matplotlib/_qhull.cpython-311-x86_64-linux-gnu.so -> lib/matplotlib
+  copying /tmp/tmp8d8gn9eh.build-lib/matplotlib/backends/_tkagg.cpython-311-x86_64-linux-gnu.so -> lib/matplotlib/backends
+  copying /tmp/tmp8d8gn9eh.build-lib/matplotlib/_tri.cpython-311-x86_64-linux-gnu.so -> lib/matplotlib
+  copying /tmp/tmp8d8gn9eh.build-lib/matplotlib/_ttconv.cpython-311-x86_64-linux-gnu.so -> lib/matplotlib
+
+          Editable install will be performed using .pth file to extend `sys.path` with:
+          ['lib']
+
+  Options like `package-data`, `include/exclude-package-data` or
+  `packages.find.exclude/include` may have no effect.
+
+  adding '__editable__.matplotlib-3.8.0.dev1978+g01360ed3e.d20260926.pth'
+  creating '/tmp/pip-ephem-wheel-cache-239r56tv/wheels/e4/43/ff/8b223901094ba164f6aee42b141c11537b3b31ba3e335977f0/tmpwpjsfddw/.tmp-qq6b7axc/matplotlib-3.8.0.dev1978+g01360ed3e.d20260926-0.editable-cp311-cp311-linux_x86_64.whl' and adding '/tmp/tmpcbib9vfqmatplotlib-3.8.0.dev1978+g01360ed3e.d20260926-0.editable-cp311-cp311-linux_x86_64.whl' to it
+  adding 'matplotlib-3.8.0.dev1978+g01360ed3e.d20260926.dist-info/licenses/LICENSE/LICENSE'
+  adding 'matplotlib-3.8.0.dev1978+g01360ed3e.d20260926.dist-info/licenses/LICENSE/LICENSE_AMSFONTS'
+  adding 'matplotlib-3.8.0.dev1978+g01360ed3e.d20260926.dist-info/licenses/LICENSE/LICENSE_BAKOMA'
+  adding 'matplotlib-3.8.0.dev1978+g01360ed3e.d20260926.dist-info/licenses/LICENSE/LICENSE_CARLOGO'
+  adding 'matplotlib-3.8.0.dev1978+g01360ed3e.d20260926.dist-info/licenses/LICENSE/LICENSE_COLORBREWER'
+  adding 'matplotlib-3.8.0.dev1978+g01360ed3e.d20260926.dist-info/licenses/LICENSE/LICENSE_COURIERTEN'
+  adding 'matplotlib-3.8.0.dev1978+g01360ed3e.d20260926.dist-info/licenses/LICENSE/LICENSE_JSXTOOLS_RESIZE_OBSERVER'
+  adding 'matplotlib-3.8.0.dev1978+g01360ed3e.d20260926.dist-info/licenses/LICENSE/LICENSE_QHULL'
+  adding 'matplotlib-3.8.0.dev1978+g01360ed3e.d20260926.dist-info/licenses/LICENSE/LICENSE_QT4_EDITOR'
+  adding 'matplotlib-3.8.0.dev1978+g01360ed3e.d20260926.dist-info/licenses/LICENSE/LICENSE_SOLARIZED'
+  adding 'matplotlib-3.8.0.dev1978+g01360ed3e.d20260926.dist-info/licenses/LICENSE/LICENSE_STIX'
+  adding 'matplotlib-3.8.0.dev1978+g01360ed3e.d20260926.dist-info/licenses/LICENSE/LICENSE_YORICK'
+  adding 'matplotlib-3.8.0.dev1978+g01360ed3e.d20260926.dist-info/METADATA'
+  adding 'matplotlib-3.8.0.dev1978+g01360ed3e.d20260926.dist-info/WHEEL'
+  adding 'matplotlib-3.8.0.dev1978+g01360ed3e.d20260926.dist-info/top_level.txt'
+  adding 'matplotlib-3.8.0.dev1978+g01360ed3e.d20260926.dist-info/RECORD'
+  Building editable for matplotlib (pyproject.toml): finished with status 'done'
+  Created wheel for matplotlib: filename=matplotlib-3.8.0.dev1978+g01360ed3e.d20260926-0.editable-cp311-cp311-linux_x86_64.whl size=22433 sha256=705104120ef6996ff16051decd80f602abae7eb2d16f942db8a384567ec85380
+  Stored in directory: /tmp/pip-ephem-wheel-cache-239r56tv/wheels/e4/43/ff/8b223901094ba164f6aee42b141c11537b3b31ba3e335977f0
+Successfully built matplotlib
+Installing collected packages: matplotlib
+  Attempting uninstall: matplotlib
+    Found existing installation: matplotlib 3.8.0.dev1978+g01360ed3e
+    Uninstalling matplotlib-3.8.0.dev1978+g01360ed3e:
+      Removing file or directory /usr/local/lib/python3.11/site-packages/__editable__.matplotlib-3.8.0.dev1978+g01360ed3e.pth
+      Removing file or directory /usr/local/lib/python3.11/site-packages/matplotlib-3.8.0.dev1978+g01360ed3e.dist-info/
+      Successfully uninstalled matplotlib-3.8.0.dev1978+g01360ed3e
+Successfully installed matplotlib-3.8.0.dev1978+g01360ed3e.d20260926
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+
+[notice] A new release of pip is available: 26.0.1 -> 26.2.1
+[notice] To update, run: pip install --upgrade pip
+============================= test session starts ==============================
+platform linux -- Python 3.11.14, pytest-7.4.4, pluggy-1.6.0 -- /usr/local/bin/python3.11
+cachedir: .pytest_cache
+rootdir: /home/matplotlib
+configfile: pytest.ini
+plugins: xdist-3.8.0, cov-7.1.0, forked-1.6.0, timeout-2.4.0
+timeout: 20.0s
+timeout method: signal
+timeout func_only: False
+collecting ... collected 49 items
+
+lib/matplotlib/tests/test_transforms.py::test_non_affine_caching PASSED  [  2%]
+lib/matplotlib/tests/test_transforms.py::test_external_transform_api PASSED [  4%]
+lib/matplotlib/tests/test_transforms.py::test_pre_transform_plotting[png] PASSED [  6%]
+lib/matplotlib/tests/test_transforms.py::test_pre_transform_plotting[pdf] SKIPPED [  8%]
+lib/matplotlib/tests/test_transforms.py::test_pre_transform_plotting[svg] SKIPPED [ 10%]
+lib/matplotlib/tests/test_transforms.py::test_contour_pre_transform_limits PASSED [ 12%]
+lib/matplotlib/tests/test_transforms.py::test_pcolor_pre_transform_limits PASSED [ 14%]
+lib/matplotlib/tests/test_transforms.py::test_pcolormesh_pre_transform_limits PASSED [ 16%]
+lib/matplotlib/tests/test_transforms.py::test_pcolormesh_gouraud_nans PASSED [ 18%]
+lib/matplotlib/tests/test_transforms.py::test_Affine2D_from_values PASSED [ 20%]
+lib/matplotlib/tests/test_transforms.py::test_affine_inverted_invalidated PASSED [ 22%]
+lib/matplotlib/tests/test_transforms.py::test_clipping_of_log PASSED     [ 24%]
+lib/matplotlib/tests/test_transforms.py::TestBasicTransform::test_transform_depth PASSED [ 26%]
+lib/matplotlib/tests/test_transforms.py::TestBasicTransform::test_left_to_right_iteration PASSED [ 28%]
+lib/matplotlib/tests/test_transforms.py::TestBasicTransform::test_transform_shortcuts PASSED [ 30%]
+lib/matplotlib/tests/test_transforms.py::TestBasicTransform::test_contains_branch PASSED [ 32%]
+lib/matplotlib/tests/test_transforms.py::TestBasicTransform::test_affine_simplification PASSED [ 34%]
+lib/matplotlib/tests/test_transforms.py::TestTransformPlotInterface::test_line_extent_axes_coords PASSED [ 36%]
+lib/matplotlib/tests/test_transforms.py::TestTransformPlotInterface::test_line_extent_data_coords PASSED [ 38%]
+lib/matplotlib/tests/test_transforms.py::TestTransformPlotInterface::test_line_extent_compound_coords1 PASSED [ 40%]
+lib/matplotlib/tests/test_transforms.py::TestTransformPlotInterface::test_line_extent_predata_transform_coords PASSED [ 42%]
+lib/matplotlib/tests/test_transforms.py::TestTransformPlotInterface::test_line_extent_compound_coords2 PASSED [ 44%]
+lib/matplotlib/tests/test_transforms.py::TestTransformPlotInterface::test_line_extents_affine PASSED [ 46%]
+lib/matplotlib/tests/test_transforms.py::TestTransformPlotInterface::test_line_extents_non_affine PASSED [ 48%]
+lib/matplotlib/tests/test_transforms.py::TestTransformPlotInterface::test_pathc_extents_non_affine PASSED [ 51%]
+lib/matplotlib/tests/test_transforms.py::TestTransformPlotInterface::test_pathc_extents_affine PASSED [ 53%]
+lib/matplotlib/tests/test_transforms.py::TestTransformPlotInterface::test_line_extents_for_non_affine_transData PASSED [ 55%]
+lib/matplotlib/tests/test_transforms.py::test_bbox_frozen_copies_minpos PASSED [ 57%]
+lib/matplotlib/tests/test_transforms.py::test_bbox_intersection PASSED   [ 59%]
+lib/matplotlib/tests/test_transforms.py::test_bbox_as_strings PASSED     [ 61%]
+lib/matplotlib/tests/test_transforms.py::test_str_transform PASSED       [ 63%]
+lib/matplotlib/tests/test_transforms.py::test_transform_single_point PASSED [ 65%]
+lib/matplotlib/tests/test_transforms.py::test_log_transform PASSED       [ 67%]
+lib/matplotlib/tests/test_transforms.py::test_nan_overlap PASSED         [ 69%]
+lib/matplotlib/tests/test_transforms.py::test_transform_angles PASSED    [ 71%]
+lib/matplotlib/tests/test_transforms.py::test_nonsingular PASSED         [ 73%]
+lib/matplotlib/tests/test_transforms.py::test_invalid_arguments PASSED   [ 75%]
+lib/matplotlib/tests/test_transforms.py::test_transformed_path PASSED    [ 77%]
+lib/matplotlib/tests/test_transforms.py::test_transformed_patch_path PASSED [ 79%]
+lib/matplotlib/tests/test_transforms.py::test_lockable_bbox[x0] PASSED   [ 81%]
+lib/matplotlib/tests/test_transforms.py::test_lockable_bbox[y0] PASSED   [ 83%]
+lib/matplotlib/tests/test_transforms.py::test_lockable_bbox[x1] PASSED   [ 85%]
+lib/matplotlib/tests/test_transforms.py::test_lockable_bbox[y1] PASSED   [ 87%]
+lib/matplotlib/tests/test_transforms.py::test_copy PASSED                [ 89%]
+lib/matplotlib/tests/test_transforms.py::test_deepcopy PASSED            [ 91%]
+lib/matplotlib/tests/test_transforms.py::test_transformwrapper PASSED    [ 93%]
+lib/matplotlib/tests/test_transforms.py::test_scale_swapping[png] PASSED [ 95%]
+lib/matplotlib/tests/test_transforms.py::test_offset_copy_errors PASSED  [ 97%]
+lib/matplotlib/tests/test_transforms.py::test_transformedbbox_contains PASSED [100%]
+
+======================== 47 passed, 2 skipped in 26.11s ========================

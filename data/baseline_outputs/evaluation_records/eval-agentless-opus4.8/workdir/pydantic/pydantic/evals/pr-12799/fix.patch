@@ -1,0 +1,27 @@
+diff --git a/pydantic/main.py b/pydantic/main.py
+index 26fc876..701d52c 100644
+--- a/pydantic/main.py
++++ b/pydantic/main.py
+@@ -1178,8 +1178,21 @@ class BaseModel(metaclass=_model_construction.ModelMetaclass):
+                 # We'll perform a fast check first, and fallback only when needed
+                 # See GH-7444 and GH-7825 for rationale and a performance benchmark
+ 
++                # To avoid `RecursionError`s when a model holds a reference to itself (see GH-10817),
++                # we replace any self-references with a sentinel value before comparing the `__dict__`s.
++                if any(v is self or v is other for v in self.__dict__.values()) or any(
++                    v is self or v is other for v in other.__dict__.values()
++                ):
++                    self_dict = {
++                        k: (_utils._SENTINEL if v is self or v is other else v) for k, v in self.__dict__.items()
++                    }
++                    other_dict = {
++                        k: (_utils._SENTINEL if v is self or v is other else v) for k, v in other.__dict__.items()
++                    }
++                    if self_dict == other_dict:
++                        return True
+                 # First, do the fast (and sometimes faulty) __dict__ comparison
+-                if self.__dict__ == other.__dict__:
++                elif self.__dict__ == other.__dict__:
+                     # If the check above passes, then pydantic fields are equal, we can return early
+                     return True
+ 

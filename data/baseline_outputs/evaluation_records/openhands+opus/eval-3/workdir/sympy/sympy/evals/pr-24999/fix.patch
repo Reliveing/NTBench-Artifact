@@ -1,0 +1,13 @@
+diff --git a/sympy/solvers/solvers.py b/sympy/solvers/solvers.py
+index fcc7e13c31..7dc8e76d9c 100644
+--- a/sympy/solvers/solvers.py
++++ b/sympy/solvers/solvers.py
+@@ -2770,7 +2770,7 @@ def equal(expr1, expr2):
+                 return _vsolve(lhs.args[0] - rhs*exp(rhs), sym, **flags)
+ 
+         rewrite = lhs.rewrite(exp)
+-        if rewrite != lhs:
++        if rewrite != lhs and rewrite.rewrite(exp) != lhs:
+             return _vsolve(rewrite - rhs, sym, **flags)
+     except NotImplementedError:
+         pass

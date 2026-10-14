@@ -1,0 +1,43 @@
+diff --git a/sympy/solvers/solvers.py b/sympy/solvers/solvers.py
+index 507e14b..4132873 100644
+--- a/sympy/solvers/solvers.py
++++ b/sympy/solvers/solvers.py
+@@ -1480,6 +1480,32 @@ def _solve(f, *symbols, **flags):
+                     except PolynomialError:
+                         pass
+ 
++        # Handle negative powers by substituting the base
++        # e.g. (x - 5)**(-8) - 3 -> substitute u = x - 5
++        if poly is None and f_num.is_Add:
++            # Find a negative power term involving the symbol
++            neg_pow_terms = [arg for arg in f_num.args 
++                           if arg.is_Pow and arg.exp.is_negative 
++                           and symbol in arg.base.free_symbols]
++            if len(neg_pow_terms) == 1:
++                neg_pow = neg_pow_terms[0]
++                base = neg_pow.base
++                # Check if the base is linear in symbol
++                if base.is_linear(symbol):
++                    t = Dummy('t')
++                    # Substitute base with t
++                    ftry = f_num.subs(base, t)
++                    if not ftry.has(symbol):
++                        # Solve for t
++                        t_sols = _solve(ftry, t, **flags)
++                        # Invert the substitution
++                        inv_sols = _vsolve(t - base, symbol, **flags)
++                        result = [{symbol: inv.subs(t_sol)} 
++                                 for inv in inv_sols for t_sol in t_sols]
++                        if result:
++                            # Solutions found, skip rest of processing
++                            return result
++
+         result = False  # no solution was obtained
+         msg = ''  # there is no failure message
+ 
+@@ -3671,4 +3697,4 @@ def unrad(eq, *syms, **flags):
+ 
+ # delayed imports
+ from sympy.solvers.bivariate import (
+-    bivariate_type, _solve_lambert, _filtered_gens)
++    bivariate_type, _solve_lambert, _filtered_gens)

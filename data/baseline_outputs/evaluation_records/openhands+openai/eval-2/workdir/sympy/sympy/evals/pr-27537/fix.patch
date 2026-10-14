@@ -1,0 +1,45 @@
+diff --git a/sympy/simplify/simplify.py b/sympy/simplify/simplify.py
+index 20cbe19669..86a56972d6 100644
+--- a/sympy/simplify/simplify.py
++++ b/sympy/simplify/simplify.py
+@@ -1083,6 +1083,11 @@ def goodlog(l):
+         if not logs and all(len(log1[k]) == 1 and log1[k][0] == [] for k in log1):
+             return rv
+ 
++        def too_big_to_combine(coeff, l):
++            coeff = Mul(*coeff)
++            return (l.args[0].is_Rational and coeff.is_Integer
++                and coeff > 10000 and abs(l.args[0]) not in (S.Zero, S.One))
++
+         # collapse multi-logs as far as possible in a canonical way
+         # TODO: see if x*log(a)+x*log(a)*log(b) -> x*log(a)*(1+log(b))?
+         # -- in this case, it's unambiguous, but if it were were a log(c) in
+@@ -1090,6 +1095,9 @@ def goodlog(l):
+         # by log(c). So for now, just leave this alone; it's probably better to
+         # let the user decide
+         for o, e, l in logs:
++            if any(too_big_to_combine(e, li) for li in l):
++                other.append(Mul(*o)*Mul(*e)*Mul(*l))
++                continue
+             l = list(ordered(l))
+             e = log(l.pop(0).args[0]**Mul(*e))
+             while l:
+@@ -1103,9 +1111,15 @@ def goodlog(l):
+ 
+         # logs that have the same coefficient can multiply
+         for k in list(log1.keys()):
+-            log1[Mul(*k)] = log(logcombine(Mul(*[
+-                l.args[0]**Mul(*c) for c, l in log1.pop(k)]),
+-                force=force), evaluate=False)
++            terms = []
++            for c, l in log1.pop(k):
++                if too_big_to_combine(c, l):
++                    other.append(Mul(*k)*Mul(*c)*l)
++                else:
++                    terms.append(l.args[0]**Mul(*c))
++            if terms:
++                log1[Mul(*k)] = log(logcombine(Mul(*terms),
++                    force=force), evaluate=False)
+ 
+         # logs that have oppositely signed coefficients can divide
+         for k in ordered(list(log1.keys())):

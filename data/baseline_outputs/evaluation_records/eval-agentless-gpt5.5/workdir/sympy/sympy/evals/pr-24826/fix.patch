@@ -1,0 +1,59 @@
+diff --git a/sympy/simplify/cse_main.py b/sympy/simplify/cse_main.py
+index d603560..94de8ef 100644
+--- a/sympy/simplify/cse_main.py
++++ b/sympy/simplify/cse_main.py
+@@ -651,22 +651,33 @@ def tree_cse(exprs, symbols, opt_subs=None, order='canonical', ignore=()):
+ 
+     subs = {}
+ 
+-    def _rebuild(expr):
++    def _rebuild(expr, active_opt_subs=None):
+         if not isinstance(expr, (Basic, Unevaluated)):
+             return expr
+ 
++        if active_opt_subs is None:
++            active_opt_subs = set()
++
+         if not expr.args:
+             return expr
+ 
+         if iterable(expr):
+-            new_args = [_rebuild(arg) for arg in expr.args]
++            new_args = [_rebuild(arg, active_opt_subs) for arg in expr.args]
+             return expr.func(*new_args)
+ 
+         if expr in subs:
+             return subs[expr]
+ 
+         orig_expr = expr
++        added_to_active = False
+         if expr in opt_subs:
++            # An optimization substitution can contain the expression it
++            # replaces, particularly for UnevaluatedExpr instances. Do not
++            # repeatedly expand such a cyclic substitution.
++            if expr in active_opt_subs:
++                return expr
++            active_opt_subs.add(expr)
++            added_to_active = True
+             expr = opt_subs[expr]
+ 
+         # If enabled, parse Muls and Adds arguments by order to ensure
+@@ -685,7 +696,11 @@ def tree_cse(exprs, symbols, opt_subs=None, order='canonical', ignore=()):
+         else:
+             args = expr.args
+ 
+-        new_args = list(map(_rebuild, args))
++        new_args = list(map(
++            lambda arg: _rebuild(arg, active_opt_subs), args))
++        if added_to_active:
++            active_opt_subs.remove(orig_expr)
++
+         if isinstance(expr, Unevaluated) or new_args != args:
+             new_expr = expr.func(*new_args)
+         else:
+@@ -936,4 +951,4 @@ def _cse_homogeneous(exprs, **kwargs):
+     except TypeError: # For example 'mpf' objects
+         return [], exprs
+     else:
+-        return replacements, reduced_exprs
++        return replacements, reduced_exprs

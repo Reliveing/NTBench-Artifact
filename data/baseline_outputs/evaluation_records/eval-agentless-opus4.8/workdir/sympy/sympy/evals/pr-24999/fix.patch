@@ -1,0 +1,160 @@
+diff --git a/sympy/solvers/solvers.py b/sympy/solvers/solvers.py
+index fcc7e13..5d894af 100644
+--- a/sympy/solvers/solvers.py
++++ b/sympy/solvers/solvers.py
+@@ -2640,10 +2640,21 @@ def _tsolve(eq, sym, **flags):
+         return None
+     else:
+         flags['tsolve_saw'].append(eq)
++    
++    # Add recursion depth tracking to prevent infinite loops
++    if '_tsolve_depth' not in flags:
++        flags['_tsolve_depth'] = 0
++    flags['_tsolve_depth'] += 1
++    
++    # If we've recursed too deeply, bail out
++    if flags['_tsolve_depth'] > 10:
++        flags['_tsolve_depth'] -= 1
++        return None
+ 
+     rhs, lhs = _invert(eq, sym)
+ 
+     if lhs == sym:
++        flags['_tsolve_depth'] -= 1
+         return [rhs]
+     try:
+         if lhs.is_Add:
+@@ -2656,19 +2667,28 @@ def _tsolve(eq, sym, **flags):
+                 f = logcombine(lhs, force=flags.get('force', True))
+                 if f.count(log) != lhs.count(log):
+                     if isinstance(f, log):
+-                        return _vsolve(f.args[0] - exp(rhs), sym, **flags)
+-                    return _tsolve(f - rhs, sym, **flags)
++                        result = _vsolve(f.args[0] - exp(rhs), sym, **flags)
++                        flags['_tsolve_depth'] -= 1
++                        return result
++                    result = _tsolve(f - rhs, sym, **flags)
++                    flags['_tsolve_depth'] -= 1
++                    return result
+ 
+         elif lhs.is_Pow:
+             if lhs.exp.is_Integer:
+                 if lhs - rhs != eq:
+-                    return _vsolve(lhs - rhs, sym, **flags)
++                    result = _vsolve(lhs - rhs, sym, **flags)
++                    flags['_tsolve_depth'] -= 1
++                    return result
+ 
+             if sym not in lhs.exp.free_symbols:
+-                return _vsolve(lhs.base - rhs**(1/lhs.exp), sym, **flags)
++                result = _vsolve(lhs.base - rhs**(1/lhs.exp), sym, **flags)
++                flags['_tsolve_depth'] -= 1
++                return result
+ 
+             # _tsolve calls this with Dummy before passing the actual number in.
+             if any(t.is_Dummy for t in rhs.free_symbols):
++                flags['_tsolve_depth'] -= 1
+                 raise NotImplementedError # _tsolve will call here again...
+ 
+             # a ** g(x) == 0
+@@ -2676,12 +2696,16 @@ def _tsolve(eq, sym, **flags):
+                 # f(x)**g(x) only has solutions where f(x) == 0 and g(x) != 0 at
+                 # the same place
+                 sol_base = _vsolve(lhs.base, sym, **flags)
+-                return [s for s in sol_base if lhs.exp.subs(sym, s) != 0]  # XXX use checksol here?
++                result = [s for s in sol_base if lhs.exp.subs(sym, s) != 0]  # XXX use checksol here?
++                flags['_tsolve_depth'] -= 1
++                return result
+ 
+             # a ** g(x) == b
+             if not lhs.base.has(sym):
+                 if lhs.base == 0:
+-                    return _vsolve(lhs.exp, sym, **flags) if rhs != 0 else []
++                    result = _vsolve(lhs.exp, sym, **flags) if rhs != 0 else []
++                    flags['_tsolve_depth'] -= 1
++                    return result
+ 
+                 # Gets most solutions...
+                 if lhs.base == rhs.as_base_exp()[0]:
+@@ -2713,6 +2737,7 @@ def _tsolve(eq, sym, **flags):
+                     sol = [s for s in sol if not equal(lhs.exp.subs(sym, s), e_rat)]
+                     sol.extend(_vsolve(lhs.exp - e_rat, sym, **flags))
+ 
++                flags['_tsolve_depth'] -= 1
+                 return list(set(sol))
+ 
+             # f(x) ** g(x) == c
+@@ -2757,6 +2782,7 @@ def _tsolve(eq, sym, **flags):
+                         ok = eq.subs(sym, s).equals(0)
+                     if ok:
+                         sol.append(s)
++                flags['_tsolve_depth'] -= 1
+                 return list(set(sol))
+ 
+         elif lhs.is_Function and len(lhs.args) == 1:
+@@ -2765,13 +2791,18 @@ def _tsolve(eq, sym, **flags):
+                 soln = []
+                 for i in multi_inverses[type(lhs)](rhs):
+                     soln.extend(_vsolve(lhs.args[0] - i, sym, **flags))
++                flags['_tsolve_depth'] -= 1
+                 return list(set(soln))
+             elif lhs.func == LambertW:
+-                return _vsolve(lhs.args[0] - rhs*exp(rhs), sym, **flags)
++                result = _vsolve(lhs.args[0] - rhs*exp(rhs), sym, **flags)
++                flags['_tsolve_depth'] -= 1
++                return result
+ 
+         rewrite = lhs.rewrite(exp)
+         if rewrite != lhs:
+-            return _vsolve(rewrite - rhs, sym, **flags)
++            result = _vsolve(rewrite - rhs, sym, **flags)
++            flags['_tsolve_depth'] -= 1
++            return result
+     except NotImplementedError:
+         pass
+ 
+@@ -2824,6 +2855,7 @@ def _tsolve(eq, sym, **flags):
+                             ok = _eq.subs(sym, ns).equals(0)
+                         if ok:
+                             sols[n] = ns
++                flags['_tsolve_depth'] -= 1
+                 return sols
+             except NotImplementedError:
+                 # maybe it's a convoluted function
+@@ -2837,6 +2869,7 @@ def _tsolve(eq, sym, **flags):
+                         inversion = _tsolve(g - u, sym, **flags)
+                         if inversion:
+                             sol = _vsolve(p, u, **flags)
++                            flags['_tsolve_depth'] -= 1
+                             return list({i.subs(u, s)
+                                 for i in inversion for s in sol})
+                     except NotImplementedError:
+@@ -2848,6 +2881,7 @@ def _tsolve(eq, sym, **flags):
+         flags['force'] = False
+         pos, reps = posify(lhs - rhs)
+         if rhs == S.ComplexInfinity:
++            flags['_tsolve_depth'] -= 1
+             return []
+         for u, s in reps.items():
+             if s == sym:
+@@ -2857,12 +2891,14 @@ def _tsolve(eq, sym, **flags):
+         if pos.has(u):
+             try:
+                 soln = _vsolve(pos, u, **flags)
++                flags['_tsolve_depth'] -= 1
+                 return [s.subs(reps) for s in soln]
+             except NotImplementedError:
+                 pass
+         else:
+             pass  # here for coverage
+ 
++    flags['_tsolve_depth'] -= 1
+     return  # here for coverage
+ 
+ 
+@@ -3635,4 +3671,4 @@ def unrad(eq, *syms, **flags):
+ 
+ # delayed imports
+ from sympy.solvers.bivariate import (
+-    bivariate_type, _solve_lambert, _filtered_gens)
++    bivariate_type, _solve_lambert, _filtered_gens)

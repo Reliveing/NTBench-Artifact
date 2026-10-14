@@ -1,0 +1,55 @@
+--- a/home/sympy/sympy/concrete/summations.py	2026-06-25 12:08:05.317818171 +0000
++++ b/home/sympy/sympy/concrete/summations.py	2026-06-25 12:08:05.308541579 +0000
+@@ -1154,7 +1154,12 @@
+         if a == S.NegativeInfinity:
+             res = _eval_sum_hyper(f.subs(i, -i), i, -b)
+             if res is not None:
+-                return Piecewise(res, (old_sum, True))
++                r = Piecewise(res, (old_sum, True))
++                if not isinstance(r, Piecewise):
++                    if r == old_sum:
++                        return None
++                    return r
++                return r
+         else:
+             res1 = _eval_sum_hyper(f, i, a)
+             res2 = _eval_sum_hyper(f, i, b + 1)
+@@ -1164,7 +1169,12 @@
+             cond = And(cond1, cond2)
+             if cond == False:
+                 return None
+-            return Piecewise((res1 - res2, cond), (old_sum, True))
++            r = Piecewise((res1 - res2, cond), (old_sum, True))
++            if not isinstance(r, Piecewise):
++                if r == old_sum:
++                    return None
++                return r
++            return r
+ 
+     if a == S.NegativeInfinity:
+         res1 = _eval_sum_hyper(f.subs(i, -i), i, 1)
+@@ -1176,7 +1186,12 @@
+         cond = And(cond1, cond2)
+         if cond == False:
+             return None
+-        return Piecewise((res1 + res2, cond), (old_sum, True))
++        r = Piecewise((res1 + res2, cond), (old_sum, True))
++        if not isinstance(r, Piecewise):
++            if r == old_sum:
++                return None
++            return r
++        return r
+ 
+     # Now b == oo, a != -oo
+     res = _eval_sum_hyper(f, i, a)
+@@ -1190,4 +1205,9 @@
+                 elif f.is_negative:
+                     return S.NegativeInfinity
+             return None
+-        return Piecewise(res, (old_sum, True))
++        result = Piecewise(res, (old_sum, True))
++        if not isinstance(result, Piecewise):
++            if result == old_sum:
++                return None
++            return result
++        return result

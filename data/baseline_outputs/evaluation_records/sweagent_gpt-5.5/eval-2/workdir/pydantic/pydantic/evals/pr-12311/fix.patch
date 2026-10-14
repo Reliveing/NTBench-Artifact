@@ -1,0 +1,67 @@
+diff --git a/pydantic/json_schema.py b/pydantic/json_schema.py
+index f5cc325be..9c20d030b 100644
+--- a/pydantic/json_schema.py
++++ b/pydantic/json_schema.py
+@@ -413,7 +413,7 @@ class GenerateJsonSchema:
+         definitions_remapping = self._build_definitions_remapping()
+ 
+         if self.definitions:
+-            json_schema['$defs'] = self.definitions
++            json_schema['$defs'] = {**self.definitions, **json_schema.get('$defs', {})}
+ 
+         json_schema = definitions_remapping.remap_json_schema(json_schema)
+ 
+@@ -2367,8 +2367,12 @@ class GenerateJsonSchema:
+                             raise self._core_defs_invalid_for_json_schema[defs_ref]
+                         _add_json_refs(self.definitions[defs_ref])
+                     except KeyError:
+-                        if not json_ref.startswith(('http://', 'https://')):
++                        if json_ref.startswith(('http://', 'https://')):
++                            return
++                        referenced_schema = _get_schema_from_json_pointer(json_schema, json_ref)
++                        if referenced_schema is None:
+                             raise
++                        _add_json_refs(referenced_schema)
+ 
+                 for k, v in schema.items():
+                     if k == 'examples' and isinstance(v, list):
+@@ -2436,7 +2440,9 @@ class GenerateJsonSchema:
+                 visited_defs_refs.add(next_defs_ref)
+                 unvisited_json_refs.update(_get_all_json_refs(self.definitions[next_defs_ref]))
+             except KeyError:
+-                if not next_json_ref.startswith(('http://', 'https://')):
++                if next_json_ref.startswith(('http://', 'https://')):
++                    continue
++                if _get_schema_from_json_pointer(schema, next_json_ref) is None:
+                     raise
+ 
+         self.definitions = {k: v for k, v in self.definitions.items() if k in visited_defs_refs}
+@@ -2660,6 +2666,28 @@ class Examples:
+         return hash(type(self.mode))
+ 
+ 
++def _get_schema_from_json_pointer(schema: Any, json_ref: JsonRef) -> Any | None:
++    if json_ref == '#':
++        return schema
++    if not json_ref.startswith('#/'):
++        return None
++
++    current = schema
++    for part in json_ref[2:].split('/'):
++        part = part.replace('~1', '/').replace('~0', '~')
++        if isinstance(current, dict):
++            if part not in current:
++                return None
++            current = current[part]
++        elif isinstance(current, list):
++            try:
++                current = current[int(part)]
++            except (IndexError, ValueError):
++                return None
++        else:
++            return None
++    return current
++
+ def _get_all_json_refs(item: Any) -> set[JsonRef]:
+     """Get all the definitions references from a JSON schema."""
+     refs: set[JsonRef] = set()

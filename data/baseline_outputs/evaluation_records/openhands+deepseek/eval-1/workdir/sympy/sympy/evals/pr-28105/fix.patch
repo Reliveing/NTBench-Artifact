@@ -1,0 +1,76 @@
+diff --git a/sympy/solvers/simplex.py b/sympy/solvers/simplex.py
+index f140268b79..24e8e4c471 100644
+--- a/sympy/solvers/simplex.py
++++ b/sympy/solvers/simplex.py
+@@ -298,8 +298,9 @@ def _simplex(A, B, C, D=None, dual=False):
+ 
+     # Phase 1: find a feasible solution or determine none exist
+ 
+-    ## keep track of last pivot row and column
+-    last = None
++    ## keep track of pivot rows and columns to detect cycling
++    seen = set()
++    cycled = False
+ 
+     while True:
+         B = M[:-1, -1]
+@@ -327,31 +328,22 @@ def _simplex(A, B, C, D=None, dual=False):
+         piv_rows.append(k)
+         r = _choose_pivot_row(A, B, piv_rows, c, Y)
+ 
+-        # check for oscillation
+-        if (r, c) == last:
+-            # Not sure what to do here; it looks like there will be
+-            # oscillations; see o1 test added at this commit to
+-            # see a system with no solution and the o2 for one
+-            # with a solution. In the case of o2, the solution
+-            # from linprog is the same as the one from lpmin, but
+-            # the matrices created in the lpmin case are different
+-            # than those created without replacements in linprog and
+-            # the matrices in the linprog case lead to oscillations.
+-            # If the matrices could be re-written in linprog like
+-            # lpmin does, this behavior could be avoided and then
+-            # perhaps the oscillating case would only occur when
+-            # there is no solution. For now, the output is checked
+-            # before exit if oscillations were detected and an
+-            # error is raised there if the solution was invalid.
+-            #
+-            # cf section 6 of Ferguson for a non-cycling modification
+-            last = True
++        # check for cycling: if the same pivot has been used before,
++        # break out of Phase 1 and check feasibility after Phase 2
++        if (r, c) in seen:
++            cycled = True
+             break
+-        last = r, c
++        seen.add((r, c))
+ 
+         M = _pivot(M, r, c)
+         X[c], Y[r] = Y[r], X[c]
+ 
++    # If Phase 1 terminated due to cycling and the objective is constant
++    # (all zeros), there is no feasible solution.
++    if cycled and not any(M[-1, :-1]):
++        raise InfeasibleLPError(filldedent("""
++            The constraint set is empty!"""))
++
+     # Phase 2: from a feasible solution, pivot to optimal
+     while True:
+         B = M[:-1, -1]
+@@ -390,11 +382,12 @@ def _simplex(A, B, C, D=None, dual=False):
+         else:
+             argmax[n] = M[i, -1]
+ 
+-    if last and not all(i >= 0 for i in argmax + argmin_dual):
++    # If Phase 1 was interrupted by cycling, verify that the solution
++    # satisfies nonnegativity. If not, the problem is infeasible.
++    if cycled and not all(i >= 0 for i in argmax + argmin_dual):
+         raise InfeasibleLPError(filldedent("""
+-            Oscillating system led to invalid solution.
+-            If you believe there was a valid solution, please
+-            report this as a bug."""))
++            The constraint set is empty!"""))
++
+     return -M[-1, -1], argmax, argmin_dual
+ 
+ 

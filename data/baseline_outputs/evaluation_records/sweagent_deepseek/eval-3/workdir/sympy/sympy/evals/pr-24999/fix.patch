@@ -1,0 +1,15 @@
+--- a/sympy/solvers/solvers.py
++++ b/sympy/solvers/solvers.py
+@@ -1299,6 +1299,12 @@
+ 
+     not_impl_msg = "No algorithms are implemented to solve equation %s"
+ 
++    if '_solve_recursion_depth' not in flags:
++        flags['_solve_recursion_depth'] = [0]
++    flags['_solve_recursion_depth'][0] += 1
++    if flags['_solve_recursion_depth'][0] > 50:
++        raise NotImplementedError(not_impl_msg % f)
++
+     if len(symbols) != 1:
+         # look for solutions for desired symbols that are independent
+         # of symbols already solved for, e.g. if we solve for x = y

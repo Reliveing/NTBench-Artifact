@@ -1,0 +1,100 @@
+diff --git a/sympy/series/limits.py b/sympy/series/limits.py
+index de5731ce14..480f02ac66 100644
+--- a/sympy/series/limits.py
++++ b/sympy/series/limits.py
+@@ -18,14 +18,26 @@ def limit(e, z, z0, dir="+"):
+     """
+     Compute the limit of ``e(z)`` at the point ``z0``.
+ 
+-    ``z0`` can be any expression, including ``oo`` and ``-oo``.
++    Parameters
++    ==========
+ 
+-    For ``dir="+-"`` it calculates the bi-directional limit; for
+-    ``dir="+"`` (default) it calculates the limit from the right
+-    (z->z0+) and for dir="-" the limit from the left (z->z0-).
+-    For infinite ``z0`` (``oo`` or ``-oo``), the ``dir`` argument is
+-    determined from the direction of the infinity (i.e.,
+-    ``dir="-"`` for ``oo``).
++    e : Expr
++        The expression whose limit is to be taken.
++
++    z : Symbol
++        The variable in the expression whose limit is to be taken.
++
++    z0 : Expr
++        The value toward which ``z`` tends. Can be any expression,
++        including ``oo`` and ``-oo``.
++
++    dir : str, optional
++        The direction for the limit. For ``dir="+-"`` the limit is
++        bi-directional, for ``dir="+"`` (default) it is from the right
++        (``z->z0+``), and for ``dir="-"`` it is from the left
++        (``z->z0-``). For infinite ``z0`` (``oo`` or ``-oo``), the
++        ``dir`` argument is determined from the direction of the
++        infinity, i.e. ``dir="-"`` for ``oo``.
+ 
+     Examples
+     ========
+@@ -51,7 +63,13 @@ def limit(e, z, z0, dir="+"):
+ 
+     First we try some heuristics for easy and frequent cases like "x", "1/x",
+     "x**2" and similar, so that it's fast. For all other cases, we use the
+-    Gruntz algorithm (see the gruntz() function).
++    Gruntz algorithm (see the gruntz() function). For limits of sequences,
++    use ``limit_seq``.
++
++    See Also
++    ========
++
++    sympy.series.limitseq.limit_seq : returns limits of sequences.
+     """
+ 
+     if dir == "+-":
+@@ -172,8 +190,16 @@ def free_symbols(self):
+ 
+ 
+     def doit(self, **hints):
+-        """Evaluates limit"""
+-        from sympy.series.limitseq import limit_seq
++        """
++        Evaluates the limit.
++
++        Parameters
++        ==========
++
++        deep : bool, optional
++            Invoke the ``doit`` method of the expressions involved before
++            taking the limit. The default is ``True``.
++        """
+         from sympy.functions import RisingFactorial
+ 
+         e, z, z0, dir = self.args
+@@ -232,14 +258,5 @@ def doit(self, **hints):
+             r = heuristics(e, z, z0, dir)
+             if r is None:
+                 return self
+-        except NotImplementedError:
+-            # Trying finding limits of sequences
+-            if hints.get('sequence', True) and z0 is S.Infinity:
+-                trials = hints.get('trials', 5)
+-                r = limit_seq(e, z, trials)
+-                if r is None:
+-                    raise NotImplementedError()
+-            else:
+-                raise NotImplementedError()
+ 
+         return r
+diff --git a/sympy/series/limitseq.py b/sympy/series/limitseq.py
+index 6a23326972..79843887a3 100644
+--- a/sympy/series/limitseq.py
++++ b/sympy/series/limitseq.py
+@@ -102,7 +102,7 @@ def dominant(expr, n):
+ 
+ def _limit_inf(expr, n):
+     try:
+-        return Limit(expr, n, S.Infinity).doit(deep=False, sequence=False)
++        return Limit(expr, n, S.Infinity).doit(deep=False)
+     except (NotImplementedError, PoleError):
+         return None
+ 

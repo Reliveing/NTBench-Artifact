@@ -1,0 +1,13 @@
+--- a/sympy/core/mul.py
++++ b/sympy/core/mul.py
+@@ -580,6 +580,9 @@
+         pnew = defaultdict(list)
+         i = 0  # steps through num_rat which may grow
+         while i < len(num_rat):
+             bi, ei = num_rat[i]
++            if bi is S.One:
++                i += 1
++                continue
+             grow = []
+             for j in range(i + 1, len(num_rat)):
+                 bj, ej = num_rat[j]

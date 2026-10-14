@@ -1,0 +1,32 @@
+diff --git a/CHANGES/11603.bugfix.rst b/CHANGES/11603.bugfix.rst
+new file mode 100644
+index 000000000..373625a7f
+--- /dev/null
++++ b/CHANGES/11603.bugfix.rst
+@@ -0,0 +1 @@
++Fixed decoding of ``zstd`` encoded responses that contain multiple Zstandard frames.
+diff --git a/aiohttp/compression_utils.py b/aiohttp/compression_utils.py
+index 0bc4a30d8..c46560679 100644
+--- a/aiohttp/compression_utils.py
++++ b/aiohttp/compression_utils.py
+@@ -342,7 +342,19 @@ class ZSTDDecompressor(DecompressionBaseHandler):
+             if max_length == ZLIB_MAX_LENGTH_UNLIMITED
+             else max_length
+         )
+-        return self._obj.decompress(data, zstd_max_length)
++        # ZstdDecompressor does not transparently handle inputs containing
++        # multiple frames. Once a frame ends the decompressor reaches eof and
++        # can no longer be used, so a fresh decompressor is needed for each
++        # subsequent frame. Frames may span multiple calls or arrive together
++        # within a single call. See:
++        # https://docs.python.org/3/library/compression.zstd.html#compression.zstd.ZstdDecompressor
++        if self._obj.eof:
++            self._obj = ZstdDecompressor()
++        result = self._obj.decompress(data, zstd_max_length)
++        while self._obj.eof and (data := self._obj.unused_data):
++            self._obj = ZstdDecompressor()
++            result += self._obj.decompress(data, zstd_max_length)
++        return result
+ 
+     def flush(self) -> bytes:
+         return b""

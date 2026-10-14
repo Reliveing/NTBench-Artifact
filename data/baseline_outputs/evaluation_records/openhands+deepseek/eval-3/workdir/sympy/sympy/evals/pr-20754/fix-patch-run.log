@@ -1,0 +1,316 @@
+Obtaining file:///home/sympy
+  Installing build dependencies: started
+  Installing build dependencies: finished with status 'done'
+  Checking if build backend supports build_editable: started
+  Checking if build backend supports build_editable: finished with status 'done'
+  Getting requirements to build editable: started
+  Getting requirements to build editable: finished with status 'done'
+  Preparing editable metadata (pyproject.toml): started
+  Preparing editable metadata (pyproject.toml): finished with status 'done'
+Requirement already satisfied: mpmath>=0.19 in /usr/local/lib/python3.11/site-packages (from sympy==1.8.dev0) (1.4.1)
+Building wheels for collected packages: sympy
+  Building editable for sympy (pyproject.toml): started
+  Building editable for sympy (pyproject.toml): finished with status 'done'
+  Created wheel for sympy: filename=sympy-1.8.dev0-0.editable-py3-none-any.whl size=27180 sha256=ace969ae6f3c8c12261917490dd063db7d168de0082faed20e11aadf6035114a
+  Stored in directory: /tmp/pip-ephem-wheel-cache-nez3agap/wheels/af/22/61/2ece34a734d21005537313f7f88a33ef281f3770719986eb88
+Successfully built sympy
+Installing collected packages: sympy
+  Attempting uninstall: sympy
+    Found existing installation: sympy 1.8.dev0
+    Uninstalling sympy-1.8.dev0:
+      Successfully uninstalled sympy-1.8.dev0
+Successfully installed sympy-1.8.dev0
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+
+[notice] A new release of pip is available: 26.0.1 -> 26.2.1
+[notice] To update, run: pip install --upgrade pip
+============================= test session starts ==============================
+collecting ... collected 131 items
+
+sympy/series/tests/test_limits.py::test_basic1 PASSED                    [  0%]
+sympy/series/tests/test_limits.py::test_basic2 PASSED                    [  1%]
+sympy/series/tests/test_limits.py::test_basic3 PASSED                    [  2%]
+sympy/series/tests/test_limits.py::test_basic4 PASSED                    [  3%]
+sympy/series/tests/test_limits.py::test_basic5 PASSED                    [  3%]
+sympy/series/tests/test_limits.py::test_issue_3885 PASSED                [  4%]
+sympy/series/tests/test_limits.py::test_Limit PASSED                     [  5%]
+sympy/series/tests/test_limits.py::test_floor PASSED                     [  6%]
+sympy/series/tests/test_limits.py::test_floor_requires_robust_assumptions PASSED [  6%]
+sympy/series/tests/test_limits.py::test_ceiling PASSED                   [  7%]
+sympy/series/tests/test_limits.py::test_ceiling_requires_robust_assumptions PASSED [  8%]
+sympy/series/tests/test_limits.py::test_atan PASSED                      [  9%]
+sympy/series/tests/test_limits.py::test_abs PASSED                       [  9%]
+sympy/series/tests/test_limits.py::test_heuristic PASSED                 [ 10%]
+sympy/series/tests/test_limits.py::test_issue_3871 PASSED                [ 11%]
+sympy/series/tests/test_limits.py::test_exponential PASSED               [ 12%]
+sympy/series/tests/test_limits.py::test_exponential2 PASSED              [ 12%]
+sympy/series/tests/test_limits.py::test_doit PASSED                      [ 13%]
+sympy/series/tests/test_limits.py::test_AccumBounds PASSED               [ 14%]
+sympy/series/tests/test_limits.py::test_doit2 XFAIL                      [ 15%]
+sympy/series/tests/test_limits.py::test_issue_2929 PASSED                [ 16%]
+sympy/series/tests/test_limits.py::test_issue_3792 PASSED                [ 16%]
+sympy/series/tests/test_limits.py::test_issue_4090 PASSED                [ 17%]
+sympy/series/tests/test_limits.py::test_issue_4547 PASSED                [ 18%]
+sympy/series/tests/test_limits.py::test_issue_5164 PASSED                [ 19%]
+sympy/series/tests/test_limits.py::test_issue_5383 PASSED                [ 19%]
+sympy/series/tests/test_limits.py::test_issue_14793 PASSED               [ 20%]
+sympy/series/tests/test_limits.py::test_issue_5183 PASSED                [ 21%]
+sympy/series/tests/test_limits.py::test_issue_5184 PASSED                [ 22%]
+sympy/series/tests/test_limits.py::test_issue_5229 PASSED                [ 22%]
+sympy/series/tests/test_limits.py::test_issue_4546 PASSED                [ 23%]
+sympy/series/tests/test_limits.py::test_issue_3934 PASSED                [ 24%]
+sympy/series/tests/test_limits.py::test_calculate_series PASSED          [ 25%]
+sympy/series/tests/test_limits.py::test_issue_5955 PASSED                [ 25%]
+sympy/series/tests/test_limits.py::test_newissue PASSED                  [ 26%]
+sympy/series/tests/test_limits.py::test_extended_real_line PASSED        [ 27%]
+sympy/series/tests/test_limits.py::test_order_oo XFAIL                   [ 28%]
+sympy/series/tests/test_limits.py::test_issue_5436 PASSED                [ 29%]
+sympy/series/tests/test_limits.py::test_Limit_dir PASSED                 [ 29%]
+sympy/series/tests/test_limits.py::test_polynomial PASSED                [ 30%]
+sympy/series/tests/test_limits.py::test_rational PASSED                  [ 31%]
+sympy/series/tests/test_limits.py::test_issue_5740 PASSED                [ 32%]
+sympy/series/tests/test_limits.py::test_issue_6366 PASSED                [ 32%]
+sympy/series/tests/test_limits.py::test_factorial PASSED                 [ 33%]
+sympy/series/tests/test_limits.py::test_issue_6560 PASSED                [ 34%]
+sympy/series/tests/test_limits.py::test_issue_5172 XFAIL                 [ 35%]
+sympy/series/tests/test_limits.py::test_issue_7088 PASSED                [ 35%]
+sympy/series/tests/test_limits.py::test_branch_cuts PASSED               [ 36%]
+sympy/series/tests/test_limits.py::test_issue_6364 PASSED                [ 37%]
+sympy/series/tests/test_limits.py::test_issue_4099 PASSED                [ 38%]
+sympy/series/tests/test_limits.py::test_issue_4503 PASSED                [ 38%]
+sympy/series/tests/test_limits.py::test_issue_8208 PASSED                [ 39%]
+sympy/series/tests/test_limits.py::test_issue_8229 PASSED                [ 40%]
+sympy/series/tests/test_limits.py::test_issue_8433 PASSED                [ 41%]
+sympy/series/tests/test_limits.py::test_issue_8481 PASSED                [ 41%]
+sympy/series/tests/test_limits.py::test_issue_8730 PASSED                [ 42%]
+sympy/series/tests/test_limits.py::test_issue_9252 PASSED                [ 43%]
+sympy/series/tests/test_limits.py::test_issue_9449 FAILED                [ 44%]
+sympy/series/tests/test_limits.py::test_issue_9558 PASSED                [ 45%]
+sympy/series/tests/test_limits.py::test_issue_10801 PASSED               [ 45%]
+sympy/series/tests/test_limits.py::test_issue_10976 PASSED               [ 46%]
+sympy/series/tests/test_limits.py::test_issue_9041 PASSED                [ 47%]
+sympy/series/tests/test_limits.py::test_issue_9205 PASSED                [ 48%]
+sympy/series/tests/test_limits.py::test_issue_9471 PASSED                [ 48%]
+sympy/series/tests/test_limits.py::test_issue_11496 PASSED               [ 49%]
+sympy/series/tests/test_limits.py::test_issue_11879 PASSED               [ 50%]
+sympy/series/tests/test_limits.py::test_limit_with_Float PASSED          [ 51%]
+sympy/series/tests/test_limits.py::test_issue_10610 PASSED               [ 51%]
+sympy/series/tests/test_limits.py::test_issue_6599 PASSED                [ 52%]
+sympy/series/tests/test_limits.py::test_issue_12398 PASSED               [ 53%]
+sympy/series/tests/test_limits.py::test_issue_12555 PASSED               [ 54%]
+sympy/series/tests/test_limits.py::test_issue_12769 PASSED               [ 54%]
+sympy/series/tests/test_limits.py::test_issue_13332 PASSED               [ 55%]
+sympy/series/tests/test_limits.py::test_issue_12564 PASSED               [ 56%]
+sympy/series/tests/test_limits.py::test_issue_14456 PASSED               [ 57%]
+sympy/series/tests/test_limits.py::test_issue_14411 PASSED               [ 58%]
+sympy/series/tests/test_limits.py::test_issue_13382 PASSED               [ 58%]
+sympy/series/tests/test_limits.py::test_issue_13403 PASSED               [ 59%]
+sympy/series/tests/test_limits.py::test_issue_13416 PASSED               [ 60%]
+sympy/series/tests/test_limits.py::test_issue_13462 PASSED               [ 61%]
+sympy/series/tests/test_limits.py::test_issue_13750 PASSED               [ 61%]
+sympy/series/tests/test_limits.py::test_issue_14514 PASSED               [ 62%]
+sympy/series/tests/test_limits.py::test_issue_14574 PASSED               [ 63%]
+sympy/series/tests/test_limits.py::test_issue_10102 PASSED               [ 64%]
+sympy/series/tests/test_limits.py::test_issue_14377 PASSED               [ 64%]
+sympy/series/tests/test_limits.py::test_issue_15146 PASSED               [ 65%]
+sympy/series/tests/test_limits.py::test_issue_15202 PASSED               [ 66%]
+sympy/series/tests/test_limits.py::test_issue_15282 PASSED               [ 67%]
+sympy/series/tests/test_limits.py::test_issue_15984 PASSED               [ 67%]
+sympy/series/tests/test_limits.py::test_issue_13571 PASSED               [ 68%]
+sympy/series/tests/test_limits.py::test_issue_13575 PASSED               [ 69%]
+sympy/series/tests/test_limits.py::test_issue_17325 PASSED               [ 70%]
+sympy/series/tests/test_limits.py::test_issue_10978 PASSED               [ 70%]
+sympy/series/tests/test_limits.py::test_issue_14313_comment PASSED       [ 71%]
+sympy/series/tests/test_limits.py::test_issue_15323 XFAIL                [ 72%]
+sympy/series/tests/test_limits.py::test_issue_12571 PASSED               [ 73%]
+sympy/series/tests/test_limits.py::test_issue_14590 PASSED               [ 74%]
+sympy/series/tests/test_limits.py::test_issue_14393 PASSED               [ 74%]
+sympy/series/tests/test_limits.py::test_issue_14556 PASSED               [ 75%]
+sympy/series/tests/test_limits.py::test_issue_14811 PASSED               [ 76%]
+sympy/series/tests/test_limits.py::test_issue_14874 PASSED               [ 77%]
+sympy/series/tests/test_limits.py::test_issue_16222 PASSED               [ 77%]
+sympy/series/tests/test_limits.py::test_issue_16714 PASSED               [ 78%]
+sympy/series/tests/test_limits.py::test_issue_16722 PASSED               [ 79%]
+sympy/series/tests/test_limits.py::test_issue_17431 PASSED               [ 80%]
+sympy/series/tests/test_limits.py::test_issue_17671 PASSED               [ 80%]
+sympy/series/tests/test_limits.py::test_issue_17751 PASSED               [ 81%]
+sympy/series/tests/test_limits.py::test_issue_17792 PASSED               [ 82%]
+sympy/series/tests/test_limits.py::test_issue_18118 PASSED               [ 83%]
+sympy/series/tests/test_limits.py::test_issue_18306 PASSED               [ 83%]
+sympy/series/tests/test_limits.py::test_issue_18378 PASSED               [ 84%]
+sympy/series/tests/test_limits.py::test_issue_18399 PASSED               [ 85%]
+sympy/series/tests/test_limits.py::test_issue_18442 PASSED               [ 86%]
+sympy/series/tests/test_limits.py::test_issue_18452 PASSED               [ 87%]
+sympy/series/tests/test_limits.py::test_issue_18482 PASSED               [ 87%]
+sympy/series/tests/test_limits.py::test_issue_18501 PASSED               [ 88%]
+sympy/series/tests/test_limits.py::test_issue_18508 PASSED               [ 89%]
+sympy/series/tests/test_limits.py::test_issue_18969 PASSED               [ 90%]
+sympy/series/tests/test_limits.py::test_issue_18992 PASSED               [ 90%]
+sympy/series/tests/test_limits.py::test_issue_18997 PASSED               [ 91%]
+sympy/series/tests/test_limits.py::test_issue_19026 PASSED               [ 92%]
+sympy/series/tests/test_limits.py::test_issue_19067 PASSED               [ 93%]
+sympy/series/tests/test_limits.py::test_issue_19586 PASSED               [ 93%]
+sympy/series/tests/test_limits.py::test_issue_13715 PASSED               [ 94%]
+sympy/series/tests/test_limits.py::test_issue_15055 PASSED               [ 95%]
+sympy/series/tests/test_limits.py::test_issue_16708 PASSED               [ 96%]
+sympy/series/tests/test_limits.py::test_issue_19739 PASSED               [ 96%]
+sympy/series/tests/test_limits.py::test_issue_19766 PASSED               [ 97%]
+sympy/series/tests/test_limits.py::test_issue_19770 PASSED               [ 98%]
+sympy/series/tests/test_limits.py::test_issue_7535 PASSED                [ 99%]
+sympy/series/tests/test_limits.py::test_issue_20704 PASSED               [100%]
+
+=============================== warnings summary ===============================
+../../usr/local/lib/python3.11/site-packages/mpmath/ctx_mp.py:35
+  /usr/local/lib/python3.11/site-packages/mpmath/ctx_mp.py:35: DeprecationWarning: mpnumeric is deprecated
+    warnings.warn(f"{name} is deprecated", DeprecationWarning)
+
+../../usr/local/lib/python3.11/site-packages/mpmath/rational.py:4
+../../usr/local/lib/python3.11/site-packages/mpmath/rational.py:4
+../../usr/local/lib/python3.11/site-packages/mpmath/rational.py:4
+  /usr/local/lib/python3.11/site-packages/mpmath/rational.py:4: DeprecationWarning: the rational private module is deprecated
+    warnings.warn("the rational private module is deprecated",
+
+../../usr/local/lib/python3.11/site-packages/_pytest/config/__init__.py:1428
+  /usr/local/lib/python3.11/site-packages/_pytest/config/__init__.py:1428: PytestConfigWarning: Unknown config option: doctestplus
+  
+    self._warn_or_fail_if_strict(f"Unknown config option: {key}\n")
+
+sympy/series/tests/test_limits.py: 4205 warnings
+  /usr/local/lib/python3.11/site-packages/mpmath/libmp/libintmath.py:75: DeprecationWarning: bitcount function is deprecated
+    warnings.warn("bitcount function is deprecated",
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+                                DO *NOT* COMMIT!                                
+=========================== short test summary info ============================
+PASSED sympy/series/tests/test_limits.py::test_basic1
+PASSED sympy/series/tests/test_limits.py::test_basic2
+PASSED sympy/series/tests/test_limits.py::test_basic3
+PASSED sympy/series/tests/test_limits.py::test_basic4
+PASSED sympy/series/tests/test_limits.py::test_basic5
+PASSED sympy/series/tests/test_limits.py::test_issue_3885
+PASSED sympy/series/tests/test_limits.py::test_Limit
+PASSED sympy/series/tests/test_limits.py::test_floor
+PASSED sympy/series/tests/test_limits.py::test_floor_requires_robust_assumptions
+PASSED sympy/series/tests/test_limits.py::test_ceiling
+PASSED sympy/series/tests/test_limits.py::test_ceiling_requires_robust_assumptions
+PASSED sympy/series/tests/test_limits.py::test_atan
+PASSED sympy/series/tests/test_limits.py::test_abs
+PASSED sympy/series/tests/test_limits.py::test_heuristic
+PASSED sympy/series/tests/test_limits.py::test_issue_3871
+PASSED sympy/series/tests/test_limits.py::test_exponential
+PASSED sympy/series/tests/test_limits.py::test_exponential2
+PASSED sympy/series/tests/test_limits.py::test_doit
+PASSED sympy/series/tests/test_limits.py::test_AccumBounds
+PASSED sympy/series/tests/test_limits.py::test_issue_2929
+PASSED sympy/series/tests/test_limits.py::test_issue_3792
+PASSED sympy/series/tests/test_limits.py::test_issue_4090
+PASSED sympy/series/tests/test_limits.py::test_issue_4547
+PASSED sympy/series/tests/test_limits.py::test_issue_5164
+PASSED sympy/series/tests/test_limits.py::test_issue_5383
+PASSED sympy/series/tests/test_limits.py::test_issue_14793
+PASSED sympy/series/tests/test_limits.py::test_issue_5183
+PASSED sympy/series/tests/test_limits.py::test_issue_5184
+PASSED sympy/series/tests/test_limits.py::test_issue_5229
+PASSED sympy/series/tests/test_limits.py::test_issue_4546
+PASSED sympy/series/tests/test_limits.py::test_issue_3934
+PASSED sympy/series/tests/test_limits.py::test_calculate_series
+PASSED sympy/series/tests/test_limits.py::test_issue_5955
+PASSED sympy/series/tests/test_limits.py::test_newissue
+PASSED sympy/series/tests/test_limits.py::test_extended_real_line
+PASSED sympy/series/tests/test_limits.py::test_issue_5436
+PASSED sympy/series/tests/test_limits.py::test_Limit_dir
+PASSED sympy/series/tests/test_limits.py::test_polynomial
+PASSED sympy/series/tests/test_limits.py::test_rational
+PASSED sympy/series/tests/test_limits.py::test_issue_5740
+PASSED sympy/series/tests/test_limits.py::test_issue_6366
+PASSED sympy/series/tests/test_limits.py::test_factorial
+PASSED sympy/series/tests/test_limits.py::test_issue_6560
+PASSED sympy/series/tests/test_limits.py::test_issue_7088
+PASSED sympy/series/tests/test_limits.py::test_branch_cuts
+PASSED sympy/series/tests/test_limits.py::test_issue_6364
+PASSED sympy/series/tests/test_limits.py::test_issue_4099
+PASSED sympy/series/tests/test_limits.py::test_issue_4503
+PASSED sympy/series/tests/test_limits.py::test_issue_8208
+PASSED sympy/series/tests/test_limits.py::test_issue_8229
+PASSED sympy/series/tests/test_limits.py::test_issue_8433
+PASSED sympy/series/tests/test_limits.py::test_issue_8481
+PASSED sympy/series/tests/test_limits.py::test_issue_8730
+PASSED sympy/series/tests/test_limits.py::test_issue_9252
+PASSED sympy/series/tests/test_limits.py::test_issue_9558
+PASSED sympy/series/tests/test_limits.py::test_issue_10801
+PASSED sympy/series/tests/test_limits.py::test_issue_10976
+PASSED sympy/series/tests/test_limits.py::test_issue_9041
+PASSED sympy/series/tests/test_limits.py::test_issue_9205
+PASSED sympy/series/tests/test_limits.py::test_issue_9471
+PASSED sympy/series/tests/test_limits.py::test_issue_11496
+PASSED sympy/series/tests/test_limits.py::test_issue_11879
+PASSED sympy/series/tests/test_limits.py::test_limit_with_Float
+PASSED sympy/series/tests/test_limits.py::test_issue_10610
+PASSED sympy/series/tests/test_limits.py::test_issue_6599
+PASSED sympy/series/tests/test_limits.py::test_issue_12398
+PASSED sympy/series/tests/test_limits.py::test_issue_12555
+PASSED sympy/series/tests/test_limits.py::test_issue_12769
+PASSED sympy/series/tests/test_limits.py::test_issue_13332
+PASSED sympy/series/tests/test_limits.py::test_issue_12564
+PASSED sympy/series/tests/test_limits.py::test_issue_14456
+PASSED sympy/series/tests/test_limits.py::test_issue_14411
+PASSED sympy/series/tests/test_limits.py::test_issue_13382
+PASSED sympy/series/tests/test_limits.py::test_issue_13403
+PASSED sympy/series/tests/test_limits.py::test_issue_13416
+PASSED sympy/series/tests/test_limits.py::test_issue_13462
+PASSED sympy/series/tests/test_limits.py::test_issue_13750
+PASSED sympy/series/tests/test_limits.py::test_issue_14514
+PASSED sympy/series/tests/test_limits.py::test_issue_14574
+PASSED sympy/series/tests/test_limits.py::test_issue_10102
+PASSED sympy/series/tests/test_limits.py::test_issue_14377
+PASSED sympy/series/tests/test_limits.py::test_issue_15146
+PASSED sympy/series/tests/test_limits.py::test_issue_15202
+PASSED sympy/series/tests/test_limits.py::test_issue_15282
+PASSED sympy/series/tests/test_limits.py::test_issue_15984
+PASSED sympy/series/tests/test_limits.py::test_issue_13571
+PASSED sympy/series/tests/test_limits.py::test_issue_13575
+PASSED sympy/series/tests/test_limits.py::test_issue_17325
+PASSED sympy/series/tests/test_limits.py::test_issue_10978
+PASSED sympy/series/tests/test_limits.py::test_issue_14313_comment
+PASSED sympy/series/tests/test_limits.py::test_issue_12571
+PASSED sympy/series/tests/test_limits.py::test_issue_14590
+PASSED sympy/series/tests/test_limits.py::test_issue_14393
+PASSED sympy/series/tests/test_limits.py::test_issue_14556
+PASSED sympy/series/tests/test_limits.py::test_issue_14811
+PASSED sympy/series/tests/test_limits.py::test_issue_14874
+PASSED sympy/series/tests/test_limits.py::test_issue_16222
+PASSED sympy/series/tests/test_limits.py::test_issue_16714
+PASSED sympy/series/tests/test_limits.py::test_issue_16722
+PASSED sympy/series/tests/test_limits.py::test_issue_17431
+PASSED sympy/series/tests/test_limits.py::test_issue_17671
+PASSED sympy/series/tests/test_limits.py::test_issue_17751
+PASSED sympy/series/tests/test_limits.py::test_issue_17792
+PASSED sympy/series/tests/test_limits.py::test_issue_18118
+PASSED sympy/series/tests/test_limits.py::test_issue_18306
+PASSED sympy/series/tests/test_limits.py::test_issue_18378
+PASSED sympy/series/tests/test_limits.py::test_issue_18399
+PASSED sympy/series/tests/test_limits.py::test_issue_18442
+PASSED sympy/series/tests/test_limits.py::test_issue_18452
+PASSED sympy/series/tests/test_limits.py::test_issue_18482
+PASSED sympy/series/tests/test_limits.py::test_issue_18501
+PASSED sympy/series/tests/test_limits.py::test_issue_18508
+PASSED sympy/series/tests/test_limits.py::test_issue_18969
+PASSED sympy/series/tests/test_limits.py::test_issue_18992
+PASSED sympy/series/tests/test_limits.py::test_issue_18997
+PASSED sympy/series/tests/test_limits.py::test_issue_19026
+PASSED sympy/series/tests/test_limits.py::test_issue_19067
+PASSED sympy/series/tests/test_limits.py::test_issue_19586
+PASSED sympy/series/tests/test_limits.py::test_issue_13715
+PASSED sympy/series/tests/test_limits.py::test_issue_15055
+PASSED sympy/series/tests/test_limits.py::test_issue_16708
+PASSED sympy/series/tests/test_limits.py::test_issue_19739
+PASSED sympy/series/tests/test_limits.py::test_issue_19766
+PASSED sympy/series/tests/test_limits.py::test_issue_19770
+PASSED sympy/series/tests/test_limits.py::test_issue_7535
+PASSED sympy/series/tests/test_limits.py::test_issue_20704
+XFAIL sympy/series/tests/test_limits.py::test_doit2
+XFAIL sympy/series/tests/test_limits.py::test_order_oo
+XFAIL sympy/series/tests/test_limits.py::test_issue_5172
+XFAIL sympy/series/tests/test_limits.py::test_issue_15323
+FAILED sympy/series/tests/test_limits.py::test_issue_9449 - RecursionError: m...
+====== 1 failed, 126 passed, 4 xfailed, 4210 warnings in 94.81s (0:01:34) ======

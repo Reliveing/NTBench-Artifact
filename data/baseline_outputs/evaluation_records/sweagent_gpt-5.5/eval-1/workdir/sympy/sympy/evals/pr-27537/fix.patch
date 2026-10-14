@@ -1,0 +1,40 @@
+diff --git a/sympy/simplify/simplify.py b/sympy/simplify/simplify.py
+index 20cbe19669..1dccd858b2 100644
+--- a/sympy/simplify/simplify.py
++++ b/sympy/simplify/simplify.py
+@@ -1101,11 +1101,32 @@ def goodlog(l):
+             else:
+                 other.append(c*l)
+ 
++        def huge_rational_power(base, exp):
++            # Constructing b**n for a rational b and a large integer n can be
++            # extremely expensive.  If ``base`` is p/q then the evaluated
++            # result has about n*(bits(p) + bits(q)) bits.
++            return (
++                base.is_Rational and exp.is_Integer and exp.is_comparable
++                and abs(exp)*(abs(base.p).bit_length() + abs(base.q).bit_length()) > 100000)
++
+         # logs that have the same coefficient can multiply
+         for k in list(log1.keys()):
+-            log1[Mul(*k)] = log(logcombine(Mul(*[
+-                l.args[0]**Mul(*c) for c, l in log1.pop(k)]),
+-                force=force), evaluate=False)
++            terms = log1.pop(k)
++            combine_terms = []
++            for c, l in terms:
++                e = Mul(*c)
++                if huge_rational_power(l.args[0], e):
++                    # Moving the coefficient inside the log would create an
++                    # enormous exact power such as 10**1000000000.  Leave this
++                    # logarithm uncombined rather than constructing a large
++                    # integer (or an unevaluated power that can still trigger
++                    # expensive assumption checks later).
++                    other.append(Mul(*(list(k) + c + [l])))
++                else:
++                    combine_terms.append(l.args[0]**e)
++            if combine_terms:
++                log1[Mul(*k)] = log(logcombine(Mul(*combine_terms),
++                    force=force), evaluate=False)
+ 
+         # logs that have oppositely signed coefficients can divide
+         for k in ordered(list(log1.keys())):

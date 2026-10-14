@@ -1,0 +1,19 @@
+diff --git a/lib/matplotlib/ticker.py b/lib/matplotlib/ticker.py
+index a2be7cbd80..5e4474095f 100644
+--- a/lib/matplotlib/ticker.py
++++ b/lib/matplotlib/ticker.py
+@@ -1676,7 +1676,13 @@ class MaxNLocator(Locator):
+         else:
+             nbins = self._nbins
+ 
+-        while True:
++        # Setting nbins is the same as setting the maximum number of ticks.
++        # In some cases, e.g. when integer ticks are requested on a short axis,
++        # increasing nbins cannot increase the number of ticks that fall within
++        # the [vmin, vmax] interval, so cap the number of iterations to avoid an
++        # endless loop.
++        max_nbins = max(nbins, 1) * 10
++        while nbins <= max_nbins:
+             ticks = self._try_raw_ticks(vmin, vmax, nbins)
+             nticks = ((ticks <= vmax) & (ticks >= vmin)).sum()
+             if nticks >= self._min_n_ticks:

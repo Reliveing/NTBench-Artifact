@@ -1,0 +1,16 @@
+diff --git a/sympy/core/symbol.py b/sympy/core/symbol.py
+index c5e7807312..b8e937d69d 100644
+--- a/sympy/core/symbol.py
++++ b/sympy/core/symbol.py
+@@ -263,6 +263,11 @@ def sort_key(self, order=None):
+     def as_dummy(self):
+         return Dummy(self.name)
+ 
++    def _eval_subs(self, old, new):
++        from sympy.core.power import Pow
++        if old.is_Pow and old.base == self and old.exp.is_positive:
++            return Pow(self, S.One, evaluate=False)._eval_subs(old, new)
++
+     def as_real_imag(self, deep=True, **hints):
+         from sympy import im, re
+         if hints.get('ignore') == self:

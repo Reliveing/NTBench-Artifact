@@ -1,0 +1,58 @@
+diff --git a/sympy/functions/special/singularity_functions.py b/sympy/functions/special/singularity_functions.py
+index a69026e6e6..72fee734f1 100644
+--- a/sympy/functions/special/singularity_functions.py
++++ b/sympy/functions/special/singularity_functions.py
+@@ -214,21 +214,44 @@ def _eval_as_leading_term(self, x, logx, cdir):
+         shift = (z - a).subs(x, 0)
+         if n < 0:
+             return S.Zero
+-        elif n.is_zero and shift.is_zero:
+-            return S.Zero if cdir == -1 else S.One
+-        elif shift.is_positive:
++        elif shift.is_zero:
++            if n.is_zero:
++                return S.Zero if cdir == -1 else S.One
++            elif n.is_positive:
++                return S.Zero
++
++        if shift.is_positive:
+             return shift**n
++        if shift.is_negative:
++            return S.Zero
++
++        z0 = z.subs(x, 0)
++        if n.is_nonnegative and a.free_symbols <= z0.free_symbols:
++            return self.func(z0, a, n)
++
+         return S.Zero
+ 
+     def _eval_nseries(self, x, n, logx=None, cdir=0):
+-        z, a, n = self.args
++        z, a, exponent = self.args
+         shift = (z - a).subs(x, 0)
+-        if n < 0:
++        if exponent < 0:
+             return S.Zero
+-        elif n.is_zero and shift.is_zero:
+-            return S.Zero if cdir == -1 else S.One
+-        elif shift.is_positive:
+-            return ((z - a)**n)._eval_nseries(x, n, logx=logx, cdir=cdir)
++        elif shift.is_zero:
++            if exponent.is_zero:
++                return S.Zero if cdir == -1 else S.One
++            elif exponent.is_positive:
++                return S.Zero
++
++        if shift.is_positive:
++            return ((z - a)**exponent)._eval_nseries(x, n, logx=logx, cdir=cdir)
++
++        if shift.is_negative:
++            return S.Zero
++
++        z0 = z.subs(x, 0)
++        if exponent.is_nonnegative and a.free_symbols <= z0.free_symbols:
++            return self.func(z0, a, exponent)
++
+         return S.Zero
+ 
+     _eval_rewrite_as_DiracDelta = _eval_rewrite_as_Heaviside

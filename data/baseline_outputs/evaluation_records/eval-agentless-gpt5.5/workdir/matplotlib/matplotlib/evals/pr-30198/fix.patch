@@ -1,0 +1,35 @@
+diff --git a/lib/matplotlib/path.py b/lib/matplotlib/path.py
+index a021706..43b8221 100644
+--- a/lib/matplotlib/path.py
++++ b/lib/matplotlib/path.py
+@@ -280,9 +280,22 @@ class Path:
+         Return a deepcopy of the `Path`.  The `Path` will not be
+         readonly, even if the source `Path` is.
+         """
+-        # Deepcopying arrays (vertices, codes) strips the writeable=False flag.
+-        p = copy.deepcopy(super(), memo)
++        if memo is None:
++            memo = {}
++
++        p = type(self).__new__(type(self))
++        memo[id(self)] = p
++
++        p.__dict__.update(
++            (k, copy.deepcopy(v, memo)) for k, v in self.__dict__.items())
+         p._readonly = False
++
++        # Deepcopying arrays normally strips the writeable=False flag, but set
++        # it explicitly so the copied Path is consistently mutable.
++        p._vertices.flags.writeable = True
++        if p._codes is not None:
++            p._codes.flags.writeable = True
++
+         return p
+ 
+     deepcopy = __deepcopy__
+@@ -1110,4 +1123,4 @@ def get_path_collection_extents(
+     extents, minpos = _path.get_path_collection_extents(
+         master_transform, paths, np.atleast_3d(transforms),
+         offsets, offset_transform)
+-    return Bbox.from_extents(*extents, minpos=minpos)
++    return Bbox.from_extents(*extents, minpos=minpos)

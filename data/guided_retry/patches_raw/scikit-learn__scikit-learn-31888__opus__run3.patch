@@ -1,0 +1,33 @@
+diff --git a/sklearn/svm/src/liblinear/tron.cpp b/sklearn/svm/src/liblinear/tron.cpp
+index ae1dae88da..379f8afbaf 100644
+--- a/sklearn/svm/src/liblinear/tron.cpp
++++ b/sklearn/svm/src/liblinear/tron.cpp
+@@ -163,15 +163,27 @@ int TRON::trcg(double delta, double *g, double *s, double *r)
+ 	cgtol = 0.1 * blas->nrm2(n, g, inc);
+ 
+ 	int cg_iter = 0;
++	int max_cg_iter = max(n, 10);
+ 	rTr = blas->dot(n, r, inc, r, inc);
+ 	while (1)
+ 	{
+ 		if (blas->nrm2(n, r, inc) <= cgtol)
+ 			break;
+ 		cg_iter++;
++		if (cg_iter > max_cg_iter)
++		{
++			info("WARNING: reaching maximal number of CG steps\n");
++			break;
++		}
+ 		fun_obj->Hv(d, Hd);
+ 
+-		alpha = rTr / blas->dot(n, d, inc, Hd, inc);
++		double dHd = blas->dot(n, d, inc, Hd, inc);
++		alpha = rTr / dHd;
++		if (!isfinite(alpha))
++		{
++			info("WARNING: alpha is not finite in CG\n");
++			break;
++		}
+ 		blas->axpy(n, alpha, d, inc, s, inc);
+ 		if (blas->nrm2(n, s, inc) > delta)
+ 		{

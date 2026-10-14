@@ -1,0 +1,16 @@
+diff --git a/sympy/polys/polyroots.py b/sympy/polys/polyroots.py
+index 4def1312eb..b12030873b 100644
+--- a/sympy/polys/polyroots.py
++++ b/sympy/polys/polyroots.py
+@@ -75,6 +75,11 @@ def _sqrt(d):
+             d = Mul(*other)
+             co = Mul(*co)
+             return co*sqrt(d)
++        # if d is a numeric Mul with multiple factors, take sqrt of each
++        # factor separately to avoid hangs in _eval_expand_power_base
++        # e.g. sqrt(-4*3**(3/4)*I/3) -> sqrt(-4/3)*sqrt(I)*sqrt(3**(3/4))
++        if d.is_number and d.is_Mul:
++            return Mul(*[sqrt(i) for i in d.args])
+         return sqrt(d)
+ 
+     def _simplify(expr):

@@ -1,0 +1,46 @@
+diff --git a/aiohttp/compression_utils.py b/aiohttp/compression_utils.py
+index 0bc4a30..2152ffc 100644
+--- a/aiohttp/compression_utils.py
++++ b/aiohttp/compression_utils.py
+@@ -337,12 +337,39 @@ class ZSTDDecompressor(DecompressionBaseHandler):
+     ) -> bytes:
+         # zstd uses -1 for unlimited, while zlib uses 0 for unlimited
+         # Convert the zlib convention (0=unlimited) to zstd convention (-1=unlimited)
+-        zstd_max_length = (
++        remaining_length = (
+             ZSTD_MAX_LENGTH_UNLIMITED
+             if max_length == ZLIB_MAX_LENGTH_UNLIMITED
+             else max_length
+         )
+-        return self._obj.decompress(data, zstd_max_length)
++        output = bytearray()
++        remaining_data = data
++
++        while remaining_data:
++            # ZstdDecompressor handles one frame only. Once a frame has
++            # completed, create a new decompressor for the next frame.
++            if self._obj.eof:
++                self._obj = ZstdDecompressor()
++
++            decompressed = self._obj.decompress(
++                remaining_data,
++                remaining_length,
++            )
++            output.extend(decompressed)
++
++            if remaining_length != ZSTD_MAX_LENGTH_UNLIMITED:
++                remaining_length -= len(decompressed)
++                if remaining_length <= 0:
++                    break
++
++            if not self._obj.eof:
++                break
++
++            remaining_data = self._obj.unused_data
++            if not remaining_data:
++                break
++
++        return bytes(output)
+ 
+     def flush(self) -> bytes:
+         return b""

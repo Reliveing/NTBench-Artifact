@@ -1,0 +1,43 @@
+diff --git a/sympy/simplify/cse_main.py b/sympy/simplify/cse_main.py
+index d603560f59..2cf6c1e06e 100644
+--- a/sympy/simplify/cse_main.py
++++ b/sympy/simplify/cse_main.py
+@@ -651,7 +651,7 @@ def _find_repeated(expr):
+ 
+     subs = {}
+ 
+-    def _rebuild(expr):
++    def _rebuild(expr, opt_subs_applied=None):
+         if not isinstance(expr, (Basic, Unevaluated)):
+             return expr
+ 
+@@ -659,15 +659,18 @@ def _rebuild(expr):
+             return expr
+ 
+         if iterable(expr):
+-            new_args = [_rebuild(arg) for arg in expr.args]
++            new_args = [_rebuild(arg, opt_subs_applied) for arg in expr.args]
+             return expr.func(*new_args)
+ 
+         if expr in subs:
+             return subs[expr]
+ 
+         orig_expr = expr
+-        if expr in opt_subs:
++        if opt_subs_applied is None:
++            opt_subs_applied = set()
++        if expr in opt_subs and expr not in opt_subs_applied:
+             expr = opt_subs[expr]
++            opt_subs_applied.add(orig_expr)
+ 
+         # If enabled, parse Muls and Adds arguments by order to ensure
+         # replacement order independent from hashes
+@@ -685,7 +688,7 @@ def _rebuild(expr):
+         else:
+             args = expr.args
+ 
+-        new_args = list(map(_rebuild, args))
++        new_args = [_rebuild(arg, opt_subs_applied) for arg in args]
+         if isinstance(expr, Unevaluated) or new_args != args:
+             new_expr = expr.func(*new_args)
+         else:

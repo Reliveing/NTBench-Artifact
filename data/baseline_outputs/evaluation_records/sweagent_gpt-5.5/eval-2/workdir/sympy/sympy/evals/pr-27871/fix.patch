@@ -1,0 +1,181 @@
+diff --git a/sympy/functions/combinatorial/numbers.py b/sympy/functions/combinatorial/numbers.py
+index 3903be6476..93efbb202f 100644
+--- a/sympy/functions/combinatorial/numbers.py
++++ b/sympy/functions/combinatorial/numbers.py
+@@ -7,9 +7,9 @@
+ the separate 'factorials' module.
+ """
+ from __future__ import annotations
+-from math import prod
++from math import gcd, prod
+ from collections import defaultdict
+-from typing import Callable, Tuple as tTuple
++from typing import Tuple as tTuple
+ 
+ from sympy.core import S, Symbol, Add, Dummy
+ from sympy.core.cache import cacheit
+@@ -891,8 +891,35 @@ class harmonic(DefinedFunction):
+ 
+     """
+ 
+-    # This prevents redundant recalculations and speeds up harmonic number computations.
+-    harmonic_cache: dict[Integer, Callable[[int], Rational]] = {}
++    @staticmethod
++    def _harmonic(n, m):
++        """Compute the exact generalized harmonic number H_{n,m}.
++
++        A balanced (binary splitting) summation keeps intermediate integers
++        much smaller than the straightforward recurrence
++
++            H_n = H_{n-1} + 1/n**m
++
++        and avoids caching every intermediate rational.  This is especially
++        important for large n, where the numerator and denominator of H_n have
++        thousands of digits.
++        """
++        if n == 0:
++            return S.Zero
++
++        def _sum(a, b):
++            if a == b:
++                return 1, a**m
++            mid = (a + b) // 2
++            p1, q1 = _sum(a, mid)
++            p2, q2 = _sum(mid + 1, b)
++            p = p1*q2 + p2*q1
++            q = q1*q2
++            g = gcd(p, q)
++            return p//g, q//g
++
++        p, q = _sum(1, n)
++        return Rational(p, q)
+ 
+     @classmethod
+     def eval(cls, n, m=None):
+@@ -919,12 +946,7 @@ def eval(cls, n, m=None):
+                 return S.ComplexInfinity if m is S.One else S.NaN
+             if n.is_nonnegative:
+                 if m.is_Integer:
+-                    if m not in cls.harmonic_cache:
+-                        @recurrence_memo([0])
+-                        def f(n, prev):
+-                            return prev[-1] + S.One / n**m
+-                        cls.harmonic_cache[m] = f
+-                    return cls.harmonic_cache[m](int(n))
++                    return cls._harmonic(int(n), int(m))
+                 return Add(*(k**(-m) for k in range(1, int(n) + 1)))
+ 
+     def _eval_rewrite_as_polygamma(self, n, m=S.One, **kwargs):
+diff --git a/sympy/printing/str.py b/sympy/printing/str.py
+index d6d3f1b4ce..ff8e10c9ab 100644
+--- a/sympy/printing/str.py
++++ b/sympy/printing/str.py
+@@ -3,6 +3,8 @@
+ """
+ 
+ from __future__ import annotations
++
++import sys
+ from typing import Any
+ 
+ from sympy.core import S, Rational, Pow, Basic, Mul, Number
+@@ -17,6 +19,29 @@
+ from mpmath.libmp import prec_to_dps, to_str as mlib_to_str
+ 
+ 
++def _int_to_decimal_string(expr):
++    """Return the decimal representation of an integer.
++
++    Python 3.11 limits conversion of very large integers to decimal
++    strings by default.  SymPy's printers need to be able to display exact
++    integer and rational values whose numerators/denominators exceed that
++    limit, so retry the conversion with the limit temporarily disabled.
++    """
++    try:
++        return str(expr)
++    except ValueError:
++        get_digits = getattr(sys, "get_int_max_str_digits", None)
++        set_digits = getattr(sys, "set_int_max_str_digits", None)
++        if get_digits is None or set_digits is None:
++            raise
++        old = get_digits()
++        try:
++            set_digits(0)
++            return str(expr)
++        finally:
++            set_digits(old)
++
++
+ class StrPrinter(Printer):
+     printmethod = "_sympystr"
+     _default_settings: dict[str, Any] = {
+@@ -675,9 +700,10 @@ def _print_MatPow(self, expr):
+                          self.parenthesize(expr.exp, PREC, strict=False))
+ 
+     def _print_Integer(self, expr):
++        p = _int_to_decimal_string(expr.p)
+         if self._settings.get("sympy_integers", False):
+-            return "S(%s)" % (expr)
+-        return str(expr.p)
++            return "S(%s)" % (p)
++        return p
+ 
+     def _print_Integers(self, expr):
+         return 'Integers'
+@@ -704,36 +730,40 @@ def _print_EmptySequence(self, expr):
+         return 'EmptySequence'
+ 
+     def _print_int(self, expr):
+-        return str(expr)
++        return _int_to_decimal_string(expr)
+ 
+     def _print_mpz(self, expr):
+-        return str(expr)
++        return _int_to_decimal_string(expr)
+ 
+     def _print_Rational(self, expr):
++        p = _int_to_decimal_string(expr.p)
+         if expr.q == 1:
+-            return str(expr.p)
+-        else:
+-            if self._settings.get("sympy_integers", False):
+-                return "S(%s)/%s" % (expr.p, expr.q)
+-            return "%s/%s" % (expr.p, expr.q)
++            return p
++        q = _int_to_decimal_string(expr.q)
++        if self._settings.get("sympy_integers", False):
++            return "S(%s)/%s" % (p, q)
++        return "%s/%s" % (p, q)
+ 
+     def _print_PythonRational(self, expr):
++        p = _int_to_decimal_string(expr.p)
+         if expr.q == 1:
+-            return str(expr.p)
+-        else:
+-            return "%d/%d" % (expr.p, expr.q)
++            return p
++        q = _int_to_decimal_string(expr.q)
++        return "%s/%s" % (p, q)
+ 
+     def _print_Fraction(self, expr):
++        p = _int_to_decimal_string(expr.numerator)
+         if expr.denominator == 1:
+-            return str(expr.numerator)
+-        else:
+-            return "%s/%s" % (expr.numerator, expr.denominator)
++            return p
++        q = _int_to_decimal_string(expr.denominator)
++        return "%s/%s" % (p, q)
+ 
+     def _print_mpq(self, expr):
++        p = _int_to_decimal_string(expr.numerator)
+         if expr.denominator == 1:
+-            return str(expr.numerator)
+-        else:
+-            return "%s/%s" % (expr.numerator, expr.denominator)
++            return p
++        q = _int_to_decimal_string(expr.denominator)
++        return "%s/%s" % (p, q)
+ 
+     def _print_Float(self, expr):
+         prec = expr._prec

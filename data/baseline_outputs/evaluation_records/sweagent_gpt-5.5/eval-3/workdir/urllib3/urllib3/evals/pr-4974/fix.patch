@@ -1,0 +1,38 @@
+diff --git a/src/urllib3/contrib/emscripten/response.py b/src/urllib3/contrib/emscripten/response.py
+index cb1088a1..0162eb9a 100644
+--- a/src/urllib3/contrib/emscripten/response.py
++++ b/src/urllib3/contrib/emscripten/response.py
+@@ -91,6 +91,9 @@ class EmscriptenHttpResponseWrapper(BaseHTTPResponse):
+             If True, will attempt to decode the body based on the
+             'content-encoding' header.
+         """
++        if amt == 0:
++            return
++
+         while True:
+             data = self.read(amt=amt, decode_content=decode_content)
+ 
+@@ -179,6 +182,9 @@ class EmscriptenHttpResponseWrapper(BaseHTTPResponse):
+         decode_content: bool | None = None,
+     ) -> typing.Generator[bytes]:
+         # chunked is handled by browser
++        if amt == 0:
++            return
++
+         while True:
+             bytes = self.read(amt, decode_content)
+             if not bytes:
+diff --git a/src/urllib3/response.py b/src/urllib3/response.py
+index 46c7e4bb..4d787935 100644
+--- a/src/urllib3/response.py
++++ b/src/urllib3/response.py
+@@ -1400,6 +1400,9 @@ class HTTPResponse(BaseHTTPResponse):
+             if self._fp.fp is None:  # type: ignore[union-attr]
+                 return None
+ 
++            if amt == 0:
++                return None
++
+             if amt and amt < 0:
+                 # Negative numbers and `None` should be treated the same,
+                 # but httplib handles only `None` correctly.

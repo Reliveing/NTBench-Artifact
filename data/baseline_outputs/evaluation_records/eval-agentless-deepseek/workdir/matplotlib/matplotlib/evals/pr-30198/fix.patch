@@ -1,0 +1,25 @@
+diff --git a/lib/matplotlib/path.py b/lib/matplotlib/path.py
+index a021706..6b1672c 100644
+--- a/lib/matplotlib/path.py
++++ b/lib/matplotlib/path.py
+@@ -281,7 +281,13 @@ class Path:
+         readonly, even if the source `Path` is.
+         """
+         # Deepcopying arrays (vertices, codes) strips the writeable=False flag.
+-        p = copy.deepcopy(super(), memo)
++        # Use the class constructor directly instead of super().__deepcopy__()
++        # to avoid potential infinite recursion with future CPython changes.
++        p = self.__class__(
++            copy.deepcopy(self.vertices, memo),
++            copy.deepcopy(self.codes, memo),
++            self._interpolation_steps,
++        )
+         p._readonly = False
+         return p
+ 
+@@ -1110,4 +1116,4 @@ def get_path_collection_extents(
+     extents, minpos = _path.get_path_collection_extents(
+         master_transform, paths, np.atleast_3d(transforms),
+         offsets, offset_transform)
+-    return Bbox.from_extents(*extents, minpos=minpos)
++    return Bbox.from_extents(*extents, minpos=minpos)

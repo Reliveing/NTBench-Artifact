@@ -1,0 +1,13 @@
+diff --git a/requests/utils.py b/requests/utils.py
+index dbb02a0d..33816e9e 100644
+--- a/requests/utils.py
++++ b/requests/utils.py
+@@ -251,6 +251,8 @@ def extract_zipped_paths(path):
+     archive, member = os.path.split(path)
+     while archive and not os.path.exists(archive):
+         archive, prefix = os.path.split(archive)
++        if not prefix:
++            return path
+         member = '/'.join([prefix, member])
+ 
+     if not zipfile.is_zipfile(archive):

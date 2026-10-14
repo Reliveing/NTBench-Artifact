@@ -1,0 +1,19 @@
+diff --git a/requests/utils.py b/requests/utils.py
+index dbb02a0..c79a8ba 100644
+--- a/requests/utils.py
++++ b/requests/utils.py
+@@ -251,6 +251,8 @@ def extract_zipped_paths(path):
+     archive, member = os.path.split(path)
+     while archive and not os.path.exists(archive):
+         archive, prefix = os.path.split(archive)
++        if prefix == archive:  # append trailing slash for members
++            break
+         member = '/'.join([prefix, member])
+ 
+     if not zipfile.is_zipfile(archive):
+@@ -1010,4 +1012,4 @@ def rewind_body(prepared_request):
+             raise UnrewindableBodyError("An error occurred when rewinding request "
+                                         "body for redirect.")
+     else:
+-        raise UnrewindableBodyError("Unable to rewind request body for redirect.")
++        raise UnrewindableBodyError("Unable to rewind request body for redirect.")

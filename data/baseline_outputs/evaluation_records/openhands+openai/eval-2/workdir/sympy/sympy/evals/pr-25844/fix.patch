@@ -1,0 +1,52 @@
+diff --git a/sympy/solvers/solvers.py b/sympy/solvers/solvers.py
+index 507e14ba3b..656d8db910 100644
+--- a/sympy/solvers/solvers.py
++++ b/sympy/solvers/solvers.py
+@@ -1483,6 +1483,47 @@ def _solve(f, *symbols, **flags):
+         result = False  # no solution was obtained
+         msg = ''  # there is no failure message
+ 
++        # If f_num is an Add with a single Add base raised to a high
++        # integer power, solve in terms of that base. This avoids expanding
++        # compact polynomial forms like 1 - 3*(x - 5)**8.
++        if f_num.is_Add:
++            add_args = [i for i in f_num.atoms(Add)
++                if i != f_num and symbol in i.free_symbols]
++            pows = [p for p in f_num.atoms(Pow)
++                if p.base in add_args and p.exp.is_Integer and abs(p.exp) > 5]
++            if len(add_args) == 1 and pows:
++                gen = add_args[0]
++                t = Dummy('t')
++                ftry = f_num.xreplace({gen: t})
++                if not ftry.has(symbol):
++                    try:
++                        cv_sols = _solve(ftry, t, **flags)
++                        cv_inv = _vsolve(t - gen, symbol, **flags)
++                        result = [{symbol: i.subs(sol)} for i in cv_inv
++                            for sol in cv_sols]
++                        if len(result) > 2:
++                            flags['simplify'] = flags.get('simplify', False)
++                    except NotImplementedError:
++                        pass
++
++        if result is not False:
++            result = _remove_duplicate_solutions(result)
++
++            if flags.get('simplify', True):
++                result = [{k: d[k].simplify() for k in d} for d in result]
++                result = _remove_duplicate_solutions(result)
++                flags['simplify'] = False
++
++            if checkdens:
++                dens = _simple_dens(f, symbols)
++                result = [r for r in result if
++                          not any(checksol(d, r, **flags)
++                                  for d in dens)]
++            if check:
++                result = [r for r in result if
++                          checksol(f_num, r, **flags) is not False]
++            return result
++
+         # Poly is generally robust enough to convert anything to
+         # a polynomial and tell us the different generators that it
+         # contains, so we will inspect the generators identified by

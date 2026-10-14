@@ -1,0 +1,26 @@
+diff --git a/sklearn/linear_model/_logistic.py b/sklearn/linear_model/_logistic.py
+index f921f47..7b51e0d 100644
+--- a/sklearn/linear_model/_logistic.py
++++ b/sklearn/linear_model/_logistic.py
+@@ -1310,6 +1310,15 @@ class LogisticRegression(LinearClassifierMixin, SparseCoefMixin, BaseEstimator):
+                     " 'solver' is set to 'liblinear'. Got 'n_jobs'"
+                     " = {}.".format(effective_n_jobs(self.n_jobs))
+                 )
++            # Check for large values in X that may cause numerical issues with liblinear
++            if X.size > 0 and np.max(np.abs(X)) > 1e15:
++                warnings.warn(
++                    "The input data contains very large values (max absolute value "
++                    f"= {np.max(np.abs(X))}). This may cause the 'liblinear' solver "
++                    "to fail or hang. Consider standardizing the data (e.g., using "
++                    "StandardScaler) before fitting the model.",
++                    UserWarning,
++                )
+             self.coef_, self.intercept_, self.n_iter_ = _fit_liblinear(
+                 X,
+                 y,
+@@ -2332,4 +2341,4 @@ class LogisticRegressionCV(LogisticRegression, LinearClassifierMixin, BaseEstima
+     def __sklearn_tags__(self):
+         tags = super().__sklearn_tags__()
+         tags.input_tags.sparse = True
+-        return tags
++        return tags

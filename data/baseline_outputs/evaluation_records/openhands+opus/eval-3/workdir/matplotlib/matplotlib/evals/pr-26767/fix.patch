@@ -1,0 +1,18 @@
+diff --git a/src/_backend_agg.h b/src/_backend_agg.h
+index f15fa05dd5..ff748af326 100644
+--- a/src/_backend_agg.h
++++ b/src/_backend_agg.h
+@@ -1193,6 +1193,13 @@ inline void RendererAgg::_draw_gouraud_triangle(PointArray &points,
+             tpoints[i][j] = points(i, j);
+         }
+         trans.transform(&tpoints[i][0], &tpoints[i][1]);
++        // Points may be non-finite in a variety of cases, e.g., data extending
++        // beyond the radial axis limits of a log-scaled polar axis.  In such
++        // cases, drawing the triangle can trigger an assertion failure in the
++        // AGG code and crash.  Skip such triangles rather than crashing.
++        if (!(std::isfinite(tpoints[i][0]) && std::isfinite(tpoints[i][1]))) {
++            return;
++        }
+     }
+ 
+     span_alloc_t span_alloc;

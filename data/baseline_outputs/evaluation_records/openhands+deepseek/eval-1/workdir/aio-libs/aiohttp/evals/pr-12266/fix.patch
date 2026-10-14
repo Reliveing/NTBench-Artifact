@@ -1,0 +1,46 @@
+diff --git a/aiohttp/compression_utils.py b/aiohttp/compression_utils.py
+index 0bc4a30d8..cab67adc3 100644
+--- a/aiohttp/compression_utils.py
++++ b/aiohttp/compression_utils.py
+@@ -342,7 +342,40 @@ class ZSTDDecompressor(DecompressionBaseHandler):
+             if max_length == ZLIB_MAX_LENGTH_UNLIMITED
+             else max_length
+         )
+-        return self._obj.decompress(data, zstd_max_length)
++
++        # If the decompressor is at EOF from a previous frame, create a new one
++        # to handle multiple concatenated zstd frames transparently.
++        if self._obj.eof:
++            self._obj = ZstdDecompressor()
++
++        result = self._obj.decompress(data, zstd_max_length)
++
++        # Handle concatenated zstd frames: if we've reached the end of a frame
++        # and there's leftover data, it might contain additional frames.
++        # ZstdDecompressor does not transparently handle inputs containing
++        # multiple compressed frames, so we need to create a new decompressor
++        # for each subsequent frame.
++        output_chunks = [result]
++        total_output = len(result)
++
++        while self._obj.eof and self._obj.unused_data:
++            if max_length != ZLIB_MAX_LENGTH_UNLIMITED:
++                remaining = max_length - total_output
++                if remaining <= 0:
++                    break
++                zstd_remaining = remaining
++            else:
++                zstd_remaining = ZSTD_MAX_LENGTH_UNLIMITED
++
++            unused = self._obj.unused_data
++            self._obj = ZstdDecompressor()
++            chunk = self._obj.decompress(unused, zstd_remaining)
++            output_chunks.append(chunk)
++            total_output += len(chunk)
++
++        if len(output_chunks) == 1:
++            return output_chunks[0]
++        return b"".join(output_chunks)
+ 
+     def flush(self) -> bytes:
+         return b""

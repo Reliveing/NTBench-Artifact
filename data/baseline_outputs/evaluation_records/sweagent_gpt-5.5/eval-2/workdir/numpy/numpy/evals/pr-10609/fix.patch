@@ -1,0 +1,48 @@
+diff --git a/numpy/core/arrayprint.py b/numpy/core/arrayprint.py
+index 987589dbe1..a2e9645347 100644
+--- a/numpy/core/arrayprint.py
++++ b/numpy/core/arrayprint.py
+@@ -435,24 +435,29 @@ def _recursive_guard(fillvalue='...'):
+ # gracefully handle recursive calls, when object arrays contain themselves
+ @_recursive_guard()
+ def _array2string(a, options, separator=' ', prefix=""):
+-    # The formatter __init__s cannot deal with subclasses yet
++    # The formatter __init__s and the recursive formatter do not deal with
++    # subclasses yet.  In particular, some subclasses return modified results
++    # from ``__getitem__``, which can lead to infinite recursion when those
++    # results are formatted.  Use a base-class ndarray view for all element
++    # access during formatting.
+     data = asarray(a)
++    format_data = data
+ 
+-    if a.size > options['threshold']:
++    if data.size > options['threshold']:
+         summary_insert = "..."
+-        data = _leading_trailing(data, options['edgeitems'])
++        format_data = _leading_trailing(data, options['edgeitems'])
+     else:
+         summary_insert = ""
+ 
+     # find the right formatting function for the array
+-    format_function = _get_format_function(data, **options)
++    format_function = _get_format_function(format_data, **options)
+ 
+     # skip over "["
+     next_line_prefix = " "
+     # skip over array(
+     next_line_prefix += " "*len(prefix)
+ 
+-    lst = _formatArray(a, format_function, options['linewidth'],
++    lst = _formatArray(data, format_function, options['linewidth'],
+                        next_line_prefix, separator, options['edgeitems'],
+                        summary_insert, options['legacy'])
+     return lst
+@@ -1422,7 +1427,7 @@ def array_str(a, max_line_width=None, precision=None, suppress_small=None):
+     # so floats are not truncated by `precision`, and strings are not wrapped
+     # in quotes. So we return the str of the scalar value.
+     if a.shape == ():
+-        return str(a[()])
++        return str(asarray(a)[()])
+ 
+     return array2string(a, max_line_width, precision, suppress_small, ' ', "")
+ 

@@ -1,0 +1,71 @@
+The "poetry.dev-dependencies" section is deprecated and will be removed in a future version. Use "poetry.group.dev.dependencies" instead.
+============================= test session starts ==============================
+platform linux -- Python 3.11.15, pytest-7.4.4, pluggy-1.5.0 -- /root/.cache/pypoetry/virtualenvs/rich-HNBKLVEi-py3.11/bin/python
+cachedir: .pytest_cache
+rootdir: /home/rich/tests
+configfile: pytest.ini
+plugins: timeout-2.4.0, cov-3.0.0
+timeout: 20.0s
+timeout method: signal
+timeout func_only: False
+collecting ... collected 57 items
+
+tests/test_cells.py::test_get_character_cell_size[\x00-0] PASSED         [  1%]
+tests/test_cells.py::test_get_character_cell_size[\u200d-0] PASSED       [  3%]
+tests/test_cells.py::test_get_character_cell_size[a-1] PASSED            [  5%]
+tests/test_cells.py::test_get_character_cell_size[\U0001f4a9-2] PASSED   [  7%]
+tests/test_cells.py::test_get_character_cell_size[\U000e01f0-0] PASSED   [  8%]
+tests/test_cells.py::test_cell_len_long_string PASSED                    [ 10%]
+tests/test_cells.py::test_cell_len_short_string PASSED                   [ 12%]
+tests/test_cells.py::test_set_cell_size PASSED                           [ 14%]
+tests/test_cells.py::test_set_cell_size_infinite PASSED                  [ 15%]
+tests/test_cells.py::test_split_text[--1--] PASSED                       [ 17%]
+tests/test_cells.py::test_split_text[x--1--x] PASSED                     [ 19%]
+tests/test_cells.py::test_split_text[x-1-x-] PASSED                      [ 21%]
+tests/test_cells.py::test_split_text[x-2-x-] PASSED                      [ 22%]
+tests/test_cells.py::test_split_text[-0--] PASSED                        [ 24%]
+tests/test_cells.py::test_split_text[-1--] PASSED                        [ 26%]
+tests/test_cells.py::test_split_text[a-0--a] PASSED                      [ 28%]
+tests/test_cells.py::test_split_text[a-1-a-] PASSED                      [ 29%]
+tests/test_cells.py::test_split_text[\U0001f4a9-0--\U0001f4a9] PASSED    [ 31%]
+tests/test_cells.py::test_split_text[\U0001f4a9-1- - ] PASSED            [ 33%]
+tests/test_cells.py::test_split_text[\U0001f4a9-2-\U0001f4a9-] PASSED    [ 35%]
+tests/test_cells.py::test_split_text[\U0001f4a9x-1- - x] PASSED          [ 36%]
+tests/test_cells.py::test_split_text[\U0001f4a9x-2-\U0001f4a9-x] PASSED  [ 38%]
+tests/test_cells.py::test_split_text[\U0001f4a9x-3-\U0001f4a9x-] PASSED  [ 40%]
+tests/test_cells.py::test_split_text[\U0001f469\u200d\U0001f527-0--\U0001f469\u200d\U0001f527] PASSED [ 42%]
+tests/test_cells.py::test_split_text[\U0001f469\u200d\U0001f527-1- - ] PASSED [ 43%]
+tests/test_cells.py::test_split_text[\U0001f469\u200d\U0001f527-2-\U0001f469\u200d\U0001f527-] PASSED [ 45%]
+tests/test_cells.py::test_split_text[\U0001f469\u200d\U0001f527x-1- - x] PASSED [ 47%]
+tests/test_cells.py::test_split_text[\U0001f469\u200d\U0001f527x-2-\U0001f469\u200d\U0001f527-x] PASSED [ 49%]
+tests/test_cells.py::test_split_text[\U0001f469\u200d\U0001f527x-3-\U0001f469\u200d\U0001f527x-] PASSED [ 50%]
+tests/test_cells.py::test_split_text[xxxxxxxxxxxxxxx\U0001f4a9\U0001f4a9-10-xxxxxxxxxx-xxxxx\U0001f4a9\U0001f4a9] PASSED [ 52%]
+tests/test_cells.py::test_split_text[xxxxxxxxxxxxxxx\U0001f4a9\U0001f4a9-15-xxxxxxxxxxxxxxx-\U0001f4a9\U0001f4a9] PASSED [ 54%]
+tests/test_cells.py::test_split_text[xxxxxxxxxxxxxxx\U0001f4a9\U0001f4a9-16-xxxxxxxxxxxxxxx - \U0001f4a9] PASSED [ 56%]
+tests/test_cells.py::test_split_text[\U0001f4a9\U0001f4a9-3-\U0001f4a9 - ] PASSED [ 57%]
+tests/test_cells.py::test_split_text[\U0001f4a9\U0001f4a9xxxxxxxxxx-2-\U0001f4a9-\U0001f4a9xxxxxxxxxx] PASSED [ 59%]
+tests/test_cells.py::test_split_text[\U0001f4a9\U0001f4a9xxxxxxxxxx-3-\U0001f4a9 - xxxxxxxxxx] PASSED [ 61%]
+tests/test_cells.py::test_split_text[\U0001f4a9\U0001f4a9xxxxxxxxxx-4-\U0001f4a9\U0001f4a9-xxxxxxxxxx] PASSED [ 63%]
+tests/test_cells.py::test_chop_cells PASSED                              [ 64%]
+tests/test_cells.py::test_chop_cells_double_width_boundary PASSED        [ 66%]
+tests/test_cells.py::test_chop_cells_mixed_width PASSED                  [ 68%]
+tests/test_cells.py::test_is_single_cell_widths PASSED                   [ 70%]
+tests/test_cells.py::test_split_graphemes[-expected_spans0-0] PASSED     [ 71%]
+tests/test_cells.py::test_split_graphemes[a-expected_spans1-1] PASSED    [ 73%]
+tests/test_cells.py::test_split_graphemes[ab-expected_spans2-2] PASSED   [ 75%]
+tests/test_cells.py::test_split_graphemes[\U0001f4a9-expected_spans3-2] PASSED [ 77%]
+tests/test_cells.py::test_split_graphemes[\u308f\u3055\u3073-expected_spans4-6] PASSED [ 78%]
+tests/test_cells.py::test_split_graphemes[\U0001f469\u200d\U0001f527-expected_spans5-2] PASSED [ 80%]
+tests/test_cells.py::test_split_graphemes[a\U0001f469\u200d\U0001f527-expected_spans6-3] PASSED [ 82%]
+tests/test_cells.py::test_split_graphemes[a\U0001f469\u200d\U0001f527b-expected_spans7-4] PASSED [ 84%]
+tests/test_cells.py::test_split_graphemes[\u2b07-expected_spans8-1] PASSED [ 85%]
+tests/test_cells.py::test_split_graphemes[\u2b07\ufe0f-expected_spans9-2] PASSED [ 87%]
+tests/test_cells.py::test_split_graphemes[\u267b-expected_spans10-1] PASSED [ 89%]
+tests/test_cells.py::test_split_graphemes[\u267b\ufe0f-expected_spans11-2] PASSED [ 91%]
+tests/test_cells.py::test_split_graphemes[\u267b\u267b\ufe0f-expected_spans12-3] PASSED [ 92%]
+tests/test_cells.py::test_nerd_font PASSED                               [ 94%]
+tests/test_cells.py::test_zwj PASSED                                     [ 96%]
+tests/test_cells.py::test_non_printable PASSED                           [ 98%]
+tests/test_cells.py::test_split_graphemes_ansi_escape PASSED             [100%]
+
+============================== 57 passed in 0.47s ==============================

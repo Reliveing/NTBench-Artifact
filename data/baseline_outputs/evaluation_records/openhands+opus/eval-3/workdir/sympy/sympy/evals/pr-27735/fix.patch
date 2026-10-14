@@ -1,0 +1,65 @@
+diff --git a/sympy/logic/algorithms/dpll2.py b/sympy/logic/algorithms/dpll2.py
+index 75115e01ef..e829ff4418 100644
+--- a/sympy/logic/algorithms/dpll2.py
++++ b/sympy/logic/algorithms/dpll2.py
+@@ -236,18 +236,52 @@ def _find_model(self):
+                     if res is None or res[0]:
+                         yield {self.symbols[abs(lit) - 1]:
+                                     lit > 0 for lit in self.var_settings}
++
++                        while self._current_level.flipped:
++                            self._undo()
++                        if len(self.levels) == 1:
++                            return
++                        flip_lit = -self._current_level.decision
++                        self._undo()
++                        self.levels.append(Level(flip_lit, flipped=True))
++                        flip_var = True
++                        continue
+                     else:
++                        # The theory found a conflict. Add the conflict clause
++                        # as a learned clause and backtrack to a state before
++                        # the conflicting literals were assigned. Otherwise the
++                        # same conflict would be detected repeatedly, causing an
++                        # infinite loop.
+                         self._simple_add_learned_clause(res[1])
+ 
+-                    while self._current_level.flipped:
++                        # The literals that are currently assigned and cause
++                        # the theory conflict.
++                        conflict_lits = {-lit for lit in res[1]}
++
++                        # Backtrack to the most recent decision level that
++                        # assigned one of the conflicting literals.
++                        while len(self.levels) > 1 and not (
++                                conflict_lits & self._current_level.var_settings):
++                            self._undo()
++
++                        # Unroll flipped decisions until we find a literal we
++                        # can flip.
++                        while self._current_level.flipped:
++                            self._undo()
++
++                            # If we've unrolled all the way, the theory is unsat
++                            if 1 == len(self.levels):
++                                return
++
++                        if 1 == len(self.levels):
++                            return
++
++                        # Try the opposite setting of the most recent decision
++                        flip_lit = -self._current_level.decision
+                         self._undo()
+-                    if len(self.levels) == 1:
+-                        return
+-                    flip_lit = -self._current_level.decision
+-                    self._undo()
+-                    self.levels.append(Level(flip_lit, flipped=True))
+-                    flip_var = True
+-                    continue
++                        self.levels.append(Level(flip_lit, flipped=True))
++                        flip_var = True
++                        continue
+ 
+                 # Start the new decision level
+                 self.levels.append(Level(lit))

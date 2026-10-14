@@ -1,0 +1,24 @@
+diff --git a/pylint/lint/pylinter.py b/pylint/lint/pylinter.py
+index 053f5dcb5..e5e772878 100644
+--- a/pylint/lint/pylinter.py
++++ b/pylint/lint/pylinter.py
+@@ -971,12 +971,13 @@ class PyLinter(
+                     self.get_ast, self._iterate_file_descrs(files_or_modules)
+                 )
+         else:
+-            check_parallel(
+-                self,
+-                self.config.jobs,
+-                self._iterate_file_descrs(files_or_modules),
+-                files_or_modules,
+-            )
++            with fix_import_path(files_or_modules):
++                check_parallel(
++                    self,
++                    self.config.jobs,
++                    self._iterate_file_descrs(files_or_modules),
++                    files_or_modules,
++                )
+ 
+     def check_single_file(self, name: str, filepath: str, modname: str) -> None:
+         warnings.warn(

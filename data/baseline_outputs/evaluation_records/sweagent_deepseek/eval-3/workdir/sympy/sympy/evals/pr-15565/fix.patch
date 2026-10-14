@@ -1,0 +1,49 @@
+diff --git a/sympy/core/basic.py b/sympy/core/basic.py
+index a134fab92b..19486bc911 100644
+--- a/sympy/core/basic.py
++++ b/sympy/core/basic.py
+@@ -1106,6 +1106,44 @@ def fallback(self, old, new):
+         if _aresame(self, old):
+             return new
+ 
++        # handle case where self is an Atom (Symbol, Number, etc.) that
++        # is not a Power but can be expressed as a power of old's base,
++        # e.g., x.subs(sqrt(x), y) -> y**2
++        from .power import Pow
++        if isinstance(old, Pow) and isinstance(self, Atom) and self == old.base:
++            from .compatibility import as_int
++            from sympy import exp as _exp
++            from sympy import Symbol
++            ct1 = S.One.as_independent(Symbol, as_Add=False)
++            ct2 = old.exp.as_independent(Symbol, as_Add=False)
++            coeff1, terms1 = ct1
++            coeff2, terms2 = ct2
++            if terms1 == terms2:
++                if old.is_commutative:
++                    pow = coeff1/coeff2
++                    try:
++                        pow = as_int(pow)
++                        combines = pow > 0
++                    except ValueError:
++                        combines = isinstance(Pow._eval_power(
++                            Pow(*old.as_base_exp(), evaluate=False),
++                            pow), (Pow, _exp))
++                    if combines:
++                        return new ** pow
++                else:
++                    if not isinstance(terms1, tuple):
++                        terms1 = (terms1,)
++                    if all(term.is_integer for term in terms1):
++                        try:
++                            pow, remainder = divmod(as_int(coeff1), as_int(coeff2))
++                            if pow < 0 and remainder != 0:
++                                pow += 1
++                                remainder -= as_int(coeff2)
++                            if remainder == 0:
++                                return new ** pow
++                        except ValueError:
++                            pass
++
+         rv = self._eval_subs(old, new)
+         if rv is None:
+             rv = fallback(self, old, new)

@@ -1,0 +1,17 @@
+diff --git a/sympy/core/symbol.py b/sympy/core/symbol.py
+index c5e7807312..a274d96ada 100644
+--- a/sympy/core/symbol.py
++++ b/sympy/core/symbol.py
+@@ -165,6 +165,12 @@ def _diff_wrt(self):
+         """
+         return True
+ 
++    def _eval_subs(self, old, new):
++        if old.is_Pow and old.exp.is_positive:
++            from .power import Pow
++            return Pow(self, S.One, evaluate=False)._eval_subs(old, new)
++
++
+     @staticmethod
+     def _sanitize(assumptions, obj=None):
+         """Remove None, covert values to bool, check commutativity *in place*.

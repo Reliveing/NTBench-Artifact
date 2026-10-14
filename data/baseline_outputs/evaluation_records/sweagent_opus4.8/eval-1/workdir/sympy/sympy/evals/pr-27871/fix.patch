@@ -1,0 +1,32 @@
+diff --git a/sympy/functions/combinatorial/numbers.py b/sympy/functions/combinatorial/numbers.py
+index 3903be6476..de865c7ab3 100644
+--- a/sympy/functions/combinatorial/numbers.py
++++ b/sympy/functions/combinatorial/numbers.py
+@@ -894,6 +894,12 @@ class harmonic(DefinedFunction):
+     # This prevents redundant recalculations and speeds up harmonic number computations.
+     harmonic_cache: dict[Integer, Callable[[int], Rational]] = {}
+ 
++    # Integer arguments larger than this threshold are not automatically
++    # evaluated to their exact rational value, since the resulting numbers are
++    # very large and expensive to compute and print.  The value can be adjusted
++    # by the user if the exact rational is needed for larger arguments.
++    _eval_threshold = 5000
++
+     @classmethod
+     def eval(cls, n, m=None):
+         from sympy.functions.special.zeta_functions import zeta
+@@ -918,6 +924,14 @@ def eval(cls, n, m=None):
+             if n.is_negative and (m.is_integer is False or m.is_nonpositive is False):
+                 return S.ComplexInfinity if m is S.One else S.NaN
+             if n.is_nonnegative:
++                # For very large ``n`` the exact rational value has an enormous
++                # numerator and denominator.  Computing (and printing) it is
++                # expensive and of little use, so the expression is left
++                # unevaluated.  A numerical value is still available through
++                # ``evalf`` and the exact value can be obtained explicitly by
++                # increasing ``harmonic._eval_threshold`` if desired.
++                if n > cls._eval_threshold:
++                    return None
+                 if m.is_Integer:
+                     if m not in cls.harmonic_cache:
+                         @recurrence_memo([0])

@@ -1,0 +1,180 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.13, pytest-8.3.5, pluggy-1.5.0 -- /home/pydantic/.venv/bin/python
+codspeed: 4.2.0 (disabled, mode: walltime, callgraph: enabled, timer_resolution: 1.0ns)
+cachedir: .pytest_cache
+benchmark: 5.1.0 (defaults: timer=time.perf_counter disable_gc=False min_rounds=5 min_time=0.000005 max_time=1.0 calibration_precision=10 warmup=True warmup_iterations=100000)
+rootdir: /home/pydantic
+configfile: pyproject.toml
+plugins: examples-0.0.15, Faker-35.0.0, memray-1.7.0, run-parallel-0.7.1, benchmark-5.1.0, codspeed-4.2.0, pretty-1.2.0, devtools-0.12.2, mock-3.14.0
+collecting ... collected 7 items
+Collected 0 items to run in parallel
+
+tests/test_circular_eq.py::TestCircularReferenceEquality::test_self_referencing_equal FAILED [ 14%] [ 14%]
+tests/test_circular_eq.py:21 TestCircularReferenceEquality.test_self_referencing_equal
+tests/test_circular_eq.py::TestCircularReferenceEquality::test_self_referencing_not_equal PASSED [ 28%]
+tests/test_circular_eq.py::TestCircularReferenceEquality::test_same_object_self_ref PASSED [ 42%]
+tests/test_circular_eq.py::TestCircularReferenceEquality::test_mutual_circular_reference FAILED [ 57%] [ 57%]
+tests/test_circular_eq.py:48 TestCircularReferenceEquality.test_mutual_circular_reference
+tests/test_circular_eq.py::TestCircularReferenceEquality::test_normal_equality_unaffected PASSED [ 71%]
+tests/test_circular_eq.py::TestCircularReferenceEquality::test_non_basemodel_comparison PASSED [ 85%]
+tests/test_circular_eq.py::TestCircularReferenceEquality::test_deep_circular_chain FAILED [100%] [100%]
+tests/test_circular_eq.py:80 TestCircularReferenceEquality.test_deep_circular_chain
+=================================== FAILURES ===================================
+__________ TestCircularReferenceEquality.test_self_referencing_equal ___________
+
+self = <tests.test_circular_eq.TestCircularReferenceEquality object at 0x755a9195ac30>
+
+    def test_self_referencing_equal(self):
+        """Two self-referencing objects with same values should be equal."""
+        a = Node(value=1)
+        a.child = a
+    
+        b = Node(value=1)
+        b.child = b
+    
+>       assert a == b
+
+tests/test_circular_eq.py:30: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+pydantic/main.py:1188: in __eq__
+    if self.__dict__ == other.__dict__:
+pydantic/main.py:1188: in __eq__
+    if self.__dict__ == other.__dict__:
+E   RecursionError: maximum recursion depth exceeded
+!!! Recursion detected (same locals & position)
+_________ TestCircularReferenceEquality.test_mutual_circular_reference _________
+
+self = <tests.test_circular_eq.TestCircularReferenceEquality object at 0x755a9197d250>
+
+    def test_mutual_circular_reference(self):
+        """Two objects referencing each other should not cause RecursionError."""
+        a = Node(value=1)
+        b = Node(value=1)
+        a.child = b
+        b.child = a
+    
+        a2 = Node(value=1)
+        b2 = Node(value=1)
+        a2.child = b2
+        b2.child = a2
+    
+>       assert a == a2
+
+tests/test_circular_eq.py:61: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+pydantic/main.py:1188: in __eq__
+    if self.__dict__ == other.__dict__:
+pydantic/main.py:1188: in __eq__
+    if self.__dict__ == other.__dict__:
+pydantic/main.py:1188: in __eq__
+    if self.__dict__ == other.__dict__:
+pydantic/main.py:1188: in __eq__
+    if self.__dict__ == other.__dict__:
+pydantic/main.py:1188: in __eq__
+    if self.__dict__ == other.__dict__:
+pydantic/main.py:1188: in __eq__
+    if self.__dict__ == other.__dict__:
+pydantic/main.py:1188: in __eq__
+    if self.__dict__ == other.__dict__:
+pydantic/main.py:1188: in __eq__
+    if self.__dict__ == other.__dict__:
+pydantic/main.py:1188: in __eq__
+    if self.__dict__ == other.__dict__:
+pydantic/main.py:1188: in __eq__
+    if self.__dict__ == other.__dict__:
+pydantic/main.py:1188: in __eq__
+    if self.__dict__ == other.__dict__:
+pydantic/main.py:1188: in __eq__
+    if self.__dict__ == other.__dict__:
+pydantic/main.py:1188: in __eq__
+    if self.__dict__ == other.__dict__:
+pydantic/main.py:1188: in __eq__
+    if self.__dict__ == other.__dict__:
+pydantic/main.py:1188: in __eq__
+    if self.__dict__ == other.__dict__:
+pydantic/main.py:1188: in __eq__
+    if self.__dict__ == other.__dict__:
+pydantic/main.py:1188: in __eq__
+    if self.__dict__ == other.__dict__:
+pydantic/main.py:1188: in __eq__
+    if self.__dict__ == other.__dict__:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <[RecursionError('maximum recursion depth exceeded') raised in repr()] Node object at 0x755a8ed1bb10>
+other = <[RecursionError('maximum recursion depth exceeded') raised in repr()] Node object at 0x755a8ed18820>
+
+    def __eq__(self, other: Any) -> bool:
+        if isinstance(other, BaseModel):
+            # When comparing instances of generic types for equality, as long as all field values are equal,
+            # only require their generic origin types to be equal, rather than exact type equality.
+            # This prevents headaches like MyGeneric(x=1) != MyGeneric[Any](x=1).
+            self_type = self.__pydantic_generic_metadata__['origin'] or self.__class__
+            other_type = other.__pydantic_generic_metadata__['origin'] or other.__class__
+    
+            # Perform common checks first
+            if not (
+                self_type == other_type
+                and getattr(self, '__pydantic_private__', None) == getattr(other, '__pydantic_private__', None)
+                and self.__pydantic_extra__ == other.__pydantic_extra__
+            ):
+                return False
+    
+            # We only want to compare pydantic fields but ignoring fields is costly.
+            # We'll perform a fast check first, and fallback only when needed
+            # See GH-7444 and GH-7825 for rationale and a performance benchmark
+    
+            # First, do the fast (and sometimes faulty) __dict__ comparison
+>           if self.__dict__ == other.__dict__:
+E           RecursionError: maximum recursion depth exceeded
+
+pydantic/main.py:1188: RecursionError
+!!! Recursion error detected, but an error occurred locating the origin of recursion.
+  The following exception happened when comparing locals in the stack frame:
+    RecursionError: maximum recursion depth exceeded
+  Displaying first and last 10 stack frames out of 970.
+____________ TestCircularReferenceEquality.test_deep_circular_chain ____________
+
+self = <tests.test_circular_eq.TestCircularReferenceEquality object at 0x755a9197cc50>
+
+    def test_deep_circular_chain(self):
+        """A longer circular chain (a -> b -> c -> a) should not recurse."""
+        a = Node(value=1)
+        b = Node(value=2)
+        c = Node(value=3)
+        a.child = b
+        b.child = c
+        c.child = a
+    
+        a2 = Node(value=1)
+        b2 = Node(value=2)
+        c2 = Node(value=3)
+        a2.child = b2
+        b2.child = c2
+        c2.child = a2
+    
+>       assert a == a2
+
+tests/test_circular_eq.py:97: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+pydantic/main.py:1188: in __eq__
+    if self.__dict__ == other.__dict__:
+pydantic/main.py:1188: in __eq__
+    if self.__dict__ == other.__dict__:
+pydantic/main.py:1188: in __eq__
+    if self.__dict__ == other.__dict__:
+pydantic/main.py:1188: in __eq__
+    if self.__dict__ == other.__dict__:
+E   RecursionError: maximum recursion depth exceeded
+!!! Recursion detected (same locals & position)
+                              Summary of Failures                               
+┏━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━┓
+┃               ┃               ┃  Function     ┃              ┃               ┃
+┃  File         ┃  Function     ┃  Line         ┃  Error Line  ┃  Error        ┃
+┡━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━┩
+│  tests/test…  │  TestCircul…  │  22           │  30          │  in __eq__    │
+│  tests/test…  │  TestCircul…  │  49           │  61          │  RecursionE…  │
+│  tests/test…  │  TestCircul…  │  81           │  97          │  in __eq__    │
+└───────────────┴───────────────┴───────────────┴──────────────┴───────────────┘
+Results (1.12s):
+         3 failed
+         4 passed

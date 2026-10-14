@@ -1,0 +1,43 @@
+Obtaining file:///home/sympy
+  Preparing metadata (setup.py): started
+  Preparing metadata (setup.py): finished with status 'done'
+Requirement already satisfied: mpmath>=0.19 in /usr/local/lib/python3.8/site-packages (from sympy==1.5.dev0) (1.3.0)
+Installing collected packages: sympy
+  Attempting uninstall: sympy
+    Found existing installation: sympy 1.5.dev0
+    Uninstalling sympy-1.5.dev0:
+      Successfully uninstalled sympy-1.5.dev0
+  DEPRECATION: Legacy editable install of sympy==1.5.dev0 from file:///home/sympy (setup.py develop) is deprecated. pip 25.1 will enforce this behaviour change. A possible replacement is to add a pyproject.toml or enable --use-pep517, and use setuptools >= 64. If the resulting installation is not behaving as expected, try using --config-settings editable_mode=compat. Please consult the setuptools documentation for more information. Discussion can be found at https://github.com/pypa/pip/issues/11457
+  Running setup.py develop for sympy
+Successfully installed sympy
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+============================= test session starts ==============================
+collecting ... collected 8 items
+
+sympy/functions/special/tests/test_spec_polynomials.py::test_jacobi PASSED [ 12%]
+sympy/functions/special/tests/test_spec_polynomials.py::test_gegenbauer PASSED [ 25%]
+sympy/functions/special/tests/test_spec_polynomials.py::test_legendre PASSED [ 37%]
+sympy/functions/special/tests/test_spec_polynomials.py::test_assoc_legendre PASSED [ 50%]
+sympy/functions/special/tests/test_spec_polynomials.py::test_chebyshev PASSED [ 62%]
+sympy/functions/special/tests/test_spec_polynomials.py::test_hermite PASSED [ 75%]
+sympy/functions/special/tests/test_spec_polynomials.py::test_laguerre FAILED [ 87%]
+sympy/functions/special/tests/test_spec_polynomials.py::test_assoc_laguerre PASSED [100%]
+
+=============================== warnings summary ===============================
+../../usr/local/lib/python3.8/site-packages/_pytest/config/__init__.py:1233
+  /usr/local/lib/python3.8/site-packages/_pytest/config/__init__.py:1233: PytestConfigWarning: Unknown config option: doctestplus
+  
+    self._warn_or_fail_if_strict(f"Unknown config option: {key}\n")
+
+-- Docs: https://docs.pytest.org/en/stable/warnings.html
+                                DO *NOT* COMMIT!                                
+=========================== short test summary info ============================
+PASSED sympy/functions/special/tests/test_spec_polynomials.py::test_jacobi
+PASSED sympy/functions/special/tests/test_spec_polynomials.py::test_gegenbauer
+PASSED sympy/functions/special/tests/test_spec_polynomials.py::test_legendre
+PASSED sympy/functions/special/tests/test_spec_polynomials.py::test_assoc_legendre
+PASSED sympy/functions/special/tests/test_spec_polynomials.py::test_chebyshev
+PASSED sympy/functions/special/tests/test_spec_polynomials.py::test_hermite
+PASSED sympy/functions/special/tests/test_spec_polynomials.py::test_assoc_laguerre
+FAILED sympy/functions/special/tests/test_spec_polynomials.py::test_laguerre
+==================== 1 failed, 7 passed, 1 warning in 1.80s ====================

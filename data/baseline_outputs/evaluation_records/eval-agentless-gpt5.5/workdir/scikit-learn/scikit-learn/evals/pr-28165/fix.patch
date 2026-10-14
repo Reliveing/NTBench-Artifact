@@ -1,0 +1,73 @@
+diff --git a/sklearn/cluster/_k_means_common.pyx b/sklearn/cluster/_k_means_common.pyx
+index 151af55..e29f211 100644
+--- a/sklearn/cluster/_k_means_common.pyx
++++ b/sklearn/cluster/_k_means_common.pyx
+@@ -187,11 +187,24 @@ cpdef void _relocate_empty_clusters_dense(
+         int n_features = X.shape[1]
+ 
+         floating[::1] distances = ((np.asarray(X) - np.asarray(centers_old)[labels])**2).sum(axis=1)
+-        int[::1] far_from_centers = np.argpartition(distances, -n_empty)[:-n_empty-1:-1].astype(np.int32)
+ 
+         int new_cluster_id, old_cluster_id, far_idx, idx, k
+         floating weight
+ 
++    # Do not relocate a point from a cluster with only one sample: this would
++    # immediately create another empty cluster.
++    distances[np.asarray(weight_in_clusters)[labels] == sample_weight] = 0
++
++    # If all remaining candidate points are already exactly on their centers,
++    # relocation is pointless. This happens for duplicate samples when there are
++    # more clusters than distinct points, and otherwise leads to an endless
++    # sequence of zero-inertia relocations.
++    if np.max(distances) == 0:
++        return
++
++    cdef:
++        int[::1] far_from_centers = np.argpartition(distances, -n_empty)[:-n_empty-1:-1].astype(np.int32)
++
+     for idx in range(n_empty):
+ 
+         new_cluster_id = empty_clusters[idx]
+@@ -208,6 +221,10 @@ cpdef void _relocate_empty_clusters_dense(
+         weight_in_clusters[new_cluster_id] = weight
+         weight_in_clusters[old_cluster_id] -= weight
+ 
++        # Prevent subsequent relocations in this pass from taking another
++        # sample from a cluster that has just become a singleton.
++        distances[np.asarray(labels) == old_cluster_id] = 0
++
+ 
+ cpdef void _relocate_empty_clusters_sparse(
+         const floating[::1] X_data,          # IN
+@@ -247,6 +264,20 @@ cpdef void _relocate_empty_clusters_sparse(
+         int new_cluster_id, old_cluster_id, far_idx, idx
+         floating weight
+ 
++    # Do not relocate a point from a cluster with only one sample: this would
++    # immediately create another empty cluster.
++    distances[np.asarray(weight_in_clusters)[labels] == sample_weight] = 0
++
++    # If all remaining candidate points are already exactly on their centers,
++    # relocation is pointless. This happens for duplicate samples when there are
++    # more clusters than distinct points, and otherwise leads to an endless
++    # sequence of zero-inertia relocations.
++    if np.max(distances) == 0:
++        return
++
++    cdef:
++        int[::1] far_from_centers = np.argpartition(distances, -n_empty)[:-n_empty-1:-1].astype(np.int32)
++
+     for idx in range(n_empty):
+ 
+         new_cluster_id = empty_clusters[idx]
+@@ -263,6 +294,10 @@ cpdef void _relocate_empty_clusters_sparse(
+         weight_in_clusters[new_cluster_id] = weight
+         weight_in_clusters[old_cluster_id] -= weight
+ 
++        # Prevent subsequent relocations in this pass from taking another
++        # sample from a cluster that has just become a singleton.
++        distances[np.asarray(labels) == old_cluster_id] = 0
++
+ 
+ cdef void _average_centers(
+         floating[:, ::1] centers,               # INOUT

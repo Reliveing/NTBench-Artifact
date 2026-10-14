@@ -1,0 +1,90 @@
+diff --git a/pydantic/_internal/_generics.py b/pydantic/_internal/_generics.py
+index 327fede03..36f0b994a 100644
+--- a/pydantic/_internal/_generics.py
++++ b/pydantic/_internal/_generics.py
+@@ -401,7 +401,26 @@ def check_parameters_count(cls: type[BaseModel], parameters: tuple[Any, ...]) ->
+         raise TypeError(f'Too {description} parameters for {cls}; actual {actual}, expected {expected}')
+ 
+ 
+-_generic_recursion_cache: ContextVar[set[str] | None] = ContextVar('_generic_recursion_cache', default=None)
++class _GenericRecursionState(typing_extensions.NamedTuple):
++    """State tracked while (potentially recursively) building generic types.
++
++    Attributes:
++        in_progress: The type refs that are currently being built (i.e. that are present on the
++            call stack). A type ref appearing twice here means the type is genuinely recursive
++            (it references itself directly or indirectly), and a `PydanticRecursiveRef` placeholder
++            should be used.
++        all_seen: Every type ref that was entered during the current top-level build. This is
++            exposed through `recursively_defined_type_refs()` and used to allow the corresponding
++            (potentially missing) refs to be substituted by placeholders in the core schema.
++    """
++
++    in_progress: set[str]
++    all_seen: set[str]
++
++
++_generic_recursion_cache: ContextVar[_GenericRecursionState | None] = ContextVar(
++    '_generic_recursion_cache', default=None
++)
+ 
+ 
+ @contextmanager
+@@ -411,36 +430,44 @@ def generic_recursion_self_type(
+     """This contextmanager should be placed around the recursive calls used to build a generic type,
+     and accept as arguments the generic origin type and the type arguments being passed to it.
+ 
+-    If the same origin and arguments are observed twice, it implies that a self-reference placeholder
+-    can be used while building the core schema, and will produce a schema_ref that will be valid in the
+-    final parent schema.
++    If the same origin and arguments are observed twice *on the current build stack*, it implies that
++    a self-reference placeholder can be used while building the core schema, and will produce a
++    schema_ref that will be valid in the final parent schema.
+     """
+-    previously_seen_type_refs = _generic_recursion_cache.get()
+-    if previously_seen_type_refs is None:
+-        previously_seen_type_refs = set()
+-        token = _generic_recursion_cache.set(previously_seen_type_refs)
++    state = _generic_recursion_cache.get()
++    if state is None:
++        state = _GenericRecursionState(in_progress=set(), all_seen=set())
++        token = _generic_recursion_cache.set(state)
+     else:
+         token = None
+ 
++    type_ref = get_type_ref(origin, args_override=args)
++    added_to_stack = False
+     try:
+-        type_ref = get_type_ref(origin, args_override=args)
+-        if type_ref in previously_seen_type_refs:
++        state.all_seen.add(type_ref)
++        # Only treat this as a recursive reference if the same type ref is *currently being built*
++        # further up the stack. Merely having built the same parametrization before (e.g. in a
++        # sibling branch of the type hierarchy) is not recursion and must not use a placeholder.
++        if type_ref in state.in_progress:
+             self_type = PydanticRecursiveRef(type_ref=type_ref)
+             yield self_type
+         else:
+-            previously_seen_type_refs.add(type_ref)
++            state.in_progress.add(type_ref)
++            added_to_stack = True
+             yield None
+     finally:
++        if added_to_stack:
++            state.in_progress.discard(type_ref)
+         if token:
+             _generic_recursion_cache.reset(token)
+ 
+ 
+ def recursively_defined_type_refs() -> set[str]:
+-    visited = _generic_recursion_cache.get()
+-    if not visited:
++    state = _generic_recursion_cache.get()
++    if not state or not state.all_seen:
+         return set()  # not in a generic recursion, so there are no types
+ 
+-    return visited.copy()  # don't allow modifications
++    return state.all_seen.copy()  # don't allow modifications
+ 
+ 
+ def get_cached_generic_type_early(parent: type[BaseModel], typevar_values: Any) -> type[BaseModel] | None:

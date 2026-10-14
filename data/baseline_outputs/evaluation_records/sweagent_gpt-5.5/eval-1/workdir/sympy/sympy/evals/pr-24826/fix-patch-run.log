@@ -1,0 +1,177 @@
+Obtaining file:///home/sympy
+  Installing build dependencies: started
+  Installing build dependencies: finished with status 'done'
+  Checking if build backend supports build_editable: started
+  Checking if build backend supports build_editable: finished with status 'done'
+  Getting requirements to build editable: started
+  Getting requirements to build editable: finished with status 'done'
+  Preparing editable metadata (pyproject.toml): started
+  Preparing editable metadata (pyproject.toml): finished with status 'done'
+Requirement already satisfied: mpmath>=0.19 in /usr/local/lib/python3.11/site-packages (from sympy==1.13.dev0) (1.4.1)
+Building wheels for collected packages: sympy
+  Building editable for sympy (pyproject.toml): started
+  Building editable for sympy (pyproject.toml): finished with status 'done'
+  Created wheel for sympy: filename=sympy-1.13.dev0-0.editable-py3-none-any.whl size=31402 sha256=7b7fea02cbd82cf45b577c6274b3557996c2462af0bed9f190b1381cea4d4c4d
+  Stored in directory: /tmp/pip-ephem-wheel-cache-oidrx6kc/wheels/af/22/61/2ece34a734d21005537313f7f88a33ef281f3770719986eb88
+Successfully built sympy
+Installing collected packages: sympy
+  Attempting uninstall: sympy
+    Found existing installation: sympy 1.13.dev0
+    Uninstalling sympy-1.13.dev0:
+      Successfully uninstalled sympy-1.13.dev0
+Successfully installed sympy-1.13.dev0
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+
+[notice] A new release of pip is available: 26.0.1 -> 26.2.1
+[notice] To update, run: pip install --upgrade pip
+============================= test session starts ==============================
+collecting ... collected 60 items
+
+sympy/simplify/tests/test_cse.py::test_numbered_symbols PASSED           [  1%]
+sympy/simplify/tests/test_cse.py::test_preprocess_for_cse PASSED         [  3%]
+sympy/simplify/tests/test_cse.py::test_postprocess_for_cse PASSED        [  5%]
+sympy/simplify/tests/test_cse.py::test_cse_single PASSED                 [  6%]
+sympy/simplify/tests/test_cse.py::test_cse_single2 PASSED                [  8%]
+sympy/simplify/tests/test_cse.py::test_cse_not_possible PASSED           [ 10%]
+sympy/simplify/tests/test_cse.py::test_nested_substitution PASSED        [ 11%]
+sympy/simplify/tests/test_cse.py::test_subtraction_opt PASSED            [ 13%]
+sympy/simplify/tests/test_cse.py::test_multiple_expressions PASSED       [ 15%]
+sympy/simplify/tests/test_cse.py::test_non_commutative_cse XFAIL         [ 16%]
+sympy/simplify/tests/test_cse.py::test_bypass_non_commutatives PASSED    [ 18%]
+sympy/simplify/tests/test_cse.py::test_non_commutative_order XFAIL       [ 20%]
+sympy/simplify/tests/test_cse.py::test_issue_10228 XFAIL                 [ 21%]
+sympy/simplify/tests/test_cse.py::test_powers XFAIL                      [ 23%]
+sympy/simplify/tests/test_cse.py::test_issue_4498 PASSED                 [ 25%]
+sympy/simplify/tests/test_cse.py::test_issue_4020 PASSED                 [ 26%]
+sympy/simplify/tests/test_cse.py::test_issue_4203 PASSED                 [ 28%]
+sympy/simplify/tests/test_cse.py::test_issue_6263 PASSED                 [ 30%]
+sympy/simplify/tests/test_cse.py::test_dont_cse_tuples PASSED            [ 31%]
+sympy/simplify/tests/test_cse.py::test_pow_invpow PASSED                 [ 33%]
+sympy/simplify/tests/test_cse.py::test_postprocess PASSED                [ 35%]
+sympy/simplify/tests/test_cse.py::test_issue_4499 PASSED                 [ 36%]
+sympy/simplify/tests/test_cse.py::test_issue_6169 PASSED                 [ 38%]
+sympy/simplify/tests/test_cse.py::test_cse_Indexed PASSED                [ 40%]
+sympy/simplify/tests/test_cse.py::test_cse_MatrixSymbol PASSED           [ 41%]
+sympy/simplify/tests/test_cse.py::test_cse_MatrixExpr PASSED             [ 43%]
+sympy/simplify/tests/test_cse.py::test_Piecewise PASSED                  [ 45%]
+sympy/simplify/tests/test_cse.py::test_ignore_order_terms PASSED         [ 46%]
+sympy/simplify/tests/test_cse.py::test_name_conflict PASSED              [ 48%]
+sympy/simplify/tests/test_cse.py::test_name_conflict_cust_symbols PASSED [ 50%]
+sympy/simplify/tests/test_cse.py::test_symbols_exhausted_error PASSED    [ 51%]
+sympy/simplify/tests/test_cse.py::test_issue_7840 PASSED                 [ 53%]
+sympy/simplify/tests/test_cse.py::test_issue_8891 PASSED                 [ 55%]
+sympy/simplify/tests/test_cse.py::test_issue_11230 PASSED                [ 56%]
+sympy/simplify/tests/test_cse.py::test_issue_11577 XFAIL                 [ 58%]
+sympy/simplify/tests/test_cse.py::test_hollow_rejection PASSED           [ 60%]
+sympy/simplify/tests/test_cse.py::test_cse_ignore PASSED                 [ 61%]
+sympy/simplify/tests/test_cse.py::test_cse_ignore_issue_15002 PASSED     [ 63%]
+sympy/simplify/tests/test_cse.py::test_cse_unevaluated PASSED            [ 65%]
+sympy/simplify/tests/test_cse.py::test_cse__performance PASSED           [ 66%]
+sympy/simplify/tests/test_cse.py::test_issue_12070 PASSED                [ 68%]
+sympy/simplify/tests/test_cse.py::test_issue_13000 PASSED                [ 70%]
+sympy/simplify/tests/test_cse.py::test_issue_18203 PASSED                [ 71%]
+sympy/simplify/tests/test_cse.py::test_unevaluated_mul PASSED            [ 73%]
+sympy/simplify/tests/test_cse.py::test_cse_release_variables PASSED      [ 75%]
+sympy/simplify/tests/test_cse.py::test_cse_list PASSED                   [ 76%]
+sympy/simplify/tests/test_cse.py::test_issue_18991 PASSED                [ 78%]
+sympy/simplify/tests/test_cse.py::test_unevaluated_Mul PASSED            [ 80%]
+sympy/simplify/tests/test_cse.py::test_cse_matrix_expression_inverse PASSED [ 81%]
+sympy/simplify/tests/test_cse.py::test_cse_matrix_expression_matmul_inverse PASSED [ 83%]
+sympy/simplify/tests/test_cse.py::test_cse_matrix_negate_matrix PASSED   [ 85%]
+sympy/simplify/tests/test_cse.py::test_cse_matrix_negate_matmul_not_extracted PASSED [ 86%]
+sympy/simplify/tests/test_cse.py::test_cse_matrix_nested_matmul_collapsed XFAIL [ 88%]
+sympy/simplify/tests/test_cse.py::test_cse_matrix_optimize_out_single_argument_mul PASSED [ 90%]
+sympy/simplify/tests/test_cse.py::test_cse_matrix_optimize_out_single_argument_mul_combined XFAIL [ 91%]
+sympy/simplify/tests/test_cse.py::test_cse_matrix_optimize_out_single_argument_add PASSED [ 93%]
+sympy/simplify/tests/test_cse.py::test_cse_matrix_optimize_out_single_argument_add_combined XFAIL [ 95%]
+sympy/simplify/tests/test_cse.py::test_cse_matrix_expression_matrix_solve PASSED [ 96%]
+sympy/simplify/tests/test_cse.py::test_cse_matrix_matrix_expression PASSED [ 98%]
+sympy/simplify/tests/test_cse.py::test_cse_matrix_kalman_filter PASSED   [100%]
+
+=============================== warnings summary ===============================
+../../usr/local/lib/python3.11/site-packages/mpmath/ctx_mp.py:35
+  /usr/local/lib/python3.11/site-packages/mpmath/ctx_mp.py:35: DeprecationWarning: mpnumeric is deprecated
+    warnings.warn(f"{name} is deprecated", DeprecationWarning)
+
+../../usr/local/lib/python3.11/site-packages/mpmath/rational.py:4
+../../usr/local/lib/python3.11/site-packages/mpmath/rational.py:4
+../../usr/local/lib/python3.11/site-packages/mpmath/rational.py:4
+  /usr/local/lib/python3.11/site-packages/mpmath/rational.py:4: DeprecationWarning: the rational private module is deprecated
+    warnings.warn("the rational private module is deprecated",
+
+../../usr/local/lib/python3.11/site-packages/_pytest/config/__init__.py:1428
+  /usr/local/lib/python3.11/site-packages/_pytest/config/__init__.py:1428: PytestConfigWarning: Unknown config option: ini
+  
+    self._warn_or_fail_if_strict(f"Unknown config option: {key}\n")
+
+sympy/testing/pytest.py:42
+  /home/sympy/sympy/testing/pytest.py:42: PytestUnknownMarkWarning: Unknown pytest.mark.nocache_fail - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    nocache_fail = pytest.mark.nocache_fail
+
+sympy/simplify/tests/test_cse.py::test_issue_7840
+  /usr/local/lib/python3.11/site-packages/mpmath/libmp/libintmath.py:75: DeprecationWarning: bitcount function is deprecated
+    warnings.warn("bitcount function is deprecated",
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+PASSED sympy/simplify/tests/test_cse.py::test_numbered_symbols
+PASSED sympy/simplify/tests/test_cse.py::test_preprocess_for_cse
+PASSED sympy/simplify/tests/test_cse.py::test_postprocess_for_cse
+PASSED sympy/simplify/tests/test_cse.py::test_cse_single
+PASSED sympy/simplify/tests/test_cse.py::test_cse_single2
+PASSED sympy/simplify/tests/test_cse.py::test_cse_not_possible
+PASSED sympy/simplify/tests/test_cse.py::test_nested_substitution
+PASSED sympy/simplify/tests/test_cse.py::test_subtraction_opt
+PASSED sympy/simplify/tests/test_cse.py::test_multiple_expressions
+PASSED sympy/simplify/tests/test_cse.py::test_bypass_non_commutatives
+PASSED sympy/simplify/tests/test_cse.py::test_issue_4498
+PASSED sympy/simplify/tests/test_cse.py::test_issue_4020
+PASSED sympy/simplify/tests/test_cse.py::test_issue_4203
+PASSED sympy/simplify/tests/test_cse.py::test_issue_6263
+PASSED sympy/simplify/tests/test_cse.py::test_dont_cse_tuples
+PASSED sympy/simplify/tests/test_cse.py::test_pow_invpow
+PASSED sympy/simplify/tests/test_cse.py::test_postprocess
+PASSED sympy/simplify/tests/test_cse.py::test_issue_4499
+PASSED sympy/simplify/tests/test_cse.py::test_issue_6169
+PASSED sympy/simplify/tests/test_cse.py::test_cse_Indexed
+PASSED sympy/simplify/tests/test_cse.py::test_cse_MatrixSymbol
+PASSED sympy/simplify/tests/test_cse.py::test_cse_MatrixExpr
+PASSED sympy/simplify/tests/test_cse.py::test_Piecewise
+PASSED sympy/simplify/tests/test_cse.py::test_ignore_order_terms
+PASSED sympy/simplify/tests/test_cse.py::test_name_conflict
+PASSED sympy/simplify/tests/test_cse.py::test_name_conflict_cust_symbols
+PASSED sympy/simplify/tests/test_cse.py::test_symbols_exhausted_error
+PASSED sympy/simplify/tests/test_cse.py::test_issue_7840
+PASSED sympy/simplify/tests/test_cse.py::test_issue_8891
+PASSED sympy/simplify/tests/test_cse.py::test_issue_11230
+PASSED sympy/simplify/tests/test_cse.py::test_hollow_rejection
+PASSED sympy/simplify/tests/test_cse.py::test_cse_ignore
+PASSED sympy/simplify/tests/test_cse.py::test_cse_ignore_issue_15002
+PASSED sympy/simplify/tests/test_cse.py::test_cse_unevaluated
+PASSED sympy/simplify/tests/test_cse.py::test_cse__performance
+PASSED sympy/simplify/tests/test_cse.py::test_issue_12070
+PASSED sympy/simplify/tests/test_cse.py::test_issue_13000
+PASSED sympy/simplify/tests/test_cse.py::test_issue_18203
+PASSED sympy/simplify/tests/test_cse.py::test_unevaluated_mul
+PASSED sympy/simplify/tests/test_cse.py::test_cse_release_variables
+PASSED sympy/simplify/tests/test_cse.py::test_cse_list
+PASSED sympy/simplify/tests/test_cse.py::test_issue_18991
+PASSED sympy/simplify/tests/test_cse.py::test_unevaluated_Mul
+PASSED sympy/simplify/tests/test_cse.py::test_cse_matrix_expression_inverse
+PASSED sympy/simplify/tests/test_cse.py::test_cse_matrix_expression_matmul_inverse
+PASSED sympy/simplify/tests/test_cse.py::test_cse_matrix_negate_matrix
+PASSED sympy/simplify/tests/test_cse.py::test_cse_matrix_negate_matmul_not_extracted
+PASSED sympy/simplify/tests/test_cse.py::test_cse_matrix_optimize_out_single_argument_mul
+PASSED sympy/simplify/tests/test_cse.py::test_cse_matrix_optimize_out_single_argument_add
+PASSED sympy/simplify/tests/test_cse.py::test_cse_matrix_expression_matrix_solve
+PASSED sympy/simplify/tests/test_cse.py::test_cse_matrix_matrix_expression
+PASSED sympy/simplify/tests/test_cse.py::test_cse_matrix_kalman_filter
+XFAIL sympy/simplify/tests/test_cse.py::test_non_commutative_cse
+XFAIL sympy/simplify/tests/test_cse.py::test_non_commutative_order
+XFAIL sympy/simplify/tests/test_cse.py::test_issue_10228
+XFAIL sympy/simplify/tests/test_cse.py::test_powers
+XFAIL sympy/simplify/tests/test_cse.py::test_issue_11577
+XFAIL sympy/simplify/tests/test_cse.py::test_cse_matrix_nested_matmul_collapsed
+XFAIL sympy/simplify/tests/test_cse.py::test_cse_matrix_optimize_out_single_argument_mul_combined
+XFAIL sympy/simplify/tests/test_cse.py::test_cse_matrix_optimize_out_single_argument_add_combined
+================== 52 passed, 8 xfailed, 7 warnings in 2.66s ===================

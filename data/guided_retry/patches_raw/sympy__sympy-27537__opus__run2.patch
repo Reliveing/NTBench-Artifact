@@ -1,0 +1,74 @@
+diff --git a/sympy/simplify/simplify.py b/sympy/simplify/simplify.py
+index 20cbe19669..b2576dd9e8 100644
+--- a/sympy/simplify/simplify.py
++++ b/sympy/simplify/simplify.py
+@@ -1045,6 +1045,23 @@ def goodlog(l):
+             a = l.args[0]
+             return a.is_positive or force and a.is_nonpositive is not False
+ 
++        def bigexpo(b, e):
++            # bool to tell whether combining a numeric coefficient ``e`` into
++            # the numeric argument ``b`` of a log, i.e. e*log(b) -> log(b**e),
++            # would produce an unreasonably large number (which can freeze
++            # subsequent computations, see issue #27528). The size of
++            # ``b**e`` is estimated without actually computing it.
++            if not (b.is_Number and e.is_Number and e.is_extended_real):
++                return False
++            if b in (S.Zero, S.One, S.NegativeOne):
++                return False
++            try:
++                p, q = b.as_numer_denom()
++                bits = max(abs(int(p)).bit_length(), abs(int(q)).bit_length())
++                return bits*abs(float(e)) > 100000
++            except (TypeError, ValueError, OverflowError):
++                return False
++
+         other = []
+         logs = []
+         log1 = defaultdict(list)
+@@ -1070,7 +1087,13 @@ def goodlog(l):
+                 if len(lo) > 1:
+                     logs.append((ot, co, lo))
+                 elif lo:
+-                    log1[tuple(ot)].append((co, lo[0]))
++                    # don't combine a numeric coefficient into a numeric
++                    # log argument if it would create a huge number, e.g.
++                    # 1000000000*log(10) -> log(10**1000000000)
++                    if co and bigexpo(lo[0].args[0], Mul(*co)):
++                        other.append(a)
++                    else:
++                        log1[tuple(ot)].append((co, lo[0]))
+                 else:
+                     other.append(a)
+ 
+@@ -1091,15 +1114,22 @@ def goodlog(l):
+         # let the user decide
+         for o, e, l in logs:
+             l = list(ordered(l))
+-            e = log(l.pop(0).args[0]**Mul(*e))
+-            while l:
+-                li = l.pop(0)
+-                e = log(li.args[0]**e)
+-            c, l = Mul(*o), e
+-            if isinstance(l, log):  # it should be, but check to be sure
+-                log1[(c,)].append(([], l))
++            # Check if the first exponentiation would be too large
++            first_log = l[0]
++            if e and bigexpo(first_log.args[0], Mul(*e)):
++                # Don't combine; keep the original term
++                other.append(Mul(*(o + e + [first_log] + l[1:])))
+             else:
+-                other.append(c*l)
++                e = log(first_log.args[0]**Mul(*e))
++                l.pop(0)
++                while l:
++                    li = l.pop(0)
++                    e = log(li.args[0]**e)
++                c, l = Mul(*o), e
++                if isinstance(l, log):  # it should be, but check to be sure
++                    log1[(c,)].append(([], l))
++                else:
++                    other.append(c*l)
+ 
+         # logs that have the same coefficient can multiply
+         for k in list(log1.keys()):

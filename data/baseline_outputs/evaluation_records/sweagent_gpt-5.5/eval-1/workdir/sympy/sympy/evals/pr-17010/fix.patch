@@ -1,0 +1,78 @@
+diff --git a/sympy/functions/special/polynomials.py b/sympy/functions/special/polynomials.py
+index 361ba77c20..f4fb4fe591 100644
+--- a/sympy/functions/special/polynomials.py
++++ b/sympy/functions/special/polynomials.py
+@@ -33,6 +33,26 @@
+ 
+ _x = Dummy('x')
+ 
++def _negative_leading_term(expr):
++    """Return True if ``expr`` has a leading minus sign.
++
++    This is used for canonicalizing polynomial indices.  The more general
++    ``could_extract_minus_sign`` can be true for both an expression and a
++    shifted negation of it (for example ``n - m`` and ``m - n - 2``), which
++    can make identities for negative indices recurse indefinitely.  For sums,
++    decide from the leading non-numeric term instead: this removes a minus
++    sign from the highest-order term and leaves the canonicalized expression
++    alone on the next evaluation.
++    """
++    if not expr.is_Add:
++        return expr.could_extract_minus_sign()
++
++    ordered_terms = expr.as_ordered_terms()
++    leading_terms = [term for term in ordered_terms if not term.is_number]
++    if not leading_terms:
++        leading_terms = ordered_terms
++    return leading_terms[0].could_extract_minus_sign()
++
+ 
+ class OrthogonalPolynomial(Function):
+     """Base class for orthogonal polynomials.
+@@ -489,7 +509,7 @@ def eval(cls, n, x):
+             if x.could_extract_minus_sign():
+                 return S.NegativeOne**n * chebyshevt(n, -x)
+             # T_{-n}(x)  --->  T_n(x)
+-            if n.could_extract_minus_sign():
++            if _negative_leading_term(n):
+                 return chebyshevt(-n, x)
+             # We can evaluate for some special values of x
+             if x == S.Zero:
+@@ -597,7 +617,7 @@ def eval(cls, n, x):
+             if x.could_extract_minus_sign():
+                 return S.NegativeOne**n * chebyshevu(n, -x)
+             # U_{-n}(x)  --->  -U_{n-2}(x)
+-            if n.could_extract_minus_sign():
++            if _negative_leading_term(n):
+                 if n == S.NegativeOne:
+                     # n can not be -1 here
+                     return S.Zero
+@@ -783,7 +803,7 @@ def eval(cls, n, x):
+             if x.could_extract_minus_sign():
+                 return S.NegativeOne**n * legendre(n, -x)
+             # L_{-n}(x)  --->  L_{n-1}(x)
+-            if n.could_extract_minus_sign():
++            if _negative_leading_term(n):
+                 return legendre(-n - S.One, x)
+             # We can evaluate for some special values of x
+             if x == S.Zero:
+@@ -891,7 +911,7 @@ def _eval_at_order(cls, n, m):
+ 
+     @classmethod
+     def eval(cls, n, m, x):
+-        if m.could_extract_minus_sign():
++        if _negative_leading_term(m):
+             # P^{-m}_n  --->  F * P^m_n
+             return S.NegativeOne**(-m) * (factorial(m + n)/factorial(n - m)) * assoc_legendre(n, -m, x)
+         if m == 0:
+@@ -1092,8 +1112,8 @@ def eval(cls, n, x):
+             # Symbolic result L_n(x)
+             # L_{n}(-x)  --->  exp(-x) * L_{-n-1}(x)
+             # L_{-n}(x)  --->  exp(x) * L_{n-1}(-x)
+-            if n.could_extract_minus_sign():
+-                return exp(x) * laguerre(n - 1, -x)
++            if _negative_leading_term(n):
++                return exp(x) * laguerre(-n - 1, -x)
+             # We can evaluate for some special values of x
+             if x == S.Zero:
+                 return S.One

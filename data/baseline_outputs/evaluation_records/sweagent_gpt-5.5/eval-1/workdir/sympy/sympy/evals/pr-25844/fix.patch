@@ -1,0 +1,56 @@
+diff --git a/sympy/polys/polyroots.py b/sympy/polys/polyroots.py
+index 4def1312eb..b907590b72 100644
+--- a/sympy/polys/polyroots.py
++++ b/sympy/polys/polyroots.py
+@@ -818,6 +818,40 @@ def func(k, coeff):
+     return coeff, poly
+ 
+ 
++def _try_shifted_binomial(f):
++    """Return ``(shift, g)`` if ``f(x + shift)`` is binomial.
++
++    A polynomial of the form ``a*(x - shift)**n + b`` can be expanded
++    to have many terms.  Detecting this form before using decomposition
++    avoids constructing unnecessarily large intermediate radical
++    expressions for its roots.
++    """
++    if not f.is_univariate or f.is_ground or f.get_domain().is_EX:
++        return None
++
++    n = f.degree()
++    if n <= 2 or f.length() <= 2:
++        return None
++
++    lc = f.nth(n)
++    if not lc:
++        return None
++
++    shift = -f.nth(n - 1)/(n*lc)
++    if shift.is_zero:
++        return None
++
++    try:
++        g = f.shift(shift)
++    except DomainError:
++        return None
++
++    if g.length() == 2 and g.degree() == n and not g.nth(0).is_zero:
++        return shift, g
++
++    return None
++
++
+ @public
+ def roots(f, *gens,
+         auto=True,
+@@ -1079,6 +1113,10 @@ def _try_heuristics(f):
+     rescale_x = None
+     translate_x = None
+ 
++    shifted_binomial = _try_shifted_binomial(f)
++    if shifted_binomial is not None:
++        translate_x, f = shifted_binomial
++
+     result = {}
+ 
+     if not f.is_ground:

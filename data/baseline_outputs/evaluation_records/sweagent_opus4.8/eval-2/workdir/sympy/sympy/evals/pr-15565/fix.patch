@@ -1,0 +1,24 @@
+diff --git a/sympy/core/expr.py b/sympy/core/expr.py
+index 7800aaf06b..2903d8ef7f 100644
+--- a/sympy/core/expr.py
++++ b/sympy/core/expr.py
+@@ -1825,6 +1825,19 @@ def as_base_exp(self):
+         # a -> b ** e
+         return self, S.One
+ 
++    def _eval_subs(self, old, new):
++        from sympy import Pow
++        if old.is_Pow and old.base == self and \
++                old.exp.is_Rational and old.exp.is_positive and \
++                old.exp != 1 and self.is_commutative:
++            # handle a base being replaced by a power of it, e.g.
++            # x.subs(sqrt(x), y) -> y**2 (issue 6976); treat x as x**1
++            # and let Pow's subs logic combine the exponents
++            rv = Pow(self, S.One, evaluate=False)._eval_subs(old, new)
++            if rv is not None:
++                return rv
++        return None
++
+     def as_coeff_mul(self, *deps, **kwargs):
+         """Return the tuple (c, args) where self is written as a Mul, ``m``.
+ 

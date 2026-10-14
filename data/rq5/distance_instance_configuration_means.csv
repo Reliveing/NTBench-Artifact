@@ -1,0 +1,308 @@
+instance_id,method,model,edit_distance,successful_runs
+tox-dev__tox-3745,Agentless,DeepSeek,525,1
+Textualize__rich-3979,Agentless,DeepSeek,429,1
+psf__requests-5851,Agentless,DeepSeek,530,1
+dask__dask-7667,Agentless,DeepSeek,481,1
+sympy__sympy-9029,Agentless,DeepSeek,94,1
+sympy__sympy-9844,Agentless,DeepSeek,3983,1
+aio-libs__aiohttp-10151,Agentless,DeepSeek,316,1
+sympy__sympy-12621,Agentless,DeepSeek,485,1
+sympy__sympy-14404,Agentless,DeepSeek,523,1
+sympy__sympy-15569,Agentless,DeepSeek,8099,1
+sympy__sympy-15752,Agentless,DeepSeek,267,1
+sympy__sympy-21032,Agentless,DeepSeek,548,1
+scikit-learn__scikit-learn-21271,Agentless,DeepSeek,553,1
+sympy__sympy-21487,Agentless,DeepSeek,228,1
+sympy__sympy-23175,Agentless,DeepSeek,780,1
+sympy__sympy-23493,Agentless,DeepSeek,292,1
+sympy__sympy-24826,Agentless,DeepSeek,357,1
+numpy__numpy-26192,Agentless,DeepSeek,0,1
+sympy__sympy-27735,Agentless,DeepSeek,697,1
+sympy__sympy-28105,Agentless,DeepSeek,762,1
+Textualize__rich-3480,OpenHands,DeepSeek,502,3
+tox-dev__tox-3745,OpenHands,DeepSeek,260,3
+tox-dev__tox-3749,OpenHands,DeepSeek,474.6666666666667,3
+tox-dev__tox-3759,OpenHands,DeepSeek,3977.5,2
+Textualize__rich-3979,OpenHands,DeepSeek,400.6666666666667,3
+urllib3__urllib3-4974,OpenHands,DeepSeek,173,2
+psf__requests-5851,OpenHands,DeepSeek,230,3
+sympy__sympy-7900,OpenHands,DeepSeek,272.6666666666667,3
+sympy__sympy-9029,OpenHands,DeepSeek,0,3
+sympy__sympy-9493,OpenHands,DeepSeek,155,3
+sympy__sympy-9844,OpenHands,DeepSeek,1908.6666666666667,3
+aio-libs__aiohttp-10151,OpenHands,DeepSeek,194.66666666666666,3
+pydata__xarray-10248,OpenHands,DeepSeek,877.3333333333334,3
+pydantic__pydantic-11143,OpenHands,DeepSeek,0,1
+aio-libs__aiohttp-12119,OpenHands,DeepSeek,409,2
+sympy__sympy-12621,OpenHands,DeepSeek,234.66666666666666,3
+pydantic__pydantic-12799,OpenHands,DeepSeek,2045,3
+sympy__sympy-14404,OpenHands,DeepSeek,467.6666666666667,3
+sympy__sympy-15418,OpenHands,DeepSeek,274.3333333333333,3
+sympy__sympy-15565,OpenHands,DeepSeek,0,1
+sympy__sympy-15569,OpenHands,DeepSeek,7428.333333333333,3
+sympy__sympy-15752,OpenHands,DeepSeek,284,3
+sympy__sympy-15855,OpenHands,DeepSeek,852.3333333333334,3
+sympy__sympy-17010,OpenHands,DeepSeek,1722,1
+sympy__sympy-17329,OpenHands,DeepSeek,550,2
+numpy__numpy-21005,OpenHands,DeepSeek,2390,3
+sympy__sympy-21032,OpenHands,DeepSeek,281,3
+scikit-learn__scikit-learn-21271,OpenHands,DeepSeek,438,3
+sympy__sympy-21487,OpenHands,DeepSeek,304.6666666666667,3
+sympy__sympy-23175,OpenHands,DeepSeek,774,3
+sympy__sympy-23493,OpenHands,DeepSeek,70,3
+sympy__sympy-24826,OpenHands,DeepSeek,447,2
+sympy__sympy-24999,OpenHands,DeepSeek,491.3333333333333,3
+sympy__sympy-25844,OpenHands,DeepSeek,167,1
+numpy__numpy-26192,OpenHands,DeepSeek,0,3
+matplotlib__matplotlib-26767,OpenHands,DeepSeek,236.66666666666666,3
+sympy__sympy-27735,OpenHands,DeepSeek,1939.3333333333333,3
+sympy__sympy-28105,OpenHands,DeepSeek,1413.6666666666667,3
+scikit-learn__scikit-learn-28165,OpenHands,DeepSeek,1830,1
+matplotlib__matplotlib-30198,OpenHands,DeepSeek,1683,1
+Textualize__rich-3480,SWE-agent,DeepSeek,349,3
+tox-dev__tox-3745,SWE-agent,DeepSeek,264,3
+tox-dev__tox-3749,SWE-agent,DeepSeek,546,3
+tox-dev__tox-3759,SWE-agent,DeepSeek,3804,3
+Textualize__rich-3979,SWE-agent,DeepSeek,397,3
+urllib3__urllib3-4974,SWE-agent,DeepSeek,142,3
+psf__requests-5851,SWE-agent,DeepSeek,230,3
+dask__dask-7667,SWE-agent,DeepSeek,553,3
+sympy__sympy-7900,SWE-agent,DeepSeek,510,3
+sympy__sympy-9029,SWE-agent,DeepSeek,0,3
+sympy__sympy-9493,SWE-agent,DeepSeek,29,3
+sympy__sympy-9844,SWE-agent,DeepSeek,924,3
+aio-libs__aiohttp-10151,SWE-agent,DeepSeek,182,3
+pydata__xarray-10248,SWE-agent,DeepSeek,614.3333333333334,3
+pydantic__pydantic-11143,SWE-agent,DeepSeek,2243,3
+aio-libs__aiohttp-12119,SWE-agent,DeepSeek,316,3
+sympy__sympy-12621,SWE-agent,DeepSeek,161,3
+pydantic__pydantic-12799,SWE-agent,DeepSeek,1569,3
+sympy__sympy-14404,SWE-agent,DeepSeek,145.66666666666666,3
+sympy__sympy-15418,SWE-agent,DeepSeek,268,3
+sympy__sympy-15569,SWE-agent,DeepSeek,7306,3
+sympy__sympy-15752,SWE-agent,DeepSeek,284,3
+sympy__sympy-15855,SWE-agent,DeepSeek,2493,2
+sympy__sympy-17010,SWE-agent,DeepSeek,1757,2
+sympy__sympy-17329,SWE-agent,DeepSeek,555,3
+numpy__numpy-21005,SWE-agent,DeepSeek,0,3
+sympy__sympy-21032,SWE-agent,DeepSeek,554.3333333333334,3
+scikit-learn__scikit-learn-21271,SWE-agent,DeepSeek,438,3
+sympy__sympy-21487,SWE-agent,DeepSeek,302,3
+sympy__sympy-23175,SWE-agent,DeepSeek,841,3
+sympy__sympy-23493,SWE-agent,DeepSeek,18,3
+sympy__sympy-24826,SWE-agent,DeepSeek,889,2
+sympy__sympy-24999,SWE-agent,DeepSeek,466,3
+sympy__sympy-25844,SWE-agent,DeepSeek,201,1
+numpy__numpy-26192,SWE-agent,DeepSeek,86,3
+matplotlib__matplotlib-26767,SWE-agent,DeepSeek,268,3
+sympy__sympy-27735,SWE-agent,DeepSeek,1868,2
+sympy__sympy-28105,SWE-agent,DeepSeek,1907,2
+scikit-learn__scikit-learn-28165,SWE-agent,DeepSeek,1963.3333333333333,3
+tox-dev__tox-3745,Agentless,GPT-5.5,476,1
+Textualize__rich-3979,Agentless,GPT-5.5,468,1
+urllib3__urllib3-4974,Agentless,GPT-5.5,372,1
+psf__requests-5851,Agentless,GPT-5.5,473,1
+dask__dask-7667,Agentless,GPT-5.5,1704,1
+sympy__sympy-9029,Agentless,GPT-5.5,94,1
+sympy__sympy-9493,Agentless,GPT-5.5,107,1
+aio-libs__aiohttp-10151,Agentless,GPT-5.5,316,1
+aio-libs__aiohttp-12119,Agentless,GPT-5.5,1107,1
+sympy__sympy-12621,Agentless,GPT-5.5,655,1
+sympy__sympy-14404,Agentless,GPT-5.5,568,1
+sympy__sympy-15418,Agentless,GPT-5.5,1014,1
+sympy__sympy-15569,Agentless,GPT-5.5,7176,1
+sympy__sympy-15752,Agentless,GPT-5.5,267,1
+sympy__sympy-15855,Agentless,GPT-5.5,810,1
+sympy__sympy-17010,Agentless,GPT-5.5,2114,1
+sympy__sympy-17329,Agentless,GPT-5.5,623,1
+sympy__sympy-21032,Agentless,GPT-5.5,1127,1
+scikit-learn__scikit-learn-21271,Agentless,GPT-5.5,553,1
+sympy__sympy-21487,Agentless,GPT-5.5,228,1
+sympy__sympy-23175,Agentless,GPT-5.5,780,1
+sympy__sympy-23493,Agentless,GPT-5.5,406,1
+numpy__numpy-26192,Agentless,GPT-5.5,116,1
+matplotlib__matplotlib-26767,Agentless,GPT-5.5,1134,1
+sympy__sympy-27735,Agentless,GPT-5.5,733,1
+sympy__sympy-28105,Agentless,GPT-5.5,1886,1
+Textualize__rich-3480,OpenHands,GPT-5.5,899.3333333333334,3
+tox-dev__tox-3745,OpenHands,GPT-5.5,264,3
+tox-dev__tox-3749,OpenHands,GPT-5.5,518,3
+tox-dev__tox-3759,OpenHands,GPT-5.5,3607.3333333333335,3
+Textualize__rich-3979,OpenHands,GPT-5.5,412,3
+pylint-dev__pylint-5062,OpenHands,GPT-5.5,1133,1
+psf__requests-5851,OpenHands,GPT-5.5,273,3
+dask__dask-7667,OpenHands,GPT-5.5,1434.3333333333333,3
+sympy__sympy-7900,OpenHands,GPT-5.5,249.66666666666666,3
+sympy__sympy-9029,OpenHands,GPT-5.5,117.33333333333333,3
+sympy__sympy-9493,OpenHands,GPT-5.5,242.66666666666666,3
+sympy__sympy-9844,OpenHands,GPT-5.5,3049,3
+aio-libs__aiohttp-10151,OpenHands,GPT-5.5,182,3
+pydata__xarray-10248,OpenHands,GPT-5.5,748,2
+pydantic__pydantic-11143,OpenHands,GPT-5.5,1311.3333333333333,3
+aio-libs__aiohttp-12119,OpenHands,GPT-5.5,463.6666666666667,3
+sympy__sympy-12621,OpenHands,GPT-5.5,163,3
+pydantic__pydantic-12799,OpenHands,GPT-5.5,3697.3333333333335,3
+sympy__sympy-14404,OpenHands,GPT-5.5,603.6666666666666,3
+sympy__sympy-15418,OpenHands,GPT-5.5,229.66666666666666,3
+sympy__sympy-15569,OpenHands,GPT-5.5,6704,3
+sympy__sympy-15752,OpenHands,GPT-5.5,381,3
+sympy__sympy-15855,OpenHands,GPT-5.5,822.3333333333334,3
+sympy__sympy-17329,OpenHands,GPT-5.5,568.3333333333334,3
+sympy__sympy-20754,OpenHands,GPT-5.5,725,1
+numpy__numpy-21005,OpenHands,GPT-5.5,2176.3333333333335,3
+sympy__sympy-21032,OpenHands,GPT-5.5,1095.6666666666667,3
+scikit-learn__scikit-learn-21271,OpenHands,GPT-5.5,438,3
+sympy__sympy-21487,OpenHands,GPT-5.5,326,3
+sympy__sympy-23175,OpenHands,GPT-5.5,542,3
+sympy__sympy-23493,OpenHands,GPT-5.5,5,3
+sympy__sympy-24826,OpenHands,GPT-5.5,355,3
+sympy__sympy-24999,OpenHands,GPT-5.5,382,2
+numpy__numpy-26192,OpenHands,GPT-5.5,90.66666666666667,3
+sympy__sympy-27735,OpenHands,GPT-5.5,1787.6666666666667,3
+sympy__sympy-28105,OpenHands,GPT-5.5,1685,3
+sympy__sympy-28162,OpenHands,GPT-5.5,4313,2
+scikit-learn__scikit-learn-28165,OpenHands,GPT-5.5,2198,3
+matplotlib__matplotlib-30198,OpenHands,GPT-5.5,1795,3
+Textualize__rich-3480,SWE-agent,GPT-5.5,1242,3
+tox-dev__tox-3745,SWE-agent,GPT-5.5,264,3
+tox-dev__tox-3749,SWE-agent,GPT-5.5,472,3
+tox-dev__tox-3759,SWE-agent,GPT-5.5,3895,3
+Textualize__rich-3979,SWE-agent,GPT-5.5,847,3
+urllib3__urllib3-4974,SWE-agent,GPT-5.5,507,1
+psf__requests-5851,SWE-agent,GPT-5.5,283,3
+dask__dask-7667,SWE-agent,GPT-5.5,1807,3
+sympy__sympy-7900,SWE-agent,GPT-5.5,161,2
+sympy__sympy-9029,SWE-agent,GPT-5.5,451,3
+sympy__sympy-9493,SWE-agent,GPT-5.5,348,3
+sympy__sympy-9844,SWE-agent,GPT-5.5,4043,3
+aio-libs__aiohttp-10151,SWE-agent,GPT-5.5,182,3
+pydata__xarray-10248,SWE-agent,GPT-5.5,597,3
+aio-libs__aiohttp-12119,SWE-agent,GPT-5.5,487,3
+sympy__sympy-12621,SWE-agent,GPT-5.5,230,3
+pydantic__pydantic-12799,SWE-agent,GPT-5.5,2665,3
+sympy__sympy-14404,SWE-agent,GPT-5.5,428,3
+sympy__sympy-15418,SWE-agent,GPT-5.5,236,3
+sympy__sympy-15569,SWE-agent,GPT-5.5,6720,3
+sympy__sympy-15752,SWE-agent,GPT-5.5,562,3
+sympy__sympy-15855,SWE-agent,GPT-5.5,763,3
+sympy__sympy-17329,SWE-agent,GPT-5.5,501,3
+numpy__numpy-21005,SWE-agent,GPT-5.5,2481,3
+sympy__sympy-21032,SWE-agent,GPT-5.5,859,3
+scikit-learn__scikit-learn-21271,SWE-agent,GPT-5.5,423,3
+sympy__sympy-21487,SWE-agent,GPT-5.5,302,3
+sympy__sympy-23175,SWE-agent,GPT-5.5,716,3
+sympy__sympy-23493,SWE-agent,GPT-5.5,5,3
+sympy__sympy-24826,SWE-agent,GPT-5.5,448,3
+numpy__numpy-26192,SWE-agent,GPT-5.5,171,3
+matplotlib__matplotlib-26767,SWE-agent,GPT-5.5,319,1
+sympy__sympy-27488,SWE-agent,GPT-5.5,953,2
+sympy__sympy-27735,SWE-agent,GPT-5.5,2628,3
+sympy__sympy-28105,SWE-agent,GPT-5.5,2789.3333333333335,3
+scikit-learn__scikit-learn-28165,SWE-agent,GPT-5.5,1847,3
+matplotlib__matplotlib-30198,SWE-agent,GPT-5.5,1505,1
+Textualize__rich-3480,Agentless,Opus 4.8,474,1
+tox-dev__tox-3745,Agentless,Opus 4.8,463,1
+Textualize__rich-3979,Agentless,Opus 4.8,445,1
+dask__dask-7667,Agentless,Opus 4.8,544,1
+sympy__sympy-9029,Agentless,Opus 4.8,94,1
+sympy__sympy-9493,Agentless,Opus 4.8,107,1
+aio-libs__aiohttp-10151,Agentless,Opus 4.8,316,1
+pydata__xarray-10248,Agentless,Opus 4.8,739,1
+aio-libs__aiohttp-12119,Agentless,Opus 4.8,638,1
+sympy__sympy-12621,Agentless,Opus 4.8,146,1
+sympy__sympy-15569,Agentless,Opus 4.8,8097,1
+sympy__sympy-15752,Agentless,Opus 4.8,267,1
+sympy__sympy-15855,Agentless,Opus 4.8,0,1
+sympy__sympy-17010,Agentless,Opus 4.8,1700,1
+sympy__sympy-17329,Agentless,Opus 4.8,536,1
+sympy__sympy-21032,Agentless,Opus 4.8,1088,1
+scikit-learn__scikit-learn-21271,Agentless,Opus 4.8,577,1
+sympy__sympy-21487,Agentless,Opus 4.8,128,1
+sympy__sympy-23175,Agentless,Opus 4.8,780,1
+sympy__sympy-23493,Agentless,Opus 4.8,363,1
+sympy__sympy-24826,Agentless,Opus 4.8,366,1
+numpy__numpy-26022,Agentless,Opus 4.8,299,1
+numpy__numpy-26192,Agentless,Opus 4.8,121,1
+matplotlib__matplotlib-26767,Agentless,Opus 4.8,170,1
+Textualize__rich-3480,OpenHands,Opus 4.8,1051,2
+tox-dev__tox-3745,OpenHands,Opus 4.8,116,3
+tox-dev__tox-3749,OpenHands,Opus 4.8,468,3
+tox-dev__tox-3759,OpenHands,Opus 4.8,3621.6666666666665,3
+Textualize__rich-3979,OpenHands,Opus 4.8,379,3
+psf__requests-5851,OpenHands,Opus 4.8,171.33333333333334,3
+dask__dask-7667,OpenHands,Opus 4.8,611.6666666666666,3
+sympy__sympy-7900,OpenHands,Opus 4.8,130,2
+sympy__sympy-9029,OpenHands,Opus 4.8,0,3
+sympy__sympy-9493,OpenHands,Opus 4.8,348.3333333333333,3
+sympy__sympy-9844,OpenHands,Opus 4.8,1602.6666666666667,3
+aio-libs__aiohttp-10151,OpenHands,Opus 4.8,1.6666666666666667,3
+pydata__xarray-10248,OpenHands,Opus 4.8,1691.6666666666667,3
+sympy__sympy-10478,OpenHands,Opus 4.8,144,2
+pydantic__pydantic-11143,OpenHands,Opus 4.8,682,2
+aio-libs__aiohttp-12119,OpenHands,Opus 4.8,334,1
+sympy__sympy-12621,OpenHands,Opus 4.8,394.3333333333333,3
+pydantic__pydantic-12799,OpenHands,Opus 4.8,3363.6666666666665,3
+sympy__sympy-14404,OpenHands,Opus 4.8,629,3
+sympy__sympy-15418,OpenHands,Opus 4.8,166.33333333333334,3
+sympy__sympy-15569,OpenHands,Opus 4.8,7316.333333333333,3
+sympy__sympy-15752,OpenHands,Opus 4.8,284,3
+sympy__sympy-15855,OpenHands,Opus 4.8,238,3
+sympy__sympy-17010,OpenHands,Opus 4.8,1661,3
+sympy__sympy-17329,OpenHands,Opus 4.8,240.66666666666666,3
+numpy__numpy-21005,OpenHands,Opus 4.8,2534.6666666666665,3
+sympy__sympy-21032,OpenHands,Opus 4.8,907,3
+scikit-learn__scikit-learn-21271,OpenHands,Opus 4.8,410,3
+sympy__sympy-21487,OpenHands,Opus 4.8,210.66666666666666,3
+sympy__sympy-23175,OpenHands,Opus 4.8,840,3
+sympy__sympy-23493,OpenHands,Opus 4.8,17.666666666666668,3
+sympy__sympy-24826,OpenHands,Opus 4.8,365.3333333333333,3
+sympy__sympy-24999,OpenHands,Opus 4.8,187,2
+sympy__sympy-25844,OpenHands,Opus 4.8,647.3333333333334,3
+numpy__numpy-26022,OpenHands,Opus 4.8,285,1
+numpy__numpy-26192,OpenHands,Opus 4.8,0,2
+matplotlib__matplotlib-26767,OpenHands,Opus 4.8,283,1
+sympy__sympy-27735,OpenHands,Opus 4.8,2191,3
+sympy__sympy-28105,OpenHands,Opus 4.8,1021.6666666666666,3
+scikit-learn__scikit-learn-28165,OpenHands,Opus 4.8,2121.3333333333335,3
+matplotlib__matplotlib-30198,OpenHands,Opus 4.8,1765.5,2
+scikit-learn__scikit-learn-31888,OpenHands,Opus 4.8,0,1
+Textualize__rich-3480,SWE-agent,Opus 4.8,641,3
+tox-dev__tox-3745,SWE-agent,Opus 4.8,252,3
+tox-dev__tox-3749,SWE-agent,Opus 4.8,468,3
+tox-dev__tox-3759,SWE-agent,Opus 4.8,3793,3
+Textualize__rich-3979,SWE-agent,Opus 4.8,446,3
+psf__requests-5851,SWE-agent,Opus 4.8,299,3
+dask__dask-7667,SWE-agent,Opus 4.8,642,3
+sympy__sympy-7900,SWE-agent,Opus 4.8,223,3
+sympy__sympy-9029,SWE-agent,Opus 4.8,0,3
+sympy__sympy-9493,SWE-agent,Opus 4.8,540,3
+sympy__sympy-9844,SWE-agent,Opus 4.8,3503,3
+aio-libs__aiohttp-10151,SWE-agent,Opus 4.8,182,3
+pydata__xarray-10248,SWE-agent,Opus 4.8,1535,2
+sympy__sympy-10478,SWE-agent,Opus 4.8,456,2
+pydantic__pydantic-11143,SWE-agent,Opus 4.8,3538,3
+aio-libs__aiohttp-12119,SWE-agent,Opus 4.8,445,1
+sympy__sympy-12621,SWE-agent,Opus 4.8,679,3
+pydantic__pydantic-12799,SWE-agent,Opus 4.8,3191,3
+sympy__sympy-14404,SWE-agent,Opus 4.8,704,3
+sympy__sympy-15418,SWE-agent,Opus 4.8,367,3
+sympy__sympy-15569,SWE-agent,Opus 4.8,7314,3
+sympy__sympy-15752,SWE-agent,Opus 4.8,284,3
+sympy__sympy-15855,SWE-agent,Opus 4.8,1061,3
+sympy__sympy-17010,SWE-agent,Opus 4.8,1691.6666666666667,3
+sympy__sympy-17329,SWE-agent,Opus 4.8,460,3
+numpy__numpy-21005,SWE-agent,Opus 4.8,1531,3
+sympy__sympy-21032,SWE-agent,Opus 4.8,496,3
+scikit-learn__scikit-learn-21271,SWE-agent,Opus 4.8,384,3
+sympy__sympy-21487,SWE-agent,Opus 4.8,198.66666666666666,3
+sympy__sympy-23175,SWE-agent,Opus 4.8,261,3
+sympy__sympy-23493,SWE-agent,Opus 4.8,22,3
+sympy__sympy-24826,SWE-agent,Opus 4.8,479,3
+sympy__sympy-24999,SWE-agent,Opus 4.8,1891,3
+sympy__sympy-25844,SWE-agent,Opus 4.8,856,3
+numpy__numpy-26022,SWE-agent,Opus 4.8,285,3
+numpy__numpy-26192,SWE-agent,Opus 4.8,0,3
+matplotlib__matplotlib-26767,SWE-agent,Opus 4.8,170,3
+sympy__sympy-27735,SWE-agent,Opus 4.8,3817,3
+sympy__sympy-28105,SWE-agent,Opus 4.8,2632.3333333333335,3
+scikit-learn__scikit-learn-28165,SWE-agent,Opus 4.8,3090,3

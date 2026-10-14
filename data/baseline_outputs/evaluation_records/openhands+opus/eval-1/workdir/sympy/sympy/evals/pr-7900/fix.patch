@@ -1,0 +1,44 @@
+diff --git a/sympy/solvers/solvers.py b/sympy/solvers/solvers.py
+index 9bc2b7b3a5..5574fbc244 100644
+--- a/sympy/solvers/solvers.py
++++ b/sympy/solvers/solvers.py
+@@ -706,8 +706,12 @@ def _sympified_list(w):
+         freei = f[i].free_symbols
+         if freei and all(s.is_real or s.is_imaginary for s in freei):
+             fr, fi = f[i].as_real_imag()
+-            if fr and fi and not any(i.has(re, im, arg) for i in (fr, fi)) \
+-                    and fr != fi:
++            # accept as long as new re, im, arg or atan2 are not introduced;
++            # e.g. the real/imag split of y**(2/3) for real y introduces
++            # atan2 and Abs which makes the equation harder (or impossible)
++            # to solve, so avoid splitting in that case
++            if fr and fi and not any(i.has(re, im, arg, atan2)
++                    for i in (fr, fi)) and fr != fi:
+                 if bare_f:
+                     bare_f = False
+                 f[i: i + 1] = [fr, fi]
+diff --git a/sympy/solvers/tests/test_solvers.py b/sympy/solvers/tests/test_solvers.py
+index 60338f20b5..c3bd2ec534 100644
+--- a/sympy/solvers/tests/test_solvers.py
++++ b/sympy/solvers/tests/test_solvers.py
+@@ -1499,3 +1499,20 @@ def test_issue_7547():
+         [['4442890172.68209'],
+          ['4289299466.1432'],
+          ['70.5389666628177']]))
++
++
++def test_issue_real_symbol_fractional_power():
++    # solve() was failing with real symbols and fractional powers
++    # because as_real_imag() was introducing atan2 and making the
++    # equations harder to solve
++    y = Symbol('y', real=True)
++    assert solve(y**(S(2)/3) - 3**(S(2)/3), y) == [3]
++    
++    # with check=False, shouldn't return 0 as a solution
++    result = solve(y**(S(2)/3) - 3**(S(2)/3), y, check=False)
++    assert 0 not in result
++    assert 3 in result or -3 in result
++    
++    # vanilla symbol should still work
++    y = Symbol('y')
++    assert solve(y**(S(2)/3) - 3**(S(2)/3), y) == [3]

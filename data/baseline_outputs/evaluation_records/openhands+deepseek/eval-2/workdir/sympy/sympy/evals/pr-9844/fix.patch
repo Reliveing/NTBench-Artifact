@@ -1,0 +1,99 @@
+diff --git a/sympy/integrals/manualintegrate.py b/sympy/integrals/manualintegrate.py
+index 50d75d5f92..37a98c55da 100644
+--- a/sympy/integrals/manualintegrate.py
++++ b/sympy/integrals/manualintegrate.py
+@@ -150,7 +150,7 @@ def possible_subterms(term):
+         return []
+ 
+     for u in possible_subterms(integrand):
+-        if u == symbol:
++        if u == symbol or u == -symbol:
+             continue
+         u_diff = manual_diff(u, symbol)
+         new_integrand = test_subterm(u, u_diff)
+@@ -830,6 +830,10 @@ def rewrites_rule(integral):
+         rewritten = integrand.subs(1/sympy.cos(symbol), sympy.sec(symbol))
+         return RewriteRule(rewritten, integral_steps(rewritten, symbol), integrand, symbol)
+ 
++    rewritten = sympy.powsimp(integrand)
++    if rewritten != integrand:
++        return RewriteRule(rewritten, integral_steps(rewritten, symbol), integrand, symbol)
++
+ def fallback_rule(integral):
+     return DontKnowRule(*integral)
+ 
+@@ -912,39 +916,41 @@ def _integral_is_subclass(integral):
+             return k and issubclass(k, klasses)
+         return _integral_is_subclass
+ 
+-    result = do_one(
+-        null_safe(switch(key, {
+-            sympy.Pow: do_one(null_safe(power_rule), null_safe(inverse_trig_rule)),
+-            sympy.Symbol: power_rule,
+-            sympy.exp: exp_rule,
+-            sympy.Add: add_rule,
+-            sympy.Mul: do_one(null_safe(mul_rule), null_safe(trig_product_rule), \
+-                null_safe(heaviside_rule)),
+-            sympy.Derivative: derivative_rule,
+-            TrigonometricFunction: trig_rule,
+-            sympy.Heaviside: heaviside_rule,
+-            sympy.Number: constant_rule
+-        })),
+-        do_one(
+-            null_safe(trig_rule),
+-            null_safe(alternatives(
+-                rewrites_rule,
+-                substitution_rule,
+-                condition(
+-                    integral_is_subclass(sympy.Mul, sympy.Pow),
+-                    partial_fractions_rule),
+-                condition(
+-                    integral_is_subclass(sympy.Mul, sympy.log, sympy.atan, sympy.asin, sympy.acos),
+-                    parts_rule),
+-                condition(
+-                    integral_is_subclass(sympy.Mul, sympy.Pow),
+-                    distribute_expand_rule),
+-                trig_powers_products_rule
+-            )),
+-            null_safe(trig_substitution_rule)
+-        ),
+-        fallback_rule)(integral)
+-    del _integral_cache[cachekey]
++    try:
++        result = do_one(
++            null_safe(switch(key, {
++                sympy.Pow: do_one(null_safe(power_rule), null_safe(inverse_trig_rule)),
++                sympy.Symbol: power_rule,
++                sympy.exp: exp_rule,
++                sympy.Add: add_rule,
++                sympy.Mul: do_one(null_safe(mul_rule), null_safe(trig_product_rule), \
++                    null_safe(heaviside_rule)),
++                sympy.Derivative: derivative_rule,
++                TrigonometricFunction: trig_rule,
++                sympy.Heaviside: heaviside_rule,
++                sympy.Number: constant_rule
++            })),
++            do_one(
++                null_safe(trig_rule),
++                null_safe(alternatives(
++                    rewrites_rule,
++                    substitution_rule,
++                    condition(
++                        integral_is_subclass(sympy.Mul, sympy.Pow),
++                        partial_fractions_rule),
++                    condition(
++                        integral_is_subclass(sympy.Mul, sympy.log, sympy.atan, sympy.asin, sympy.acos),
++                        parts_rule),
++                    condition(
++                        integral_is_subclass(sympy.Mul, sympy.Pow),
++                        distribute_expand_rule),
++                    trig_powers_products_rule
++                )),
++                null_safe(trig_substitution_rule)
++            ),
++            fallback_rule)(integral)
++    finally:
++        del _integral_cache[cachekey]
+     return result
+ 
+ @evaluates(ConstantRule)

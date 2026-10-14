@@ -1,0 +1,24 @@
+diff --git a/numpy/random/_generator.pyx b/numpy/random/_generator.pyx
+index d7c1879e7a..1a524bdc50 100644
+--- a/numpy/random/_generator.pyx
++++ b/numpy/random/_generator.pyx
+@@ -3021,6 +3021,19 @@ def negative_binomial(self, n, p, size=None):
+         ...    print(i, "wells drilled, probability of one success =", probability)
+ 
+         """
++        cdef np.ndarray n_arr, p_arr, max_lam_arr
++
++        p_arr = <np.ndarray>np.PyArray_FROM_OTF(p, np.NPY_DOUBLE, np.NPY_ALIGNED)
++        n_arr = <np.ndarray>np.PyArray_FROM_OTF(n, np.NPY_DOUBLE, np.NPY_ALIGNED)
++
++        # Check the mean of the resulting Poisson variate does not overflow.
++        # The mean of a negative binomial variate is n * (1 - p) / p.
++        check_array_constraint(n_arr, 'n', CONS_POSITIVE_NOT_NAN)
++        check_array_constraint(p_arr, 'p', CONS_BOUNDED_GT_0_1)
++        max_lam_arr = <np.ndarray>((1 - p_arr) / p_arr * n_arr)
++        if np.any(np.greater(max_lam_arr, POISSON_LAM_MAX)):
++            raise ValueError("n too large or p too small, see Generator.negative_binomial Notes")
++
+         return disc(&random_negative_binomial, &self._bitgen, size, self.lock, 2, 0,
+                     n, 'n', CONS_POSITIVE_NOT_NAN,
+                     p, 'p', CONS_BOUNDED_GT_0_1,

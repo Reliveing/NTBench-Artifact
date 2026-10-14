@@ -1,0 +1,23 @@
+diff --git a/sympy/functions/combinatorial/factorials.py b/sympy/functions/combinatorial/factorials.py
+index ea9e5a5..09a6480 100644
+--- a/sympy/functions/combinatorial/factorials.py
++++ b/sympy/functions/combinatorial/factorials.py
+@@ -333,6 +333,12 @@ class factorial2(CombinatorialFunction):
+             if arg.is_infinite:
+                 return
+ 
++            # The recurrence relations below are only valid for integers.
++            # For non-integers, leave the expression unevaluated rather than
++            # recursing indefinitely (e.g. factorial2(S(5)/2)).
++            if not arg.is_integer:
++                return
++
+             # This implementation is faster than the recursive one
+             # It also avoids "maximum recursion depth exceeded" runtime error
+             if arg.is_nonnegative:
+@@ -862,4 +868,4 @@ class binomial(CombinatorialFunction):
+         if n.is_integer and k.is_integer:
+             return True
+         elif k.is_integer is False:
+-            return False
++            return False

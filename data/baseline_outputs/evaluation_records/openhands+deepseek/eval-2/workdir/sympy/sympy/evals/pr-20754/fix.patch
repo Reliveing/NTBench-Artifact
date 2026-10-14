@@ -1,0 +1,45 @@
+diff --git a/sympy/core/expr.py b/sympy/core/expr.py
+index 0d13b65958..c4033a7bee 100644
+--- a/sympy/core/expr.py
++++ b/sympy/core/expr.py
+@@ -3245,6 +3245,7 @@ def _eval_lseries(self, x, logx=None, cdir=0):
+         # we are calculating the series over and over again. Subclasses should
+         # override this method and implement much more efficient yielding of
+         # terms.
++        from sympy import Order
+         n = 0
+         series = self._eval_nseries(x, n=n, logx=logx, cdir=cdir)
+ 
+@@ -3257,6 +3258,9 @@ def _eval_lseries(self, x, logx=None, cdir=0):
+         if e is S.Zero:
+             return
+ 
++        if not series.has(Order):
++            return
++
+         while 1:
+             while 1:
+                 n += 1
+@@ -3265,6 +3269,22 @@ def _eval_lseries(self, x, logx=None, cdir=0):
+                     break
+                 if (series - self).cancel() is S.Zero:
+                     return
++                # series is unchanged but not equal to self; check
++                # if higher order terms are also the same to avoid
++                # infinite loops (e.g. with expressions containing Abs)
++                for i in range(3):
++                    n += 1
++                    nxt = self._eval_nseries(
++                        x, n=n, logx=logx, cdir=cdir).removeO()
++                    if nxt != series:
++                        break
++                else:
++                    return
++                series = nxt
++                if e != series:
++                    break
++                if (series - self).cancel() is S.Zero:
++                    return
+             yield series - e
+             e = series
+ 

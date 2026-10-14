@@ -1,0 +1,26 @@
+diff --git a/sympy/core/basic.py b/sympy/core/basic.py
+index a134fab92b..806a38ff5d 100644
+--- a/sympy/core/basic.py
++++ b/sympy/core/basic.py
+@@ -1071,6 +1071,7 @@ def _subs(self, old, new, **hints):
+               on any of its summation variables.
+         """
+ 
++        from sympy import Pow
+         def fallback(self, old, new):
+             """
+             Try to replace old with new in any of self's arguments.
+@@ -1108,7 +1109,12 @@ def fallback(self, old, new):
+ 
+         rv = self._eval_subs(old, new)
+         if rv is None:
+-            rv = fallback(self, old, new)
++            if self.is_Atom and old.is_Pow and _aresame(self, old.base):
++                rv = Pow(self, S.One, evaluate=False)._eval_subs(old, new)
++                if rv is None:
++                    rv = fallback(self, old, new)
++            else:
++                rv = fallback(self, old, new)
+         return rv
+ 
+     def _eval_subs(self, old, new):

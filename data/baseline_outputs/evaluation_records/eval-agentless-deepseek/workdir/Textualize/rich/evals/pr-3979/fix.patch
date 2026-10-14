@@ -1,0 +1,28 @@
+diff --git a/rich/cells.py b/rich/cells.py
+index 3116595..e5ab80b 100644
+--- a/rich/cells.py
++++ b/rich/cells.py
+@@ -203,10 +203,14 @@ def split_graphemes(
+             last_measured_character = character
+             spans.append((index, index := index + 1, character_width))
+             total_width += character_width
+-        elif spans:
++        else:
+             # zero width characters are associated with the previous character
+-            start, _end, cell_length = spans[-1]
+-            spans[-1] = (start, index := index + 1, cell_length)
++            # if there is one, otherwise they are just skipped
++            if spans:
++                start, _end, cell_length = spans[-1]
++                spans[-1] = (start, index := index + 1, cell_length)
++            else:
++                index += 1
+ 
+     return (spans, total_width)
+ 
+@@ -328,4 +332,4 @@ def chop_cells(text: str, width: int, unicode_version: str = "auto") -> list[str
+     if line_size:
+         lines.append(text[line_offset:])
+ 
+-    return lines
++    return lines

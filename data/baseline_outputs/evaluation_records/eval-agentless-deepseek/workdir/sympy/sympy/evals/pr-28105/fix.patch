@@ -1,0 +1,64 @@
+diff --git a/sympy/solvers/simplex.py b/sympy/solvers/simplex.py
+index f140268..6d42446 100644
+--- a/sympy/solvers/simplex.py
++++ b/sympy/solvers/simplex.py
+@@ -300,6 +300,8 @@ def _simplex(A, B, C, D=None, dual=False):
+ 
+     ## keep track of last pivot row and column
+     last = None
++    ## keep a set of visited bases to detect cycling
++    visited_bases = set()
+ 
+     while True:
+         B = M[:-1, -1]
+@@ -323,31 +325,19 @@ def _simplex(A, B, C, D=None, dual=False):
+         _, c = min((X[i], i) for i in piv_cols) # Bland's rule
+ 
+         # Choose pivot row, r
+-        piv_rows = [_ for _ in range(A.rows) if A[_, c] > 0 and B[_] > 0]
+-        piv_rows.append(k)
+-        r = _choose_pivot_row(A, B, piv_rows, c, Y)
+-
+-        # check for oscillation
+-        if (r, c) == last:
+-            # Not sure what to do here; it looks like there will be
+-            # oscillations; see o1 test added at this commit to
+-            # see a system with no solution and the o2 for one
+-            # with a solution. In the case of o2, the solution
+-            # from linprog is the same as the one from lpmin, but
+-            # the matrices created in the lpmin case are different
+-            # than those created without replacements in linprog and
+-            # the matrices in the linprog case lead to oscillations.
+-            # If the matrices could be re-written in linprog like
+-            # lpmin does, this behavior could be avoided and then
+-            # perhaps the oscillating case would only occur when
+-            # there is no solution. For now, the output is checked
+-            # before exit if oscillations were detected and an
+-            # error is raised there if the solution was invalid.
+-            #
+-            # cf section 6 of Ferguson for a non-cycling modification
+-            last = True
+-            break
+-        last = r, c
++        # In Phase 1, we must pivot on row k itself to eliminate
++        # the negative B[k] entry. Pivoting on any other row would
++        # not fix B[k] and could cause cycling or incorrect results.
++        r = k
++
++        # Check for cycling by tracking visited bases
++        basis_key = tuple(sorted(X))
++        if basis_key in visited_bases:
++            raise InfeasibleLPError(filldedent("""
++                Cycling detected in Phase 1; no feasible solution exists.
++                If you believe there was a valid solution, please
++                report this as a bug."""))
++        visited_bases.add(basis_key)
+ 
+         M = _pivot(M, r, c)
+         X[c], Y[r] = Y[r], X[c]
+@@ -1101,4 +1091,4 @@ def show_linprog(c, A=None, b=None, A_eq=None, b_eq=None, bounds=None):
+             c.append(x[i]>=lo)
+         if hi is not None:
+             c.append(x[i]<=hi)
+-    return f,c
++    return f,c

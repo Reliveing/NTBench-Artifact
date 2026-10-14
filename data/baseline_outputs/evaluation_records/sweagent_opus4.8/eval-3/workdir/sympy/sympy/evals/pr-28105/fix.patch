@@ -1,0 +1,105 @@
+diff --git a/sympy/solvers/simplex.py b/sympy/solvers/simplex.py
+index f140268b79..277ea5c414 100644
+--- a/sympy/solvers/simplex.py
++++ b/sympy/solvers/simplex.py
+@@ -296,61 +296,42 @@ def _simplex(A, B, C, D=None, dual=False):
+     X = [(False, j) for j in range(n)]
+     Y = [(True, i) for i in range(m)]
+ 
+-    # Phase 1: find a feasible solution or determine none exist
+-
+-    ## keep track of last pivot row and column
+-    last = None
++    # Phase 1: find a feasible solution or determine none exist.
++    #
++    # This is done with the dual simplex method: as long as some basic
++    # variable is negative (the current basis is primal infeasible) a
++    # pivot is performed to restore feasibility.  Choosing the leaving
++    # variable as the one with the smallest index among the infeasible
++    # basic variables (and breaking ties in the entering variable with
++    # the smallest index) is Bland's rule, which is guaranteed not to
++    # cycle so the routine is guaranteed to terminate -- either by
++    # finding a feasible basis or by proving that none exists.
+ 
+     while True:
+         B = M[:-1, -1]
+         A = M[:-1, :-1]
+-        if all(B[i] >= 0 for i in range(B.rows)):
++
++        # Find k: the infeasible row whose basic variable has the
++        # smallest index (Bland's rule for the leaving variable).
++        infeasible = [i for i in range(B.rows) if B[i] < 0]
++        if not infeasible:
+             # We have found a feasible solution
+             break
++        k = min(infeasible, key=lambda i: Y[i])
+ 
+-        # Find k: first row with a negative rightmost entry
+-        for k in range(B.rows):
+-            if B[k] < 0:
+-                break  # use current value of k below
+-        else:
+-            pass  # error will raise below
+-
+-        # Choose pivot column, c
++        # Choose the entering column, c: among the columns that can be
++        # used to increase B[k] (those with A[k, c] < 0) pick the one
++        # whose variable has the smallest index (Bland's rule for the
++        # entering variable).  If no such column exists the value of
++        # B[k] can never be made nonnegative and the LP is infeasible.
+         piv_cols = [_ for _ in range(A.cols) if A[k, _] < 0]
+         if not piv_cols:
+             raise InfeasibleLPError(filldedent("""
+                 The constraint set is empty!"""))
+-        _, c = min((X[i], i) for i in piv_cols) # Bland's rule
+-
+-        # Choose pivot row, r
+-        piv_rows = [_ for _ in range(A.rows) if A[_, c] > 0 and B[_] > 0]
+-        piv_rows.append(k)
+-        r = _choose_pivot_row(A, B, piv_rows, c, Y)
+-
+-        # check for oscillation
+-        if (r, c) == last:
+-            # Not sure what to do here; it looks like there will be
+-            # oscillations; see o1 test added at this commit to
+-            # see a system with no solution and the o2 for one
+-            # with a solution. In the case of o2, the solution
+-            # from linprog is the same as the one from lpmin, but
+-            # the matrices created in the lpmin case are different
+-            # than those created without replacements in linprog and
+-            # the matrices in the linprog case lead to oscillations.
+-            # If the matrices could be re-written in linprog like
+-            # lpmin does, this behavior could be avoided and then
+-            # perhaps the oscillating case would only occur when
+-            # there is no solution. For now, the output is checked
+-            # before exit if oscillations were detected and an
+-            # error is raised there if the solution was invalid.
+-            #
+-            # cf section 6 of Ferguson for a non-cycling modification
+-            last = True
+-            break
+-        last = r, c
++        _, c = min((X[i], i) for i in piv_cols)  # Bland's rule
+ 
+-        M = _pivot(M, r, c)
+-        X[c], Y[r] = Y[r], X[c]
++        M = _pivot(M, k, c)
++        X[c], Y[k] = Y[k], X[c]
+ 
+     # Phase 2: from a feasible solution, pivot to optimal
+     while True:
+@@ -390,9 +371,12 @@ def _simplex(A, B, C, D=None, dual=False):
+         else:
+             argmax[n] = M[i, -1]
+ 
+-    if last and not all(i >= 0 for i in argmax + argmin_dual):
++    if not all(i >= 0 for i in argmax + argmin_dual):
++        # Bland's rule guarantees that Phase 1 terminates at a feasible
++        # basis (or raises InfeasibleLPError), so this should not
++        # happen; guard against it in case of an unforeseen situation.
+         raise InfeasibleLPError(filldedent("""
+-            Oscillating system led to invalid solution.
++            Could not find a valid solution.
+             If you believe there was a valid solution, please
+             report this as a bug."""))
+     return -M[-1, -1], argmax, argmin_dual

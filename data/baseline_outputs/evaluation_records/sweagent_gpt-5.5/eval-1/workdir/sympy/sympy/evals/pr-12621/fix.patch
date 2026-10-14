@@ -1,0 +1,16 @@
+diff --git a/sympy/calculus/util.py b/sympy/calculus/util.py
+index 21d6e80a4d..d4ecc8664f 100644
+--- a/sympy/calculus/util.py
++++ b/sympy/calculus/util.py
+@@ -381,7 +381,10 @@ def periodicity(f, symbol, check=False):
+             for index, g in enumerate(reversed(g_s)):
+                 start_index = num_of_gs - 1 - index
+                 g = compogen(g_s[start_index:], symbol)
+-                if g != f:
++                # The recomposed expression may be structurally different
++                # from ``f`` but simplify to the same expression. In that
++                # case, recursing would repeat the same decomposition forever.
++                if g != f and simplify(g) != f:
+                     period = periodicity(g, symbol)
+                     if period is None:
+                         continue

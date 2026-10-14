@@ -1,0 +1,135 @@
+diff --git a/pylint/lint/parallel.py b/pylint/lint/parallel.py
+index 1896fc95f..d2a15927d 100644
+--- a/pylint/lint/parallel.py
++++ b/pylint/lint/parallel.py
+@@ -3,8 +3,11 @@
+ 
+ import collections
+ import functools
++import os
+ from typing import TYPE_CHECKING, Any, DefaultDict, Dict, Iterable, List, Tuple, Union
+ 
++import dill
++
+ from pylint import reporters
+ from pylint.lint.utils import _patch_sys_path
+ from pylint.message import Message
+@@ -14,11 +17,11 @@ if TYPE_CHECKING:
+     from typing import Counter  # typing.Counter added in Python 3.6.1
+ 
+ try:
+-    import multiprocessing
++    from concurrent.futures import ProcessPoolExecutor
+ except ImportError:
+-    multiprocessing = None  # type: ignore
++    ProcessPoolExecutor = None  # type: ignore[assignment,misc]
+ 
+-# PyLinter object used by worker processes when checking files using multiprocessing
++# PyLinter object used by worker processes when checking files using parallel mode
+ # should only be used by the worker processes
+ _worker_linter = None
+ 
+@@ -55,8 +58,16 @@ def _merge_stats(stats: List[CheckerStats]):
+ 
+ 
+ def _worker_initialize(linter, arguments=None):
++    """Function called to initialize a worker for a Process within a concurrent Pool.
++
++    :param linter: A linter-class (PyLinter) instance (or pickled with dill)
++    :param arguments: File or module name(s) to lint and to be added to sys.path
++    """
+     global _worker_linter  # pylint: disable=global-statement
+-    _worker_linter = linter
++    if isinstance(linter, bytes):
++        _worker_linter = dill.loads(linter)
++    else:
++        _worker_linter = linter
+ 
+     # On the worker process side the messages are just collected and passed back to
+     # parent process as _worker_check_file function's return value
+@@ -84,7 +95,7 @@ def _worker_check_single_file(
+     msgs = [_get_new_args(m) for m in _worker_linter.reporter.messages]
+     _worker_linter.reporter.reset()
+     return (
+-        id(multiprocessing.current_process()),
++        os.getpid(),
+         _worker_linter.current_name,
+         file_item.filepath,
+         _worker_linter.file_state.base_name,
+@@ -121,23 +132,14 @@ def check_parallel(linter, jobs, files: Iterable[FileItem], arguments=None):
+     This splits the work filestream-by-filestream. If you need to do work across
+     multiple files, as in the similarity-checker, then inherit from MapReduceMixin and
+     implement the map/reduce mixin functionality"""
+-    # The reporter does not need to be passed to worker processes, i.e. the reporter does
+-    original_reporter = linter.reporter
+-    linter.reporter = None
+-
+     # The linter is inherited by all the pool's workers, i.e. the linter
+     # is identical to the linter object here. This is required so that
+     # a custom PyLinter object can be used.
+     initializer = functools.partial(_worker_initialize, arguments=arguments)
+-    pool = multiprocessing.Pool(  # pylint: disable=consider-using-with
+-        jobs, initializer=initializer, initargs=[linter]
+-    )
+-    # ..and now when the workers have inherited the linter, the actual reporter
+-    # can be set back here on the parent process so that results get stored into
+-    # correct reporter
+-    linter.set_reporter(original_reporter)
+-    linter.open()
+-    try:
++    with ProcessPoolExecutor(
++        max_workers=jobs, initializer=initializer, initargs=(dill.dumps(linter),)
++    ) as executor:
++        linter.open()
+         all_stats = []
+         all_mapreduce_data = collections.defaultdict(list)
+ 
+@@ -153,18 +155,15 @@ def check_parallel(linter, jobs, files: Iterable[FileItem], arguments=None):
+             stats,
+             msg_status,
+             mapreduce_data,
+-        ) in pool.imap_unordered(_worker_check_single_file, files):
++        ) in executor.map(_worker_check_single_file, files):
+             linter.file_state.base_name = base_name
+             linter.set_current_module(module, file_path)
+             for msg in messages:
+                 msg = Message(*msg)
+-                linter.reporter.handle_message(msg)  # type: ignore  # linter.set_reporter() call above makes linter have a reporter attr
++                linter.reporter.handle_message(msg)
+             all_stats.append(stats)
+             all_mapreduce_data[worker_idx].append(mapreduce_data)
+             linter.msg_status |= msg_status
+-    finally:
+-        pool.close()
+-        pool.join()
+ 
+     _merge_mapreduce_data(linter, all_mapreduce_data)
+     linter.stats = _merge_stats([linter.stats] + all_stats)
+diff --git a/pylint/lint/run.py b/pylint/lint/run.py
+index d84ed2703..670173736 100644
+--- a/pylint/lint/run.py
++++ b/pylint/lint/run.py
+@@ -16,6 +16,11 @@ try:
+ except ImportError:
+     multiprocessing = None  # type: ignore
+ 
++try:
++    from concurrent.futures import ProcessPoolExecutor
++except ImportError:
++    ProcessPoolExecutor = None  # type: ignore[assignment,misc]
++
+ 
+ def _cpu_count() -> int:
+     """Use sched_affinity if available for virtualized or containerized environments."""
+@@ -345,9 +350,9 @@ group are mutually exclusive.",
+             )
+             sys.exit(32)
+         if linter.config.jobs > 1 or linter.config.jobs == 0:
+-            if multiprocessing is None:
++            if ProcessPoolExecutor is None:
+                 print(
+-                    "Multiprocessing library is missing, fallback to single process",
++                    "concurrent.futures module is missing, fallback to single process",
+                     file=sys.stderr,
+                 )
+                 linter.set_option("jobs", 1)

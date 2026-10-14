@@ -1,0 +1,120 @@
+diff --git a/sklearn/cluster/_kmeans.py b/sklearn/cluster/_kmeans.py
+index 178242e..f8df18b 100644
+--- a/sklearn/cluster/_kmeans.py
++++ b/sklearn/cluster/_kmeans.py
+@@ -567,6 +567,54 @@ def _kmeans_single_elkan(
+             n_threads,
+         )
+ 
++        # Relocate empty clusters
++        empty_clusters = np.where(weight_in_clusters == 0)[0]
++        if empty_clusters.size > 0:
++            # Find samples in clusters with more than 1 sample
++            cluster_counts = np.bincount(labels, minlength=n_clusters)
++            eligible_clusters = np.where(cluster_counts > 1)[0]
++            if eligible_clusters.size > 0:
++                # For each empty cluster, find the sample farthest from its center
++                for empty_cluster in empty_clusters:
++                    # Compute distances from each sample to its assigned center
++                    # Only consider samples in eligible clusters
++                    eligible_mask = np.isin(labels, eligible_clusters)
++                    if not np.any(eligible_mask):
++                        break
++                    # Compute distances for eligible samples
++                    eligible_samples = np.where(eligible_mask)[0]
++                    distances = np.sum(
++                        (X[eligible_samples] - centers[labels[eligible_samples]]) ** 2,
++                        axis=1,
++                    )
++                    # Find the sample with maximum distance
++                    max_idx = eligible_samples[np.argmax(distances)]
++                    # Move this sample to the empty cluster
++                    old_cluster = labels[max_idx]
++                    labels[max_idx] = empty_cluster
++                    # Update centers for both affected clusters
++                    # Recompute centers for old_cluster and empty_cluster
++                    for cluster in [old_cluster, empty_cluster]:
++                        cluster_samples = X[labels == cluster]
++                        if len(cluster_samples) > 0:
++                            centers_new[cluster] = np.average(
++                                cluster_samples,
++                                axis=0,
++                                weights=sample_weight[labels == cluster],
++                            )
++                        else:
++                            centers_new[cluster] = centers[cluster]
++                    # Update weight_in_clusters
++                    weight_in_clusters[old_cluster] -= sample_weight[max_idx]
++                    weight_in_clusters[empty_cluster] += sample_weight[max_idx]
++                    # Update center_shift for affected clusters
++                    center_shift[old_cluster] = np.sum(
++                        (centers_new[old_cluster] - centers[old_cluster]) ** 2
++                    )
++                    center_shift[empty_cluster] = np.sum(
++                        (centers_new[empty_cluster] - centers[empty_cluster]) ** 2
++                    )
++
+         # compute new pairwise distances between centers and closest other
+         # center of each center for next iterations
+         center_half_distances = euclidean_distances(centers_new) / 2
+@@ -712,6 +760,54 @@ def _kmeans_single_lloyd(
+                 n_threads,
+             )
+ 
++            # Relocate empty clusters
++            empty_clusters = np.where(weight_in_clusters == 0)[0]
++            if empty_clusters.size > 0:
++                # Find samples in clusters with more than 1 sample
++                cluster_counts = np.bincount(labels, minlength=n_clusters)
++                eligible_clusters = np.where(cluster_counts > 1)[0]
++                if eligible_clusters.size > 0:
++                    # For each empty cluster, find the sample farthest from its center
++                    for empty_cluster in empty_clusters:
++                        # Compute distances from each sample to its assigned center
++                        # Only consider samples in eligible clusters
++                        eligible_mask = np.isin(labels, eligible_clusters)
++                        if not np.any(eligible_mask):
++                            break
++                        # Compute distances for eligible samples
++                        eligible_samples = np.where(eligible_mask)[0]
++                        distances = np.sum(
++                            (X[eligible_samples] - centers[labels[eligible_samples]]) ** 2,
++                            axis=1,
++                        )
++                        # Find the sample with maximum distance
++                        max_idx = eligible_samples[np.argmax(distances)]
++                        # Move this sample to the empty cluster
++                        old_cluster = labels[max_idx]
++                        labels[max_idx] = empty_cluster
++                        # Update centers for both affected clusters
++                        # Recompute centers for old_cluster and empty_cluster
++                        for cluster in [old_cluster, empty_cluster]:
++                            cluster_samples = X[labels == cluster]
++                            if len(cluster_samples) > 0:
++                                centers_new[cluster] = np.average(
++                                    cluster_samples,
++                                    axis=0,
++                                    weights=sample_weight[labels == cluster],
++                                )
++                            else:
++                                centers_new[cluster] = centers[cluster]
++                        # Update weight_in_clusters
++                        weight_in_clusters[old_cluster] -= sample_weight[max_idx]
++                        weight_in_clusters[empty_cluster] += sample_weight[max_idx]
++                        # Update center_shift for affected clusters
++                        center_shift[old_cluster] = np.sum(
++                            (centers_new[old_cluster] - centers[old_cluster]) ** 2
++                        )
++                        center_shift[empty_cluster] = np.sum(
++                            (centers_new[empty_cluster] - centers[empty_cluster]) ** 2
++                        )
++
+             if verbose:
+                 inertia = _inertia(X, sample_weight, centers, labels, n_threads)
+                 print(f"Iteration {i}, inertia {inertia}.")
+@@ -2315,4 +2411,4 @@ class MiniBatchKMeans(_BaseKMeans):
+         self.n_steps_ += 1
+         self._n_features_out = self.cluster_centers_.shape[0]
+ 
+-        return self
++        return self

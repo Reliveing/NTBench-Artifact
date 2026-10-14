@@ -1,0 +1,24 @@
+diff --git a/sympy/core/symbol.py b/sympy/core/symbol.py
+index c5e7807312..34370f6311 100644
+--- a/sympy/core/symbol.py
++++ b/sympy/core/symbol.py
+@@ -251,6 +251,19 @@ def _hashable_content(self):
+         # Note: user-specified assumptions not hashed, just derived ones
+         return (self.name,) + tuple(sorted(self.assumptions0.items()))
+ 
++    def _eval_subs(self, old, new):
++        # When substituting a fractional power (like sqrt(x)), treat this symbol 
++        # as a power with exponent 1 so that x gets replaced with y**2.
++        # e.g., x.subs(sqrt(x), y) should return y**2 since x == sqrt(x)**2
++        # Only apply this when 0 < old.exp < 1 to handle roots/fractional powers.
++        # Only apply for commutative symbols to avoid issues with noncommutative algebra.
++        if self.is_commutative and hasattr(old, 'is_Pow') and old.is_Pow:
++            if hasattr(old, 'base') and old.base == self:
++                if hasattr(old, 'exp') and old.exp.is_number:
++                    if old.exp > 0 and old.exp < 1:
++                        from sympy.core.power import Pow
++                        return Pow(new, S.One/old.exp)
++
+     @property
+     def assumptions0(self):
+         return dict((key, value) for key, value

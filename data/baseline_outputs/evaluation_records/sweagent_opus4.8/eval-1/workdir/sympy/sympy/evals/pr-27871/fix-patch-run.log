@@ -1,0 +1,117 @@
+Obtaining file:///home/sympy
+  Installing build dependencies: started
+  Installing build dependencies: finished with status 'done'
+  Checking if build backend supports build_editable: started
+  Checking if build backend supports build_editable: finished with status 'done'
+  Getting requirements to build editable: started
+  Getting requirements to build editable: finished with status 'done'
+  Preparing editable metadata (pyproject.toml): started
+  Preparing editable metadata (pyproject.toml): finished with status 'done'
+Requirement already satisfied: mpmath>=1.1.0 in /usr/local/lib/python3.11/site-packages (from sympy==1.14.dev0) (1.4.1)
+Building wheels for collected packages: sympy
+  Building editable for sympy (pyproject.toml): started
+  Building editable for sympy (pyproject.toml): finished with status 'done'
+  Created wheel for sympy: filename=sympy-1.14.dev0-0.editable-py3-none-any.whl size=33273 sha256=f8f0615ac018d584454fbf05615446ebf832cdbe4d11ecc24233253fce62c8b2
+  Stored in directory: /tmp/pip-ephem-wheel-cache-ml8_3bzs/wheels/af/22/61/2ece34a734d21005537313f7f88a33ef281f3770719986eb88
+Successfully built sympy
+Installing collected packages: sympy
+  Attempting uninstall: sympy
+    Found existing installation: sympy 1.14.dev0
+    Uninstalling sympy-1.14.dev0:
+      Successfully uninstalled sympy-1.14.dev0
+Successfully installed sympy-1.14.dev0
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+
+[notice] A new release of pip is available: 26.0.1 -> 26.2.1
+[notice] To update, run: pip install --upgrade pip
+============================= test session starts ==============================
+collecting ... collected 39 items
+
+sympy/functions/combinatorial/tests/test_comb_numbers.py::test_carmichael PASSED [  2%]
+sympy/functions/combinatorial/tests/test_comb_numbers.py::test_bernoulli PASSED [  5%]
+sympy/functions/combinatorial/tests/test_comb_numbers.py::test_bernoulli_rewrite PASSED [  7%]
+sympy/functions/combinatorial/tests/test_comb_numbers.py::test_fibonacci PASSED [ 10%]
+sympy/functions/combinatorial/tests/test_comb_numbers.py::test_tribonacci PASSED [ 12%]
+sympy/functions/combinatorial/tests/test_comb_numbers.py::test_bell PASSED [ 15%]
+sympy/functions/combinatorial/tests/test_comb_numbers.py::test_harmonic PASSED [ 17%]
+sympy/functions/combinatorial/tests/test_comb_numbers.py::test_harmonic_rational PASSED [ 20%]
+sympy/functions/combinatorial/tests/test_comb_numbers.py::test_harmonic_evalf PASSED [ 23%]
+sympy/functions/combinatorial/tests/test_comb_numbers.py::test_harmonic_rewrite PASSED [ 25%]
+sympy/functions/combinatorial/tests/test_comb_numbers.py::test_harmonic_calculus PASSED [ 28%]
+sympy/functions/combinatorial/tests/test_comb_numbers.py::test_large_harmonic_unevaluated FAILED [ 30%]
+sympy/functions/combinatorial/tests/test_comb_numbers.py::test_euler PASSED [ 33%]
+sympy/functions/combinatorial/tests/test_comb_numbers.py::test_euler_odd PASSED [ 35%]
+sympy/functions/combinatorial/tests/test_comb_numbers.py::test_euler_polynomials PASSED [ 38%]
+sympy/functions/combinatorial/tests/test_comb_numbers.py::test_euler_polynomial_rewrite PASSED [ 41%]
+sympy/functions/combinatorial/tests/test_comb_numbers.py::test_catalan PASSED [ 43%]
+sympy/functions/combinatorial/tests/test_comb_numbers.py::test_genocchi PASSED [ 46%]
+sympy/functions/combinatorial/tests/test_comb_numbers.py::test_andre PASSED [ 48%]
+sympy/functions/combinatorial/tests/test_comb_numbers.py::test_partition PASSED [ 51%]
+sympy/functions/combinatorial/tests/test_comb_numbers.py::test_divisor_sigma PASSED [ 53%]
+sympy/functions/combinatorial/tests/test_comb_numbers.py::test_udivisor_sigma PASSED [ 56%]
+sympy/functions/combinatorial/tests/test_comb_numbers.py::test_legendre_symbol PASSED [ 58%]
+sympy/functions/combinatorial/tests/test_comb_numbers.py::test_jacobi_symbol PASSED [ 61%]
+sympy/functions/combinatorial/tests/test_comb_numbers.py::test_kronecker_symbol PASSED [ 64%]
+sympy/functions/combinatorial/tests/test_comb_numbers.py::test_mobius PASSED [ 66%]
+sympy/functions/combinatorial/tests/test_comb_numbers.py::test_primenu PASSED [ 69%]
+sympy/functions/combinatorial/tests/test_comb_numbers.py::test_primeomega PASSED [ 71%]
+sympy/functions/combinatorial/tests/test_comb_numbers.py::test_totient PASSED [ 74%]
+sympy/functions/combinatorial/tests/test_comb_numbers.py::test_reduced_totient PASSED [ 76%]
+sympy/functions/combinatorial/tests/test_comb_numbers.py::test_primepi PASSED [ 79%]
+sympy/functions/combinatorial/tests/test_comb_numbers.py::test__nT PASSED [ 82%]
+sympy/functions/combinatorial/tests/test_comb_numbers.py::test_nC_nP_nT PASSED [ 84%]
+sympy/functions/combinatorial/tests/test_comb_numbers.py::test_PR_14617 PASSED [ 87%]
+sympy/functions/combinatorial/tests/test_comb_numbers.py::test_issue_8496 PASSED [ 89%]
+sympy/functions/combinatorial/tests/test_comb_numbers.py::test_issue_8601 PASSED [ 92%]
+sympy/functions/combinatorial/tests/test_comb_numbers.py::test_motzkin PASSED [ 94%]
+sympy/functions/combinatorial/tests/test_comb_numbers.py::test_nD_derangements PASSED [ 97%]
+sympy/functions/combinatorial/tests/test_comb_numbers.py::test_deprecated_ntheory_symbolic_functions PASSED [100%]
+
+=============================== warnings summary ===============================
+sympy/functions/combinatorial/tests/test_comb_numbers.py: 3198 warnings
+  /usr/local/lib/python3.11/site-packages/mpmath/libmp/libintmath.py:75: DeprecationWarning: bitcount function is deprecated
+    warnings.warn("bitcount function is deprecated",
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+                                DO *NOT* COMMIT!                                
+=========================== short test summary info ============================
+PASSED sympy/functions/combinatorial/tests/test_comb_numbers.py::test_carmichael
+PASSED sympy/functions/combinatorial/tests/test_comb_numbers.py::test_bernoulli
+PASSED sympy/functions/combinatorial/tests/test_comb_numbers.py::test_bernoulli_rewrite
+PASSED sympy/functions/combinatorial/tests/test_comb_numbers.py::test_fibonacci
+PASSED sympy/functions/combinatorial/tests/test_comb_numbers.py::test_tribonacci
+PASSED sympy/functions/combinatorial/tests/test_comb_numbers.py::test_bell
+PASSED sympy/functions/combinatorial/tests/test_comb_numbers.py::test_harmonic
+PASSED sympy/functions/combinatorial/tests/test_comb_numbers.py::test_harmonic_rational
+PASSED sympy/functions/combinatorial/tests/test_comb_numbers.py::test_harmonic_evalf
+PASSED sympy/functions/combinatorial/tests/test_comb_numbers.py::test_harmonic_rewrite
+PASSED sympy/functions/combinatorial/tests/test_comb_numbers.py::test_harmonic_calculus
+PASSED sympy/functions/combinatorial/tests/test_comb_numbers.py::test_euler
+PASSED sympy/functions/combinatorial/tests/test_comb_numbers.py::test_euler_odd
+PASSED sympy/functions/combinatorial/tests/test_comb_numbers.py::test_euler_polynomials
+PASSED sympy/functions/combinatorial/tests/test_comb_numbers.py::test_euler_polynomial_rewrite
+PASSED sympy/functions/combinatorial/tests/test_comb_numbers.py::test_catalan
+PASSED sympy/functions/combinatorial/tests/test_comb_numbers.py::test_genocchi
+PASSED sympy/functions/combinatorial/tests/test_comb_numbers.py::test_andre
+PASSED sympy/functions/combinatorial/tests/test_comb_numbers.py::test_partition
+PASSED sympy/functions/combinatorial/tests/test_comb_numbers.py::test_divisor_sigma
+PASSED sympy/functions/combinatorial/tests/test_comb_numbers.py::test_udivisor_sigma
+PASSED sympy/functions/combinatorial/tests/test_comb_numbers.py::test_legendre_symbol
+PASSED sympy/functions/combinatorial/tests/test_comb_numbers.py::test_jacobi_symbol
+PASSED sympy/functions/combinatorial/tests/test_comb_numbers.py::test_kronecker_symbol
+PASSED sympy/functions/combinatorial/tests/test_comb_numbers.py::test_mobius
+PASSED sympy/functions/combinatorial/tests/test_comb_numbers.py::test_primenu
+PASSED sympy/functions/combinatorial/tests/test_comb_numbers.py::test_primeomega
+PASSED sympy/functions/combinatorial/tests/test_comb_numbers.py::test_totient
+PASSED sympy/functions/combinatorial/tests/test_comb_numbers.py::test_reduced_totient
+PASSED sympy/functions/combinatorial/tests/test_comb_numbers.py::test_primepi
+PASSED sympy/functions/combinatorial/tests/test_comb_numbers.py::test__nT
+PASSED sympy/functions/combinatorial/tests/test_comb_numbers.py::test_nC_nP_nT
+PASSED sympy/functions/combinatorial/tests/test_comb_numbers.py::test_PR_14617
+PASSED sympy/functions/combinatorial/tests/test_comb_numbers.py::test_issue_8496
+PASSED sympy/functions/combinatorial/tests/test_comb_numbers.py::test_issue_8601
+PASSED sympy/functions/combinatorial/tests/test_comb_numbers.py::test_motzkin
+PASSED sympy/functions/combinatorial/tests/test_comb_numbers.py::test_nD_derangements
+PASSED sympy/functions/combinatorial/tests/test_comb_numbers.py::test_deprecated_ntheory_symbolic_functions
+FAILED sympy/functions/combinatorial/tests/test_comb_numbers.py::test_large_harmonic_unevaluated
+================= 1 failed, 38 passed, 3198 warnings in 7.70s ==================

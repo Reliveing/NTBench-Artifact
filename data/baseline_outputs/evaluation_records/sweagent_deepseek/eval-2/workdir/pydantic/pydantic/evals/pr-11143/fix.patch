@@ -1,0 +1,46 @@
+diff --git a/pydantic/_internal/_generics.py b/pydantic/_internal/_generics.py
+index 327fede03..41ebfef9f 100644
+--- a/pydantic/_internal/_generics.py
++++ b/pydantic/_internal/_generics.py
+@@ -526,13 +526,39 @@ def _early_cache_key(cls: type[BaseModel], typevar_values: Any) -> GenericTypesC
+     return cls, typevar_values, _union_orderings_key(typevar_values)
+ 
+ 
++def _get_union_orderings_for_cache(typevar_values: Any) -> tuple[Any, ...]:
++    """Extract the ordering of items in any Union types present in `typevar_values`.
++
++    This is similar to `_union_orderings_key` but does not preserve the tuple structure of `typevar_values`.
++    This is important because two different sets of `typevar_values` can represent the same final type
++    (e.g., `GenericBaseModel[CombineModel[int, int]]` vs `GenericBaseModel[CombineModel][int, int]`),
++    and we want the late cache to handle these equivalently. The tuple structure is an artifact of
++    the parametrization path and should not affect cache lookups.
++
++    For Union types, the order of union arguments is preserved, as this affects validation behavior.
++    """
++    if isinstance(typevar_values, tuple):
++        result: list[Any] = []
++        for value in typevar_values:
++            if _typing_extra.is_union(value):
++                result.append(get_args(value))
++        return tuple(result)
++    elif _typing_extra.is_union(typevar_values):
++        return (typevar_values,)
++    else:
++        return ()
++
++
+ def _late_cache_key(origin: type[BaseModel], args: tuple[Any, ...], typevar_values: Any) -> GenericTypesCacheKey:
+     """This is intended for use later in the process of creating a new type, when we have more information
+     about the exact args that will be passed. If it turns out that a different set of inputs to
+     __class_getitem__ resulted in the same inputs to the generic type creation process, we can still
+     return the cached type, and update the cache with the _early_cache_key as well.
+     """
+-    # The _union_orderings_key is placed at the start here to ensure there cannot be a collision with an
++    # We use the union orderings as the first item to ensure there cannot be a collision with an
+     # _early_cache_key, as that function will always produce a BaseModel subclass as the first item in the key,
+     # whereas this function will always produce a tuple as the first item in the key.
+-    return _union_orderings_key(typevar_values), origin, args
++    # We use `_get_union_orderings_for_cache` instead of `_union_orderings_key` to normalize away
++    # the tuple structure of `typevar_values`, as different parametrization paths may produce different
++    # tuple structures that nonetheless represent the same final type.
++    return _get_union_orderings_for_cache(typevar_values), origin, args

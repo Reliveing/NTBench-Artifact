@@ -1,0 +1,267 @@
+Obtaining file:///home/sympy
+  Installing build dependencies: started
+  Installing build dependencies: finished with status 'done'
+  Checking if build backend supports build_editable: started
+  Checking if build backend supports build_editable: finished with status 'done'
+  Getting requirements to build editable: started
+  Getting requirements to build editable: finished with status 'done'
+  Preparing editable metadata (pyproject.toml): started
+  Preparing editable metadata (pyproject.toml): finished with status 'done'
+Requirement already satisfied: mpmath>=1.1.0 in /usr/local/lib/python3.11/site-packages (from sympy==1.14.dev0) (1.4.1)
+Building wheels for collected packages: sympy
+  Building editable for sympy (pyproject.toml): started
+  Building editable for sympy (pyproject.toml): finished with status 'done'
+  Created wheel for sympy: filename=sympy-1.14.dev0-0.editable-py3-none-any.whl size=33289 sha256=f7347daa069c78cbf6789326f77b8335c8e6a47b682685f91f9cc11ccad1f1ac
+  Stored in directory: /tmp/pip-ephem-wheel-cache-7bg7x15y/wheels/af/22/61/2ece34a734d21005537313f7f88a33ef281f3770719986eb88
+Successfully built sympy
+Installing collected packages: sympy
+  Attempting uninstall: sympy
+    Found existing installation: sympy 1.14.dev0
+    Uninstalling sympy-1.14.dev0:
+      Successfully uninstalled sympy-1.14.dev0
+Successfully installed sympy-1.14.dev0
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+
+[notice] A new release of pip is available: 26.0.1 -> 26.2.1
+[notice] To update, run: pip install --upgrade pip
+============================= test session starts ==============================
+collecting ... collected 114 items
+
+sympy/core/tests/test_numbers.py::test_seterr PASSED                     [  0%]
+sympy/core/tests/test_numbers.py::test_mod PASSED                        [  1%]
+sympy/core/tests/test_numbers.py::test_divmod PASSED                     [  2%]
+sympy/core/tests/test_numbers.py::test_igcd PASSED                       [  3%]
+sympy/core/tests/test_numbers.py::test_igcd_lehmer PASSED                [  4%]
+sympy/core/tests/test_numbers.py::test_igcd2 PASSED                      [  5%]
+sympy/core/tests/test_numbers.py::test_ilcm PASSED                       [  6%]
+sympy/core/tests/test_numbers.py::test_igcdex PASSED                     [  7%]
+sympy/core/tests/test_numbers.py::test_Integer_new PASSED                [  7%]
+sympy/core/tests/test_numbers.py::test_Rational_new PASSED               [  8%]
+sympy/core/tests/test_numbers.py::test_issue_24543 PASSED                [  9%]
+sympy/core/tests/test_numbers.py::test_Number_new PASSED                 [ 10%]
+sympy/core/tests/test_numbers.py::test_Number_cmp PASSED                 [ 11%]
+sympy/core/tests/test_numbers.py::test_Rational_cmp PASSED               [ 12%]
+sympy/core/tests/test_numbers.py::test_Float PASSED                      [ 13%]
+sympy/core/tests/test_numbers.py::test_zero_not_false PASSED             [ 14%]
+sympy/core/tests/test_numbers.py::test_float_mpf PASSED                  [ 14%]
+sympy/core/tests/test_numbers.py::test_Float_RealElement PASSED          [ 15%]
+sympy/core/tests/test_numbers.py::test_Float_default_to_highprec_from_str PASSED [ 16%]
+sympy/core/tests/test_numbers.py::test_Float_eval PASSED                 [ 17%]
+sympy/core/tests/test_numbers.py::test_Float_issue_2107 PASSED           [ 18%]
+sympy/core/tests/test_numbers.py::test_issue_14289 PASSED                [ 19%]
+sympy/core/tests/test_numbers.py::test_Float_from_tuple PASSED           [ 20%]
+sympy/core/tests/test_numbers.py::test_Infinity PASSED                   [ 21%]
+sympy/core/tests/test_numbers.py::test_Infinity_2 PASSED                 [ 21%]
+sympy/core/tests/test_numbers.py::test_Mul_Infinity_Zero PASSED          [ 22%]
+sympy/core/tests/test_numbers.py::test_Div_By_Zero PASSED                [ 23%]
+sympy/core/tests/test_numbers.py::test_Infinity_inequations PASSED       [ 24%]
+sympy/core/tests/test_numbers.py::test_NaN PASSED                        [ 25%]
+sympy/core/tests/test_numbers.py::test_special_numbers PASSED            [ 26%]
+sympy/core/tests/test_numbers.py::test_powers PASSED                     [ 27%]
+sympy/core/tests/test_numbers.py::test_integer_nthroot_overflow PASSED   [ 28%]
+sympy/core/tests/test_numbers.py::test_integer_log PASSED                [ 28%]
+sympy/core/tests/test_numbers.py::test_isqrt PASSED                      [ 29%]
+sympy/core/tests/test_numbers.py::test_powers_Integer PASSED             [ 30%]
+sympy/core/tests/test_numbers.py::test_powers_Rational PASSED            [ 31%]
+sympy/core/tests/test_numbers.py::test_powers_Float PASSED               [ 32%]
+sympy/core/tests/test_numbers.py::test_lshift_Integer PASSED             [ 33%]
+sympy/core/tests/test_numbers.py::test_rshift_Integer PASSED             [ 34%]
+sympy/core/tests/test_numbers.py::test_and_Integer PASSED                [ 35%]
+sympy/core/tests/test_numbers.py::test_xor_Integer PASSED                [ 35%]
+sympy/core/tests/test_numbers.py::test_or_Integer PASSED                 [ 36%]
+sympy/core/tests/test_numbers.py::test_invert_Integer PASSED             [ 37%]
+sympy/core/tests/test_numbers.py::test_abs1 PASSED                       [ 38%]
+sympy/core/tests/test_numbers.py::test_accept_int PASSED                 [ 39%]
+sympy/core/tests/test_numbers.py::test_dont_accept_str PASSED            [ 40%]
+sympy/core/tests/test_numbers.py::test_int PASSED                        [ 41%]
+sympy/core/tests/test_numbers.py::test_int_NumberSymbols PASSED          [ 42%]
+sympy/core/tests/test_numbers.py::test_real_bug PASSED                   [ 42%]
+sympy/core/tests/test_numbers.py::test_bug_sqrt PASSED                   [ 43%]
+sympy/core/tests/test_numbers.py::test_pi_Pi PASSED                      [ 44%]
+sympy/core/tests/test_numbers.py::test_no_len PASSED                     [ 45%]
+sympy/core/tests/test_numbers.py::test_issue_3321 PASSED                 [ 46%]
+sympy/core/tests/test_numbers.py::test_issue_3692 PASSED                 [ 47%]
+sympy/core/tests/test_numbers.py::test_issue_3423 PASSED                 [ 48%]
+sympy/core/tests/test_numbers.py::test_issue_3449 PASSED                 [ 49%]
+sympy/core/tests/test_numbers.py::test_issue_13890 PASSED                [ 50%]
+sympy/core/tests/test_numbers.py::test_Integer_factors PASSED            [ 50%]
+sympy/core/tests/test_numbers.py::test_Rational_factors PASSED           [ 51%]
+sympy/core/tests/test_numbers.py::test_issue_4107 PASSED                 [ 52%]
+sympy/core/tests/test_numbers.py::test_IntegerInteger PASSED             [ 53%]
+sympy/core/tests/test_numbers.py::test_Rational_gcd_lcm_cofactors PASSED [ 54%]
+sympy/core/tests/test_numbers.py::test_Float_gcd_lcm_cofactors PASSED    [ 55%]
+sympy/core/tests/test_numbers.py::test_issue_4611 PASSED                 [ 56%]
+sympy/core/tests/test_numbers.py::test_conversion_to_mpmath PASSED       [ 57%]
+sympy/core/tests/test_numbers.py::test_relational PASSED                 [ 57%]
+sympy/core/tests/test_numbers.py::test_Integer_as_index PASSED           [ 58%]
+sympy/core/tests/test_numbers.py::test_Rational_int PASSED               [ 59%]
+sympy/core/tests/test_numbers.py::test_zoo PASSED                        [ 60%]
+sympy/core/tests/test_numbers.py::test_issue_4122 PASSED                 [ 61%]
+sympy/core/tests/test_numbers.py::test_GoldenRatio_expand PASSED         [ 62%]
+sympy/core/tests/test_numbers.py::test_TribonacciConstant_expand PASSED  [ 63%]
+sympy/core/tests/test_numbers.py::test_as_content_primitive PASSED       [ 64%]
+sympy/core/tests/test_numbers.py::test_hashing_sympy_integers PASSED     [ 64%]
+sympy/core/tests/test_numbers.py::test_rounding_issue_4172 PASSED        [ 65%]
+sympy/core/tests/test_numbers.py::test_mpmath_issues XFAIL               [ 66%]
+sympy/core/tests/test_numbers.py::test_Catalan_EulerGamma_prec PASSED    [ 67%]
+sympy/core/tests/test_numbers.py::test_Catalan_rewrite PASSED            [ 68%]
+sympy/core/tests/test_numbers.py::test_bool_eq PASSED                    [ 69%]
+sympy/core/tests/test_numbers.py::test_Float_eq PASSED                   [ 70%]
+sympy/core/tests/test_numbers.py::test_issue_6640 PASSED                 [ 71%]
+sympy/core/tests/test_numbers.py::test_issue_6349 PASSED                 [ 71%]
+sympy/core/tests/test_numbers.py::test_mpf_norm PASSED                   [ 72%]
+sympy/core/tests/test_numbers.py::test_latex PASSED                      [ 73%]
+sympy/core/tests/test_numbers.py::test_issue_7742 PASSED                 [ 74%]
+sympy/core/tests/test_numbers.py::test_simplify_AlgebraicNumber PASSED   [ 75%]
+sympy/core/tests/test_numbers.py::test_Float_idempotence PASSED          [ 76%]
+sympy/core/tests/test_numbers.py::test_comp1 PASSED                      [ 77%]
+sympy/core/tests/test_numbers.py::test_issue_9491 PASSED                 [ 78%]
+sympy/core/tests/test_numbers.py::test_issue_10063 PASSED                [ 78%]
+sympy/core/tests/test_numbers.py::test_issue_10020 PASSED                [ 79%]
+sympy/core/tests/test_numbers.py::test_invert_numbers PASSED             [ 80%]
+sympy/core/tests/test_numbers.py::test_mod_inverse PASSED                [ 81%]
+sympy/core/tests/test_numbers.py::test_golden_ratio_rewrite_as_sqrt PASSED [ 82%]
+sympy/core/tests/test_numbers.py::test_tribonacci_constant_rewrite_as_sqrt PASSED [ 83%]
+sympy/core/tests/test_numbers.py::test_comparisons_with_unknown_type PASSED [ 84%]
+sympy/core/tests/test_numbers.py::test_NumberSymbol_comparison PASSED    [ 85%]
+sympy/core/tests/test_numbers.py::test_Integer_precision PASSED          [ 85%]
+sympy/core/tests/test_numbers.py::test_numpy_to_float SKIPPED (numpy...) [ 86%]
+sympy/core/tests/test_numbers.py::test_Integer_ceiling_floor PASSED      [ 87%]
+sympy/core/tests/test_numbers.py::test_ComplexInfinity PASSED            [ 88%]
+sympy/core/tests/test_numbers.py::test_Infinity_floor_ceiling_power PASSED [ 89%]
+sympy/core/tests/test_numbers.py::test_One_power PASSED                  [ 90%]
+sympy/core/tests/test_numbers.py::test_NegativeInfinity PASSED           [ 91%]
+sympy/core/tests/test_numbers.py::test_issue_6133 PASSED                 [ 92%]
+sympy/core/tests/test_numbers.py::test_abc PASSED                        [ 92%]
+sympy/core/tests/test_numbers.py::test_floordiv PASSED                   [ 93%]
+sympy/core/tests/test_numbers.py::test_negation PASSED                   [ 94%]
+sympy/core/tests/test_numbers.py::test_exponentiation_of_0 PASSED        [ 95%]
+sympy/core/tests/test_numbers.py::test_int_valued PASSED                 [ 96%]
+sympy/core/tests/test_numbers.py::test_equal_valued PASSED               [ 97%]
+sympy/core/tests/test_numbers.py::test_all_close PASSED                  [ 98%]
+sympy/core/tests/test_numbers.py::test_fixed_precision FAILED            [ 99%]
+sympy/core/tests/test_numbers.py::test_27537_real_f2p FAILED             [100%]
+
+=============================== warnings summary ===============================
+sympy/core/tests/test_numbers.py: 2023 warnings
+  /usr/local/lib/python3.11/site-packages/mpmath/libmp/libintmath.py:75: DeprecationWarning: bitcount function is deprecated
+    warnings.warn("bitcount function is deprecated",
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+                                DO *NOT* COMMIT!                                
+=========================== short test summary info ============================
+PASSED sympy/core/tests/test_numbers.py::test_seterr
+PASSED sympy/core/tests/test_numbers.py::test_mod
+PASSED sympy/core/tests/test_numbers.py::test_divmod
+PASSED sympy/core/tests/test_numbers.py::test_igcd
+PASSED sympy/core/tests/test_numbers.py::test_igcd_lehmer
+PASSED sympy/core/tests/test_numbers.py::test_igcd2
+PASSED sympy/core/tests/test_numbers.py::test_ilcm
+PASSED sympy/core/tests/test_numbers.py::test_igcdex
+PASSED sympy/core/tests/test_numbers.py::test_Integer_new
+PASSED sympy/core/tests/test_numbers.py::test_Rational_new
+PASSED sympy/core/tests/test_numbers.py::test_issue_24543
+PASSED sympy/core/tests/test_numbers.py::test_Number_new
+PASSED sympy/core/tests/test_numbers.py::test_Number_cmp
+PASSED sympy/core/tests/test_numbers.py::test_Rational_cmp
+PASSED sympy/core/tests/test_numbers.py::test_Float
+PASSED sympy/core/tests/test_numbers.py::test_zero_not_false
+PASSED sympy/core/tests/test_numbers.py::test_float_mpf
+PASSED sympy/core/tests/test_numbers.py::test_Float_RealElement
+PASSED sympy/core/tests/test_numbers.py::test_Float_default_to_highprec_from_str
+PASSED sympy/core/tests/test_numbers.py::test_Float_eval
+PASSED sympy/core/tests/test_numbers.py::test_Float_issue_2107
+PASSED sympy/core/tests/test_numbers.py::test_issue_14289
+PASSED sympy/core/tests/test_numbers.py::test_Float_from_tuple
+PASSED sympy/core/tests/test_numbers.py::test_Infinity
+PASSED sympy/core/tests/test_numbers.py::test_Infinity_2
+PASSED sympy/core/tests/test_numbers.py::test_Mul_Infinity_Zero
+PASSED sympy/core/tests/test_numbers.py::test_Div_By_Zero
+PASSED sympy/core/tests/test_numbers.py::test_Infinity_inequations
+PASSED sympy/core/tests/test_numbers.py::test_NaN
+PASSED sympy/core/tests/test_numbers.py::test_special_numbers
+PASSED sympy/core/tests/test_numbers.py::test_powers
+PASSED sympy/core/tests/test_numbers.py::test_integer_nthroot_overflow
+PASSED sympy/core/tests/test_numbers.py::test_integer_log
+PASSED sympy/core/tests/test_numbers.py::test_isqrt
+PASSED sympy/core/tests/test_numbers.py::test_powers_Integer
+PASSED sympy/core/tests/test_numbers.py::test_powers_Rational
+PASSED sympy/core/tests/test_numbers.py::test_powers_Float
+PASSED sympy/core/tests/test_numbers.py::test_lshift_Integer
+PASSED sympy/core/tests/test_numbers.py::test_rshift_Integer
+PASSED sympy/core/tests/test_numbers.py::test_and_Integer
+PASSED sympy/core/tests/test_numbers.py::test_xor_Integer
+PASSED sympy/core/tests/test_numbers.py::test_or_Integer
+PASSED sympy/core/tests/test_numbers.py::test_invert_Integer
+PASSED sympy/core/tests/test_numbers.py::test_abs1
+PASSED sympy/core/tests/test_numbers.py::test_accept_int
+PASSED sympy/core/tests/test_numbers.py::test_dont_accept_str
+PASSED sympy/core/tests/test_numbers.py::test_int
+PASSED sympy/core/tests/test_numbers.py::test_int_NumberSymbols
+PASSED sympy/core/tests/test_numbers.py::test_real_bug
+PASSED sympy/core/tests/test_numbers.py::test_bug_sqrt
+PASSED sympy/core/tests/test_numbers.py::test_pi_Pi
+PASSED sympy/core/tests/test_numbers.py::test_no_len
+PASSED sympy/core/tests/test_numbers.py::test_issue_3321
+PASSED sympy/core/tests/test_numbers.py::test_issue_3692
+PASSED sympy/core/tests/test_numbers.py::test_issue_3423
+PASSED sympy/core/tests/test_numbers.py::test_issue_3449
+PASSED sympy/core/tests/test_numbers.py::test_issue_13890
+PASSED sympy/core/tests/test_numbers.py::test_Integer_factors
+PASSED sympy/core/tests/test_numbers.py::test_Rational_factors
+PASSED sympy/core/tests/test_numbers.py::test_issue_4107
+PASSED sympy/core/tests/test_numbers.py::test_IntegerInteger
+PASSED sympy/core/tests/test_numbers.py::test_Rational_gcd_lcm_cofactors
+PASSED sympy/core/tests/test_numbers.py::test_Float_gcd_lcm_cofactors
+PASSED sympy/core/tests/test_numbers.py::test_issue_4611
+PASSED sympy/core/tests/test_numbers.py::test_conversion_to_mpmath
+PASSED sympy/core/tests/test_numbers.py::test_relational
+PASSED sympy/core/tests/test_numbers.py::test_Integer_as_index
+PASSED sympy/core/tests/test_numbers.py::test_Rational_int
+PASSED sympy/core/tests/test_numbers.py::test_zoo
+PASSED sympy/core/tests/test_numbers.py::test_issue_4122
+PASSED sympy/core/tests/test_numbers.py::test_GoldenRatio_expand
+PASSED sympy/core/tests/test_numbers.py::test_TribonacciConstant_expand
+PASSED sympy/core/tests/test_numbers.py::test_as_content_primitive
+PASSED sympy/core/tests/test_numbers.py::test_hashing_sympy_integers
+PASSED sympy/core/tests/test_numbers.py::test_rounding_issue_4172
+PASSED sympy/core/tests/test_numbers.py::test_Catalan_EulerGamma_prec
+PASSED sympy/core/tests/test_numbers.py::test_Catalan_rewrite
+PASSED sympy/core/tests/test_numbers.py::test_bool_eq
+PASSED sympy/core/tests/test_numbers.py::test_Float_eq
+PASSED sympy/core/tests/test_numbers.py::test_issue_6640
+PASSED sympy/core/tests/test_numbers.py::test_issue_6349
+PASSED sympy/core/tests/test_numbers.py::test_mpf_norm
+PASSED sympy/core/tests/test_numbers.py::test_latex
+PASSED sympy/core/tests/test_numbers.py::test_issue_7742
+PASSED sympy/core/tests/test_numbers.py::test_simplify_AlgebraicNumber
+PASSED sympy/core/tests/test_numbers.py::test_Float_idempotence
+PASSED sympy/core/tests/test_numbers.py::test_comp1
+PASSED sympy/core/tests/test_numbers.py::test_issue_9491
+PASSED sympy/core/tests/test_numbers.py::test_issue_10063
+PASSED sympy/core/tests/test_numbers.py::test_issue_10020
+PASSED sympy/core/tests/test_numbers.py::test_invert_numbers
+PASSED sympy/core/tests/test_numbers.py::test_mod_inverse
+PASSED sympy/core/tests/test_numbers.py::test_golden_ratio_rewrite_as_sqrt
+PASSED sympy/core/tests/test_numbers.py::test_tribonacci_constant_rewrite_as_sqrt
+PASSED sympy/core/tests/test_numbers.py::test_comparisons_with_unknown_type
+PASSED sympy/core/tests/test_numbers.py::test_NumberSymbol_comparison
+PASSED sympy/core/tests/test_numbers.py::test_Integer_precision
+PASSED sympy/core/tests/test_numbers.py::test_Integer_ceiling_floor
+PASSED sympy/core/tests/test_numbers.py::test_ComplexInfinity
+PASSED sympy/core/tests/test_numbers.py::test_Infinity_floor_ceiling_power
+PASSED sympy/core/tests/test_numbers.py::test_One_power
+PASSED sympy/core/tests/test_numbers.py::test_NegativeInfinity
+PASSED sympy/core/tests/test_numbers.py::test_issue_6133
+PASSED sympy/core/tests/test_numbers.py::test_abc
+PASSED sympy/core/tests/test_numbers.py::test_floordiv
+PASSED sympy/core/tests/test_numbers.py::test_negation
+PASSED sympy/core/tests/test_numbers.py::test_exponentiation_of_0
+PASSED sympy/core/tests/test_numbers.py::test_int_valued
+PASSED sympy/core/tests/test_numbers.py::test_equal_valued
+PASSED sympy/core/tests/test_numbers.py::test_all_close
+SKIPPED [1] sympy/core/tests/test_numbers.py:2161: numpy not installed. Abort numpy tests.
+XFAIL sympy/core/tests/test_numbers.py::test_mpmath_issues
+FAILED sympy/core/tests/test_numbers.py::test_fixed_precision - TypeError: ca...
+FAILED sympy/core/tests/test_numbers.py::test_27537_real_f2p - assert 9 >= 300
+====== 2 failed, 110 passed, 1 skipped, 1 xfailed, 2023 warnings in 3.92s ======

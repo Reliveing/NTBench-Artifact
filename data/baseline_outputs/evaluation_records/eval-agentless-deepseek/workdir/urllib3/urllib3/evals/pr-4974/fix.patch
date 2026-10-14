@@ -1,0 +1,20 @@
+diff --git a/src/urllib3/response.py b/src/urllib3/response.py
+index 46c7e4b..1d9f152 100644
+--- a/src/urllib3/response.py
++++ b/src/urllib3/response.py
+@@ -1241,6 +1241,9 @@ class HTTPResponse(BaseHTTPResponse):
+         if amt == 0:
+             return
+ 
++        if amt == 0:
++            return
++
+         if self.chunked and self.supports_chunked_reads():
+             yield from self.read_chunked(amt, decode_content=decode_content)
+         else:
+@@ -1472,4 +1475,4 @@ class HTTPResponse(BaseHTTPResponse):
+             else:
+                 buffer.append(chunk)
+         if buffer:
+-            yield b"".join(buffer)
++            yield b"".join(buffer)

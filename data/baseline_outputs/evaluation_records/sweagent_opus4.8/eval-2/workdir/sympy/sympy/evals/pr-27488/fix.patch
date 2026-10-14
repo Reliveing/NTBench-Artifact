@@ -1,0 +1,46 @@
+diff --git a/sympy/vector/dyadic.py b/sympy/vector/dyadic.py
+index 980c6e6dad..28e33fc8c0 100644
+--- a/sympy/vector/dyadic.py
++++ b/sympy/vector/dyadic.py
+@@ -30,6 +30,17 @@ class Dyadic(BasisDependent):
+     _base_func: type[Dyadic]
+     zero: DyadicZero
+ 
++    def __new__(cls, *args, **kwargs):
++        # The Dyadic class is a super class that is not meant to be
++        # instantiated directly. Only its subclasses (BaseDyadic,
++        # DyadicMul, DyadicAdd, DyadicZero) should be instantiated.
++        if cls is Dyadic:
++            raise TypeError(
++                "The Dyadic class cannot be instantiated directly. Use one "
++                "of its subclasses instead."
++            )
++        return super().__new__(cls, *args, **kwargs)
++
+     @property
+     def components(self):
+         """
+diff --git a/sympy/vector/vector.py b/sympy/vector/vector.py
+index 77ee9bfa9f..4c4c74e39e 100644
+--- a/sympy/vector/vector.py
++++ b/sympy/vector/vector.py
+@@ -37,6 +37,19 @@ class Vector(BasisDependent):
+ 
+     kind: VectorKind = VectorKind()
+ 
++    def __new__(cls, *args, **kwargs):
++        # The Vector class is a super class that is not meant to be
++        # instantiated directly. Only its subclasses (BaseVector,
++        # VectorMul, VectorAdd, VectorZero) should be instantiated.
++        # Instantiating Vector directly used to create an invalid object
++        # that caused an infinite recursion on scalar multiplication.
++        if cls is Vector:
++            raise TypeError(
++                "The Vector class cannot be instantiated directly. Use one "
++                "of its subclasses (e.g. obtained from a CoordSys3D) instead."
++            )
++        return super().__new__(cls, *args, **kwargs)
++
+     @property
+     def components(self):
+         """

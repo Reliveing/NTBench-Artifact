@@ -1,0 +1,47 @@
+diff --git a/sympy/core/basic.py b/sympy/core/basic.py
+index a134fab92b..fa5e6a44b4 100644
+--- a/sympy/core/basic.py
++++ b/sympy/core/basic.py
+@@ -980,7 +980,9 @@ def subs(self, *args, **kwargs):
+             rv = self
+             kwargs['hack2'] = True
+             m = Dummy()
+-            for old, new in sequence:
++            for i, (old, new) in enumerate(sequence):
++                kwargs['_skip_pow_base'] = old.is_Pow and any(
++                    old.base == o for o, n in sequence[i + 1:])
+                 d = Dummy(commutative=new.is_commutative)
+                 # using d*m so Subs will be used on dummy variables
+                 # in things like Derivative(f(x, y), x) in which x
+@@ -993,7 +995,9 @@ def subs(self, *args, **kwargs):
+             return rv.xreplace(reps)
+         else:
+             rv = self
+-            for old, new in sequence:
++            for i, (old, new) in enumerate(sequence):
++                kwargs['_skip_pow_base'] = old.is_Pow and any(
++                    old.base == o for o, n in sequence[i + 1:])
+                 rv = rv._subs(old, new, **kwargs)
+                 if not isinstance(rv, Basic):
+                     break
+@@ -1108,7 +1112,19 @@ def fallback(self, old, new):
+ 
+         rv = self._eval_subs(old, new)
+         if rv is None:
+-            rv = fallback(self, old, new)
++            # A non-Pow expression can still be viewed as a power with
++            # exponent 1. If ``old`` is a power whose base is exactly
++            # ``self``, use the same substitution that an unevaluated
++            # Pow(self, 1) would use.
++            if (old.is_Pow and old.exp.is_positive and self == old.base
++                    and not hints.get('_skip_pow_base', False)):
++                from .power import Pow
++                pow_self = Pow(self, S.One, evaluate=False)
++                rv = pow_self._eval_subs(old, new)
++                if rv is None or _aresame(rv, pow_self):
++                    rv = fallback(self, old, new)
++            else:
++                rv = fallback(self, old, new)
+         return rv
+ 
+     def _eval_subs(self, old, new):

@@ -1,0 +1,17 @@
+diff --git a/sympy/solvers/solveset.py b/sympy/solvers/solveset.py
+index 34fa8f03bf..ce56575b10 100644
+--- a/sympy/solvers/solveset.py
++++ b/sympy/solvers/solveset.py
+@@ -854,7 +854,11 @@ def _has_rational_power(expr, symbol):
+ def _solve_radical(f, symbol, solveset_solver):
+     """ Helper function to solve equations with radicals """
+     res = unrad(f)
+-    eq, cov = res if res else (f, [])
++    if not res:
++        eq = fraction(together(f, deep=True))[0]
++        cov = []
++    else:
++        eq, cov = res
+     if not cov:
+         result = solveset_solver(eq, symbol) - \
+             Union(*[solveset_solver(g, symbol) for g in denoms(f, symbol)])

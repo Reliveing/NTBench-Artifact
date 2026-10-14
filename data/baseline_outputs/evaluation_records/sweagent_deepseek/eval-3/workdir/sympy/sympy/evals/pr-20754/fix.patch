@@ -1,0 +1,16 @@
+diff --git a/sympy/core/expr.py b/sympy/core/expr.py
+index 0d13b65958..5246a28c44 100644
+--- a/sympy/core/expr.py
++++ b/sympy/core/expr.py
+@@ -3257,6 +3257,11 @@ def _eval_lseries(self, x, logx=None, cdir=0):
+         if e is S.Zero:
+             return
+ 
++        # If the series is exact (no Order term), there are no more terms
++        # to yield and we can return.
++        if series.getO() is None:
++            return
++
+         while 1:
+             while 1:
+                 n += 1

@@ -1,0 +1,53 @@
+diff --git a/xarray/computation/arithmetic.py b/xarray/computation/arithmetic.py
+index 7c2058f9..227be912 100644
+--- a/xarray/computation/arithmetic.py
++++ b/xarray/computation/arithmetic.py
+@@ -81,10 +81,46 @@ class SupportsArithmetic:
+ 
+         join = dataset_join = OPTIONS["arithmetic_join"]
+ 
++        # Some ufunc keyword arguments (notably ``where``) may themselves be
++        # xarray objects. Passing them through unchanged in ``kwargs`` would
++        # feed them back into the ufunc, re-triggering ``__array_ufunc__`` and
++        # causing infinite recursion (e.g. with ``np.fix``). Instead, treat any
++        # such xarray-object kwargs as additional inputs so that they are
++        # aligned, broadcast and unwrapped to plain arrays before the ufunc is
++        # applied.
++        extra_array_kwargs = {
++            key: value
++            for key, value in kwargs.items()
++            if key != "out" and isinstance(value, SupportsArithmetic)
++        }
++
++        if extra_array_kwargs:
++            extra_keys = list(extra_array_kwargs)
++            remaining_kwargs = {
++                key: value
++                for key, value in kwargs.items()
++                if key not in extra_array_kwargs
++            }
++            extra_inputs = tuple(extra_array_kwargs[key] for key in extra_keys)
++
++            def func(*arrays, **func_kwargs):
++                num_main = len(arrays) - len(extra_keys)
++                main_arrays = arrays[:num_main]
++                for offset, extra_key in enumerate(extra_keys):
++                    func_kwargs[extra_key] = arrays[num_main + offset]
++                return ufunc(*main_arrays, **func_kwargs)
++
++            inputs = inputs + extra_inputs
++            kwargs = remaining_kwargs
++            num_inputs = ufunc.nin + len(extra_keys)
++        else:
++            func = ufunc
++            num_inputs = ufunc.nin
++
+         return apply_ufunc(
+-            ufunc,
++            func,
+             *inputs,
+-            input_core_dims=((),) * ufunc.nin,
++            input_core_dims=((),) * num_inputs,
+             output_core_dims=((),) * ufunc.nout,
+             join=join,
+             dataset_join=dataset_join,

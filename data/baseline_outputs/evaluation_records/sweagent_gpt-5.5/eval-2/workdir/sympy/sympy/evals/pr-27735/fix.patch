@@ -1,0 +1,90 @@
+diff --git a/sympy/logic/algorithms/dpll2.py b/sympy/logic/algorithms/dpll2.py
+index 75115e01ef..ccccb659e1 100644
+--- a/sympy/logic/algorithms/dpll2.py
++++ b/sympy/logic/algorithms/dpll2.py
+@@ -138,6 +138,7 @@ def __init__(self, clauses, variables, var_settings, symbols=None,
+         self.original_num_clauses = len(self.clauses)
+ 
+         self.lra = lra_theory
++        self._clause_set = {frozenset(clause) for clause in self.clauses}
+ 
+     def _initialize_variables(self, variables):
+         """Set up the variable data structures needed."""
+@@ -237,7 +238,10 @@ def _find_model(self):
+                         yield {self.symbols[abs(lit) - 1]:
+                                     lit > 0 for lit in self.var_settings}
+                     else:
+-                        self._simple_add_learned_clause(res[1])
++                        if not self._add_theory_conflict(res[1]):
++                            return
++                        flip_var = False
++                        continue
+ 
+                     while self._current_level.flipped:
+                         self._undo()
+@@ -613,6 +617,40 @@ def _vsids_clause_added(self, cls):
+     ########################
+     #   Clause Learning    #
+     ########################
++    def _add_theory_conflict(self, cls):
++        """Add an LRA conflict clause and backtrack to make it active.
++
++        Theory conflicts are discovered only after a complete Boolean
++        assignment has been found.  The conflict clause returned by the
++        theory solver is false under that assignment, so merely appending it
++        to the clause database is not enough: the same complete assignment
++        would otherwise remain in force and the same theory conflict could be
++        reported repeatedly.  Backtrack until one of the assignments falsifying
++        the new clause has been undone.  The next simplification/decision will
++        then see the learned clause and either propagate from it or explore a
++        different branch.
++        """
++        if not cls:
++            return False
++
++        self._simple_add_learned_clause(cls)
++
++        # The learned clause is already unsatisfied by the current assignment.
++        # If all of the assignments that falsify it were made at level 0, then
++        # the Boolean abstraction plus theory is unsatisfiable.
++        while len(self.levels) > 1:
++            if any(-lit in self._current_level.var_settings for lit in cls):
++                self._undo()
++                self._simplify()
++                if not self.is_unsatisfied:
++                    return True
++                self.is_unsatisfied = False
++            else:
++                self._undo()
++
++        self._simplify()
++        return not self.is_unsatisfied
++
+     def _simple_add_learned_clause(self, cls):
+         """Add a new clause to the theory.
+ 
+@@ -638,14 +676,22 @@ def _simple_add_learned_clause(self, cls):
+         {-3: {0, 2}, -2: {3, 4}, 2: {0, 3}, 3: {2, 4, 5}}
+ 
+         """
++        cls_key = frozenset(cls)
++        if cls_key in self._clause_set:
++            return
++        self._clause_set.add(cls_key)
++
+         cls_num = len(self.clauses)
+         self.clauses.append(cls)
+ 
+         for lit in cls:
+             self.occurrence_count[lit] += 1
+ 
+-        self.sentinels[cls[0]].add(cls_num)
+-        self.sentinels[cls[-1]].add(cls_num)
++        if len(cls) == 1:
++            self._unit_prop_queue.append(cls[0])
++        else:
++            self.sentinels[cls[0]].add(cls_num)
++            self.sentinels[cls[-1]].add(cls_num)
+ 
+         self.heur_clause_added(cls)
+ 

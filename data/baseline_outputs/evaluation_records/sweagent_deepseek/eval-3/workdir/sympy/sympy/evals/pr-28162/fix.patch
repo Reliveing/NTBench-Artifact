@@ -1,0 +1,38 @@
+diff --git a/sympy/functions/special/singularity_functions.py b/sympy/functions/special/singularity_functions.py
+index a69026e6e6..c0443e2109 100644
+--- a/sympy/functions/special/singularity_functions.py
++++ b/sympy/functions/special/singularity_functions.py
+@@ -221,15 +221,28 @@ def _eval_as_leading_term(self, x, logx, cdir):
+         return S.Zero
+ 
+     def _eval_nseries(self, x, n, logx=None, cdir=0):
+-        z, a, n = self.args
++        z, a, exp = self.args
+         shift = (z - a).subs(x, 0)
+-        if n < 0:
++        if exp < 0:
+             return S.Zero
+-        elif n.is_zero and shift.is_zero:
++        elif exp.is_zero and shift.is_zero:
+             return S.Zero if cdir == -1 else S.One
+         elif shift.is_positive:
+-            return ((z - a)**n)._eval_nseries(x, n, logx=logx, cdir=cdir)
+-        return S.Zero
++            return ((z - a)**exp)._eval_nseries(x, n, logx=logx, cdir=cdir)
++        elif shift.is_negative:
++            return S.Zero
++        elif shift.is_zero:
++            if exp > 0:
++                # For positive exponent at shift=0, the series depends on the
++                # direction of approach. From the right, it behaves like
++                # (z-a)**exp. From the left or unspecified, it is 0.
++                if cdir == 1:
++                    return ((z - a)**exp)._eval_nseries(x, n, logx=logx, cdir=cdir)
++                return S.Zero
++            # exp == 0 case handled above
++            return S.Zero
++        # shift sign is indeterminate, assume positive (Heaviside=1)
++        return ((z - a)**exp)._eval_nseries(x, n, logx=logx, cdir=cdir)
+ 
+     _eval_rewrite_as_DiracDelta = _eval_rewrite_as_Heaviside
+     _eval_rewrite_as_HeavisideDiracDelta = _eval_rewrite_as_Heaviside

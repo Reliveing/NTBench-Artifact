@@ -1,0 +1,20 @@
+diff --git a/dask/dataframe/multi.py b/dask/dataframe/multi.py
+index 278d434ac..28a894808 100644
+--- a/dask/dataframe/multi.py
++++ b/dask/dataframe/multi.py
+@@ -740,6 +740,15 @@ def pair_partitions(L, R):
+     result = []
+ 
+     n, m = len(L) - 1, len(R) - 1
++
++    # Empty dataframes may have all-missing divisions (e.g. ``nan``/``NaT``).
++    # Comparisons against these values are always false, so the advancement
++    # logic below can get stuck with neither partition index changing.  With no
++    # valid right-hand boundaries to split on, every left partition should be
++    # paired with the (empty) first right partition.
++    if all(pd.isna(r) for r in R):
++        return [[(0, None, None)] for i in range(n)]
++
+     i, j = 0, -1
+     while j + 1 < m and R[j + 1] <= L[i]:
+         j += 1

@@ -1,0 +1,32 @@
+diff --git a/xarray/computation/arithmetic.py b/xarray/computation/arithmetic.py
+index 7c2058f9..af8348e4 100644
+--- a/xarray/computation/arithmetic.py
++++ b/xarray/computation/arithmetic.py
+@@ -79,12 +79,25 @@ class SupportsArithmetic:
+                 "`.values`)."
+             )
+ 
++        func = ufunc
++        input_core_dims = ((),) * ufunc.nin
++        if isinstance(kwargs.get("where"), SupportsArithmetic):
++            ufunc_kwargs = kwargs.copy()
++            where = ufunc_kwargs.pop("where")
++            inputs = inputs + (where,)
++            input_core_dims = input_core_dims + ((),)
++            kwargs = {}
++
++            def func(*args):
++                *args, where = args
++                return ufunc(*args, where=where, **ufunc_kwargs)
++
+         join = dataset_join = OPTIONS["arithmetic_join"]
+ 
+         return apply_ufunc(
+-            ufunc,
++            func,
+             *inputs,
+-            input_core_dims=((),) * ufunc.nin,
++            input_core_dims=input_core_dims,
+             output_core_dims=((),) * ufunc.nout,
+             join=join,
+             dataset_join=dataset_join,

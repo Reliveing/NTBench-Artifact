@@ -1,0 +1,14 @@
+diff --git a/src/urllib3/contrib/emscripten/response.py b/src/urllib3/contrib/emscripten/response.py
+index cb1088a1..7bd2f3ff 100644
+--- a/src/urllib3/contrib/emscripten/response.py
++++ b/src/urllib3/contrib/emscripten/response.py
+@@ -91,6 +91,9 @@ class EmscriptenHttpResponseWrapper(BaseHTTPResponse):
+             If True, will attempt to decode the body based on the
+             'content-encoding' header.
+         """
++        if amt == 0:
++            return
++
+         while True:
+             data = self.read(amt=amt, decode_content=decode_content)
+ 

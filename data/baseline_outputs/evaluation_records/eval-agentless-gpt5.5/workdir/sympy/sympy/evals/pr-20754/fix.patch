@@ -1,0 +1,24 @@
+diff --git a/sympy/functions/elementary/complexes.py b/sympy/functions/elementary/complexes.py
+index 8493049..2c82d7d 100644
+--- a/sympy/functions/elementary/complexes.py
++++ b/sympy/functions/elementary/complexes.py
+@@ -658,10 +658,11 @@ class Abs(Function):
+         return
+ 
+     def _eval_nseries(self, x, n, logx, cdir=0):
+-        direction = self.args[0].leadterm(x)[0]
++        direction = self.args[0].leadterm(x, cdir=cdir)[0]
+         if direction.has(log(x)):
+             direction = direction.subs(log(x), logx)
+-        s = self.args[0]._eval_nseries(x, n=n, logx=logx)
++        s = self.args[0]._eval_nseries(
++            x, n=n, logx=logx, cdir=cdir)
+         when = Eq(direction, 0)
+         return Piecewise(
+             ((s.subs(direction, 0)), when),
+@@ -1438,4 +1439,4 @@ def unpolarify(eq, subs={}, exponents_only=False):
+             return res
+     # Finally, replacing Exp(0) by 1 is always correct.
+     # So is polar_lift(0) -> 0.
+-    return res.subs({exp_polar(0): 1, polar_lift(0): 0})
++    return res.subs({exp_polar(0): 1, polar_lift(0): 0})

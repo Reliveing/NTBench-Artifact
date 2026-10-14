@@ -1,0 +1,14 @@
+diff --git a/src/tox/config/loader/replacer.py b/src/tox/config/loader/replacer.py
+index 18fe2422..8e2d9cc7 100644
+--- a/src/tox/config/loader/replacer.py
++++ b/src/tox/config/loader/replacer.py
+@@ -241,6 +241,9 @@ def replace_pos_args(conf: Config, args: list[str], conf_args: ConfigLoadArgs) -
+ 
+ 
+ def load_posargs(conf: Config, conf_args: ConfigLoadArgs) -> tuple[str, ...] | None:
++    if any(chain_key.rsplit(".", 1)[-1] == "change_dir" for chain_key in conf_args.chain):
++        return conf.pos_args(None)
++
+     to_path: Path | None = None
+     if conf_args.env_name is not None:  # pragma: no branch
+         env_conf = conf.get_env(conf_args.env_name)

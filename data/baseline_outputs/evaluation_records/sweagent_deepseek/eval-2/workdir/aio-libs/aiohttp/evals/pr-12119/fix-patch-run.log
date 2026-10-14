@@ -1,0 +1,857 @@
+============================= test session starts ==============================
+platform linux -- Python 3.10.20, pytest-9.0.2, pluggy-1.6.0 -- /usr/local/bin/python3.10
+codspeed: 4.3.0 (disabled, mode: walltime, callgraph: not supported, timer_resolution: 1.0ns)
+cachedir: .pytest_cache
+rootdir: /home/aiohttp
+configfile: setup.cfg
+plugins: cov-7.0.0, xdist-3.8.0, codspeed-4.3.0, timeout-2.4.0, mock-3.15.1
+timeout: 20.0s
+timeout method: signal
+timeout func_only: False
+created: 4/4 workers
+4 workers [310 items]
+
+scheduling tests via LoadScheduling
+
+tests/test_http_parser.py::test_c_parser_loaded 
+tests/test_http_parser.py::test_bad_header_name[py-parser-pyloop-\\] 
+tests/test_http_parser.py::test_request_te_chunked123[py-parser-pyloop] 
+tests/test_http_parser.py::test_parse[py-parser-pyloop] 
+[gw3] [  0%] PASSED tests/test_http_parser.py::test_request_te_chunked123[py-parser-pyloop] 
+[gw0] [  0%] FAILED tests/test_http_parser.py::test_c_parser_loaded 
+[gw2] [  0%] PASSED tests/test_http_parser.py::test_parse[py-parser-pyloop] 
+[gw1] [  1%] PASSED tests/test_http_parser.py::test_bad_header_name[py-parser-pyloop-\\] 
+tests/test_http_parser.py::test_parse_headers[py-parser-pyloop] 
+tests/test_http_parser.py::test_request_te_last_chunked[py-parser-pyloop] 
+tests/test_http_parser.py::test_bad_header_name[py-parser-pyloop-]] 
+[gw0] [  1%] PASSED tests/test_http_parser.py::test_parse_headers[py-parser-pyloop] 
+tests/test_http_parser.py::test_parse_body[py-parser-pyloop] 
+[gw1] [  1%] PASSED tests/test_http_parser.py::test_bad_header_name[py-parser-pyloop-]] 
+tests/test_http_parser.py::test_reject_obsolete_line_folding[py-parser-pyloop] 
+tests/test_http_parser.py::test_bad_header_name[py-parser-pyloop-{] 
+[gw1] [  2%] PASSED tests/test_http_parser.py::test_bad_header_name[py-parser-pyloop-{] 
+[gw0] [  2%] PASSED tests/test_http_parser.py::test_reject_obsolete_line_folding[py-parser-pyloop] 
+tests/test_http_parser.py::test_invalid_character[pyloop] 
+tests/test_http_parser.py::test_bad_header_name[py-parser-pyloop-}] 
+[gw1] [  2%] PASSED tests/test_http_parser.py::test_bad_header_name[py-parser-pyloop-}] 
+[gw3] [  3%] PASSED tests/test_http_parser.py::test_request_te_last_chunked[py-parser-pyloop] 
+[gw2] [  3%] PASSED tests/test_http_parser.py::test_parse_body[py-parser-pyloop] 
+tests/test_http_parser.py::test_bad_headers[py-parser-pyloop-Content-Length: -5] 
+[gw0] [  3%] FAILED tests/test_http_parser.py::test_invalid_character[pyloop] 
+[gw1] [  4%] PASSED tests/test_http_parser.py::test_bad_headers[py-parser-pyloop-Content-Length: -5] 
+tests/test_http_parser.py::test_invalid_linebreak[pyloop] 
+tests/test_http_parser.py::test_request_te_first_chunked[py-parser-pyloop] 
+[gw3] [  4%] PASSED tests/test_http_parser.py::test_request_te_first_chunked[py-parser-pyloop] 
+tests/test_http_parser.py::test_bad_headers[py-parser-pyloop-Content-Length: +256] 
+tests/test_http_parser.py::test_conn_upgrade[py-parser-pyloop] 
+tests/test_http_parser.py::test_parse_body_with_CRLF[py-parser-pyloop] 
+[gw1] [  4%] PASSED tests/test_http_parser.py::test_bad_headers[py-parser-pyloop-Content-Length: +256] 
+[gw3] [  5%] PASSED tests/test_http_parser.py::test_conn_upgrade[py-parser-pyloop] 
+tests/test_http_parser.py::test_bad_headers[py-parser-pyloop-Content-Length: \xb9] 
+tests/test_http_parser.py::test_bad_upgrade[py-parser-pyloop] 
+[gw3] [  5%] PASSED tests/test_http_parser.py::test_bad_upgrade[py-parser-pyloop] 
+[gw1] [  5%] PASSED tests/test_http_parser.py::test_bad_headers[py-parser-pyloop-Content-Length: \xb9] 
+[gw2] [  6%] PASSED tests/test_http_parser.py::test_parse_body_with_CRLF[py-parser-pyloop] 
+tests/test_http_parser.py::test_bad_headers[py-parser-pyloop-Content-Length: \U0001d7d9] 
+tests/test_http_parser.py::test_compression_empty[py-parser-pyloop] 
+[gw1] [  6%] PASSED tests/test_http_parser.py::test_bad_headers[py-parser-pyloop-Content-Length: \U0001d7d9] 
+[gw0] [  6%] FAILED tests/test_http_parser.py::test_invalid_linebreak[pyloop] 
+[gw3] [  7%] PASSED tests/test_http_parser.py::test_compression_empty[py-parser-pyloop] 
+tests/test_http_parser.py::test_parse_delayed[py-parser-pyloop] 
+tests/test_http_parser.py::test_bad_headers[py-parser-pyloop-Foo: abc\rdef] 
+tests/test_http_parser.py::test_cve_2023_37276[py-parser-pyloop] 
+tests/test_http_parser.py::test_compression_deflate[py-parser-pyloop] 
+[gw2] [  7%] PASSED tests/test_http_parser.py::test_parse_delayed[py-parser-pyloop] 
+[gw0] [  7%] PASSED tests/test_http_parser.py::test_cve_2023_37276[py-parser-pyloop] 
+[gw3] [  8%] PASSED tests/test_http_parser.py::test_compression_deflate[py-parser-pyloop] 
+[gw1] [  8%] PASSED tests/test_http_parser.py::test_bad_headers[py-parser-pyloop-Foo: abc\rdef] 
+tests/test_http_parser.py::test_bad_header_name[py-parser-pyloop-"] 
+tests/test_http_parser.py::test_headers_multi_feed[py-parser-pyloop] 
+tests/test_http_parser.py::test_compression_gzip[py-parser-pyloop] 
+tests/test_http_parser.py::test_bad_headers[py-parser-pyloop-Bar: abc\ndef] 
+[gw2] [  8%] PASSED tests/test_http_parser.py::test_headers_multi_feed[py-parser-pyloop] 
+[gw0] [  9%] PASSED tests/test_http_parser.py::test_bad_header_name[py-parser-pyloop-"] 
+[gw1] [  9%] PASSED tests/test_http_parser.py::test_bad_headers[py-parser-pyloop-Bar: abc\ndef] 
+[gw3] [  9%] PASSED tests/test_http_parser.py::test_compression_gzip[py-parser-pyloop] 
+tests/test_http_parser.py::test_bad_header_name[py-parser-pyloop-(] 
+[gw0] [ 10%] PASSED tests/test_http_parser.py::test_bad_header_name[py-parser-pyloop-(] 
+tests/test_http_parser.py::test_headers_split_field[py-parser-pyloop] 
+tests/test_http_parser.py::test_bad_headers[py-parser-pyloop-Baz: abc\x00def] 
+[gw2] [ 10%] PASSED tests/test_http_parser.py::test_headers_split_field[py-parser-pyloop] 
+tests/test_http_parser.py::test_compression_brotli[py-parser-pyloop] 
+tests/test_http_parser.py::test_bad_header_name[py-parser-pyloop-)] 
+[gw3] [ 10%] PASSED tests/test_http_parser.py::test_compression_brotli[py-parser-pyloop] 
+[gw1] [ 10%] PASSED tests/test_http_parser.py::test_bad_headers[py-parser-pyloop-Baz: abc\x00def] 
+[gw0] [ 11%] PASSED tests/test_http_parser.py::test_bad_header_name[py-parser-pyloop-)] 
+tests/test_http_parser.py::test_parse_headers_multi[py-parser-pyloop] 
+tests/test_http_parser.py::test_bad_header_name[py-parser-pyloop-,] 
+tests/test_http_parser.py::test_bad_headers[py-parser-pyloop-Foo : bar] 
+tests/test_http_parser.py::test_compression_zstd[py-parser-pyloop] 
+[gw0] [ 11%] PASSED tests/test_http_parser.py::test_bad_header_name[py-parser-pyloop-,] 
+[gw2] [ 11%] PASSED tests/test_http_parser.py::test_parse_headers_multi[py-parser-pyloop] 
+[gw1] [ 12%] PASSED tests/test_http_parser.py::test_bad_headers[py-parser-pyloop-Foo : bar] 
+[gw3] [ 12%] PASSED tests/test_http_parser.py::test_compression_zstd[py-parser-pyloop] 
+tests/test_http_parser.py::test_bad_header_name[py-parser-pyloop-/] 
+tests/test_http_parser.py::test_conn_default_1_0[py-parser-pyloop] 
+[gw0] [ 12%] PASSED tests/test_http_parser.py::test_bad_header_name[py-parser-pyloop-/] 
+tests/test_http_parser.py::test_compression_non_ascii[py-parser-pyloop-z\xef\xac\x86d] 
+tests/test_http_parser.py::test_bad_headers[py-parser-pyloop-Foo\t: bar] 
+[gw3] [ 13%] PASSED tests/test_http_parser.py::test_compression_non_ascii[py-parser-pyloop-z\xef\xac\x86d] 
+tests/test_http_parser.py::test_bad_header_name[py-parser-pyloop-:] 
+[gw2] [ 13%] PASSED tests/test_http_parser.py::test_conn_default_1_0[py-parser-pyloop] 
+[gw0] [ 13%] PASSED tests/test_http_parser.py::test_bad_header_name[py-parser-pyloop-:] 
+[gw1] [ 14%] PASSED tests/test_http_parser.py::test_bad_headers[py-parser-pyloop-Foo\t: bar] 
+tests/test_http_parser.py::test_bad_header_name[py-parser-pyloop-;] 
+[gw0] [ 14%] PASSED tests/test_http_parser.py::test_bad_header_name[py-parser-pyloop-;] 
+tests/test_http_parser.py::test_conn_default_1_1[py-parser-pyloop] 
+tests/test_http_parser.py::test_bad_headers[py-parser-pyloop-\xffoo: bar] 
+tests/test_http_parser.py::test_compression_non_ascii[py-parser-pyloop-de\xef\xac\x82ate] 
+[gw2] [ 14%] PASSED tests/test_http_parser.py::test_conn_default_1_1[py-parser-pyloop] 
+[gw1] [ 15%] PASSED tests/test_http_parser.py::test_bad_headers[py-parser-pyloop-\xffoo: bar] 
+tests/test_http_parser.py::test_bad_header_name[py-parser-pyloop-<] 
+tests/test_http_parser.py::test_conn_close[py-parser-pyloop] 
+[gw3] [ 15%] PASSED tests/test_http_parser.py::test_compression_non_ascii[py-parser-pyloop-de\xef\xac\x82ate] 
+[gw0] [ 15%] PASSED tests/test_http_parser.py::test_bad_header_name[py-parser-pyloop-<] 
+tests/test_http_parser.py::test_compression_unknown[py-parser-pyloop] 
+tests/test_http_parser.py::test_unpaired_surrogate_in_header_py[pyloop] 
+[gw2] [ 16%] PASSED tests/test_http_parser.py::test_conn_close[py-parser-pyloop] 
+tests/test_http_parser.py::test_bad_header_name[py-parser-pyloop-=] 
+[gw3] [ 16%] PASSED tests/test_http_parser.py::test_compression_unknown[py-parser-pyloop] 
+[gw1] [ 16%] PASSED tests/test_http_parser.py::test_unpaired_surrogate_in_header_py[pyloop] 
+tests/test_http_parser.py::test_url_connect[py-parser-pyloop] 
+[gw0] [ 17%] PASSED tests/test_http_parser.py::test_bad_header_name[py-parser-pyloop-=] 
+tests/test_http_parser.py::test_conn_close_1_0[py-parser-pyloop] 
+[gw3] [ 17%] PASSED tests/test_http_parser.py::test_url_connect[py-parser-pyloop] 
+tests/test_http_parser.py::test_headers_connect[py-parser-pyloop] 
+tests/test_http_parser.py::test_content_length_transfer_encoding[py-parser-pyloop] 
+tests/test_http_parser.py::test_bad_header_name[py-parser-pyloop->] 
+[gw2] [ 17%] PASSED tests/test_http_parser.py::test_conn_close_1_0[py-parser-pyloop] 
+[gw3] [ 18%] PASSED tests/test_http_parser.py::test_headers_connect[py-parser-pyloop] 
+[gw0] [ 18%] PASSED tests/test_http_parser.py::test_bad_header_name[py-parser-pyloop->] 
+[gw1] [ 18%] PASSED tests/test_http_parser.py::test_content_length_transfer_encoding[py-parser-pyloop] 
+tests/test_http_parser.py::test_url_absolute[py-parser-pyloop] 
+[gw3] [ 19%] PASSED tests/test_http_parser.py::test_url_absolute[py-parser-pyloop] 
+tests/test_http_parser.py::test_conn_keep_alive_1_0[py-parser-pyloop] 
+tests/test_http_parser.py::test_headers_old_websocket_key1[py-parser-pyloop] 
+tests/test_http_parser.py::test_bad_chunked[py-parser-pyloop] 
+tests/test_http_parser.py::test_bad_header_name[py-parser-pyloop-?] 
+[gw2] [ 19%] PASSED tests/test_http_parser.py::test_conn_keep_alive_1_0[py-parser-pyloop] 
+[gw3] [ 19%] PASSED tests/test_http_parser.py::test_headers_old_websocket_key1[py-parser-pyloop] 
+[gw1] [ 20%] PASSED tests/test_http_parser.py::test_bad_chunked[py-parser-pyloop] 
+tests/test_http_parser.py::test_conn_keep_alive_1_1[py-parser-pyloop] 
+[gw0] [ 20%] PASSED tests/test_http_parser.py::test_bad_header_name[py-parser-pyloop-?] 
+tests/test_http_parser.py::test_whitespace_before_header[py-parser-pyloop] 
+tests/test_http_parser.py::test_headers_content_length_err_1[py-parser-pyloop] 
+[gw1] [ 20%] PASSED tests/test_http_parser.py::test_whitespace_before_header[py-parser-pyloop] 
+[gw2] [ 20%] PASSED tests/test_http_parser.py::test_conn_keep_alive_1_1[py-parser-pyloop] 
+tests/test_http_parser.py::test_parse_unusual_request_line[py-parser-pyloop] 
+[gw3] [ 21%] PASSED tests/test_http_parser.py::test_headers_content_length_err_1[py-parser-pyloop] 
+tests/test_http_parser.py::test_bad_header_name[py-parser-pyloop-@] 
+[gw1] [ 21%] PASSED tests/test_http_parser.py::test_parse_unusual_request_line[py-parser-pyloop] 
+tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-empty-post-empty-name-empty] 
+[gw0] [ 21%] PASSED tests/test_http_parser.py::test_bad_header_name[py-parser-pyloop-@] 
+[gw1] [ 22%] PASSED tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-empty-post-empty-name-empty] 
+tests/test_http_parser.py::test_conn_other_1_0[py-parser-pyloop] 
+tests/test_http_parser.py::test_headers_content_length_err_2[py-parser-pyloop] 
+[gw3] [ 22%] PASSED tests/test_http_parser.py::test_headers_content_length_err_2[py-parser-pyloop] 
+[gw2] [ 22%] PASSED tests/test_http_parser.py::test_conn_other_1_0[py-parser-pyloop] 
+tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-empty-post-empty-with-name] 
+tests/test_http_parser.py::test_bad_header_name[py-parser-pyloop-[] 
+tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-NUL-post-NUL-name-empty] 
+[gw3] [ 23%] PASSED tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-NUL-post-NUL-name-empty] 
+tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-NUL-post-NUL-with-name] 
+[gw1] [ 23%] PASSED tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-empty-post-empty-with-name] 
+[gw3] [ 23%] PASSED tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-NUL-post-NUL-with-name] 
+tests/test_http_parser.py::test_conn_other_1_1[py-parser-pyloop] 
+tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-NUL-post-SP-name-empty] 
+[gw0] [ 24%] PASSED tests/test_http_parser.py::test_bad_header_name[py-parser-pyloop-[] 
+[gw2] [ 24%] PASSED tests/test_http_parser.py::test_conn_other_1_1[py-parser-pyloop] 
+[gw3] [ 24%] PASSED tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-NUL-post-SP-name-empty] 
+tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-empty-post-NUL-name-empty] 
+[gw1] [ 25%] PASSED tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-empty-post-NUL-name-empty] 
+tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-SP-post-NUL-with-name] 
+tests/test_http_parser.py::test_request_chunked[py-parser-pyloop] 
+tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-NUL-post-SP-with-name] 
+[gw0] [ 25%] PASSED tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-SP-post-NUL-with-name] 
+[gw2] [ 25%] PASSED tests/test_http_parser.py::test_request_chunked[py-parser-pyloop] 
+tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-empty-post-NUL-with-name] 
+tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-SP-post-SP-name-empty] 
+[gw0] [ 26%] PASSED tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-SP-post-SP-name-empty] 
+[gw3] [ 26%] PASSED tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-NUL-post-SP-with-name] 
+tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-SP-post-SP-with-name] 
+[gw0] [ 26%] PASSED tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-SP-post-SP-with-name] 
+[gw1] [ 27%] PASSED tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-empty-post-NUL-with-name] 
+tests/test_http_parser.py::test_te_header_non_ascii[py-parser-pyloop] 
+tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-SP-post-SPSP-name-empty] 
+tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-NUL-post-SPSP-name-empty] 
+[gw0] [ 27%] PASSED tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-SP-post-SPSP-name-empty] 
+[gw2] [ 27%] PASSED tests/test_http_parser.py::test_te_header_non_ascii[py-parser-pyloop] 
+tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-empty-post-SP-name-empty] 
+[gw3] [ 28%] PASSED tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-NUL-post-SPSP-name-empty] 
+[gw1] [ 28%] PASSED tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-empty-post-SP-name-empty] 
+tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-SP-post-SPSP-with-name] 
+tests/test_http_parser.py::test_upgrade_header_non_ascii[py-parser-pyloop] 
+tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-NUL-post-SPSP-with-name] 
+[gw0] [ 28%] PASSED tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-SP-post-SPSP-with-name] 
+tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-empty-post-SP-with-name] 
+[gw2] [ 29%] PASSED tests/test_http_parser.py::test_upgrade_header_non_ascii[py-parser-pyloop] 
+[gw3] [ 29%] PASSED tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-NUL-post-SPSP-with-name] 
+tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-SP-post-LF-name-empty] 
+[gw1] [ 29%] PASSED tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-empty-post-SP-with-name] 
+[gw0] [ 30%] PASSED tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-SP-post-LF-name-empty] 
+tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-empty-post-SPSP-name-empty] 
+tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-SP-post-LF-with-name] 
+tests/test_http_parser.py::test_request_te_chunked_with_content_length[py-parser-pyloop] 
+[gw1] [ 30%] PASSED tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-empty-post-SPSP-name-empty] 
+tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-NUL-post-LF-name-empty] 
+[gw0] [ 30%] PASSED tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-SP-post-LF-with-name] 
+[gw2] [ 30%] PASSED tests/test_http_parser.py::test_request_te_chunked_with_content_length[py-parser-pyloop] 
+tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-empty-post-SPSP-with-name] 
+tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-SP-post-NBSP-name-empty] 
+[gw3] [ 31%] PASSED tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-NUL-post-LF-name-empty] 
+[gw0] [ 31%] PASSED tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-SP-post-NBSP-name-empty] 
+tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-SPSP-post-NUL-with-name] 
+[gw2] [ 31%] PASSED tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-SPSP-post-NUL-with-name] 
+[gw1] [ 32%] PASSED tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-empty-post-SPSP-with-name] 
+tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-SP-post-NBSP-with-name] 
+tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-SPSP-post-SP-name-empty] 
+tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-empty-post-LF-name-empty] 
+[gw1] [ 32%] PASSED tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-empty-post-LF-name-empty] 
+[gw2] [ 32%] PASSED tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-SPSP-post-SP-name-empty] 
+tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-empty-post-LF-with-name] 
+[gw0] [ 33%] PASSED tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-SP-post-NBSP-with-name] 
+tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-NUL-post-LF-with-name] 
+[gw1] [ 33%] PASSED tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-empty-post-LF-with-name] 
+tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-SPSP-post-SP-with-name] 
+tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-SP-post-TABSP-name-empty] 
+[gw3] [ 33%] PASSED tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-NUL-post-LF-with-name] 
+[gw2] [ 34%] PASSED tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-SPSP-post-SP-with-name] 
+tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-empty-post-NBSP-name-empty] 
+[gw0] [ 34%] PASSED tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-SP-post-TABSP-name-empty] 
+[gw1] [ 34%] PASSED tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-empty-post-NBSP-name-empty] 
+tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-NUL-post-NBSP-name-empty] 
+tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-empty-post-NBSP-with-name] 
+[gw3] [ 35%] PASSED tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-NUL-post-NBSP-name-empty] 
+tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-SPSP-post-SPSP-name-empty] 
+[gw1] [ 35%] PASSED tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-empty-post-NBSP-with-name] 
+tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-SP-post-TABSP-with-name] 
+[gw2] [ 35%] PASSED tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-SPSP-post-SPSP-name-empty] 
+tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-NUL-post-NBSP-with-name] 
+tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-empty-post-TABSP-name-empty] 
+[gw3] [ 36%] PASSED tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-NUL-post-NBSP-with-name] 
+[gw1] [ 36%] PASSED tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-empty-post-TABSP-name-empty] 
+tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-SPSP-post-SPSP-with-name] 
+tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-NUL-post-TABSP-name-empty] 
+tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-empty-post-TABSP-with-name] 
+[gw2] [ 36%] PASSED tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-SPSP-post-SPSP-with-name] 
+[gw3] [ 37%] PASSED tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-NUL-post-TABSP-name-empty] 
+[gw0] [ 37%] PASSED tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-SP-post-TABSP-with-name] 
+[gw1] [ 37%] PASSED tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-empty-post-TABSP-with-name] 
+tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-SPSP-post-LF-name-empty] 
+tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-NUL-post-TABSP-with-name] 
+[gw3] [ 38%] PASSED tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-NUL-post-TABSP-with-name] 
+[gw2] [ 38%] PASSED tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-SPSP-post-LF-name-empty] 
+tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-NUL-post-empty-name-empty] 
+[gw1] [ 38%] PASSED tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-NUL-post-empty-name-empty] 
+tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-SPSP-post-LF-with-name] 
+tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-SPSP-post-empty-name-empty] 
+tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-NUL-post-empty-with-name] 
+[gw2] [ 39%] PASSED tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-SPSP-post-LF-with-name] 
+tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-SP-post-empty-name-empty] 
+[gw1] [ 39%] PASSED tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-NUL-post-empty-with-name] 
+[gw0] [ 39%] PASSED tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-SPSP-post-empty-name-empty] 
+[gw3] [ 40%] PASSED tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-SP-post-empty-name-empty] 
+tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-SPSP-post-NBSP-name-empty] 
+tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-NBSP-post-empty-name-empty] 
+[gw2] [ 40%] PASSED tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-SPSP-post-NBSP-name-empty] 
+[gw1] [ 40%] PASSED tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-NBSP-post-empty-name-empty] 
+tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-SPSP-post-empty-with-name] 
+tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-SP-post-empty-with-name] 
+tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-SPSP-post-NBSP-with-name] 
+[gw3] [ 40%] PASSED tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-SP-post-empty-with-name] 
+[gw2] [ 41%] PASSED tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-SPSP-post-NBSP-with-name] 
+[gw0] [ 41%] PASSED tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-SPSP-post-empty-with-name] 
+tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-SP-post-NUL-name-empty] 
+tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-NBSP-post-empty-with-name] 
+tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-SPSP-post-TABSP-name-empty] 
+[gw1] [ 41%] PASSED tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-NBSP-post-empty-with-name] 
+[gw3] [ 42%] PASSED tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-SP-post-NUL-name-empty] 
+[gw2] [ 42%] PASSED tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-SPSP-post-TABSP-name-empty] 
+tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-SPSP-post-NUL-name-empty] 
+tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-NBSP-post-NUL-name-empty] 
+[gw1] [ 42%] PASSED tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-NBSP-post-NUL-name-empty] 
+tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-SPSP-post-TABSP-with-name] 
+[gw2] [ 43%] PASSED tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-SPSP-post-TABSP-with-name] 
+[gw0] [ 43%] PASSED tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-SPSP-post-NUL-name-empty] 
+tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-NBSP-post-NUL-with-name] 
+tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-NBSP-post-NBSP-with-name] 
+[gw3] [ 43%] PASSED tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-NBSP-post-NBSP-with-name] 
+tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-LF-post-empty-name-empty] 
+[gw2] [ 44%] PASSED tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-LF-post-empty-name-empty] 
+tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-NBSP-post-TABSP-name-empty] 
+[gw1] [ 44%] PASSED tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-NBSP-post-NUL-with-name] 
+[gw3] [ 44%] PASSED tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-NBSP-post-TABSP-name-empty] 
+tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-LF-post-NUL-name-empty] 
+tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-LF-post-empty-with-name] 
+[gw2] [ 45%] PASSED tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-LF-post-empty-with-name] 
+[gw0] [ 45%] PASSED tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-LF-post-NUL-name-empty] 
+tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-NBSP-post-TABSP-with-name] 
+tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-NBSP-post-SP-name-empty] 
+tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-TABSP-post-NBSP-name-empty] 
+[gw3] [ 45%] PASSED tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-NBSP-post-TABSP-with-name] 
+[gw2] [ 46%] PASSED tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-TABSP-post-NBSP-name-empty] 
+[gw1] [ 46%] PASSED tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-NBSP-post-SP-name-empty] 
+tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-LF-post-NUL-with-name] 
+tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-TABSP-post-NBSP-with-name] 
+tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-TABSP-post-empty-name-empty] 
+[gw3] [ 46%] PASSED tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-TABSP-post-empty-name-empty] 
+[gw2] [ 47%] PASSED tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-TABSP-post-NBSP-with-name] 
+tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-NBSP-post-SP-with-name] 
+[gw0] [ 47%] PASSED tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-LF-post-NUL-with-name] 
+[gw1] [ 47%] PASSED tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-NBSP-post-SP-with-name] 
+tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-TABSP-post-TABSP-name-empty] 
+tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-NBSP-post-SPSP-name-empty] 
+tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-TABSP-post-empty-with-name] 
+[gw2] [ 48%] PASSED tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-TABSP-post-TABSP-name-empty] 
+[gw1] [ 48%] PASSED tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-NBSP-post-SPSP-name-empty] 
+tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-LF-post-SP-name-empty] 
+[gw3] [ 48%] PASSED tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-TABSP-post-empty-with-name] 
+tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-TABSP-post-TABSP-with-name] 
+[gw0] [ 49%] PASSED tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-LF-post-SP-name-empty] 
+[gw2] [ 49%] PASSED tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-TABSP-post-TABSP-with-name] 
+tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-NBSP-post-SPSP-with-name] 
+[gw1] [ 49%] PASSED tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-NBSP-post-SPSP-with-name] 
+tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-TABSP-post-NUL-name-empty] 
+tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-NBSP-post-LF-name-empty] 
+tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-LF-post-SP-with-name] 
+tests/test_http_parser.py::test_empty_header_name[py-parser-pyloop] 
+[gw1] [ 50%] PASSED tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-NBSP-post-LF-name-empty] 
+[gw3] [ 50%] PASSED tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-TABSP-post-NUL-name-empty] 
+[gw2] [ 50%] PASSED tests/test_http_parser.py::test_empty_header_name[py-parser-pyloop] 
+[gw0] [ 50%] PASSED tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-LF-post-SP-with-name] 
+tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-NBSP-post-LF-with-name] 
+tests/test_http_parser.py::test_invalid_header[py-parser-pyloop] 
+tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-TABSP-post-NUL-with-name] 
+[gw2] [ 51%] PASSED tests/test_http_parser.py::test_invalid_header[py-parser-pyloop] 
+[gw1] [ 51%] PASSED tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-NBSP-post-LF-with-name] 
+tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-LF-post-SPSP-name-empty] 
+tests/test_http_parser.py::test_invalid_name[py-parser-pyloop] 
+tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-NBSP-post-NBSP-name-empty] 
+[gw0] [ 51%] PASSED tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-LF-post-SPSP-name-empty] 
+[gw3] [ 52%] PASSED tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-TABSP-post-NUL-with-name] 
+[gw2] [ 52%] PASSED tests/test_http_parser.py::test_invalid_name[py-parser-pyloop] 
+[gw1] [ 52%] PASSED tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-NBSP-post-NBSP-name-empty] 
+tests/test_http_parser.py::test_max_header_field_size[py-parser-pyloop-40960] 
+tests/test_http_parser.py::test_max_header_value_size[py-parser-pyloop-40960] 
+tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-LF-post-SPSP-with-name] 
+[gw1] [ 53%] PASSED tests/test_http_parser.py::test_max_header_value_size[py-parser-pyloop-40960] 
+[gw2] [ 53%] PASSED tests/test_http_parser.py::test_max_header_field_size[py-parser-pyloop-40960] 
+tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-TABSP-post-SP-name-empty] 
+[gw0] [ 53%] PASSED tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-LF-post-SPSP-with-name] 
+tests/test_http_parser.py::test_max_header_value_size[py-parser-pyloop-8191] 
+tests/test_http_parser.py::test_max_header_field_size[py-parser-pyloop-8191] 
+[gw2] [ 54%] PASSED tests/test_http_parser.py::test_max_header_field_size[py-parser-pyloop-8191] 
+[gw1] [ 54%] PASSED tests/test_http_parser.py::test_max_header_value_size[py-parser-pyloop-8191] 
+[gw3] [ 54%] PASSED tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-TABSP-post-SP-name-empty] 
+tests/test_http_parser.py::test_max_header_size_under_limit[py-parser-pyloop] 
+tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-LF-post-LF-name-empty] 
+[gw2] [ 55%] PASSED tests/test_http_parser.py::test_max_header_size_under_limit[py-parser-pyloop] 
+tests/test_http_parser.py::test_max_header_combined_size[py-parser-pyloop] 
+[gw0] [ 55%] PASSED tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-LF-post-LF-name-empty] 
+tests/test_http_parser.py::test_max_header_value_size_continuation[py-parser-pyloop-8191] 
+[gw1] [ 55%] PASSED tests/test_http_parser.py::test_max_header_combined_size[py-parser-pyloop] 
+tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-TABSP-post-SP-with-name] 
+[gw2] [ 56%] PASSED tests/test_http_parser.py::test_max_header_value_size_continuation[py-parser-pyloop-8191] 
+[gw3] [ 56%] PASSED tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-TABSP-post-SP-with-name] 
+tests/test_http_parser.py::test_max_trailer_size[py-parser-pyloop-40960] 
+tests/test_http_parser.py::test_max_header_value_size_continuation_under_limit[py-parser-pyloop] 
+[gw1] [ 56%] PASSED tests/test_http_parser.py::test_max_trailer_size[py-parser-pyloop-40960] 
+[gw2] [ 57%] PASSED tests/test_http_parser.py::test_max_header_value_size_continuation_under_limit[py-parser-pyloop] 
+tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-LF-post-LF-with-name] 
+tests/test_http_parser.py::test_http_request_parser[py-parser-pyloop] 
+tests/test_http_parser.py::test_max_trailer_size[py-parser-pyloop-8191] 
+[gw0] [ 57%] PASSED tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-LF-post-LF-with-name] 
+[gw2] [ 57%] PASSED tests/test_http_parser.py::test_http_request_parser[py-parser-pyloop] 
+[gw1] [ 58%] PASSED tests/test_http_parser.py::test_max_trailer_size[py-parser-pyloop-8191] 
+tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-TABSP-post-SPSP-name-empty] 
+tests/test_http_parser.py::test_http_request_bad_status_line[py-parser-pyloop] 
+[gw3] [ 58%] PASSED tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-TABSP-post-SPSP-name-empty] 
+tests/test_http_parser.py::test_max_headers[py-parser-pyloop-129-0] 
+[gw2] [ 58%] PASSED tests/test_http_parser.py::test_http_request_bad_status_line[py-parser-pyloop] 
+[gw1] [ 59%] PASSED tests/test_http_parser.py::test_max_headers[py-parser-pyloop-129-0] 
+tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-LF-post-NBSP-name-empty] 
+tests/test_http_parser.py::test_http_request_bad_status_line_number[py-parser-pyloop-utf8digit] 
+tests/test_http_parser.py::test_max_headers[py-parser-pyloop-0-129] 
+[gw0] [ 59%] PASSED tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-LF-post-NBSP-name-empty] 
+tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-TABSP-post-SPSP-with-name] 
+[gw2] [ 59%] PASSED tests/test_http_parser.py::test_http_request_bad_status_line_number[py-parser-pyloop-utf8digit] 
+[gw1] [ 60%] PASSED tests/test_http_parser.py::test_max_headers[py-parser-pyloop-0-129] 
+[gw3] [ 60%] PASSED tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-TABSP-post-SPSP-with-name] 
+tests/test_http_parser.py::test_max_headers[py-parser-pyloop-64-65] 
+tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-LF-post-NBSP-with-name] 
+[gw1] [ 60%] PASSED tests/test_http_parser.py::test_max_headers[py-parser-pyloop-64-65] 
+[gw0] [ 60%] PASSED tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-LF-post-NBSP-with-name] 
+tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-TABSP-post-LF-name-empty] 
+tests/test_http_parser.py::test_max_header_value_size_under_limit[py-parser-pyloop] 
+[gw1] [ 61%] PASSED tests/test_http_parser.py::test_max_header_value_size_under_limit[py-parser-pyloop] 
+tests/test_http_parser.py::test_max_header_value_size_continuation[py-parser-pyloop-40965] 
+[gw3] [ 61%] PASSED tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-TABSP-post-LF-name-empty] 
+tests/test_http_parser.py::test_http_request_bad_status_line_number[py-parser-pyloop-utf8number] 
+tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-LF-post-TABSP-name-empty] 
+[gw1] [ 61%] PASSED tests/test_http_parser.py::test_max_header_value_size_continuation[py-parser-pyloop-40965] 
+[gw2] [ 62%] PASSED tests/test_http_parser.py::test_http_request_bad_status_line_number[py-parser-pyloop-utf8number] 
+tests/test_http_parser.py::test_http_request_message_after_close[py-parser-pyloop] 
+[gw0] [ 62%] PASSED tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-LF-post-TABSP-name-empty] 
+tests/test_http_parser.py::test_http_request_bad_status_line_number[py-parser-pyloop-latin1number] 
+[gw1] [ 62%] PASSED tests/test_http_parser.py::test_http_request_message_after_close[py-parser-pyloop] 
+tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-TABSP-post-LF-with-name] 
+[gw2] [ 63%] PASSED tests/test_http_parser.py::test_http_request_bad_status_line_number[py-parser-pyloop-latin1number] 
+tests/test_http_parser.py::test_http_request_upgrade[py-parser-pyloop] 
+[gw1] [ 63%] PASSED tests/test_http_parser.py::test_http_request_upgrade[py-parser-pyloop] 
+[gw3] [ 63%] PASSED tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-TABSP-post-LF-with-name] 
+tests/test_http_parser.py::test_http_request_bad_status_line_separator[py-parser-pyloop] 
+tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-LF-post-TABSP-with-name] 
+tests/test_http_parser.py::test_http_request_upgrade_unknown[py-parser-pyloop] 
+[gw2] [ 64%] PASSED tests/test_http_parser.py::test_http_request_bad_status_line_separator[py-parser-pyloop] 
+[gw0] [ 64%] PASSED tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-LF-post-TABSP-with-name] 
+tests/test_http_parser.py::test_http_request_parser_bad_method[py-parser-pyloop-=] 
+tests/test_http_parser.py::test_http_request_bad_status_line_whitespace[py-parser-pyloop] 
+[gw2] [ 64%] PASSED tests/test_http_parser.py::test_http_request_bad_status_line_whitespace[py-parser-pyloop] 
+[gw3] [ 65%] PASSED tests/test_http_parser.py::test_http_request_parser_bad_method[py-parser-pyloop-=] 
+[gw1] [ 65%] PASSED tests/test_http_parser.py::test_http_request_upgrade_unknown[py-parser-pyloop] 
+tests/test_http_parser.py::test_http_request_parser_bad_method[py-parser-pyloop-(] 
+tests/test_http_parser.py::test_http_request_parser_bad_ascii_uri[py-parser-pyloop] 
+[gw2] [ 65%] PASSED tests/test_http_parser.py::test_http_request_parser_bad_method[py-parser-pyloop-(] 
+tests/test_http_parser.py::test_http_request_parser_bad_method[py-parser-pyloop-)] 
+[gw0] [ 66%] PASSED tests/test_http_parser.py::test_http_request_parser_bad_ascii_uri[py-parser-pyloop] 
+[gw2] [ 66%] PASSED tests/test_http_parser.py::test_http_request_parser_bad_method[py-parser-pyloop-)] 
+tests/test_http_parser.py::test_http_request_parser_bad_method[py-parser-pyloop-,] 
+tests/test_http_parser.py::test_http_request_parser_utf8_request_line[py-parser-pyloop] 
+tests/test_http_parser.py::test_http_request_parser_bad_method[py-parser-pyloop->] 
+[gw2] [ 66%] PASSED tests/test_http_parser.py::test_http_request_parser_bad_method[py-parser-pyloop-,] 
+[gw1] [ 67%] PASSED tests/test_http_parser.py::test_http_request_parser_utf8_request_line[py-parser-pyloop] 
+tests/test_http_parser.py::test_http_request_parser_bad_method[py-parser-pyloop-/] 
+[gw3] [ 67%] PASSED tests/test_http_parser.py::test_http_request_parser_bad_method[py-parser-pyloop->] 
+[gw2] [ 67%] PASSED tests/test_http_parser.py::test_http_request_parser_bad_method[py-parser-pyloop-/] 
+tests/test_http_parser.py::test_http_request_parser_bad_nonascii_uri[py-parser-pyloop] 
+tests/test_http_parser.py::test_http_request_parser_utf8[py-parser-pyloop] 
+[gw1] [ 68%] PASSED tests/test_http_parser.py::test_http_request_parser_utf8[py-parser-pyloop] 
+[gw0] [ 68%] PASSED tests/test_http_parser.py::test_http_request_parser_bad_nonascii_uri[py-parser-pyloop] 
+tests/test_http_parser.py::test_http_request_parser_bad_method[py-parser-pyloop-:] 
+[gw2] [ 68%] PASSED tests/test_http_parser.py::test_http_request_parser_bad_method[py-parser-pyloop-:] 
+tests/test_http_parser.py::test_http_request_parser_bad_method[py-parser-pyloop-?] 
+tests/test_http_parser.py::test_http_request_parser_non_utf8[py-parser-pyloop] 
+tests/test_http_parser.py::test_http_request_max_status_line[py-parser-pyloop-40965] 
+[gw3] [ 69%] PASSED tests/test_http_parser.py::test_http_request_parser_bad_method[py-parser-pyloop-?] 
+tests/test_http_parser.py::test_http_request_parser_bad_method[py-parser-pyloop-;] 
+[gw2] [ 69%] PASSED tests/test_http_parser.py::test_http_request_parser_bad_method[py-parser-pyloop-;] 
+[gw0] [ 69%] PASSED tests/test_http_parser.py::test_http_request_max_status_line[py-parser-pyloop-40965] 
+[gw1] [ 70%] PASSED tests/test_http_parser.py::test_http_request_parser_non_utf8[py-parser-pyloop] 
+tests/test_http_parser.py::test_http_request_parser_bad_method[py-parser-pyloop-<] 
+[gw2] [ 70%] PASSED tests/test_http_parser.py::test_http_request_parser_bad_method[py-parser-pyloop-<] 
+tests/test_http_parser.py::test_http_request_parser_bad_method[py-parser-pyloop-@] 
+tests/test_http_parser.py::test_http_response_parser_bad_status_line_too_long[py-parser-pyloop-8191] 
+tests/test_http_parser.py::test_http_request_max_status_line[py-parser-pyloop-8191] 
+tests/test_http_parser.py::test_http_request_parser_two_slashes[py-parser-pyloop] 
+[gw2] [ 70%] PASSED tests/test_http_parser.py::test_http_response_parser_bad_status_line_too_long[py-parser-pyloop-8191] 
+[gw3] [ 70%] PASSED tests/test_http_parser.py::test_http_request_parser_bad_method[py-parser-pyloop-@] 
+tests/test_http_parser.py::test_http_response_parser_status_line_under_limit[py-parser-pyloop] 
+[gw1] [ 71%] PASSED tests/test_http_parser.py::test_http_request_parser_two_slashes[py-parser-pyloop] 
+[gw0] [ 71%] PASSED tests/test_http_parser.py::test_http_request_max_status_line[py-parser-pyloop-8191] 
+[gw2] [ 71%] PASSED tests/test_http_parser.py::test_http_response_parser_status_line_under_limit[py-parser-pyloop] 
+tests/test_http_parser.py::test_http_response_parser_bad_version[py-parser-pyloop] 
+[gw2] [ 72%] PASSED tests/test_http_parser.py::test_http_response_parser_bad_version[py-parser-pyloop] 
+tests/test_http_parser.py::test_http_request_parser_bad_method[py-parser-pyloop-[] 
+tests/test_http_parser.py::test_http_request_max_status_line_under_limit[py-parser-pyloop] 
+tests/test_http_parser.py::test_http_response_parser_bad_version_number[py-parser-pyloop] 
+tests/test_http_parser.py::test_http_request_parser_bad_method[py-parser-pyloop-"] 
+[gw2] [ 72%] PASSED tests/test_http_parser.py::test_http_response_parser_bad_version_number[py-parser-pyloop] 
+[gw3] [ 72%] PASSED tests/test_http_parser.py::test_http_request_parser_bad_method[py-parser-pyloop-[] 
+tests/test_http_parser.py::test_http_response_parser_no_reason[py-parser-pyloop] 
+[gw0] [ 73%] PASSED tests/test_http_parser.py::test_http_request_max_status_line_under_limit[py-parser-pyloop] 
+[gw1] [ 73%] PASSED tests/test_http_parser.py::test_http_request_parser_bad_method[py-parser-pyloop-"] 
+[gw2] [ 73%] PASSED tests/test_http_parser.py::test_http_response_parser_no_reason[py-parser-pyloop] 
+tests/test_http_parser.py::test_http_response_parser_lenient_headers[py-parser-pyloop] 
+tests/test_http_parser.py::test_http_request_parser_bad_method[py-parser-pyloop-\] 
+[gw2] [ 74%] PASSED tests/test_http_parser.py::test_http_response_parser_lenient_headers[py-parser-pyloop] 
+tests/test_http_parser.py::test_http_response_parser_utf8[py-parser-pyloop] 
+tests/test_http_parser.py::test_http_response_parser_bad_crlf[py-parser-pyloop] 
+[gw3] [ 74%] PASSED tests/test_http_parser.py::test_http_request_parser_bad_method[py-parser-pyloop-\] 
+[gw0] [ 74%] PASSED tests/test_http_parser.py::test_http_response_parser_utf8[py-parser-pyloop] 
+tests/test_http_parser.py::test_http_response_parser_code_under_100[py-parser-pyloop] 
+[gw2] [ 75%] PASSED tests/test_http_parser.py::test_http_response_parser_code_under_100[py-parser-pyloop] 
+[gw1] [ 75%] PASSED tests/test_http_parser.py::test_http_response_parser_bad_crlf[py-parser-pyloop] 
+tests/test_http_parser.py::test_http_request_parser_bad_method[py-parser-pyloop-]] 
+tests/test_http_parser.py::test_http_response_parser_code_above_999[py-parser-pyloop] 
+tests/test_http_parser.py::test_http_response_parser_utf8_without_reason[py-parser-pyloop] 
+[gw2] [ 75%] PASSED tests/test_http_parser.py::test_http_response_parser_code_above_999[py-parser-pyloop] 
+tests/test_http_parser.py::test_http_response_parser_code_not_int[py-parser-pyloop] 
+[gw3] [ 76%] PASSED tests/test_http_parser.py::test_http_request_parser_bad_method[py-parser-pyloop-]] 
+tests/test_http_parser.py::test_http_response_parser_bad_chunked_lax[py-parser-pyloop] 
+[gw0] [ 76%] PASSED tests/test_http_parser.py::test_http_response_parser_utf8_without_reason[py-parser-pyloop] 
+[gw2] [ 76%] PASSED tests/test_http_parser.py::test_http_response_parser_code_not_int[py-parser-pyloop] 
+tests/test_http_parser.py::test_http_response_parser_code_not_ascii[py-parser-pyloop-utf8digit] 
+[gw1] [ 77%] PASSED tests/test_http_parser.py::test_http_response_parser_bad_chunked_lax[py-parser-pyloop] 
+tests/test_http_parser.py::test_http_request_parser_bad_method[py-parser-pyloop-{] 
+tests/test_http_parser.py::test_http_response_parser_obs_line_folding[py-parser-pyloop] 
+[gw2] [ 77%] PASSED tests/test_http_parser.py::test_http_response_parser_code_not_ascii[py-parser-pyloop-utf8digit] 
+[gw0] [ 77%] PASSED tests/test_http_parser.py::test_http_response_parser_obs_line_folding[py-parser-pyloop] 
+[gw3] [ 78%] PASSED tests/test_http_parser.py::test_http_request_parser_bad_method[py-parser-pyloop-{] 
+tests/test_http_parser.py::test_http_response_parser_code_not_ascii[py-parser-pyloop-utf8number] 
+[gw2] [ 78%] PASSED tests/test_http_parser.py::test_http_response_parser_code_not_ascii[py-parser-pyloop-utf8number] 
+tests/test_http_parser.py::test_http_request_parser_bad_method[py-parser-pyloop-}] 
+tests/test_http_parser.py::test_http_response_parser_notchunked[py-parser-pyloop] 
+tests/test_http_parser.py::test_http_response_parser_code_not_ascii[py-parser-pyloop-latin1number] 
+[gw2] [ 78%] PASSED tests/test_http_parser.py::test_http_response_parser_code_not_ascii[py-parser-pyloop-latin1number] 
+[gw3] [ 79%] PASSED tests/test_http_parser.py::test_http_request_parser_bad_method[py-parser-pyloop-}] 
+[gw1] [ 79%] PASSED tests/test_http_parser.py::test_http_response_parser_notchunked[py-parser-pyloop] 
+tests/test_http_parser.py::test_http_response_parser_bad_status_line_too_long[py-parser-pyloop-40962] 
+[gw0] [ 79%] PASSED tests/test_http_parser.py::test_http_response_parser_bad_status_line_too_long[py-parser-pyloop-40962] 
+tests/test_http_parser.py::test_http_request_chunked_payload[py-parser-pyloop] 
+tests/test_http_parser.py::test_http_request_parser_bad_version[py-parser-pyloop] 
+tests/test_http_parser.py::test_http_response_parser_last_chunked[py-parser-pyloop] 
+[gw2] [ 80%] PASSED tests/test_http_parser.py::test_http_request_chunked_payload[py-parser-pyloop] 
+[gw3] [ 80%] PASSED tests/test_http_parser.py::test_http_request_parser_bad_version[py-parser-pyloop] 
+[gw1] [ 80%] PASSED tests/test_http_parser.py::test_http_response_parser_last_chunked[py-parser-pyloop] 
+tests/test_http_parser.py::test_request_chunked_with_trailer[py-parser-pyloop] 
+tests/test_http_parser.py::test_http_request_chunked_payload_and_next_message[py-parser-pyloop] 
+tests/test_http_parser.py::test_http_request_parser_bad_version_number[py-parser-pyloop] 
+[gw0] [ 80%] PASSED tests/test_http_parser.py::test_request_chunked_with_trailer[py-parser-pyloop] 
+tests/test_http_parser.py::test_http_response_parser_bad[py-parser-pyloop] 
+tests/test_http_parser.py::test_request_chunked_reject_bad_trailer[py-parser-pyloop] 
+[gw0] [ 81%] PASSED tests/test_http_parser.py::test_request_chunked_reject_bad_trailer[py-parser-pyloop] 
+[gw2] [ 81%] PASSED tests/test_http_parser.py::test_http_request_chunked_payload_and_next_message[py-parser-pyloop] 
+[gw3] [ 81%] PASSED tests/test_http_parser.py::test_http_request_parser_bad_version_number[py-parser-pyloop] 
+[gw1] [ 82%] PASSED tests/test_http_parser.py::test_http_response_parser_bad[py-parser-pyloop] 
+tests/test_http_parser.py::test_parse_no_length_or_te_on_post[py-parser-pyloop] 
+[gw0] [ 82%] PASSED tests/test_http_parser.py::test_parse_no_length_or_te_on_post[py-parser-pyloop] 
+tests/test_http_parser.py::test_http_request_chunked_payload_chunks[py-parser-pyloop] 
+tests/test_http_parser.py::test_parse_payload_response_without_body[py-parser-pyloop] 
+tests/test_http_parser.py::test_parse_no_length_payload[py-parser-pyloop] 
+[gw0] [ 82%] PASSED tests/test_http_parser.py::test_parse_payload_response_without_body[py-parser-pyloop] 
+[gw2] [ 83%] PASSED tests/test_http_parser.py::test_http_request_chunked_payload_chunks[py-parser-pyloop] 
+[gw3] [ 83%] PASSED tests/test_http_parser.py::test_parse_no_length_payload[py-parser-pyloop] 
+tests/test_http_parser.py::test_parse_chunked_payload_empty_body_than_another_chunked[py-parser-pyloop-101] 
+tests/test_http_parser.py::test_parse_length_payload[py-parser-pyloop] 
+[gw1] [ 83%] PASSED tests/test_http_parser.py::test_parse_chunked_payload_empty_body_than_another_chunked[py-parser-pyloop-101] 
+tests/test_http_parser.py::test_parse_chunked_payload_chunk_extension[py-parser-pyloop] 
+tests/test_http_parser.py::test_parse_content_length_payload_multiple[py-parser-pyloop] 
+[gw0] [ 84%] PASSED tests/test_http_parser.py::test_parse_length_payload[py-parser-pyloop] 
+[gw2] [ 84%] PASSED tests/test_http_parser.py::test_parse_chunked_payload_chunk_extension[py-parser-pyloop] 
+[gw3] [ 84%] PASSED tests/test_http_parser.py::test_parse_content_length_payload_multiple[py-parser-pyloop] 
+tests/test_http_parser.py::test_parse_chunked_payload_empty_body_than_another_chunked[py-parser-pyloop-102] 
+tests/test_http_parser.py::test_partial_url[py-parser-pyloop] 
+tests/test_http_parser.py::test_parse_uri_percent_encoded[py-parser-pyloop-/path?key=value%2523frag-/path-query3-] 
+tests/test_http_parser.py::test_parse_content_length_than_chunked_payload[py-parser-pyloop] 
+[gw0] [ 85%] PASSED tests/test_http_parser.py::test_partial_url[py-parser-pyloop] 
+[gw1] [ 85%] PASSED tests/test_http_parser.py::test_parse_chunked_payload_empty_body_than_another_chunked[py-parser-pyloop-102] 
+[gw2] [ 85%] PASSED tests/test_http_parser.py::test_parse_uri_percent_encoded[py-parser-pyloop-/path?key=value%2523frag-/path-query3-] 
+tests/test_http_parser.py::test_parse_uri_percent_encoded[py-parser-pyloop-/path%23frag-/path#frag-query0-] 
+[gw3] [ 86%] PASSED tests/test_http_parser.py::test_parse_content_length_than_chunked_payload[py-parser-pyloop] 
+tests/test_http_parser.py::test_parse_uri_percent_encoded[py-parser-pyloop-/path#frag%20-/path-query4-frag ] 
+[gw0] [ 86%] PASSED tests/test_http_parser.py::test_parse_uri_percent_encoded[py-parser-pyloop-/path%23frag-/path#frag-query0-] 
+[gw2] [ 86%] PASSED tests/test_http_parser.py::test_parse_uri_percent_encoded[py-parser-pyloop-/path#frag%20-/path-query4-frag ] 
+tests/test_http_parser.py::test_parse_chunked_payload_split_chunks[py-parser-pyloop] 
+tests/test_http_parser.py::test_parse_uri_percent_encoded[py-parser-pyloop-/path%2523frag-/path%23frag-query1-] 
+tests/test_http_parser.py::test_parse_chunked_payload_empty_body_than_another_chunked[py-parser-pyloop-204] 
+tests/test_http_parser.py::test_parse_uri_percent_encoded[py-parser-pyloop-/path#frag%2520-/path-query5-frag%20] 
+[gw0] [ 87%] PASSED tests/test_http_parser.py::test_parse_uri_percent_encoded[py-parser-pyloop-/path%2523frag-/path%23frag-query1-] 
+[gw1] [ 87%] PASSED tests/test_http_parser.py::test_parse_chunked_payload_split_chunks[py-parser-pyloop] 
+tests/test_http_parser.py::test_parse_uri_percent_encoded[py-parser-pyloop-/path?key=value%23frag-/path-query2-] 
+[gw0] [ 87%] PASSED tests/test_http_parser.py::test_parse_uri_percent_encoded[py-parser-pyloop-/path?key=value%23frag-/path-query2-] 
+[gw2] [ 88%] PASSED tests/test_http_parser.py::test_parse_uri_percent_encoded[py-parser-pyloop-/path#frag%2520-/path-query5-frag%20] 
+[gw3] [ 88%] PASSED tests/test_http_parser.py::test_parse_chunked_payload_empty_body_than_another_chunked[py-parser-pyloop-204] 
+tests/test_http_parser.py::TestParsePayload::test_parse_eof_payload 
+[gw0] [ 88%] PASSED tests/test_http_parser.py::TestParsePayload::test_parse_eof_payload 
+tests/test_http_parser.py::TestParsePayload::test_parse_length_payload_eof 
+tests/test_http_parser.py::test_parse_chunked_payload_with_lf_in_extensions[py-parser-pyloop] 
+tests/test_http_parser.py::test_parse_chunked_payload_empty_body_than_another_chunked[py-parser-pyloop-304] 
+[gw0] [ 89%] PASSED tests/test_http_parser.py::TestParsePayload::test_parse_length_payload_eof 
+tests/test_http_parser.py::TestParsePayload::test_parse_chunked_payload_size_error 
+[gw1] [ 89%] PASSED tests/test_http_parser.py::test_parse_chunked_payload_with_lf_in_extensions[py-parser-pyloop] 
+[gw3] [ 89%] PASSED tests/test_http_parser.py::test_parse_chunked_payload_empty_body_than_another_chunked[py-parser-pyloop-304] 
+tests/test_http_parser.py::test_parse_uri_utf8[py-parser-pyloop] 
+tests/test_http_parser.py::TestParsePayload::test_parse_chunked_payload_size_data_mismatch_too_short 
+[gw2] [ 90%] PASSED tests/test_http_parser.py::test_parse_uri_utf8[py-parser-pyloop] 
+[gw0] [ 90%] PASSED tests/test_http_parser.py::TestParsePayload::test_parse_chunked_payload_size_error 
+tests/test_http_parser.py::TestParsePayload::test_parse_chunked_payload_split_end2 
+tests/test_http_parser.py::TestParsePayload::test_parse_chunked_payload_size_data_mismatch 
+[gw0] [ 90%] PASSED tests/test_http_parser.py::TestParsePayload::test_parse_chunked_payload_size_data_mismatch 
+tests/test_http_parser.py::TestParsePayload::test_parse_chunked_payload_split_end_trailers2 
+[gw1] [ 90%] PASSED tests/test_http_parser.py::TestParsePayload::test_parse_chunked_payload_size_data_mismatch_too_short 
+tests/test_http_parser.py::TestParsePayload::test_parse_chunked_payload_split_end 
+tests/test_http_parser.py::test_parse_uri_utf8_percent_encoded[py-parser-pyloop] 
+[gw3] [ 91%] PASSED tests/test_http_parser.py::TestParsePayload::test_parse_chunked_payload_split_end2 
+tests/test_http_parser.py::TestParsePayload::test_parse_chunked_payload_split_end_trailers 
+[gw2] [ 91%] PASSED tests/test_http_parser.py::test_parse_uri_utf8_percent_encoded[py-parser-pyloop] 
+tests/test_http_parser.py::test_parse_bad_method_for_c_parser_raises[pyloop] 
+[gw2] [ 91%] SKIPPED tests/test_http_parser.py::test_parse_bad_method_for_c_parser_raises[pyloop] 
+tests/test_http_parser.py::TestParsePayload::test_http_payload_parser_deflate 
+[gw2] [ 92%] PASSED tests/test_http_parser.py::TestParsePayload::test_http_payload_parser_deflate 
+tests/test_http_parser.py::TestParsePayload::test_http_payload_parser_deflate_no_hdrs 
+[gw0] [ 92%] PASSED tests/test_http_parser.py::TestParsePayload::test_parse_chunked_payload_split_end_trailers2 
+tests/test_http_parser.py::TestParsePayload::test_parse_chunked_payload_split_end_trailers3 
+[gw1] [ 92%] PASSED tests/test_http_parser.py::TestParsePayload::test_parse_chunked_payload_split_end 
+[gw2] [ 93%] PASSED tests/test_http_parser.py::TestParsePayload::test_http_payload_parser_deflate_no_hdrs 
+tests/test_http_parser.py::TestParsePayload::test_http_payload_parser_deflate_light 
+tests/test_http_parser.py::TestParsePayload::test_parse_chunked_payload_split_end_trailers4 
+[gw3] [ 93%] PASSED tests/test_http_parser.py::TestParsePayload::test_parse_chunked_payload_split_end_trailers 
+tests/test_http_parser.py::TestParsePayload::test_http_payload_parser_length 
+[gw2] [ 93%] PASSED tests/test_http_parser.py::TestParsePayload::test_http_payload_parser_deflate_light 
+tests/test_http_parser.py::TestParsePayload::test_http_payload_parser_length_zero 
+[gw2] [ 94%] PASSED tests/test_http_parser.py::TestParsePayload::test_http_payload_parser_length_zero 
+tests/test_http_parser.py::TestParsePayload::test_http_payload_zstandard 
+[gw0] [ 94%] PASSED tests/test_http_parser.py::TestParsePayload::test_parse_chunked_payload_split_end_trailers3 
+tests/test_http_parser.py::TestParsePayload::test_http_payload_parser_deflate_split 
+[gw1] [ 94%] PASSED tests/test_http_parser.py::TestParsePayload::test_parse_chunked_payload_split_end_trailers4 
+tests/test_http_parser.py::TestParsePayload::test_http_payload_parser_deflate_split_err 
+[gw3] [ 95%] PASSED tests/test_http_parser.py::TestParsePayload::test_http_payload_parser_length 
+tests/test_http_parser.py::TestParsePayload::test_http_payload_brotli 
+[gw1] [ 95%] PASSED tests/test_http_parser.py::TestParsePayload::test_http_payload_parser_deflate_split_err 
+tests/test_http_parser.py::TestDeflateBuffer::test_feed_eof 
+[gw2] [ 95%] PASSED tests/test_http_parser.py::TestParsePayload::test_http_payload_zstandard 
+tests/test_http_parser.py::TestDeflateBuffer::test_feed_data 
+[gw0] [ 96%] PASSED tests/test_http_parser.py::TestParsePayload::test_http_payload_parser_deflate_split 
+tests/test_http_parser.py::TestDeflateBuffer::test_feed_data_err 
+[gw3] [ 96%] PASSED tests/test_http_parser.py::TestParsePayload::test_http_payload_brotli 
+tests/test_http_parser.py::TestDeflateBuffer::test_feed_eof_err_deflate 
+[gw1] [ 96%] PASSED tests/test_http_parser.py::TestDeflateBuffer::test_feed_eof 
+tests/test_http_parser.py::TestDeflateBuffer::test_feed_eof_no_err_gzip 
+[gw2] [ 97%] PASSED tests/test_http_parser.py::TestDeflateBuffer::test_feed_data 
+tests/test_http_parser.py::TestDeflateBuffer::test_feed_eof_no_err_brotli 
+[gw0] [ 97%] PASSED tests/test_http_parser.py::TestDeflateBuffer::test_feed_data_err 
+tests/test_http_parser.py::TestDeflateBuffer::test_feed_eof_no_err_zstandard 
+[gw3] [ 97%] PASSED tests/test_http_parser.py::TestDeflateBuffer::test_feed_eof_err_deflate 
+tests/test_http_parser.py::TestDeflateBuffer::test_empty_body 
+[gw2] [ 98%] PASSED tests/test_http_parser.py::TestDeflateBuffer::test_feed_eof_no_err_brotli 
+[gw1] [ 98%] PASSED tests/test_http_parser.py::TestDeflateBuffer::test_feed_eof_no_err_gzip 
+tests/test_http_parser.py::TestDeflateBuffer::test_streaming_decompress_large_payload[16KB] 
+tests/test_http_parser.py::TestDeflateBuffer::test_streaming_decompress_large_payload[1KB] 
+[gw0] [ 98%] PASSED tests/test_http_parser.py::TestDeflateBuffer::test_feed_eof_no_err_zstandard 
+tests/test_http_parser.py::TestDeflateBuffer::test_streaming_decompress_large_payload[64KB] 
+[gw3] [ 99%] PASSED tests/test_http_parser.py::TestDeflateBuffer::test_empty_body 
+[gw2] [ 99%] PASSED tests/test_http_parser.py::TestDeflateBuffer::test_streaming_decompress_large_payload[16KB] 
+[gw1] [ 99%] PASSED tests/test_http_parser.py::TestDeflateBuffer::test_streaming_decompress_large_payload[1KB] 
+[gw0] [100%] PASSED tests/test_http_parser.py::TestDeflateBuffer::test_streaming_decompress_large_payload[64KB] 
+
+=================================== FAILURES ===================================
+_____________________________ test_c_parser_loaded _____________________________
+[gw0] linux -- Python 3.10.20 /usr/local/bin/python3.10
+
+    @pytest.mark.skipif(NO_EXTENSIONS, reason="Extensions available but not imported")
+    def test_c_parser_loaded() -> None:
+>       assert "HttpRequestParserC" in dir(aiohttp.http_parser)
+E       AssertionError: assert 'HttpRequestParserC' in ['ASCIISET', 'Any', 'BadHttpMessage', 'BadHttpMethod', 'BadStatusLine', 'BaseProtocol', 'BaseTimerContext', 'BrotliDecompressor', 'CIMultiDict', 'CIMultiDictProxy', 'ChunkState', 'ClassVar', 'ContentEncodingError', 'ContentLengthError', 'DEBUG', 'DEFAULT_MAX_DECOMPRESS_SIZE', 'DIGITS', 'DecompressSizeError', 'DeflateBuffer', 'EMPTY_BODY_METHODS', 'EMPTY_BODY_STATUS_CODES', 'EMPTY_PAYLOAD', 'Final', 'Generic', 'HAS_BROTLI', 'HAS_ZSTD', 'HEXDIGITS', 'HeadersParser', 'HttpParser', 'HttpPayloadParser', 'HttpRequestParser', 'HttpRequestParserPy', 'HttpResponseParser', 'HttpResponseParserPy', 'HttpVersion', 'HttpVersion10', 'IntEnum', 'InvalidHeader', 'InvalidURLError', 'LineTooLong', 'Literal', 'NO_EXTENSIONS', 'NamedTuple', 'ParseState', 'Pattern', 'RawHeaders', 'RawRequestMessage', 'RawRequestMessagePy', 'RawResponseMessage', 'RawResponseMessagePy', 'StreamReader', 'TOKENRE', 'TransferEncodingError', 'TypeVar', 'URL', 'VERSRE', 'ZLibDecompressor', 'ZSTDDecompressor', '_EXC_SENTINEL', '_MsgT', '_SEP', '_TCHAR_SPECIALS', '__all__', '__annotations__', '__builtins__', '__cached__', '__doc__', '__file__', '__loader__', '__name__', '__package__', '__spec__', '_is_supported_upgrade', 'abc', 'asyncio', 'hdrs', 'istr', 're', 'set_exception', 'string', 'suppress']
+E        +  where ['ASCIISET', 'Any', 'BadHttpMessage', 'BadHttpMethod', 'BadStatusLine', 'BaseProtocol', 'BaseTimerContext', 'BrotliDecompressor', 'CIMultiDict', 'CIMultiDictProxy', 'ChunkState', 'ClassVar', 'ContentEncodingError', 'ContentLengthError', 'DEBUG', 'DEFAULT_MAX_DECOMPRESS_SIZE', 'DIGITS', 'DecompressSizeError', 'DeflateBuffer', 'EMPTY_BODY_METHODS', 'EMPTY_BODY_STATUS_CODES', 'EMPTY_PAYLOAD', 'Final', 'Generic', 'HAS_BROTLI', 'HAS_ZSTD', 'HEXDIGITS', 'HeadersParser', 'HttpParser', 'HttpPayloadParser', 'HttpRequestParser', 'HttpRequestParserPy', 'HttpResponseParser', 'HttpResponseParserPy', 'HttpVersion', 'HttpVersion10', 'IntEnum', 'InvalidHeader', 'InvalidURLError', 'LineTooLong', 'Literal', 'NO_EXTENSIONS', 'NamedTuple', 'ParseState', 'Pattern', 'RawHeaders', 'RawRequestMessage', 'RawRequestMessagePy', 'RawResponseMessage', 'RawResponseMessagePy', 'StreamReader', 'TOKENRE', 'TransferEncodingError', 'TypeVar', 'URL', 'VERSRE', 'ZLibDecompressor', 'ZSTDDecompressor', '_EXC_SENTINEL', '_MsgT', '_SEP', '_TCHAR_SPECIALS', '__all__', '__annotations__', '__builtins__', '__cached__', '__doc__', '__file__', '__loader__', '__name__', '__package__', '__spec__', '_is_supported_upgrade', 'abc', 'asyncio', 'hdrs', 'istr', 're', 'set_exception', 'string', 'suppress'] = dir(<module 'aiohttp.http_parser' from '/home/aiohttp/aiohttp/http_parser.py'>)
+E        +    where <module 'aiohttp.http_parser' from '/home/aiohttp/aiohttp/http_parser.py'> = aiohttp.http_parser
+
+
+tests/test_http_parser.py:120: AssertionError
+________________________ test_invalid_character[pyloop] ________________________
+[gw0] linux -- Python 3.10.20 /usr/local/bin/python3.10
+
+loop = <_UnixSelectorEventLoop running=False closed=False debug=False>
+protocol = <NonCallableMagicMock spec_set='BaseProtocol' id='139647743240864'>
+request = <FixtureRequest for <Function test_invalid_character[pyloop]>>
+
+    @pytest.mark.skipif(NO_EXTENSIONS, reason="Only tests C parser.")
+    def test_invalid_character(
+        loop: asyncio.AbstractEventLoop,
+        protocol: BaseProtocol,
+        request: pytest.FixtureRequest,
+    ) -> None:
+>       parser = HttpRequestParserC(
+            protocol,
+            loop,
+            2**16,
+            max_line_size=8190,
+            max_field_size=8190,
+        )
+E       NameError: name 'HttpRequestParserC' is not defined
+
+loop       = <_UnixSelectorEventLoop running=False closed=False debug=False>
+protocol   = <NonCallableMagicMock spec_set='BaseProtocol' id='139647743240864'>
+request    = <FixtureRequest for <Function test_invalid_character[pyloop]>>
+
+tests/test_http_parser.py:160: NameError
+________________________ test_invalid_linebreak[pyloop] ________________________
+[gw0] linux -- Python 3.10.20 /usr/local/bin/python3.10
+
+loop = <_UnixSelectorEventLoop running=False closed=False debug=False>
+protocol = <NonCallableMagicMock spec_set='BaseProtocol' id='139647733911312'>
+request = <FixtureRequest for <Function test_invalid_linebreak[pyloop]>>
+
+    @pytest.mark.skipif(NO_EXTENSIONS, reason="Only tests C parser.")
+    def test_invalid_linebreak(
+        loop: asyncio.AbstractEventLoop,
+        protocol: BaseProtocol,
+        request: pytest.FixtureRequest,
+    ) -> None:
+>       parser = HttpRequestParserC(
+            protocol,
+            loop,
+            2**16,
+            max_line_size=8190,
+            max_field_size=8190,
+        )
+E       NameError: name 'HttpRequestParserC' is not defined
+
+loop       = <_UnixSelectorEventLoop running=False closed=False debug=False>
+protocol   = <NonCallableMagicMock spec_set='BaseProtocol' id='139647733911312'>
+request    = <FixtureRequest for <Function test_invalid_linebreak[pyloop]>>
+
+tests/test_http_parser.py:184: NameError
+================================ tests coverage ================================
+_______________ coverage: platform linux, python 3.10.20-final-0 _______________
+
+Name                                          Stmts   Miss Branch BrPart  Cover
+-------------------------------------------------------------------------------
+aiohttp/__init__.py                              30      8      2      1    72%
+aiohttp/_cookie_helpers.py                      104     88     52      0    10%
+aiohttp/_websocket/__init__.py                    0      0      0      0   100%
+aiohttp/_websocket/helpers.py                    78     52     34      0    23%
+aiohttp/_websocket/models.py                     98      6      0      0    94%
+aiohttp/_websocket/reader.py                      6      0      0      0   100%
+aiohttp/_websocket/reader_py.py                 281    234    106      0    13%
+aiohttp/_websocket/writer.py                     92     71     28      0    18%
+aiohttp/abc.py                                  113     11      2      0    89%
+aiohttp/base_protocol.py                         71     52     22      0    20%
+aiohttp/client.py                               600    431    200      2    21%
+aiohttp/client_exceptions.py                    141     59     14      0    53%
+aiohttp/client_middleware_digest_auth.py        166    131     72      0    15%
+aiohttp/client_middlewares.py                    19     13      4      0    26%
+aiohttp/client_proto.py                         193    154     64      0    15%
+aiohttp/client_reqrep.py                        709    481    244      2    24%
+aiohttp/client_ws.py                            305    240     80      2    17%
+aiohttp/compression_utils.py                    149     40     22      6    68%
+aiohttp/connector.py                            768    621    320      2    14%
+aiohttp/cookiejar.py                            336    267    144      0    14%
+aiohttp/formdata.py                              88     70     40      0    14%
+aiohttp/hdrs.py                                  94      0      0      0   100%
+aiohttp/helpers.py                              541    355    176      3    26%
+aiohttp/http.py                                   8      0      0      0   100%
+aiohttp/http_exceptions.py                       51      2      2      1    94%
+aiohttp/http_parser.py                          532     23    222     17    94%
+aiohttp/http_websocket.py                         6      0      0      0   100%
+aiohttp/http_writer.py                          211    161     86      0    17%
+aiohttp/log.py                                    7      0      0      0   100%
+aiohttp/multipart.py                            677    552    284      1    13%
+aiohttp/payload.py                              386    200    108     10    42%
+aiohttp/pytest_plugin.py                        168     78     46      8    50%
+aiohttp/resolver.py                             108     79     36      1    21%
+aiohttp/streams.py                              395    209    138     21    42%
+aiohttp/tcp_helpers.py                           19     12      8      1    30%
+aiohttp/test_utils.py                           298    179     46      4    36%
+aiohttp/tracing.py                              195     69      0      0    65%
+aiohttp/typedefs.py                              22      0      0      0   100%
+aiohttp/web.py                                  131     93     52      0    22%
+aiohttp/web_app.py                              239    151     50      0    30%
+aiohttp/web_exceptions.py                       216     39     28      6    77%
+aiohttp/web_fileresponse.py                     187    140     52      0    21%
+aiohttp/web_log.py                              110     59     12      0    42%
+aiohttp/web_middlewares.py                       58     44     20      0    18%
+aiohttp/web_protocol.py                         397    323    122      0    14%
+aiohttp/web_request.py                          429    281    132      1    27%
+aiohttp/web_response.py                         454    327    198      0    19%
+aiohttp/web_routedef.py                         100     44      6      0    53%
+aiohttp/web_runner.py                           224    134     40      0    34%
+aiohttp/web_server.py                            50     26      8      0    41%
+aiohttp/web_urldispatcher.py                    729    460    150      0    31%
+aiohttp/web_ws.py                               424    321    130      2    19%
+aiohttp/worker.py                               129    129     30      0     0%
+tests/conftest.py                               259    143     34      5    43%
+tests/test_base_protocol.py                     200    200      0      0     0%
+tests/test_benchmarks_client.py                 323    323     56      0     0%
+tests/test_benchmarks_client_request.py          80     80      4      0     0%
+tests/test_benchmarks_client_ws.py              113    113     20      0     0%
+tests/test_benchmarks_cookiejar.py               14     14      0      0     0%
+tests/test_benchmarks_http_websocket.py          72     72     12      0     0%
+tests/test_benchmarks_http_writer.py             11     11      2      0     0%
+tests/test_benchmarks_web_fileresponse.py        63     63      6      0     0%
+tests/test_benchmarks_web_middleware.py          24     24      4      0     0%
+tests/test_benchmarks_web_response.py            33     33     10      0     0%
+tests/test_benchmarks_web_urldispatcher.py      308    308     60      0     0%
+tests/test_circular_imports.py                   30     30      6      0     0%
+tests/test_classbasedview.py                     39     39      0      0     0%
+tests/test_client_connection.py                  98     98      0      0     0%
+tests/test_client_exceptions.py                 182    182     14      0     0%
+tests/test_client_fingerprint.py                 23     23      0      0     0%
+tests/test_client_functional.py                3421   3421     66      0     0%
+tests/test_client_middleware.py                 655    655     46      0     0%
+tests/test_client_middleware_digest_auth.py     532    532     40      0     0%
+tests/test_client_proto.py                      194    194      6      0     0%
+tests/test_client_request.py                   1013   1013     26      0     0%
+tests/test_client_response.py                   611    611      2      0     0%
+tests/test_client_session.py                    719    719     20      0     0%
+tests/test_client_ws.py                         533    533     34      0     0%
+tests/test_client_ws_functional.py             1077   1077     24      0     0%
+tests/test_compression_utils.py                  22     22      0      0     0%
+tests/test_connector.py                        2466   2466     76      0     0%
+tests/test_cookie_helpers.py                    757    757     40      0     0%
+tests/test_cookiejar.py                         775    775     48      0     0%
+tests/test_flowcontrol_streams.py               102    102      0      0     0%
+tests/test_formdata.py                          185    185      2      0     0%
+tests/test_helpers.py                           570    570     18      0     0%
+tests/test_http_exceptions.py                   110    110     10      0     0%
+tests/test_http_parser.py                      1197     40     28      4    96%
+tests/test_http_writer.py                       824    824     20      0     0%
+tests/test_imports.py                            32     32      4      0     0%
+tests/test_leaks.py                              12     12      0      0     0%
+tests/test_loop.py                               35     35      0      0     0%
+tests/test_multipart.py                        1025   1025     40      0     0%
+tests/test_multipart_helpers.py                 446    446      0      0     0%
+tests/test_payload.py                           782    782     24      0     0%
+tests/test_proxy.py                             339    339     26      0     0%
+tests/test_proxy_functional.py                  520    520     14      0     0%
+tests/test_pytest_plugin.py                      47     47      0      0     0%
+tests/test_resolver.py                          351    351      4      0     0%
+tests/test_route_def.py                         191    191      0      0     0%
+tests/test_run_app.py                           588    588     24      0     0%
+tests/test_streams.py                          1140   1140     42      0     0%
+tests/test_tcp_helpers.py                        52     52      2      0     0%
+tests/test_test_utils.py                        260    260     14      0     0%
+tests/test_tracing.py                            67     67      6      0     0%
+tests/test_urldispatch.py                       888    888     22      0     0%
+tests/test_web_app.py                           444    444     10      0     0%
+tests/test_web_cli.py                            94     94      0      0     0%
+tests/test_web_exceptions.py                    278    278     28      0     0%
+tests/test_web_functional.py                   1599   1599     28      0     0%
+tests/test_web_log.py                           239    239      2      0     0%
+tests/test_web_middleware.py                    260    260      8      0     0%
+tests/test_web_protocol.py                       30     30      0      0     0%
+tests/test_web_request.py                       662    662      4      0     0%
+tests/test_web_request_handler.py                41     41      0      0     0%
+tests/test_web_response.py                      992    992     10      0     0%
+tests/test_web_runner.py                        192    192      2      0     0%
+tests/test_web_sendfile.py                      115    115      0      0     0%
+tests/test_web_sendfile_functional.py           688    688     16      0     0%
+tests/test_web_server.py                        262    262      2      0     0%
+tests/test_web_urldispatcher.py                 512    512     22      0     0%
+tests/test_web_websocket.py                     509    509      4      0     0%
+tests/test_web_websocket_functional.py         1053   1053     26      0     0%
+tests/test_websocket_data_queue.py               23     23      2      0     0%
+tests/test_websocket_handshake.py               152    152     12      0     0%
+tests/test_websocket_parser.py                  382    382     24      0     0%
+tests/test_websocket_writer.py                  167    167     10      0     0%
+tests/test_worker.py                            186    186      2      0     0%
+-------------------------------------------------------------------------------
+TOTAL                                         45232  39536   4800    100    12%
+============================= slowest 10 durations =============================
+0.17s teardown tests/test_http_parser.py::test_http_request_bad_status_line_number[py-parser-pyloop-utf8digit]
+0.17s teardown tests/test_http_parser.py::test_invalid_header_spacing[py-parser-pyloop-pre-NUL-post-LF-name-empty]
+0.15s teardown tests/test_http_parser.py::test_http_request_max_status_line[py-parser-pyloop-40965]
+0.15s teardown tests/test_http_parser.py::test_http_request_parser_bad_method[py-parser-pyloop-@]
+0.15s teardown tests/test_http_parser.py::test_parse_uri_percent_encoded[py-parser-pyloop-/path#frag%2520-/path-query5-frag%20]
+0.14s teardown tests/test_http_parser.py::test_http_response_parser_obs_line_folding[py-parser-pyloop]
+0.14s teardown tests/test_http_parser.py::test_http_request_parser_non_utf8[py-parser-pyloop]
+0.14s teardown tests/test_http_parser.py::test_http_request_parser_two_slashes[py-parser-pyloop]
+0.13s teardown tests/test_http_parser.py::test_http_response_parser_bad[py-parser-pyloop]
+0.13s call     tests/test_http_parser.py::TestDeflateBuffer::test_streaming_decompress_large_payload[1KB]
+=========================== short test summary info ============================
+SKIPPED [1] tests/test_http_parser.py:1701: C based HTTP parser not available
+FAILED tests/test_http_parser.py::test_c_parser_loaded - AssertionError: assert 'HttpRequestParserC' in ['ASCIISET', 'Any', 'BadHttpMessage', 'BadHttpMethod', 'BadStatusLine', 'BaseProtocol', 'BaseTimerContext', 'BrotliDecompressor', 'CIMultiDict', 'CIMultiDictProxy', 'ChunkState', 'ClassVar', 'ContentEncodingError', 'ContentLengthError', 'DEBUG', 'DEFAULT_MAX_DECOMPRESS_SIZE', 'DIGITS', 'DecompressSizeError', 'DeflateBuffer', 'EMPTY_BODY_METHODS', 'EMPTY_BODY_STATUS_CODES', 'EMPTY_PAYLOAD', 'Final', 'Generic', 'HAS_BROTLI', 'HAS_ZSTD', 'HEXDIGITS', 'HeadersParser', 'HttpParser', 'HttpPayloadParser', 'HttpRequestParser', 'HttpRequestParserPy', 'HttpResponseParser', 'HttpResponseParserPy', 'HttpVersion', 'HttpVersion10', 'IntEnum', 'InvalidHeader', 'InvalidURLError', 'LineTooLong', 'Literal', 'NO_EXTENSIONS', 'NamedTuple', 'ParseState', 'Pattern', 'RawHeaders', 'RawRequestMessage', 'RawRequestMessagePy', 'RawResponseMessage', 'RawResponseMessagePy', 'StreamReader', 'TOKENRE', 'TransferEncodingError', 'TypeVar', 'URL', 'VERSRE', 'ZLibDecompressor', 'ZSTDDecompressor', '_EXC_SENTINEL', '_MsgT', '_SEP', '_TCHAR_SPECIALS', '__all__', '__annotations__', '__builtins__', '__cached__', '__doc__', '__file__', '__loader__', '__name__', '__package__', '__spec__', '_is_supported_upgrade', 'abc', 'asyncio', 'hdrs', 'istr', 're', 'set_exception', 'string', 'suppress']
+ +  where ['ASCIISET', 'Any', 'BadHttpMessage', 'BadHttpMethod', 'BadStatusLine', 'BaseProtocol', 'BaseTimerContext', 'BrotliDecompressor', 'CIMultiDict', 'CIMultiDictProxy', 'ChunkState', 'ClassVar', 'ContentEncodingError', 'ContentLengthError', 'DEBUG', 'DEFAULT_MAX_DECOMPRESS_SIZE', 'DIGITS', 'DecompressSizeError', 'DeflateBuffer', 'EMPTY_BODY_METHODS', 'EMPTY_BODY_STATUS_CODES', 'EMPTY_PAYLOAD', 'Final', 'Generic', 'HAS_BROTLI', 'HAS_ZSTD', 'HEXDIGITS', 'HeadersParser', 'HttpParser', 'HttpPayloadParser', 'HttpRequestParser', 'HttpRequestParserPy', 'HttpResponseParser', 'HttpResponseParserPy', 'HttpVersion', 'HttpVersion10', 'IntEnum', 'InvalidHeader', 'InvalidURLError', 'LineTooLong', 'Literal', 'NO_EXTENSIONS', 'NamedTuple', 'ParseState', 'Pattern', 'RawHeaders', 'RawRequestMessage', 'RawRequestMessagePy', 'RawResponseMessage', 'RawResponseMessagePy', 'StreamReader', 'TOKENRE', 'TransferEncodingError', 'TypeVar', 'URL', 'VERSRE', 'ZLibDecompressor', 'ZSTDDecompressor', '_EXC_SENTINEL', '_MsgT', '_SEP', '_TCHAR_SPECIALS', '__all__', '__annotations__', '__builtins__', '__cached__', '__doc__', '__file__', '__loader__', '__name__', '__package__', '__spec__', '_is_supported_upgrade', 'abc', 'asyncio', 'hdrs', 'istr', 're', 'set_exception', 'string', 'suppress'] = dir(<module 'aiohttp.http_parser' from '/home/aiohttp/aiohttp/http_parser.py'>)
+ +    where <module 'aiohttp.http_parser' from '/home/aiohttp/aiohttp/http_parser.py'> = aiohttp.http_parser
+FAILED tests/test_http_parser.py::test_invalid_character[pyloop] - NameError: name 'HttpRequestParserC' is not defined
+FAILED tests/test_http_parser.py::test_invalid_linebreak[pyloop] - NameError: name 'HttpRequestParserC' is not defined
+================== 3 failed, 306 passed, 1 skipped in 19.51s ===================

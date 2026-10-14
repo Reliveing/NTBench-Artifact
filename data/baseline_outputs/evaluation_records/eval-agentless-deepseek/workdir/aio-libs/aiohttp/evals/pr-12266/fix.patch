@@ -1,0 +1,51 @@
+diff --git a/aiohttp/compression_utils.py b/aiohttp/compression_utils.py
+index 0bc4a30..63ce43b 100644
+--- a/aiohttp/compression_utils.py
++++ b/aiohttp/compression_utils.py
+@@ -330,6 +330,7 @@ class ZSTDDecompressor(DecompressionBaseHandler):
+                 "Please install `backports.zstd` module"
+             )
+         self._obj = ZstdDecompressor()
++        self._unused_data = b""
+         super().__init__(executor=executor, max_sync_chunk_size=max_sync_chunk_size)
+ 
+     def decompress_sync(
+@@ -342,7 +343,37 @@ class ZSTDDecompressor(DecompressionBaseHandler):
+             if max_length == ZLIB_MAX_LENGTH_UNLIMITED
+             else max_length
+         )
+-        return self._obj.decompress(data, zstd_max_length)
++        # Combine any leftover data from previous frames with the new data
++        data = self._unused_data + data
++        self._unused_data = b""
++        try:
++            result = self._obj.decompress(data, zstd_max_length)
++            # If there's leftover data after decompression, it means we have
++            # multiple frames. Save the leftover for the next call.
++            if self._obj.eof:
++                # Check if there's any remaining data after the current frame
++                # by attempting to decompress the leftover with a fresh decompressor
++                leftover = self._obj.unused_data
++                if leftover:
++                    # Try to decompress the leftover to see if it's another frame
++                    try:
++                        temp_decomp = ZstdDecompressor()
++                        temp_decomp.decompress(leftover, zstd_max_length)
++                        # If we get here, the leftover is a valid frame, so keep it
++                        self._unused_data = leftover
++                    except Exception:
++                        # If it's not a valid frame, just ignore it
++                        pass
++            return result
++        except Exception:
++            # If decompression fails, try to handle multi-frame input
++            # by using the decompress function which handles multiple frames
++            from compression.zstd import decompress as zstd_decompress
++            try:
++                return zstd_decompress(data, max_length=zstd_max_length)
++            except Exception:
++                # If that also fails, re-raise the original error
++                raise
+ 
+     def flush(self) -> bytes:
+         return b""

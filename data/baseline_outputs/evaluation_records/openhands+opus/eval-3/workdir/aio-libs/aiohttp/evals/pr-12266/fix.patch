@@ -1,0 +1,34 @@
+diff --git a/CHANGES/11607.bugfix.rst b/CHANGES/11607.bugfix.rst
+new file mode 100644
+index 000000000..7822a4510
+--- /dev/null
++++ b/CHANGES/11607.bugfix.rst
+@@ -0,0 +1,2 @@
++Fixed decoding of ``zstd`` responses containing multiple Zstandard frames,
++which previously raised a :exc:`~aiohttp.ClientPayloadError` -- by :user:`openhands`.
+diff --git a/aiohttp/compression_utils.py b/aiohttp/compression_utils.py
+index 0bc4a30d8..0957c9dec 100644
+--- a/aiohttp/compression_utils.py
++++ b/aiohttp/compression_utils.py
+@@ -342,7 +342,20 @@ class ZSTDDecompressor(DecompressionBaseHandler):
+             if max_length == ZLIB_MAX_LENGTH_UNLIMITED
+             else max_length
+         )
+-        return self._obj.decompress(data, zstd_max_length)
++        # ZstdDecompressor does not transparently handle inputs containing
++        # multiple compressed frames. Once a frame ends, a new decompressor
++        # must be created to handle any remaining data (subsequent frames).
++        # See https://docs.python.org/3/library/compression.zstd.html
++        if self._obj.eof:
++            # The previous frame ended exactly at a chunk boundary, so a new
++            # decompressor is needed to decode the next frame.
++            self._obj = ZstdDecompressor()
++        result = self._obj.decompress(data, zstd_max_length)
++        while self._obj.eof and self._obj.unused_data:
++            unused_data = self._obj.unused_data
++            self._obj = ZstdDecompressor()
++            result += self._obj.decompress(unused_data, zstd_max_length)
++        return result
+ 
+     def flush(self) -> bytes:
+         return b""

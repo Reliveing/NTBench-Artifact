@@ -1,0 +1,24 @@
+diff --git a/CHANGES/10138.bugfix.rst b/CHANGES/10138.bugfix.rst
+new file mode 100644
+index 000000000..15d88972f
+--- /dev/null
++++ b/CHANGES/10138.bugfix.rst
+@@ -0,0 +1,5 @@
++Fixed an infinite loop in the keepalive mechanism when using an event loop
++with idealized time (such as ``async_solipsism``). The ``_process_keepalive``
++handler now uses ``<`` instead of ``<=`` to compare the current time with the
++scheduled close time, preventing rescheduling when the handler fires exactly on
++time.
+diff --git a/aiohttp/web_protocol.py b/aiohttp/web_protocol.py
+index 0bffc8498..3d76fc1f1 100644
+--- a/aiohttp/web_protocol.py
++++ b/aiohttp/web_protocol.py
+@@ -487,7 +487,7 @@ class RequestHandler(BaseProtocol, Generic[_Request]):
+         loop = self._loop
+         now = loop.time()
+         close_time = self._next_keepalive_close_time
+-        if now <= close_time:
++        if now < close_time:
+             # Keep alive close check fired too early, reschedule
+             self._keepalive_handle = loop.call_at(close_time, self._process_keepalive)
+             return

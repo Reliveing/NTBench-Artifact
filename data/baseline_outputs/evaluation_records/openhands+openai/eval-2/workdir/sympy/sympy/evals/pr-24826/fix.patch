@@ -1,0 +1,13 @@
+diff --git a/sympy/simplify/cse_main.py b/sympy/simplify/cse_main.py
+index d603560f59..bf9a505165 100644
+--- a/sympy/simplify/cse_main.py
++++ b/sympy/simplify/cse_main.py
+@@ -513,7 +513,7 @@ def _find_opts(expr):
+ 
+         if not isinstance(expr, MatrixExpr) and expr.could_extract_minus_sign():
+             neg_expr = -expr
+-            if not neg_expr.is_Atom:
++            if not neg_expr.is_Atom and not neg_expr.has_xfree({expr}):
+                 opt_subs[expr] = Unevaluated(Mul, (S.NegativeOne, neg_expr))
+                 seen_subexp.add(neg_expr)
+                 expr = neg_expr

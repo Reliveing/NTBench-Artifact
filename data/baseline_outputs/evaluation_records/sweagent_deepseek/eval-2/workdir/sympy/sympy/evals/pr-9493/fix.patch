@@ -1,0 +1,13 @@
+diff --git a/sympy/core/numbers.py b/sympy/core/numbers.py
+index d1e4f02f47..e016cd778c 100644
+--- a/sympy/core/numbers.py
++++ b/sympy/core/numbers.py
+@@ -2468,6 +2468,8 @@ def _eval_power(self, expt):
+         if expt is S.NaN:
+             return S.NaN
+ 
++        if expt is S.ComplexInfinity:
++            return S.NaN
+         if expt.is_number:
+             return self**expt.evalf()
+ 

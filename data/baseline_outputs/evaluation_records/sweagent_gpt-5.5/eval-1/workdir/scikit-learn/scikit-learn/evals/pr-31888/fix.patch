@@ -1,0 +1,46 @@
+diff --git a/sklearn/svm/_base.py b/sklearn/svm/_base.py
+index 6c8b981be5..e080c9bf22 100644
+--- a/sklearn/svm/_base.py
++++ b/sklearn/svm/_base.py
+@@ -1071,6 +1071,32 @@ def _get_liblinear_solver_type(multi_class, penalty, loss, dual):
+     )
+ 
+ 
++def _check_liblinear_feature_values(X):
++    """Check for values that can overflow liblinear's internal computations."""
++    # Liblinear's trust-region Newton solver computes quantities involving
++    # products of dot-products of the input data. Values much larger than this
++    # threshold can overflow even though they are finite float64 values (for
++    # instance X ~= 1e100), which can make the underlying C solver loop
++    # indefinitely. Reject such inputs with an actionable error message instead
++    # of entering liblinear.
++    max_value = np.finfo(np.float64).max ** 0.25
++    if sp.issparse(X):
++        X_data = X.data
++        if X_data.size == 0:
++            return
++        large_values = np.max(np.abs(X_data)) > max_value
++    else:
++        if X.size == 0:
++            return
++        large_values = np.max(np.abs(X)) > max_value
++
++    if large_values:
++        raise ValueError(
++            "Input X contains values too large for the liblinear solver. The"
++            " input data may contain large values and need to be preprocessed."
++        )
++
++
+ def _fit_liblinear(
+     X,
+     y,
+@@ -1228,6 +1254,8 @@ def _fit_liblinear(
+     if sp.issparse(X):
+         _check_large_sparse(X)
+ 
++    _check_liblinear_feature_values(X)
++
+     # LibLinear wants targets as doubles, even for classification
+     y_ind = np.asarray(y_ind, dtype=np.float64).ravel()
+     y_ind = np.require(y_ind, requirements="W")

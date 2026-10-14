@@ -1,0 +1,16 @@
+diff --git a/lib/matplotlib/ticker.py b/lib/matplotlib/ticker.py
+index a2be7cbd80..cf063e6abc 100644
+--- a/lib/matplotlib/ticker.py
++++ b/lib/matplotlib/ticker.py
+@@ -1681,6 +1681,11 @@ class MaxNLocator(Locator):
+             nticks = ((ticks <= vmax) & (ticks >= vmin)).sum()
+             if nticks >= self._min_n_ticks:
+                 break
++            if nbins > 100:
++                # If we have more than 100 bins and still can't find the
++                # required number of ticks within the interval (e.g. because
++                # of an integer requirement on a short axis), stop trying.
++                break
+             nbins += 1
+ 
+         self._nbins_used = nbins  # Maybe useful for troubleshooting.

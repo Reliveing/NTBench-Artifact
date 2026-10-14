@@ -1,0 +1,60 @@
+diff --git a/sympy/solvers/solveset.py b/sympy/solvers/solveset.py
+index 34fa8f03bf..27657a07a9 100644
+--- a/sympy/solvers/solveset.py
++++ b/sympy/solvers/solveset.py
+@@ -851,24 +851,30 @@ def _has_rational_power(expr, symbol):
+         return _has_rational_power(pattern_match[a], symbol)
+ 
+ 
+-def _solve_radical(f, symbol, solveset_solver):
++def _solve_radical(f, symbol, solveset_solver, domain):
+     """ Helper function to solve equations with radicals """
+     res = unrad(f)
+-    eq, cov = res if res else (f, [])
+-    if not cov:
+-        result = solveset_solver(eq, symbol) - \
+-            Union(*[solveset_solver(g, symbol) for g in denoms(f, symbol)])
++    if not res:
++        try:
++            result = _solve_as_rational(f, symbol, domain)
++        except (NotImplementedError, ValueError):
++            result = ConditionSet(symbol, Eq(f, 0), domain)
+     else:
+-        y, yeq = cov
+-        if not solveset_solver(y - I, y):
+-            yreal = Dummy('yreal', real=True)
+-            yeq = yeq.xreplace({y: yreal})
+-            eq = eq.xreplace({y: yreal})
+-            y = yreal
+-        g_y_s = solveset_solver(yeq, symbol)
+-        f_y_sols = solveset_solver(eq, y)
+-        result = Union(*[imageset(Lambda(y, g_y), f_y_sols)
+-                         for g_y in g_y_s])
++        eq, cov = res
++        if not cov:
++            result = solveset_solver(eq, symbol) - \
++                Union(*[solveset_solver(g, symbol) for g in denoms(f, symbol)])
++        else:
++            y, yeq = cov
++            if not solveset_solver(y - I, y):
++                yreal = Dummy('yreal', real=True)
++                yeq = yeq.xreplace({y: yreal})
++                eq = eq.xreplace({y: yreal})
++                y = yreal
++            g_y_s = solveset_solver(yeq, symbol)
++            f_y_sols = solveset_solver(eq, y)
++            result = Union(*[imageset(Lambda(y, g_y), f_y_sols)
++                             for g_y in g_y_s])
+ 
+     if isinstance(result, Complement) or isinstance(result,ConditionSet):
+         solution_set = result
+@@ -1083,7 +1089,8 @@ def _solveset(f, symbol, domain, _check=False):
+                            equation, symbol)[0]:
+                         result += _solve_radical(equation,
+                                                  symbol,
+-                                                 solver)
++                                                 solver,
++                                                 domain)
+                     elif equation.has(Abs):
+                         result += _solve_abs(f, symbol, domain)
+                     else:

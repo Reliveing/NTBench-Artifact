@@ -1,0 +1,56 @@
+diff --git a/rich/text.py b/rich/text.py
+index 69e19b64..26c22caa 100644
+--- a/rich/text.py
++++ b/rich/text.py
+@@ -991,16 +991,20 @@ class Text(JupyterMixin):
+                         "style must not be set when appending Text instance"
+                     )
+                 text_length = self._length
+-                if text.style:
++                append_plain = text.plain
++                append_length = len(text)
++                append_style = text.style
++                append_spans = text._spans[:]
++                if append_style:
+                     self._spans.append(
+-                        _Span(text_length, text_length + len(text), text.style)
++                        _Span(text_length, text_length + append_length, append_style)
+                     )
+-                self._text.append(text.plain)
++                self._text.append(append_plain)
+                 self._spans.extend(
+                     _Span(start + text_length, end + text_length, style)
+-                    for start, end, style in text._spans
++                    for start, end, style in append_spans
+                 )
+-                self._length += len(text)
++                self._length += append_length
+         return self
+ 
+     def append_text(self, text: "Text") -> "Text":
+@@ -1015,14 +1019,20 @@ class Text(JupyterMixin):
+         """
+         _Span = Span
+         text_length = self._length
+-        if text.style:
+-            self._spans.append(_Span(text_length, text_length + len(text), text.style))
+-        self._text.append(text.plain)
++        append_plain = text.plain
++        append_length = len(text)
++        append_style = text.style
++        append_spans = text._spans[:]
++        if append_style:
++            self._spans.append(
++                _Span(text_length, text_length + append_length, append_style)
++            )
++        self._text.append(append_plain)
+         self._spans.extend(
+             _Span(start + text_length, end + text_length, style)
+-            for start, end, style in text._spans
++            for start, end, style in append_spans
+         )
+-        self._length += len(text)
++        self._length += append_length
+         return self
+ 
+     def append_tokens(

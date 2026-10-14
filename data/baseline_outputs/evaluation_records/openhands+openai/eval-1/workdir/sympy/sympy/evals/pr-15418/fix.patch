@@ -1,0 +1,13 @@
+diff --git a/sympy/solvers/solvers.py b/sympy/solvers/solvers.py
+index b7d66bbefd..9016d124cb 100644
+--- a/sympy/solvers/solvers.py
++++ b/sympy/solvers/solvers.py
+@@ -3011,6 +3011,8 @@ def _invert(eq, *symbols, **kwargs):
+     if eq.args:
+         # make sure we are working with flat eq
+         lhs = eq.func(*eq.args)
++        if not lhs.free_symbols & set(symbols):
++            return lhs, S.Zero
+     rhs = S.Zero
+     while True:
+         was = lhs

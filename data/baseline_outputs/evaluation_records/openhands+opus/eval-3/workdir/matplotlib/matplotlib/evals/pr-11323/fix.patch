@@ -1,0 +1,82 @@
+diff --git a/lib/matplotlib/patches.py b/lib/matplotlib/patches.py
+index a6120d6450..adca73ebac 100644
+--- a/lib/matplotlib/patches.py
++++ b/lib/matplotlib/patches.py
+@@ -3130,10 +3130,11 @@ class ArrowStyle(_Style):
+         @staticmethod
+         def ensure_quadratic_bezier(path):
+             """
+-            Some ArrowStyle class only works with a simple quadratic Bezier
+-            curve (created with Arc3Connetion or Angle3Connector). This static
+-            method is to check if the provided path is a simple quadratic
+-            Bezier curve and returns its control points if true.
++            Some ArrowStyle class only works with a simple quadratic
++            Bezier curve (created with Arc3Connection or Angle3Connector).
++            This static method is to check if the provided path is a
++            simple quadratic Bezier curve and returns its control points
++            if true.
+             """
+             segments = list(path.iter_segments())
+             if (len(segments) != 2 or segments[0][1] != Path.MOVETO or
+@@ -3142,6 +3143,34 @@ class ArrowStyle(_Style):
+                     "'path' is not a valid quadratic Bezier curve")
+             return [*segments[0][0], *segments[1][0]]
+ 
++        @staticmethod
++        def _get_curve_control_points(path):
++            """
++            Return the control points ``(x0, y0, x1, y1, x2, y2)`` of a
++            quadratic Bezier curve approximating the given *path*.
++
++            If *path* already is a simple quadratic Bezier curve, its
++            control points are returned unchanged. Otherwise, the start
++            and end points of the path are used as the end control points,
++            and the middle control point is derived so that the resulting
++            curve passes through the point at the middle of the path.
++            """
++            try:
++                return ArrowStyle._Base.ensure_quadratic_bezier(path)
++            except ValueError:
++                pass
++
++            vertices = path.vertices
++            x0, y0 = vertices[0]
++            x2, y2 = vertices[-1]
++            # point at the middle of the path's vertices
++            xm, ym = vertices[len(vertices) // 2]
++            # control point so that the quadratic Bezier curve passes
++            # through (xm, ym) at t = 0.5
++            x1 = 2 * xm - 0.5 * (x0 + x2)
++            y1 = 2 * ym - 0.5 * (y0 + y2)
++            return [x0, y0, x1, y1, x2, y2]
++
+         def transmute(self, path, mutation_size, linewidth):
+             """
+             The transmute method is the very core of the ArrowStyle class and
+@@ -3658,7 +3687,7 @@ class ArrowStyle(_Style):
+ 
+         def transmute(self, path, mutation_size, linewidth):
+ 
+-            x0, y0, x1, y1, x2, y2 = self.ensure_quadratic_bezier(path)
++            x0, y0, x1, y1, x2, y2 = self._get_curve_control_points(path)
+ 
+             # divide the path into a head and a tail
+             head_length = self.head_length * mutation_size
+@@ -3741,7 +3770,7 @@ class ArrowStyle(_Style):
+ 
+         def transmute(self, path, mutation_size, linewidth):
+ 
+-            x0, y0, x1, y1, x2, y2 = self.ensure_quadratic_bezier(path)
++            x0, y0, x1, y1, x2, y2 = self._get_curve_control_points(path)
+ 
+             # divide the path into a head and a tail
+             head_length = self.head_length * mutation_size
+@@ -3839,7 +3868,7 @@ class ArrowStyle(_Style):
+ 
+         def transmute(self, path, mutation_size, linewidth):
+ 
+-            x0, y0, x1, y1, x2, y2 = self.ensure_quadratic_bezier(path)
++            x0, y0, x1, y1, x2, y2 = self._get_curve_control_points(path)
+ 
+             arrow_path = [(x0, y0), (x1, y1), (x2, y2)]
+             b_plus, b_minus = make_wedged_bezier2(

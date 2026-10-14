@@ -1,0 +1,4 @@
+error: patch failed: sympy/series/tests/test_limits.py:550
+error: sympy/series/tests/test_limits.py: patch does not apply
+error: patch failed: sympy/series/tests/test_nseries.py:450
+error: sympy/series/tests/test_nseries.py: patch does not apply

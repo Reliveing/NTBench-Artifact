@@ -1,0 +1,28 @@
+diff --git a/sympy/concrete/summations.py b/sympy/concrete/summations.py
+index 23c5d73caf..596f7260e6 100644
+--- a/sympy/concrete/summations.py
++++ b/sympy/concrete/summations.py
+@@ -1164,7 +1164,10 @@ def eval_sum_hyper(f, i_a_b):
+             cond = And(cond1, cond2)
+             if cond == False:
+                 return None
+-            return Piecewise((res1 - res2, cond), (old_sum, True))
++            result = Piecewise((res1 - res2, cond), (old_sum, True))
++            if result == old_sum:
++                return None
++            return result
+ 
+     if a == S.NegativeInfinity:
+         res1 = _eval_sum_hyper(f.subs(i, -i), i, 1)
+@@ -1176,7 +1179,10 @@ def eval_sum_hyper(f, i_a_b):
+         cond = And(cond1, cond2)
+         if cond == False:
+             return None
+-        return Piecewise((res1 + res2, cond), (old_sum, True))
++        result = Piecewise((res1 + res2, cond), (old_sum, True))
++        if result == old_sum:
++            return None
++        return result
+ 
+     # Now b == oo, a != -oo
+     res = _eval_sum_hyper(f, i, a)

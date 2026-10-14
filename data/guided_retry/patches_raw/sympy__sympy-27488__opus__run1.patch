@@ -1,0 +1,23 @@
+diff --git a/sympy/vector/vector.py b/sympy/vector/vector.py
+index 77ee9bfa9f..2bc457f094 100644
+--- a/sympy/vector/vector.py
++++ b/sympy/vector/vector.py
+@@ -37,6 +37,18 @@ class Vector(BasisDependent):
+ 
+     kind: VectorKind = VectorKind()
+ 
++    def __new__(cls, *args, **kwargs):
++        # Prevent direct instantiation of the abstract Vector class.
++        # Only its concrete subclasses (BaseVector, VectorMul, VectorAdd,
++        # VectorZero) should be instantiated.
++        if cls is Vector:
++            raise TypeError(
++                "Cannot instantiate Vector directly. "
++                "Use a coordinate system to create vectors, e.g. "
++                "N = CoordSys3D('N'); v = N.i + N.j + N.k"
++            )
++        return super().__new__(cls, *args, **kwargs)
++
+     @property
+     def components(self):
+         """

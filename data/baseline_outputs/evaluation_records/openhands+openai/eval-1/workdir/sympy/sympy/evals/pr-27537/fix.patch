@@ -1,0 +1,81 @@
+diff --git a/sympy/simplify/simplify.py b/sympy/simplify/simplify.py
+index 20cbe19669..c2b75e57e6 100644
+--- a/sympy/simplify/simplify.py
++++ b/sympy/simplify/simplify.py
+@@ -1037,6 +1037,8 @@ def f(rv):
+         def gooda(a):
+             # bool to tell whether the leading ``a`` in ``a*log(x)``
+             # could appear as log(x**a)
++            if contains_large_uneval_power(a):
++                return False
+             return (a is not S.NegativeOne and  # -1 *could* go, but we disallow
+                 (a.is_extended_real or force and a.is_extended_real is not False))
+ 
+@@ -1045,6 +1047,23 @@ def goodlog(l):
+             a = l.args[0]
+             return a.is_positive or force and a.is_nonpositive is not False
+ 
++        def uneval_power_if_large(base, exp):
++            if base.is_Rational and exp.is_Integer and exp.is_positive:
++                bits = abs(base.p).bit_length() + base.q.bit_length()
++                if exp*bits > 10000:
++                    return Pow(base, exp, evaluate=False)
++            return base**exp
++
++        def is_large_uneval_power(expr):
++            if expr.is_Pow and expr.base.is_Rational and expr.exp.is_Integer:
++                bits = abs(expr.base.p).bit_length() + expr.base.q.bit_length()
++                return expr.exp.is_positive and expr.exp*bits > 10000
++            return False
++
++        def contains_large_uneval_power(expr):
++            return is_large_uneval_power(expr) or any(
++                is_large_uneval_power(p) for p in expr.atoms(Pow))
++
+         other = []
+         logs = []
+         log1 = defaultdict(list)
+@@ -1091,7 +1110,8 @@ def goodlog(l):
+         # let the user decide
+         for o, e, l in logs:
+             l = list(ordered(l))
+-            e = log(l.pop(0).args[0]**Mul(*e))
++            e = log(uneval_power_if_large(l.pop(0).args[0], Mul(*e)),
++                    evaluate=False)
+             while l:
+                 li = l.pop(0)
+                 e = log(li.args[0]**e)
+@@ -1103,9 +1123,12 @@ def goodlog(l):
+ 
+         # logs that have the same coefficient can multiply
+         for k in list(log1.keys()):
+-            log1[Mul(*k)] = log(logcombine(Mul(*[
+-                l.args[0]**Mul(*c) for c, l in log1.pop(k)]),
+-                force=force), evaluate=False)
++            logargs = [
++                uneval_power_if_large(l.args[0], Mul(*c)) for c, l in log1.pop(k)]
++            logarg = Mul(*logargs, evaluate=False) if any(
++                is_large_uneval_power(a) for a in logargs) else logcombine(
++                Mul(*logargs), force=force)
++            log1[Mul(*k)] = log(logarg, evaluate=False)
+ 
+         # logs that have oppositely signed coefficients can divide
+         for k in ordered(list(log1.keys())):
+@@ -1117,9 +1140,14 @@ def goodlog(l):
+                 num, den = k, -k
+                 if num.count_ops() > den.count_ops():
+                     num, den = den, num
+-                other.append(
+-                    num*log(log1.pop(num).args[0]/log1.pop(den).args[0],
+-                            evaluate=False))
++                numarg = log1.pop(num).args[0]
++                denarg = log1.pop(den).args[0]
++                if any(is_large_uneval_power(a) for a in (numarg, denarg)):
++                    quotient = Mul(numarg, Pow(denarg, -1, evaluate=False),
++                            evaluate=False)
++                else:
++                    quotient = numarg/denarg
++                other.append(num*log(quotient, evaluate=False))
+             else:
+                 other.append(k*log1.pop(k))
+ 

@@ -1,0 +1,21 @@
+{
+  "live_rows": 500,
+  "live_unique_instance_ids": 499,
+  "verified_rows": 500,
+  "verified_unique_instance_ids": 500,
+  "duplicate_live_instance_ids": {
+    "conan-io__conan-18153": 2
+  },
+  "exact_instance_id_overlap": 0,
+  "exact_repo_pr_overlap": 0,
+  "exact_normalized_patch_overlap": 0,
+  "exact_normalized_test_patch_overlap": 0,
+  "shared_repositories": [
+    "matplotlib/matplotlib",
+    "pallets/flask",
+    "pydata/xarray",
+    "pylint-dev/pylint",
+    "sphinx-doc/sphinx",
+    "sympy/sympy"
+  ]
+}

@@ -1,0 +1,39 @@
+diff --git a/sympy/solvers/solveset.py b/sympy/solvers/solveset.py
+index 34fa8f0..bcb55d9 100644
+--- a/sympy/solvers/solveset.py
++++ b/sympy/solvers/solveset.py
+@@ -851,10 +851,16 @@ def _has_rational_power(expr, symbol):
+         return _has_rational_power(pattern_match[a], symbol)
+ 
+ 
+-def _solve_radical(f, symbol, solveset_solver):
++def _solve_radical(f, symbol, solveset_solver, domain):
+     """ Helper function to solve equations with radicals """
+     res = unrad(f)
+-    eq, cov = res if res else (f, [])
++    if not res:
++        return ConditionSet(symbol, Eq(f, 0), domain)
++
++    eq, cov = res
++    if not cov and eq == f:
++        return ConditionSet(symbol, Eq(f, 0), domain)
++
+     if not cov:
+         result = solveset_solver(eq, symbol) - \
+             Union(*[solveset_solver(g, symbol) for g in denoms(f, symbol)])
+@@ -1083,7 +1089,8 @@ def _solveset(f, symbol, domain, _check=False):
+                            equation, symbol)[0]:
+                         result += _solve_radical(equation,
+                                                  symbol,
+-                                                 solver)
++                                                 solver,
++                                                 domain)
+                     elif equation.has(Abs):
+                         result += _solve_abs(f, symbol, domain)
+                     else:
+@@ -3555,4 +3562,4 @@ def nonlinsolve(system, *symbols):
+         # Use `substitution` method for the system
+         result = substitution(
+             polys_expr + nonpolys, symbols, exclude=denominators)
+-        return result
++        return result

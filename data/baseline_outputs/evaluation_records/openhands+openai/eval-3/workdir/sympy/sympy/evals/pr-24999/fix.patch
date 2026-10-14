@@ -1,0 +1,15 @@
+diff --git a/sympy/solvers/solvers.py b/sympy/solvers/solvers.py
+index fcc7e13c31..f36eb07b6d 100644
+--- a/sympy/solvers/solvers.py
++++ b/sympy/solvers/solvers.py
+@@ -2770,7 +2770,9 @@ def equal(expr1, expr2):
+                 return _vsolve(lhs.args[0] - rhs*exp(rhs), sym, **flags)
+ 
+         rewrite = lhs.rewrite(exp)
+-        if rewrite != lhs:
++        # Avoid recursive rewrites that only alter arguments of an otherwise
++        # unchanged non-invertible function, e.g. Mod(1/(x + 1), 1).
++        if rewrite != lhs and not (lhs.is_Function and rewrite.func == lhs.func):
+             return _vsolve(rewrite - rhs, sym, **flags)
+     except NotImplementedError:
+         pass

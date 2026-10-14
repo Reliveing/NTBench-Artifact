@@ -1,0 +1,45 @@
+diff --git a/sympy/functions/combinatorial/numbers.py b/sympy/functions/combinatorial/numbers.py
+index 3903be6476..6939fbefdb 100644
+--- a/sympy/functions/combinatorial/numbers.py
++++ b/sympy/functions/combinatorial/numbers.py
+@@ -894,6 +894,20 @@ class harmonic(DefinedFunction):
+     # This prevents redundant recalculations and speeds up harmonic number computations.
+     harmonic_cache: dict[Integer, Callable[[int], Rational]] = {}
+ 
++    # Harmonic numbers with large positive integer arguments are expensive to
++    # evaluate exactly: the denominator is lcm(1, ..., n), so for n around
++    # 10000 the numerator and denominator already have more decimal digits than
++    # Python's default limit for integer-to-string conversion.  Keep such
++    # values unevaluated by default; numerical evaluation is handled efficiently
++    # in _eval_evalf.
++    _max_exact_n = 9800
++
++    @classmethod
++    def _exact_eval_limit(cls, m):
++        if m.is_Integer and m.is_positive:
++            return max(1, cls._max_exact_n // int(m))
++        return cls._max_exact_n
++
+     @classmethod
+     def eval(cls, n, m=None):
+         from sympy.functions.special.zeta_functions import zeta
+@@ -918,14 +932,17 @@ def eval(cls, n, m=None):
+             if n.is_negative and (m.is_integer is False or m.is_nonpositive is False):
+                 return S.ComplexInfinity if m is S.One else S.NaN
+             if n.is_nonnegative:
++                n_int = int(n)
++                if n_int > cls._exact_eval_limit(m):
++                    return
+                 if m.is_Integer:
+                     if m not in cls.harmonic_cache:
+                         @recurrence_memo([0])
+                         def f(n, prev):
+                             return prev[-1] + S.One / n**m
+                         cls.harmonic_cache[m] = f
+-                    return cls.harmonic_cache[m](int(n))
+-                return Add(*(k**(-m) for k in range(1, int(n) + 1)))
++                    return cls.harmonic_cache[m](n_int)
++                return Add(*(k**(-m) for k in range(1, n_int + 1)))
+ 
+     def _eval_rewrite_as_polygamma(self, n, m=S.One, **kwargs):
+         from sympy.functions.special.gamma_functions import gamma, polygamma

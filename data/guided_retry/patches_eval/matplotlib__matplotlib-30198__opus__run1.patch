@@ -1,0 +1,36 @@
+diff --git a/lib/matplotlib/path.py b/lib/matplotlib/path.py
+index a021706fb1..40fb2c1c49 100644
+--- a/lib/matplotlib/path.py
++++ b/lib/matplotlib/path.py
+@@ -280,9 +280,29 @@ class Path:
+         Return a deepcopy of the `Path`.  The `Path` will not be
+         readonly, even if the source `Path` is.
+         """
+-        # Deepcopying arrays (vertices, codes) strips the writeable=False flag.
+-        p = copy.deepcopy(super(), memo)
++        # Avoid using super() as it causes infinite recursion in newer CPython.
++        # Instead, create a new instance using __new__ and manually copy attributes.
++        if memo is None:
++            memo = {}
++        
++        # Create a new Path instance without calling __init__
++        p = self.__class__.__new__(self.__class__)
++        
++        # Register in memo to handle circular references
++        memo[id(self)] = p
++        
++        # Deep copy the vertices and codes arrays
++        p._vertices = copy.deepcopy(self._vertices, memo)
++        p._codes = copy.deepcopy(self._codes, memo)
++        
++        # Copy other attributes
++        p._interpolation_steps = self._interpolation_steps
++        p._simplify_threshold = self._simplify_threshold
++        p._should_simplify = self._should_simplify
++        
++        # Always set readonly to False for deepcopied paths
+         p._readonly = False
++        
+         return p
+ 
+     deepcopy = __deepcopy__

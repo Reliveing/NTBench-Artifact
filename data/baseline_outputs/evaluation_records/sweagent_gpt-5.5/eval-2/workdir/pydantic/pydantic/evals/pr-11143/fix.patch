@@ -1,0 +1,29 @@
+diff --git a/pydantic/_internal/_model_construction.py b/pydantic/_internal/_model_construction.py
+index aed979bbf..d4a3d90f6 100644
+--- a/pydantic/_internal/_model_construction.py
++++ b/pydantic/_internal/_model_construction.py
+@@ -22,6 +22,7 @@ from ..warnings import GenericBeforeBaseModelWarning, PydanticDeprecatedSince20
+ from ._config import ConfigWrapper
+ from ._decorators import DecoratorInfos, PydanticDescriptorProxy, get_attribute_from_bases, unwrap_wrapped_function
+ from ._fields import collect_model_fields, is_valid_field_name, is_valid_privateattr_name
++from ._forward_ref import PydanticRecursiveRef
+ from ._generate_schema import GenerateSchema
+ from ._generics import PydanticGenericMetadata, get_model_typevars_map
+ from ._import_utils import import_cached_base_model, import_cached_field_info
+@@ -292,6 +293,16 @@ class ModelMetaclass(ABCMeta):
+                 assert set(base_params) <= param_dict.keys(), assert_err_msg
+                 new_base_args = tuple(param_dict[param] for param in base_params)
+                 new_base = base[new_base_args]  # type: ignore
++                if isinstance(new_base, PydanticRecursiveRef):
++                    # While creating parametrized models, the custom MRO can be
++                    # requested as part of another parametrized base creation.
++                    # In that situation ``__class_getitem__`` may return a
++                    # recursive-reference placeholder instead of a class.  The
++                    # interpreter requires all entries returned from ``mro()``
++                    # to be classes, so fall back to the unparametrized base for
++                    # now; the concrete parametrized base will be used once it
++                    # can be built without recursion.
++                    new_base = base
+                 new_mro.append(new_base)
+ 
+                 indexed_origins.add(base_origin or base)

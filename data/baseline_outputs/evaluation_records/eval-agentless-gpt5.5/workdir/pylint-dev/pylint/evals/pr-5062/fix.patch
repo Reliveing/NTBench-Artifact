@@ -1,0 +1,133 @@
+diff --git a/pylint/lint/parallel.py b/pylint/lint/parallel.py
+index 1896fc9..3c0c6d3 100644
+--- a/pylint/lint/parallel.py
++++ b/pylint/lint/parallel.py
+@@ -121,50 +121,54 @@ def check_parallel(linter, jobs, files: Iterable[FileItem], arguments=None):
+     This splits the work filestream-by-filestream. If you need to do work across
+     multiple files, as in the similarity-checker, then inherit from MapReduceMixin and
+     implement the map/reduce mixin functionality"""
+-    # The reporter does not need to be passed to worker processes, i.e. the reporter does
++    # The reporter does not need to be passed to worker processes.
+     original_reporter = linter.reporter
+-    linter.reporter = None
++    linter.set_reporter(None)
+ 
+     # The linter is inherited by all the pool's workers, i.e. the linter
+     # is identical to the linter object here. This is required so that
+     # a custom PyLinter object can be used.
+     initializer = functools.partial(_worker_initialize, arguments=arguments)
+-    pool = multiprocessing.Pool(  # pylint: disable=consider-using-with
+-        jobs, initializer=initializer, initargs=[linter]
+-    )
+-    # ..and now when the workers have inherited the linter, the actual reporter
+-    # can be set back here on the parent process so that results get stored into
+-    # correct reporter
+-    linter.set_reporter(original_reporter)
+-    linter.open()
++
++    all_stats = []
++    all_mapreduce_data = collections.defaultdict(list)
+     try:
+-        all_stats = []
+-        all_mapreduce_data = collections.defaultdict(list)
+-
+-        # Maps each file to be worked on by a single _worker_check_single_file() call,
+-        # collecting any map/reduce data by checker module so that we can 'reduce' it
+-        # later.
+-        for (
+-            worker_idx,  # used to merge map/reduce data across workers
+-            module,
+-            file_path,
+-            base_name,
+-            messages,
+-            stats,
+-            msg_status,
+-            mapreduce_data,
+-        ) in pool.imap_unordered(_worker_check_single_file, files):
+-            linter.file_state.base_name = base_name
+-            linter.set_current_module(module, file_path)
+-            for msg in messages:
+-                msg = Message(*msg)
+-                linter.reporter.handle_message(msg)  # type: ignore  # linter.set_reporter() call above makes linter have a reporter attr
+-            all_stats.append(stats)
+-            all_mapreduce_data[worker_idx].append(mapreduce_data)
+-            linter.msg_status |= msg_status
+-    finally:
+-        pool.close()
+-        pool.join()
++        with multiprocessing.Pool(
++            jobs, initializer=initializer, initargs=[linter]
++        ) as pool:
++            # Workers inherit the linter without a reporter. Restore the
++            # reporter only in the parent process before collecting results.
++            linter.set_reporter(original_reporter)
++            linter.open()
++
++            # Maps each file to be worked on by a single
++            # _worker_check_single_file() call, collecting map/reduce data
++            # by checker module so it can be reduced later.
++            for (
++                worker_idx,
++                module,
++                file_path,
++                base_name,
++                messages,
++                stats,
++                msg_status,
++                mapreduce_data,
++            ) in pool.imap_unordered(
++                _worker_check_single_file, files, chunksize=1
++            ):
++                linter.file_state.base_name = base_name
++                linter.set_current_module(module, file_path)
++                for msg in messages:
++                    msg = Message(*msg)
++                    linter.reporter.handle_message(msg)  # type: ignore
++                all_stats.append(stats)
++                all_mapreduce_data[worker_idx].append(mapreduce_data)
++                linter.msg_status |= msg_status
++    except BaseException:
++        # Pool.__exit__ terminates workers when result collection fails,
++        # preventing close()/join() from waiting forever on a broken worker.
++        linter.set_reporter(original_reporter)
++        raise
+ 
+     _merge_mapreduce_data(linter, all_mapreduce_data)
+     linter.stats = _merge_stats([linter.stats] + all_stats)
+diff --git a/pylint/lint/run.py b/pylint/lint/run.py
+index d84ed27..60cbd68 100644
+--- a/pylint/lint/run.py
++++ b/pylint/lint/run.py
+@@ -18,13 +18,23 @@ except ImportError:
+ 
+ 
+ def _cpu_count() -> int:
+-    """Use sched_affinity if available for virtualized or containerized environments."""
++    """Return the number of CPUs available to the current process.
++
++    ``sched_getaffinity`` is preferable in containers and virtualized
++    environments, but it can fail or report an empty affinity mask on some
++    platforms.  Always return a usable worker count.
++    """
+     sched_getaffinity = getattr(os, "sched_getaffinity", None)
+     # pylint: disable=not-callable,using-constant-test
+     if sched_getaffinity:
+-        return len(sched_getaffinity(0))
++        try:
++            cpu_count = len(sched_getaffinity(0))
++        except OSError:
++            cpu_count = 0
++        if cpu_count > 0:
++            return cpu_count
+     if multiprocessing:
+-        return multiprocessing.cpu_count()
++        return max(1, multiprocessing.cpu_count())
+     return 1
+ 
+ 
+@@ -460,4 +470,4 @@ group are mutually exclusive.",
+         sys.exit(0)
+ 
+     def cb_verbose_mode(self, *args, **kwargs):
+-        self.verbose = True
++        self.verbose = True

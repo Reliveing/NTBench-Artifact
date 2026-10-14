@@ -1,0 +1,20 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.13, pytest-8.3.5, pluggy-1.5.0 -- /home/pydantic/.venv/bin/python
+codspeed: 4.2.0 (disabled, mode: walltime, callgraph: enabled, timer_resolution: 1.0ns)
+cachedir: .pytest_cache
+benchmark: 5.1.0 (defaults: timer=time.perf_counter disable_gc=False min_rounds=5 min_time=0.000005 max_time=1.0 calibration_precision=10 warmup=True warmup_iterations=100000)
+rootdir: /home/pydantic
+configfile: pyproject.toml
+plugins: examples-0.0.15, Faker-35.0.0, memray-1.7.0, run-parallel-0.7.1, benchmark-5.1.0, codspeed-4.2.0, pretty-1.2.0, devtools-0.12.2, mock-3.14.0
+collecting ... collected 7 items
+Collected 0 items to run in parallel
+
+tests/test_circular_eq.py::TestCircularReferenceEquality::test_self_referencing_equal PASSED [ 14%]
+tests/test_circular_eq.py::TestCircularReferenceEquality::test_self_referencing_not_equal PASSED [ 28%]
+tests/test_circular_eq.py::TestCircularReferenceEquality::test_same_object_self_ref PASSED [ 42%]
+tests/test_circular_eq.py::TestCircularReferenceEquality::test_mutual_circular_reference PASSED [ 57%]
+tests/test_circular_eq.py::TestCircularReferenceEquality::test_normal_equality_unaffected PASSED [ 71%]
+tests/test_circular_eq.py::TestCircularReferenceEquality::test_non_basemodel_comparison PASSED [ 85%]
+tests/test_circular_eq.py::TestCircularReferenceEquality::test_deep_circular_chain PASSED [100%]
+Results (2.05s):
+         7 passed

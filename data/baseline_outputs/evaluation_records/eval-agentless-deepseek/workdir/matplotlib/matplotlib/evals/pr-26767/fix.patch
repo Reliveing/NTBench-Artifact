@@ -1,0 +1,24 @@
+diff --git a/lib/matplotlib/projections/polar.py b/lib/matplotlib/projections/polar.py
+index 0bff320..925b22b 100644
+--- a/lib/matplotlib/projections/polar.py
++++ b/lib/matplotlib/projections/polar.py
+@@ -74,7 +74,12 @@ class PolarTransform(mtransforms.Transform):
+             theta += self._axis.get_theta_offset()
+         if self._use_rmin and self._axis is not None:
+             r = (r - self._get_rorigin()) * self._axis.get_rsign()
+-        r = np.where(r >= 0, r, np.nan)
++        # For log scales, ensure we don't pass non-positive values to the
++        # transform, as this can cause issues with the log transform.
++        if self._axis is not None and isinstance(self._axis.get_scale(), LogScale):
++            r = np.where(r > 0, r, np.nan)
++        else:
++            r = np.where(r >= 0, r, np.nan)
+         return np.column_stack([r * np.cos(theta), r * np.sin(theta)])
+ 
+     def transform_path_non_affine(self, path):
+@@ -1533,4 +1538,4 @@ PolarAxes.PolarAffine = PolarAffine
+ PolarAxes.InvertedPolarTransform = InvertedPolarTransform
+ PolarAxes.ThetaFormatter = ThetaFormatter
+ PolarAxes.RadialLocator = RadialLocator
+-PolarAxes.ThetaLocator = ThetaLocator
++PolarAxes.ThetaLocator = ThetaLocator

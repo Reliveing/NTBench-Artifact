@@ -1,0 +1,44 @@
+diff --git a/sympy/solvers/simplex.py b/sympy/solvers/simplex.py
+index f140268b79..40dfbb9d9d 100644
+--- a/sympy/solvers/simplex.py
++++ b/sympy/solvers/simplex.py
+@@ -300,6 +300,7 @@ def _simplex(A, B, C, D=None, dual=False):
+ 
+     ## keep track of last pivot row and column
+     last = None
++    bases = set()
+ 
+     while True:
+         B = M[:-1, -1]
+@@ -307,6 +308,11 @@ def _simplex(A, B, C, D=None, dual=False):
+         if all(B[i] >= 0 for i in range(B.rows)):
+             # We have found a feasible solution
+             break
++        basis = (tuple(X), tuple(Y))
++        if basis in bases:
++            last = True
++            break
++        bases.add(basis)
+ 
+         # Find k: first row with a negative rightmost entry
+         for k in range(B.rows):
+@@ -780,6 +786,8 @@ def _lp(min_max, f, constr):
+     >>> lp(min, x, [y + x >= 3, x >= 0])
+     (0, {x: 0, y: 3})
+     """
++    constr = list(constr)
++
+     # get the matrix components for the system expressed
+     # in terms of only nonnegative variables
+     A, B, C, D, r, xx, aux = _lp_matrices(f, constr)
+@@ -806,6 +814,10 @@ def _lp(min_max, f, constr):
+         # don't show aux
+         p = {k: p[k] for k in ordered(p) if k not in aux}
+ 
++    if not all(sympify(i).subs(p) == True for i in constr):
++        raise InfeasibleLPError(filldedent("""
++            The constraint set is empty!"""))
++
+     # not returning dual since there may be extra constraints
+     # when a variable has finite bounds
+     return o, p

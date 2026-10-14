@@ -1,0 +1,71 @@
+diff --git a/dask/array/creation.py b/dask/array/creation.py
+index 9df5d674b..0900e2066 100644
+--- a/dask/array/creation.py
++++ b/dask/array/creation.py
+@@ -7,7 +7,8 @@ from operator import add, getitem
+ import numpy as np
+ from tlz import accumulate, sliding_window
+ 
+-from ..base import tokenize
++from ..base import is_dask_collection, tokenize
++from ..delayed import unpack_collections
+ from ..highlevelgraph import HighLevelGraph
+ from ..utils import derived_from
+ from . import chunk
+@@ -249,6 +250,46 @@ def _get_like_function_shapes_chunks(a, chunks, shape):
+     return shape, chunks
+ 
+ 
++def _linspace_chunk(start, stop, num, endpoint, dtype, blockstart, blocksize):
++    return np.linspace(start, stop, num=num, endpoint=endpoint, dtype=dtype)[
++        blockstart : blockstart + blocksize
++    ]
++
++
++def _linspace_from_dask(start, stop, num, endpoint, retstep, chunks, dtype):
++    token = tokenize((start, stop, num, endpoint, chunks, dtype))
++    name = "linspace-" + token
++    (start_ref, stop_ref), deps = unpack_collections([start, stop])
++
++    dsk = {}
++    blockstart = 0
++    for i, blocksize in enumerate(chunks[0]):
++        dsk[(name, i)] = (
++            _linspace_chunk,
++            start_ref,
++            stop_ref,
++            num,
++            endpoint,
++            dtype,
++            blockstart,
++            blocksize,
++        )
++        blockstart += blocksize
++
++    graph = HighLevelGraph.from_collections(name, dsk, dependencies=deps)
++    result = Array(graph, name, chunks, dtype=dtype)
++
++    if retstep:
++        if is_dask_collection(start):
++            start = start.compute()
++        if is_dask_collection(stop):
++            stop = stop.compute()
++        step = np.linspace(start, stop, num=num, endpoint=endpoint, retstep=True)[1]
++        return result, step
++    else:
++        return result
++
++
+ def linspace(
+     start, stop, num=50, endpoint=True, retstep=False, chunks="auto", dtype=None
+ ):
+@@ -295,6 +336,9 @@ def linspace(
+ 
+     chunks = normalize_chunks(chunks, (num,), dtype=dtype)
+ 
++    if is_dask_collection(start) or is_dask_collection(stop):
++        return _linspace_from_dask(start, stop, num, endpoint, retstep, chunks, dtype)
++
+     range_ = stop - start
+ 
+     div = (num - 1) if endpoint else num

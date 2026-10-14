@@ -1,0 +1,19 @@
+diff --git a/sympy/core/basic.py b/sympy/core/basic.py
+index a134fab92b..80bfcb9e29 100644
+--- a/sympy/core/basic.py
++++ b/sympy/core/basic.py
+@@ -1101,6 +1101,14 @@ def fallback(self, old, new):
+                     else:
+                         return self.func(coeff, nonnumber, evaluate=False)
+                 return rv
++            if old.is_Pow and self == old.base and old.is_commutative and self.is_Atom:
++                from sympy.core.numbers import as_int
++                try:
++                    pow = as_int(1/old.exp)
++                    if pow > 0:
++                        return new**pow
++                except ValueError:
++                    pass
+             return self
+ 
+         if _aresame(self, old):

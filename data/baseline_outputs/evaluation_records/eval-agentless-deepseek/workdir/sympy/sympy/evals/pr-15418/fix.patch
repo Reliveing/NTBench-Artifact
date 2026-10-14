@@ -1,0 +1,48 @@
+diff --git a/sympy/solvers/solvers.py b/sympy/solvers/solvers.py
+index b7d66bb..e574c17 100644
+--- a/sympy/solvers/solvers.py
++++ b/sympy/solvers/solvers.py
+@@ -1905,7 +1905,22 @@ def _solve_system(exprs, symbols, **flags):
+                 if not ok_syms:
+                     if r:
+                         newresult.append(r)
+-                    break  # skip as it's independent of desired symbols
++                    else:
++                        # If we have no solution yet and the equation
++                        # doesn't depend on any symbols we're solving for,
++                        # check if it's satisfiable at all
++                        if eq2.is_constant():
++                            if eq2 == 0:
++                                # Equation is identically zero, keep going
++                                newresult.append(r)
++                            else:
++                                # Equation is non-zero constant, no solution
++                                bad_results.append(r)
++                        else:
++                            # Equation has free symbols not in our target set
++                            # but might still be solvable - just skip it
++                            newresult.append(r)
++                    continue  # skip as it's independent of desired symbols
+                 for s in ok_syms:
+                     try:
+                         soln = _solve(eq2, s, **flags)
+@@ -1927,7 +1942,12 @@ def _solve_system(exprs, symbols, **flags):
+                     hit = True
+                     got_s.add(s)
+                 if not hit:
+-                    raise NotImplementedError('could not solve %s' % eq2)
++                    # If we couldn't solve for any symbol, but the equation
++                    # is a constant that's not zero, then there's no solution
++                    if eq2.is_constant() and eq2 != 0:
++                        bad_results.append(r)
++                    else:
++                        raise NotImplementedError('could not solve %s' % eq2)
+             else:
+                 result = newresult
+                 for b in bad_results:
+@@ -3514,4 +3534,4 @@ def unrad(eq, *syms, **flags):
+     return eq, cov
+ 
+ from sympy.solvers.bivariate import (
+-    bivariate_type, _solve_lambert, _filtered_gens)
++    bivariate_type, _solve_lambert, _filtered_gens)

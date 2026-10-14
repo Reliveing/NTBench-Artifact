@@ -1,0 +1,39 @@
+diff --git a/sympy/solvers/solvers.py b/sympy/solvers/solvers.py
+index 9bc2b7b3a5..3608448d73 100644
+--- a/sympy/solvers/solvers.py
++++ b/sympy/solvers/solvers.py
+@@ -674,6 +674,7 @@ def solve(f, *symbols, **flags):
+     def _sympified_list(w):
+         return list(map(sympify, w if iterable(w) else [w]))
+     bare_f = not iterable(f)
++    bare_f_original = bare_f
+     ordered_symbols = (symbols and
+                        symbols[0] and
+                        (isinstance(symbols[0], Symbol) or
+@@ -973,7 +974,10 @@ def _do_dict(solution):
+             type(solution[0]) is dict and
+             all(s in solution[0] for s in symbols)
+     ):
+-        solution = [tuple([r[s].subs(r) for s in symbols]) for r in solution]
++        if bare_f_original and len(symbols) == 1:
++            solution = [r[symbols[0]].subs(r) for r in solution]
++        else:
++            solution = [tuple([r[s].subs(r) for s in symbols]) for r in solution]
+ 
+     # Get assumptions about symbols, to filter solutions.
+     # Note that if assumptions about a solution can't be verified, it is still
+@@ -1561,8 +1565,12 @@ def _ok_syms(e, sort=False):
+         legal = set(symbols)  # what we are interested in
+         simplify_flag = flags.get('simplify', None)
+         do_simplify = flags.get('simplify', True)
+-        # sort so equation with the fewest potential symbols is first
+-        for eq in ordered(failed, lambda _: len(_ok_syms(_))):
++        # sort so equation with the fewest potential symbols is first;
++        # use a stable sort so ties preserve the equation order. This matters
++        # for coupled non-polynomial equations where one equation may give a
++        # degenerate solution set that is only meaningful after candidates from
++        # an earlier equation are checked against it.
++        for eq in sorted(failed, key=lambda _: len(_ok_syms(_))):
+             newresult = []
+             bad_results = []
+             got_s = set([])

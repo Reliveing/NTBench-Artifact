@@ -1,0 +1,82 @@
+diff --git a/sympy/core/power.py b/sympy/core/power.py
+index 02c04107ad..31ff30e0ba 100644
+--- a/sympy/core/power.py
++++ b/sympy/core/power.py
+@@ -676,7 +676,7 @@ def _check(ct1, ct2, old):
+                     except ValueError:
+                         combines = isinstance(Pow._eval_power(
+                             Pow(*old.as_base_exp(), evaluate=False),
+-                            pow), (Pow, exp))
++                            pow), (Pow, exp, Symbol))
+                     return combines, pow, None
+                 else:
+                     # With noncommutative symbols, substitute only integer powers
+diff --git a/sympy/core/symbol.py b/sympy/core/symbol.py
+index c5e7807312..44674d1984 100644
+--- a/sympy/core/symbol.py
++++ b/sympy/core/symbol.py
+@@ -251,6 +251,11 @@ def _hashable_content(self):
+         # Note: user-specified assumptions not hashed, just derived ones
+         return (self.name,) + tuple(sorted(self.assumptions0.items()))
+ 
++    def _eval_subs(self, old, new):
++        from sympy.core.power import Pow
++        if old.is_Pow:
++            return Pow(self, S.One, evaluate=False)._eval_subs(old, new)
++
+     @property
+     def assumptions0(self):
+         return dict((key, value) for key, value
+diff --git a/sympy/integrals/manualintegrate.py b/sympy/integrals/manualintegrate.py
+index 178b80c55a..4938ebc88f 100644
+--- a/sympy/integrals/manualintegrate.py
++++ b/sympy/integrals/manualintegrate.py
+@@ -136,7 +136,14 @@ def test_subterm(u, u_diff):
+             return False
+ 
+         substituted = substituted.subs(u, u_var).cancel()
++
+         if symbol not in substituted.free_symbols:
++            # avoid increasing the degree of a rational function
++            if integrand.is_rational_function(symbol) and substituted.is_rational_function(u_var):
++                deg_before = max([degree(t, symbol) for t in integrand.as_numer_denom()])
++                deg_after = max([degree(t, u_var) for t in substituted.as_numer_denom()])
++                if deg_after > deg_before:
++                    return False
+             return substituted.as_independent(u_var, as_Add=False)
+ 
+         # special treatment for substitutions u = (a*x+b)**(1/n)
+@@ -999,8 +1006,11 @@ def rewrites_rule(integral):
+ def fallback_rule(integral):
+     return DontKnowRule(*integral)
+ 
+-# Cache is used to break cyclic integrals
++# Cache is used to break cyclic integrals.
++# Need to use the same dummy variable in cached expressions for them to match.
+ _integral_cache = {}
++_cache_dummy = sympy.Dummy("z")
++
+ def integral_steps(integrand, symbol, **options):
+     """Returns the steps needed to compute an integral.
+ 
+@@ -1047,13 +1057,16 @@ def integral_steps(integrand, symbol, **options):
+         to obtain a result.
+ 
+     """
+-    cachekey = (integrand, symbol)
++    cachekey = integrand.xreplace({symbol: _cache_dummy})
+     if cachekey in _integral_cache:
+         if _integral_cache[cachekey] is None:
+-            # cyclic integral! null_safe will eliminate that path
+-            return None
++            # Stop this attempt, because it leads around in a loop
++            return DontKnowRule(integrand, symbol)
+         else:
+-            return _integral_cache[cachekey]
++            # TODO: This is for future development, as currently
++            # _integral_cache gets no values other than None
++            return (_integral_cache[cachekey].xreplace(_cache_dummy, symbol),
++                symbol)
+     else:
+         _integral_cache[cachekey] = None
+ 

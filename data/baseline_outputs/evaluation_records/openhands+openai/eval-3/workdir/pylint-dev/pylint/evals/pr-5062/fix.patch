@@ -1,0 +1,89 @@
+diff --git a/pylint/lint/parallel.py b/pylint/lint/parallel.py
+index 1896fc95f..16a401937 100644
+--- a/pylint/lint/parallel.py
++++ b/pylint/lint/parallel.py
+@@ -2,7 +2,10 @@
+ # For details: https://github.com/PyCQA/pylint/blob/main/LICENSE
+ 
+ import collections
+-import functools
++import itertools
++import pickle
++import sys
++from concurrent.futures import ProcessPoolExecutor
+ from typing import TYPE_CHECKING, Any, DefaultDict, Dict, Iterable, List, Tuple, Union
+ 
+ from pylint import reporters
+@@ -67,6 +70,18 @@ def _worker_initialize(linter, arguments=None):
+     _patch_sys_path(arguments or ())
+ 
+ 
++def _worker_check_single_file_from_linter(
++    worker_args: Tuple[bytes, Any, FileItem]
++) -> Tuple[int, Any, str, Any, List[Tuple[Any, ...]], Any, Any, DefaultDict[Any, List]]:
++    linter, arguments, file_item = worker_args
++    original_sys_path = list(sys.path)
++    try:
++        _worker_initialize(pickle.loads(linter), arguments)
++        return _worker_check_single_file(file_item)
++    finally:
++        sys.path[:] = original_sys_path
++
++
+ def _worker_check_single_file(
+     file_item: FileItem,
+ ) -> Tuple[int, Any, str, Any, List[Tuple[Any, ...]], Any, Any, DefaultDict[Any, List]]:
+@@ -125,19 +140,21 @@ def check_parallel(linter, jobs, files: Iterable[FileItem], arguments=None):
+     original_reporter = linter.reporter
+     linter.reporter = None
+ 
+-    # The linter is inherited by all the pool's workers, i.e. the linter
+-    # is identical to the linter object here. This is required so that
+-    # a custom PyLinter object can be used.
+-    initializer = functools.partial(_worker_initialize, arguments=arguments)
+-    pool = multiprocessing.Pool(  # pylint: disable=consider-using-with
+-        jobs, initializer=initializer, initargs=[linter]
+-    )
+-    # ..and now when the workers have inherited the linter, the actual reporter
+-    # can be set back here on the parent process so that results get stored into
+-    # correct reporter
+-    linter.set_reporter(original_reporter)
+-    linter.open()
+-    try:
++    # The linter is passed to all the executor's workers. This is required so
++    # that a custom PyLinter object can be used. Pickle the linter while its
++    # reporter is still removed so it does not need to be pickled.
++    linter_bytes = pickle.dumps(linter)
++    with ProcessPoolExecutor(max_workers=jobs) as executor:
++        results = executor.map(
++            _worker_check_single_file_from_linter,
++            zip(itertools.repeat(linter_bytes), itertools.repeat(arguments), files),
++        )
++
++        # ..and now when the workers have inherited the linter, the actual reporter
++        # can be set back here on the parent process so that results get stored into
++        # correct reporter
++        linter.set_reporter(original_reporter)
++        linter.open()
+         all_stats = []
+         all_mapreduce_data = collections.defaultdict(list)
+ 
+@@ -153,7 +170,7 @@ def check_parallel(linter, jobs, files: Iterable[FileItem], arguments=None):
+             stats,
+             msg_status,
+             mapreduce_data,
+-        ) in pool.imap_unordered(_worker_check_single_file, files):
++        ) in results:
+             linter.file_state.base_name = base_name
+             linter.set_current_module(module, file_path)
+             for msg in messages:
+@@ -162,9 +179,6 @@ def check_parallel(linter, jobs, files: Iterable[FileItem], arguments=None):
+             all_stats.append(stats)
+             all_mapreduce_data[worker_idx].append(mapreduce_data)
+             linter.msg_status |= msg_status
+-    finally:
+-        pool.close()
+-        pool.join()
+ 
+     _merge_mapreduce_data(linter, all_mapreduce_data)
+     linter.stats = _merge_stats([linter.stats] + all_stats)

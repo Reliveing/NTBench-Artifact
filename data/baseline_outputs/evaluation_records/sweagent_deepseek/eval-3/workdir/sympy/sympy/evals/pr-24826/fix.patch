@@ -1,0 +1,42 @@
+diff --git a/sympy/core/expr.py b/sympy/core/expr.py
+index 7b3b7cc574..ff88f19fb7 100644
+--- a/sympy/core/expr.py
++++ b/sympy/core/expr.py
+@@ -4071,6 +4071,9 @@ def doit(self, **hints):
+         else:
+             return self.args[0]
+ 
++    def _eval_is_commutative(self):
++        return self.args[0].is_commutative
++
+ 
+ 
+ def unchanged(func, *args):
+diff --git a/sympy/simplify/cse_main.py b/sympy/simplify/cse_main.py
+index d603560f59..0008d72915 100644
+--- a/sympy/simplify/cse_main.py
++++ b/sympy/simplify/cse_main.py
+@@ -563,7 +563,8 @@ def _find_opts(expr):
+                         new_obj = m.func(c_mul, *nc, evaluate=False)
+                     else:
+                         new_obj = m.func(c_mul, m.func(*nc), evaluate=False)
+-                opt_subs[m] = new_obj
++                if new_obj != m:
++                    opt_subs[m] = new_obj
+             if len(c) > 1:
+                 commutative_muls.add(c_mul)
+ 
+@@ -685,6 +686,13 @@ def _rebuild(expr):
+         else:
+             args = expr.args
+ 
++        # Guard against infinite recursion when opt_subs creates a cycle
++        # (e.g., expr -> -1*(-expr) where -expr contains expr).
++        # Add orig_expr to subs temporarily with a placeholder to break cycles.
++        # Only do this for non-Unevaluated expressions, as Unevaluated objects
++        # are internal wrappers that must be unwrapped.
++        if not isinstance(orig_expr, Unevaluated) and orig_expr not in subs:
++            subs[orig_expr] = orig_expr  # placeholder, will be updated if eliminated
+         new_args = list(map(_rebuild, args))
+         if isinstance(expr, Unevaluated) or new_args != args:
+             new_expr = expr.func(*new_args)

@@ -1,0 +1,17 @@
+diff --git a/numpy/_core/src/multiarray/item_selection.c b/numpy/_core/src/multiarray/item_selection.c
+index 7f7d8394d6..f108e8d6f5 100644
+--- a/numpy/_core/src/multiarray/item_selection.c
++++ b/numpy/_core/src/multiarray/item_selection.c
+@@ -423,6 +423,12 @@ PyArray_PutTo(PyArrayObject *self, PyObject* values0, PyObject *indices0,
+     dest = PyArray_DATA(self);
+     itemsize = PyArray_ITEMSIZE(self);
+ 
++    if (max_item == 0 && ni > 0) {
++        PyErr_SetString(PyExc_IndexError,
++                    "cannot do a non-empty put into an empty array.");
++        goto fail;
++    }
++
+     int has_references = PyDataType_REFCHK(PyArray_DESCR(self));
+ 
+     if (!has_references) {

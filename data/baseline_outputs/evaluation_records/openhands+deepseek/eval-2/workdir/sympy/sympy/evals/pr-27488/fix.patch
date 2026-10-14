@@ -1,0 +1,43 @@
+diff --git a/sympy/vector/basisdependent.py b/sympy/vector/basisdependent.py
+index 53e4efc0bf..ae24f0c2d0 100644
+--- a/sympy/vector/basisdependent.py
++++ b/sympy/vector/basisdependent.py
+@@ -269,6 +269,9 @@ def _new(cls, *args, **options):
+                 expr = arg
+             elif isinstance(arg, (Cross, Dot, Curl, Gradient)):
+                 extra_args.append(arg)
++            elif isinstance(arg, BasisDependent):
++                count += 1
++                expr = arg
+             else:
+                 measure_number *= arg
+         # Make sure incompatible types weren't multiplied
+@@ -287,18 +290,24 @@ def _new(cls, *args, **options):
+                        x in expr.args]
+             return cls._add_func(*newargs)
+ 
++        # Determine the base instance
++        if hasattr(expr, '_base_instance'):
++            base_instance = expr._base_instance
++        else:
++            base_instance = expr
++
+         obj = super().__new__(cls, measure_number,
+-                              expr._base_instance,
++                              base_instance,
+                               *extra_args,
+                               **options)
+         if isinstance(obj, Add):
+             return cls._add_func(*obj.args)
+-        obj._base_instance = expr._base_instance
++        obj._base_instance = base_instance
+         obj._measure_number = measure_number
+         assumptions = {'commutative': True}
+         obj._assumptions = StdFactKB(assumptions)
+-        obj._components = {expr._base_instance: measure_number}
+-        obj._sys = expr._base_instance._sys
++        obj._components = {base_instance: measure_number}
++        obj._sys = getattr(base_instance, '_sys', None)
+ 
+         return obj
+ 

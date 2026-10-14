@@ -1,0 +1,91 @@
+diff --git a/sympy/functions/special/singularity_functions.py b/sympy/functions/special/singularity_functions.py
+index a69026e6e6..422c225f43 100644
+--- a/sympy/functions/special/singularity_functions.py
++++ b/sympy/functions/special/singularity_functions.py
+@@ -218,6 +218,9 @@ def _eval_as_leading_term(self, x, logx, cdir):
+             return S.Zero if cdir == -1 else S.One
+         elif shift.is_positive:
+             return shift**n
++        point = z.subs(x, 0)
++        if shift.is_zero is None and shift.free_symbols <= point.free_symbols:
++            return self.func(point, a.subs(x, 0), n)
+         return S.Zero
+ 
+     def _eval_nseries(self, x, n, logx=None, cdir=0):
+diff --git a/sympy/physics/continuum_mechanics/beam.py b/sympy/physics/continuum_mechanics/beam.py
+index 7e575dd562..6c8feda988 100644
+--- a/sympy/physics/continuum_mechanics/beam.py
++++ b/sympy/physics/continuum_mechanics/beam.py
+@@ -4,6 +4,7 @@
+ """
+ 
+ from sympy.core import S, Symbol, diff, symbols
++from sympy.core.symbol import Dummy
+ from sympy.core.add import Add
+ from sympy.core.expr import Expr
+ from sympy.core.function import (Derivative, Function)
+@@ -941,13 +942,22 @@ def solve_for_reaction_loads(self, *reactions):
+ 
+         x = self.variable
+         l = self.length
++        length_subs = {}
++        restore_length = {}
++        if l.is_Symbol and l.is_positive is None:
++            positive_l = Dummy(l.name, positive=True)
++            length_subs = {l: positive_l}
++            restore_length = {positive_l: l}
++            l = positive_l
+         C3 = Symbol('C3')
+         C4 = Symbol('C4')
+         rotation_jumps = tuple(self._rotation_hinge_symbols)
+         deflection_jumps = tuple(self._sliding_hinge_symbols)
+ 
+-        shear_curve = limit(self.shear_force(), x, l)
+-        moment_curve = limit(self.bending_moment(), x, l)
++        shear_force = self.shear_force().xreplace(length_subs)
++        bending_moment = self.bending_moment().xreplace(length_subs)
++        shear_curve = limit(shear_force, x, l)
++        moment_curve = limit(bending_moment, x, l)
+ 
+         shear_force_eqs = []
+         bending_moment_eqs = []
+@@ -955,27 +965,36 @@ def solve_for_reaction_loads(self, *reactions):
+         deflection_eqs = []
+ 
+         for position, value in self._boundary_conditions['shear_force']:
+-            eqs = self.shear_force().subs(x, position) - value
++            position = sympify(position).xreplace(length_subs)
++            value = sympify(value).xreplace(length_subs)
++            eqs = shear_force.subs(x, position) - value
+             new_eqs = sum(arg for arg in eqs.args if not any(num.is_infinite for num in arg.args))
+             shear_force_eqs.append(new_eqs)
+ 
+         for position, value in self._boundary_conditions['bending_moment']:
+-            eqs = self.bending_moment().subs(x, position) - value
++            position = sympify(position).xreplace(length_subs)
++            value = sympify(value).xreplace(length_subs)
++            eqs = bending_moment.subs(x, position) - value
+             new_eqs = sum(arg for arg in eqs.args if not any(num.is_infinite for num in arg.args))
+             bending_moment_eqs.append(new_eqs)
+ 
+-        slope_curve = integrate(self.bending_moment(), x) + C3
++        slope_curve = integrate(bending_moment, x) + C3
+         for position, value in self._boundary_conditions['slope']:
++            position = sympify(position).xreplace(length_subs)
++            value = sympify(value).xreplace(length_subs)
+             eqs = slope_curve.subs(x, position) - value
+             slope_eqs.append(eqs)
+ 
+         deflection_curve = integrate(slope_curve, x) + C4
+         for position, value in self._boundary_conditions['deflection']:
++            position = sympify(position).xreplace(length_subs)
++            value = sympify(value).xreplace(length_subs)
+             eqs = deflection_curve.subs(x, position) - value
+             deflection_eqs.append(eqs)
+ 
+         solution = list((linsolve([shear_curve, moment_curve] + shear_force_eqs + bending_moment_eqs + slope_eqs
+                             + deflection_eqs, (C3, C4) + reactions + rotation_jumps + deflection_jumps).args)[0])
++        solution = [s.xreplace(restore_length) for s in solution]
+         reaction_index = 2+len(reactions)
+         rotation_index = reaction_index + len(rotation_jumps)
+         reaction_solution = solution[2:reaction_index]

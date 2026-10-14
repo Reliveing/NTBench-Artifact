@@ -1,0 +1,22 @@
+diff --git a/sympy/solvers/solvers.py b/sympy/solvers/solvers.py
+index fcc7e13c31..3a41aa5103 100644
+--- a/sympy/solvers/solvers.py
++++ b/sympy/solvers/solvers.py
+@@ -21,6 +21,7 @@
+                                  Function, expand_power_exp, _mexpand, expand,
+                                  expand_func)
+ from sympy.core.logic import fuzzy_not
++from sympy.core.mod import Mod
+ from sympy.core.numbers import ilcm, Float, Rational, _illegal
+ from sympy.core.power import integer_log, Pow
+ from sympy.core.relational import Eq, Ne
+@@ -2769,6 +2770,9 @@ def equal(expr1, expr2):
+             elif lhs.func == LambertW:
+                 return _vsolve(lhs.args[0] - rhs*exp(rhs), sym, **flags)
+ 
++        if lhs.has(Mod):
++            return None
++
+         rewrite = lhs.rewrite(exp)
+         if rewrite != lhs:
+             return _vsolve(rewrite - rhs, sym, **flags)

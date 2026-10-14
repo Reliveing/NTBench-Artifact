@@ -1,0 +1,45 @@
+diff --git a/aiohttp/compression_utils.py b/aiohttp/compression_utils.py
+index 0bc4a30d8..d0d0c5b9f 100644
+--- a/aiohttp/compression_utils.py
++++ b/aiohttp/compression_utils.py
+@@ -330,6 +330,7 @@ class ZSTDDecompressor(DecompressionBaseHandler):
+                 "Please install `backports.zstd` module"
+             )
+         self._obj = ZstdDecompressor()
++        self._unused_data = b""
+         super().__init__(executor=executor, max_sync_chunk_size=max_sync_chunk_size)
+ 
+     def decompress_sync(
+@@ -342,7 +343,31 @@ class ZSTDDecompressor(DecompressionBaseHandler):
+             if max_length == ZLIB_MAX_LENGTH_UNLIMITED
+             else max_length
+         )
+-        return self._obj.decompress(data, zstd_max_length)
++        if self._unused_data:
++            data = self._unused_data + data
++            self._unused_data = b""
++
++        chunks = []
++        while True:
++            if self._obj.eof:
++                self._obj = ZstdDecompressor()
++
++            chunk = self._obj.decompress(data, zstd_max_length)
++            chunks.append(chunk)
++
++            if zstd_max_length != ZSTD_MAX_LENGTH_UNLIMITED:
++                zstd_max_length -= len(chunk)
++                if zstd_max_length == 0:
++                    self._unused_data = self._obj.unused_data
++                    break
++
++            if not self._obj.unused_data:
++                break
++
++            data = self._obj.unused_data
++            self._obj = ZstdDecompressor()
++
++        return b"".join(chunks)
+ 
+     def flush(self) -> bytes:
+         return b""

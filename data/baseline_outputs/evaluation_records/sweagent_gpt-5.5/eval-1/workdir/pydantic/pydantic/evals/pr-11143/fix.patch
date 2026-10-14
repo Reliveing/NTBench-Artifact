@@ -1,0 +1,26 @@
+diff --git a/pydantic/_internal/_model_construction.py b/pydantic/_internal/_model_construction.py
+index aed979bbf..957fa924a 100644
+--- a/pydantic/_internal/_model_construction.py
++++ b/pydantic/_internal/_model_construction.py
+@@ -36,7 +36,7 @@ from ._typing_extra import (
+     is_classvar_annotation,
+     parent_frame_namespace,
+ )
+-from ._utils import LazyClassAttribute, SafeGetItemProxy
++from ._utils import LazyClassAttribute, SafeGetItemProxy, is_model_class
+ 
+ if typing.TYPE_CHECKING:
+     from ..fields import ComputedFieldInfo, FieldInfo, ModelPrivateAttr
+@@ -292,7 +292,11 @@ class ModelMetaclass(ABCMeta):
+                 assert set(base_params) <= param_dict.keys(), assert_err_msg
+                 new_base_args = tuple(param_dict[param] for param in base_params)
+                 new_base = base[new_base_args]  # type: ignore
+-                new_mro.append(new_base)
++
++                # `base[...]` can return a `PydanticRecursiveRef` when generic submodels
++                # are being created recursively. Only real classes are valid MRO entries.
++                if is_model_class(new_base):
++                    new_mro.append(new_base)
+ 
+                 indexed_origins.add(base_origin or base)
+ 

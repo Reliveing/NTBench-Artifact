@@ -1,0 +1,52 @@
+diff --git a/sympy/integrals/manualintegrate.py b/sympy/integrals/manualintegrate.py
+index 50d75d5f92..470cf34f40 100644
+--- a/sympy/integrals/manualintegrate.py
++++ b/sympy/integrals/manualintegrate.py
+@@ -830,6 +830,38 @@ def rewrites_rule(integral):
+         rewritten = integrand.subs(1/sympy.cos(symbol), sympy.sec(symbol))
+         return RewriteRule(rewritten, integral_steps(rewritten, symbol), integrand, symbol)
+ 
++def mul_pow_rule(integral):
++    integrand, symbol = integral
++
++    # Combine/expand a product of powers with variable exponent into a form
++    # that can be integrated term by term, e.g. 3**x*5**(-x) -> (3/5)**x and
++    # (3**x + 4**x)/5**x -> (3/5)**x + (4/5)**x. Only fire when every
++    # symbol-dependent factor is a power with a symbol-independent base
++    # (possibly a sum of such powers), so that we don't interfere with the
++    # integration by parts of e.g. (3*x**2 + 5)*exp(x).
++    def is_const_power(term):
++        return (isinstance(term, sympy.Pow) and
++                symbol not in term.base.free_symbols and
++                symbol in term.exp.free_symbols)
++
++    def only_const_powers(term):
++        if symbol not in term.free_symbols:
++            return True
++        if is_const_power(term):
++            return True
++        if isinstance(term, sympy.Add):
++            return all(only_const_powers(arg) for arg in term.args)
++        return False
++
++    if isinstance(integrand, sympy.Mul) and \
++            all(only_const_powers(arg) for arg in integrand.args):
++        for rewritten in (sympy.powsimp(integrand, force=True),
++                          sympy.powsimp(sympy.expand(integrand), force=True)):
++            if rewritten != integrand and not isinstance(rewritten, sympy.Mul):
++                substep = integral_steps(rewritten, symbol)
++                if not contains_dont_know(substep):
++                    return RewriteRule(rewritten, substep, integrand, symbol)
++
+ def fallback_rule(integral):
+     return DontKnowRule(*integral)
+ 
+@@ -919,7 +951,7 @@ def _integral_is_subclass(integral):
+             sympy.exp: exp_rule,
+             sympy.Add: add_rule,
+             sympy.Mul: do_one(null_safe(mul_rule), null_safe(trig_product_rule), \
+-                null_safe(heaviside_rule)),
++                null_safe(heaviside_rule), null_safe(mul_pow_rule)),
+             sympy.Derivative: derivative_rule,
+             TrigonometricFunction: trig_rule,
+             sympy.Heaviside: heaviside_rule,

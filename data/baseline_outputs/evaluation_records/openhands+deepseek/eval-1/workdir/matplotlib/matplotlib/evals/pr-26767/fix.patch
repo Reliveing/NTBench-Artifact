@@ -1,0 +1,13 @@
+diff --git a/lib/matplotlib/projections/polar.py b/lib/matplotlib/projections/polar.py
+index 0bff320e57..c64ada724f 100644
+--- a/lib/matplotlib/projections/polar.py
++++ b/lib/matplotlib/projections/polar.py
+@@ -74,7 +74,7 @@ class PolarTransform(mtransforms.Transform):
+             theta += self._axis.get_theta_offset()
+         if self._use_rmin and self._axis is not None:
+             r = (r - self._get_rorigin()) * self._axis.get_rsign()
+-        r = np.where(r >= 0, r, np.nan)
++        r = np.where(r >= 0, r, 0)
+         return np.column_stack([r * np.cos(theta), r * np.sin(theta)])
+ 
+     def transform_path_non_affine(self, path):

@@ -1,0 +1,30 @@
+diff --git a/sympy/calculus/util.py b/sympy/calculus/util.py
+index 21d6e80..4176ce2 100644
+--- a/sympy/calculus/util.py
++++ b/sympy/calculus/util.py
+@@ -327,7 +327,7 @@ def periodicity(f, symbol, check=False):
+     >>> periodicity(exp(x), x)
+ 
+     """
+-    from sympy import simplify, lcm_list
++    from sympy import simplify, lcm_list, Abs
+     from sympy.functions.elementary.trigonometric import TrigonometricFunction
+     from sympy.solvers.decompogen import decompogen
+ 
+@@ -373,6 +373,10 @@ def periodicity(f, symbol, check=False):
+ 
+         period = _periodicity(g.args, symbol)
+ 
++    elif isinstance(f, Abs):
++        # abs(f(x)) has the same period as f(x) (or a divisor)
++        period = periodicity(f.args[0], symbol)
++
+     elif period is None:
+         from sympy.solvers.decompogen import compogen
+         g_s = decompogen(f, symbol)
+@@ -1190,4 +1194,4 @@ class AccumulationBounds(AtomicExpr):
+ 
+ 
+ # setting an alias for AccumulationBounds
+-AccumBounds = AccumulationBounds
++AccumBounds = AccumulationBounds

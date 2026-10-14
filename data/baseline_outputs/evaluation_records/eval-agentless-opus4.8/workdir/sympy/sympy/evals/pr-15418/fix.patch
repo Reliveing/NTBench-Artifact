@@ -1,0 +1,20 @@
+diff --git a/sympy/solvers/solvers.py b/sympy/solvers/solvers.py
+index b7d66bb..bbfbd5d 100644
+--- a/sympy/solvers/solvers.py
++++ b/sympy/solvers/solvers.py
+@@ -1905,7 +1905,8 @@ def _solve_system(exprs, symbols, **flags):
+                 if not ok_syms:
+                     if r:
+                         newresult.append(r)
+-                    break  # skip as it's independent of desired symbols
++                    hit = True
++                    continue  # skip as it's independent of desired symbols
+                 for s in ok_syms:
+                     try:
+                         soln = _solve(eq2, s, **flags)
+@@ -3514,4 +3515,4 @@ def unrad(eq, *syms, **flags):
+     return eq, cov
+ 
+ from sympy.solvers.bivariate import (
+-    bivariate_type, _solve_lambert, _filtered_gens)
++    bivariate_type, _solve_lambert, _filtered_gens)

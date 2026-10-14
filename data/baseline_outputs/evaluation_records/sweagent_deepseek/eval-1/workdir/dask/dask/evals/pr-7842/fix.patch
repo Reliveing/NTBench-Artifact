@@ -1,0 +1,14 @@
+--- a/dask/dataframe/multi.py
++++ b/dask/dataframe/multi.py
+@@ -740,6 +740,11 @@
+     result = []
+ 
+     n, m = len(L) - 1, len(R) - 1
++
++    # Handle empty right DataFrame (divisions contain NaN)
++    if m <= 0 or any(pd.isna(r) for r in R):
++        return [[(max(0, m - 1), None, None)] for _ in range(n)]
++
+     i, j = 0, -1
+     while j + 1 < m and R[j + 1] <= L[i]:
+         j += 1

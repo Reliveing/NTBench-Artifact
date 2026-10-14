@@ -1,0 +1,19 @@
+diff --git a/sympy/polys/rootoftools.py b/sympy/polys/rootoftools.py
+index 3c5f4cb28f..13f0a4f577 100644
+--- a/sympy/polys/rootoftools.py
++++ b/sympy/polys/rootoftools.py
+@@ -595,7 +595,13 @@ def _eval_evalf(self, prec):
+                     if self.is_real:
+                         if (a < root < b):
+                             break
+-                    elif (ax < root.real < bx and ay < root.imag < by):
++                    elif (ax <= root.real <= bx and ay <= root.imag <= by):
++                        # The numerical approximation can lie exactly on the
++                        # boundary of a complex isolating interval (e.g. a
++                        # purely imaginary root has real part on an interval
++                        # edge).  Such a root is still contained in the
++                        # isolating rectangle; requiring strict containment can
++                        # make refinement preserve the boundary indefinitely.
+                         break
+                 except ValueError:
+                     pass

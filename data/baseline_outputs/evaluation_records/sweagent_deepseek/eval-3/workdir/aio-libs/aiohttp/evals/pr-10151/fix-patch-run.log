@@ -1,0 +1,408 @@
+============================= test session starts ==============================
+platform linux -- Python 3.9.25, pytest-8.1.1, pluggy-1.5.0 -- /usr/local/bin/python3.9
+codspeed: 3.0.0 (disabled, mode: walltime, timer_resolution: 1.0ns)
+cachedir: .pytest_cache
+rootdir: /home/aiohttp
+configfile: setup.cfg
+plugins: cov-5.0.0, codspeed-3.0.0, timeout-2.4.0, xdist-3.6.1, mock-3.14.0
+timeout: 20.0s
+timeout method: signal
+timeout func_only: False
+created: 4/4 workers
+4 workers [125 items]
+
+scheduling tests via LoadScheduling
+
+tests/test_web_functional.py::test_default_content_type_no_body[pyloop-204] 
+tests/test_web_functional.py::test_simple_get[pyloop] 
+tests/test_web_functional.py::test_multipart[pyloop] 
+tests/test_web_functional.py::test_release_post_data[pyloop] 
+[gw1] [  0%] PASSED tests/test_web_functional.py::test_multipart[pyloop] 
+[gw0] [  1%] PASSED tests/test_web_functional.py::test_simple_get[pyloop] 
+[gw3] [  2%] PASSED tests/test_web_functional.py::test_release_post_data[pyloop] 
+[gw2] [  3%] PASSED tests/test_web_functional.py::test_default_content_type_no_body[pyloop-204] 
+tests/test_web_functional.py::test_simple_get_with_text[pyloop] 
+[gw0] [  4%] PASSED tests/test_web_functional.py::test_simple_get_with_text[pyloop] 
+tests/test_web_functional.py::test_multipart_empty[pyloop] 
+tests/test_web_functional.py::test_handler_returns_not_response[pyloop] 
+[gw1] [  4%] PASSED tests/test_web_functional.py::test_multipart_empty[pyloop] 
+tests/test_web_functional.py::test_post_form_with_duplicate_keys[pyloop] 
+tests/test_web_functional.py::test_multipart_content_transfer_encoding[pyloop] 
+[gw3] [  5%] PASSED tests/test_web_functional.py::test_post_form_with_duplicate_keys[pyloop] 
+tests/test_web_functional.py::test_default_content_type_no_body[pyloop-404] 
+[gw1] [  6%] PASSED tests/test_web_functional.py::test_multipart_content_transfer_encoding[pyloop] 
+[gw2] [  7%] PASSED tests/test_web_functional.py::test_default_content_type_no_body[pyloop-404] 
+tests/test_web_functional.py::test_render_redirect[pyloop] 
+[gw1] [  8%] PASSED tests/test_web_functional.py::test_render_redirect[pyloop] 
+tests/test_web_functional.py::test_repr_for_application 
+[gw3] [  8%] PASSED tests/test_web_functional.py::test_repr_for_application 
+tests/test_web_functional.py::test_expect_default_handler_unknown[pyloop] 
+[gw3] [  9%] PASSED tests/test_web_functional.py::test_expect_default_handler_unknown[pyloop] 
+tests/test_web_functional.py::test_response_before_complete[pyloop] 
+tests/test_web_functional.py::test_post_single_file[pyloop] 
+tests/test_web_functional.py::test_100_continue[pyloop] 
+[gw2] [ 10%] PASSED tests/test_web_functional.py::test_response_before_complete[pyloop] 
+[gw3] [ 11%] PASSED tests/test_web_functional.py::test_100_continue[pyloop] 
+[gw1] [ 12%] PASSED tests/test_web_functional.py::test_post_single_file[pyloop] 
+tests/test_web_functional.py::test_cancel_shutdown[pyloop] 
+[gw2] [ 12%] SKIPPED tests/test_web_functional.py::test_cancel_shutdown[pyloop] 
+tests/test_web_functional.py::test_post_form[pyloop] 
+[gw2] [ 13%] PASSED tests/test_web_functional.py::test_post_form[pyloop] 
+tests/test_web_functional.py::test_100_continue_custom[pyloop] 
+[gw3] [ 14%] PASSED tests/test_web_functional.py::test_100_continue_custom[pyloop] 
+tests/test_web_functional.py::test_files_upload_with_same_key[pyloop] 
+tests/test_web_functional.py::test_post_text[pyloop] 
+[gw0] [ 15%] PASSED tests/test_web_functional.py::test_handler_returns_not_response[pyloop] 
+[gw1] [ 16%] PASSED tests/test_web_functional.py::test_files_upload_with_same_key[pyloop] 
+[gw2] [ 16%] PASSED tests/test_web_functional.py::test_post_text[pyloop] 
+tests/test_web_functional.py::test_100_continue_custom_response[pyloop] 
+tests/test_web_functional.py::test_post_files[pyloop] 
+tests/test_web_functional.py::test_post_json[pyloop] 
+[gw2] [ 17%] PASSED tests/test_web_functional.py::test_post_json[pyloop] 
+[gw3] [ 18%] PASSED tests/test_web_functional.py::test_100_continue_custom_response[pyloop] 
+tests/test_web_functional.py::test_handler_returns_none[pyloop] 
+[gw1] [ 19%] PASSED tests/test_web_functional.py::test_post_files[pyloop] 
+[gw0] [ 20%] PASSED tests/test_web_functional.py::test_handler_returns_none[pyloop] 
+tests/test_web_functional.py::test_empty_content_for_query_without_body[pyloop-patch] 
+[gw3] [ 20%] PASSED tests/test_web_functional.py::test_empty_content_for_query_without_body[pyloop-patch] 
+tests/test_web_functional.py::test_handler_returns_not_response_after_100expect[pyloop] 
+tests/test_web_functional.py::test_get_with_empty_arg_with_equal[pyloop] 
+[gw0] [ 21%] PASSED tests/test_web_functional.py::test_handler_returns_not_response_after_100expect[pyloop] 
+[gw2] [ 22%] PASSED tests/test_web_functional.py::test_get_with_empty_arg_with_equal[pyloop] 
+tests/test_web_functional.py::test_upload_file[pyloop] 
+tests/test_web_functional.py::test_empty_content_for_query_without_body[pyloop-delete] 
+[gw3] [ 23%] PASSED tests/test_web_functional.py::test_empty_content_for_query_without_body[pyloop-delete] 
+tests/test_web_functional.py::test_response_with_async_gen[pyloop] 
+tests/test_web_functional.py::test_head_returns_empty_body[pyloop] 
+[gw2] [ 24%] PASSED tests/test_web_functional.py::test_response_with_async_gen[pyloop] 
+[gw0] [ 24%] PASSED tests/test_web_functional.py::test_head_returns_empty_body[pyloop] 
+tests/test_web_functional.py::test_empty_content_for_query_with_body[pyloop] 
+[gw3] [ 25%] PASSED tests/test_web_functional.py::test_empty_content_for_query_with_body[pyloop] 
+tests/test_web_functional.py::test_default_content_type_no_body[pyloop-201] 
+[gw0] [ 26%] PASSED tests/test_web_functional.py::test_default_content_type_no_body[pyloop-201] 
+tests/test_web_functional.py::test_response_with_async_gen_no_params[pyloop] 
+tests/test_web_functional.py::test_get_with_empty_arg[pyloop] 
+[gw3] [ 27%] PASSED tests/test_web_functional.py::test_get_with_empty_arg[pyloop] 
+[gw2] [ 28%] PASSED tests/test_web_functional.py::test_response_with_async_gen_no_params[pyloop] 
+tests/test_web_functional.py::test_expect_handler_custom_response[pyloop] 
+[gw0] [ 28%] PASSED tests/test_web_functional.py::test_expect_handler_custom_response[pyloop] 
+tests/test_web_functional.py::test_large_header[pyloop] 
+[gw3] [ 29%] PASSED tests/test_web_functional.py::test_large_header[pyloop] 
+tests/test_web_functional.py::test_response_with_file[pyloop] 
+tests/test_web_functional.py::test_100_continue_for_not_found[pyloop] 
+[gw2] [ 30%] PASSED tests/test_web_functional.py::test_response_with_file[pyloop] 
+[gw0] [ 31%] PASSED tests/test_web_functional.py::test_100_continue_for_not_found[pyloop] 
+tests/test_web_functional.py::test_large_header_allowed[pyloop] 
+[gw3] [ 32%] PASSED tests/test_web_functional.py::test_large_header_allowed[pyloop] 
+tests/test_web_functional.py::test_response_with_file_ctype[pyloop] 
+[gw2] [ 32%] PASSED tests/test_web_functional.py::test_response_with_file_ctype[pyloop] 
+tests/test_web_functional.py::test_response_with_payload_stringio[pyloop] 
+tests/test_web_functional.py::test_100_continue_for_not_allowed[pyloop] 
+[gw3] [ 33%] PASSED tests/test_web_functional.py::test_response_with_payload_stringio[pyloop] 
+[gw0] [ 34%] PASSED tests/test_web_functional.py::test_100_continue_for_not_allowed[pyloop] 
+[gw1] [ 35%] PASSED tests/test_web_functional.py::test_upload_file[pyloop] 
+tests/test_web_functional.py::test_response_with_precompressed_body[pyloop-compressor0-gzip] 
+[gw3] [ 36%] PASSED tests/test_web_functional.py::test_response_with_precompressed_body[pyloop-compressor0-gzip] 
+tests/test_web_functional.py::test_response_with_payload_disp[pyloop] 
+tests/test_web_functional.py::test_http11_keep_alive_default[pyloop] 
+[gw2] [ 36%] PASSED tests/test_web_functional.py::test_response_with_payload_disp[pyloop] 
+[gw0] [ 37%] PASSED tests/test_web_functional.py::test_http11_keep_alive_default[pyloop] 
+tests/test_web_functional.py::test_response_with_precompressed_body[pyloop-compressor1-deflate] 
+[gw3] [ 38%] PASSED tests/test_web_functional.py::test_response_with_precompressed_body[pyloop-compressor1-deflate] 
+tests/test_web_functional.py::test_http10_keep_alive_default[pyloop] 
+tests/test_web_functional.py::test_upload_file_object[pyloop] 
+[gw0] [ 39%] PASSED tests/test_web_functional.py::test_http10_keep_alive_default[pyloop] 
+tests/test_web_functional.py::test_response_with_precompressed_body[pyloop-compressor2-deflate] 
+[gw3] [ 40%] PASSED tests/test_web_functional.py::test_response_with_precompressed_body[pyloop-compressor2-deflate] 
+[gw1] [ 40%] PASSED tests/test_web_functional.py::test_upload_file_object[pyloop] 
+tests/test_web_functional.py::test_response_with_precompressed_body_brotli[pyloop] 
+[gw3] [ 41%] PASSED tests/test_web_functional.py::test_response_with_precompressed_body_brotli[pyloop] 
+tests/test_web_functional.py::test_http10_keep_alive_with_headers_close[pyloop] 
+tests/test_web_functional.py::test_bad_request_payload[pyloop] 
+[gw0] [ 42%] PASSED tests/test_web_functional.py::test_http10_keep_alive_with_headers_close[pyloop] 
+[gw2] [ 43%] PASSED tests/test_web_functional.py::test_bad_request_payload[pyloop] 
+tests/test_web_functional.py::test_simple_subapp[pyloop] 
+[gw3] [ 44%] PASSED tests/test_web_functional.py::test_simple_subapp[pyloop] 
+tests/test_web_functional.py::test_subapp_reverse_url[pyloop] 
+tests/test_web_functional.py::test_http10_keep_alive_with_headers[pyloop] 
+[gw0] [ 44%] PASSED tests/test_web_functional.py::test_http10_keep_alive_with_headers[pyloop] 
+[gw3] [ 45%] PASSED tests/test_web_functional.py::test_subapp_reverse_url[pyloop] 
+tests/test_web_functional.py::test_empty_content_for_query_without_body[pyloop-get] 
+tests/test_web_functional.py::test_subapp_reverse_variable_url[pyloop] 
+[gw1] [ 46%] PASSED tests/test_web_functional.py::test_empty_content_for_query_without_body[pyloop-get] 
+[gw3] [ 47%] PASSED tests/test_web_functional.py::test_subapp_reverse_variable_url[pyloop] 
+tests/test_web_functional.py::test_subapp_not_found[pyloop] 
+tests/test_web_functional.py::test_subapp_reverse_static_url[pyloop] 
+[gw0] [ 48%] PASSED tests/test_web_functional.py::test_subapp_not_found[pyloop] 
+[gw3] [ 48%] PASSED tests/test_web_functional.py::test_subapp_reverse_static_url[pyloop] 
+tests/test_web_functional.py::test_stream_response_multiple_chunks[pyloop] 
+[gw2] [ 49%] PASSED tests/test_web_functional.py::test_stream_response_multiple_chunks[pyloop] 
+tests/test_web_functional.py::test_empty_content_for_query_without_body[pyloop-post0] 
+[gw1] [ 50%] PASSED tests/test_web_functional.py::test_empty_content_for_query_without_body[pyloop-post0] 
+tests/test_web_functional.py::test_subapp_app[pyloop] 
+tests/test_web_functional.py::test_subapp_not_found2[pyloop] 
+[gw3] [ 51%] PASSED tests/test_web_functional.py::test_subapp_app[pyloop] 
+[gw0] [ 52%] PASSED tests/test_web_functional.py::test_subapp_not_found2[pyloop] 
+tests/test_web_functional.py::test_start_without_routes[pyloop] 
+[gw2] [ 52%] PASSED tests/test_web_functional.py::test_start_without_routes[pyloop] 
+tests/test_web_functional.py::test_subapp_not_allowed[pyloop] 
+[gw0] [ 53%] PASSED tests/test_web_functional.py::test_subapp_not_allowed[pyloop] 
+tests/test_web_functional.py::test_empty_content_for_query_without_body[pyloop-options] 
+tests/test_web_functional.py::test_subapp_on_response_prepare[pyloop] 
+[gw3] [ 54%] PASSED tests/test_web_functional.py::test_subapp_on_response_prepare[pyloop] 
+[gw1] [ 55%] PASSED tests/test_web_functional.py::test_empty_content_for_query_without_body[pyloop-options] 
+tests/test_web_functional.py::test_subapp_cannot_add_app_in_handler[pyloop] 
+tests/test_web_functional.py::test_requests_count[pyloop] 
+[gw2] [ 56%] PASSED tests/test_web_functional.py::test_requests_count[pyloop] 
+[gw0] [ 56%] PASSED tests/test_web_functional.py::test_subapp_cannot_add_app_in_handler[pyloop] 
+tests/test_web_functional.py::test_empty_content_for_query_without_body[pyloop-post1] 
+[gw1] [ 57%] PASSED tests/test_web_functional.py::test_empty_content_for_query_without_body[pyloop-post1] 
+tests/test_web_functional.py::test_subapp_on_startup[pyloop] 
+[gw3] [ 58%] PASSED tests/test_web_functional.py::test_subapp_on_startup[pyloop] 
+tests/test_web_functional.py::test_redirect_url[pyloop] 
+tests/test_web_functional.py::test_old_style_subapp_middlewares[pyloop] 
+[gw0] [ 59%] PASSED tests/test_web_functional.py::test_old_style_subapp_middlewares[pyloop] 
+[gw2] [ 60%] PASSED tests/test_web_functional.py::test_redirect_url[pyloop] 
+tests/test_web_functional.py::test_empty_content_for_query_without_body[pyloop-put] 
+tests/test_web_functional.py::test_subapp_on_shutdown[pyloop] 
+[gw1] [ 60%] PASSED tests/test_web_functional.py::test_empty_content_for_query_without_body[pyloop-put] 
+tests/test_web_functional.py::test_subapp_middleware_context[pyloop-/sub/-expected4-C] 
+[gw3] [ 61%] PASSED tests/test_web_functional.py::test_subapp_on_shutdown[pyloop] 
+tests/test_web_functional.py::test_subapp_middleware_context[pyloop-/sub/-expected0-AC] 
+[gw2] [ 62%] PASSED tests/test_web_functional.py::test_subapp_middleware_context[pyloop-/sub/-expected4-C] 
+[gw0] [ 63%] PASSED tests/test_web_functional.py::test_subapp_middleware_context[pyloop-/sub/-expected0-AC] 
+tests/test_web_functional.py::test_subapp_middleware_context[pyloop-/-expected5-C] 
+[gw2] [ 64%] PASSED tests/test_web_functional.py::test_subapp_middleware_context[pyloop-/-expected5-C] 
+tests/test_web_functional.py::test_subapp_middleware_context[pyloop-/-expected1-AC] 
+tests/test_web_functional.py::test_custom_date_header[pyloop] 
+[gw1] [ 64%] PASSED tests/test_web_functional.py::test_custom_date_header[pyloop] 
+[gw0] [ 65%] PASSED tests/test_web_functional.py::test_subapp_middleware_context[pyloop-/-expected1-AC] 
+tests/test_web_functional.py::test_subapp_on_cleanup[pyloop] 
+tests/test_web_functional.py::test_subapp_middleware_context[pyloop-/sub/-expected6-] 
+[gw3] [ 66%] PASSED tests/test_web_functional.py::test_subapp_on_cleanup[pyloop] 
+[gw2] [ 67%] PASSED tests/test_web_functional.py::test_subapp_middleware_context[pyloop-/sub/-expected6-] 
+tests/test_web_functional.py::test_subapp_middleware_context[pyloop-/sub/-expected2-A] 
+[gw0] [ 68%] PASSED tests/test_web_functional.py::test_subapp_middleware_context[pyloop-/sub/-expected2-A] 
+tests/test_web_functional.py::test_app_max_client_size_adjusted[pyloop] 
+tests/test_web_functional.py::test_subapp_middleware_context[pyloop-/-expected7-] 
+tests/test_web_functional.py::test_response_prepared_with_clone[pyloop] 
+[gw2] [ 68%] PASSED tests/test_web_functional.py::test_subapp_middleware_context[pyloop-/-expected7-] 
+tests/test_web_functional.py::test_subapp_middleware_context[pyloop-/-expected3-A] 
+[gw1] [ 69%] PASSED tests/test_web_functional.py::test_response_prepared_with_clone[pyloop] 
+[gw0] [ 70%] PASSED tests/test_web_functional.py::test_subapp_middleware_context[pyloop-/-expected3-A] 
+tests/test_web_functional.py::test_app_max_client_size[pyloop] 
+[gw3] [ 71%] PASSED tests/test_web_functional.py::test_app_max_client_size_adjusted[pyloop] 
+[gw1] [ 72%] PASSED tests/test_web_functional.py::test_app_max_client_size[pyloop] 
+tests/test_web_functional.py::test_response_with_bodypart_invalid_name[pyloop] 
+tests/test_web_functional.py::test_app_max_client_size_none[pyloop] 
+[gw0] [ 72%] PASSED tests/test_web_functional.py::test_response_with_bodypart_invalid_name[pyloop] 
+[gw3] [ 73%] PASSED tests/test_web_functional.py::test_app_max_client_size_none[pyloop] 
+tests/test_web_functional.py::test_await[pyloop] 
+[gw1] [ 74%] PASSED tests/test_web_functional.py::test_await[pyloop] 
+tests/test_web_functional.py::test_request_clone[pyloop] 
+tests/test_web_functional.py::test_post_max_client_size[pyloop] 
+[gw0] [ 75%] PASSED tests/test_web_functional.py::test_request_clone[pyloop] 
+tests/test_web_functional.py::test_response_context_manager[pyloop] 
+[gw1] [ 76%] PASSED tests/test_web_functional.py::test_response_context_manager[pyloop] 
+tests/test_web_functional.py::test_response_context_manager_error[pyloop] 
+[gw3] [ 76%] PASSED tests/test_web_functional.py::test_post_max_client_size[pyloop] 
+[gw0] [ 77%] PASSED tests/test_web_functional.py::test_response_context_manager_error[pyloop] 
+tests/test_web_functional.py::test_request_tracing[pyloop] 
+tests/test_web_functional.py::test_post_max_client_size_for_file[pyloop] 
+[gw1] [ 78%] PASSED tests/test_web_functional.py::test_request_tracing[pyloop] 
+tests/test_web_functional.py::test_client_api_context_manager[pyloop] 
+tests/test_web_functional.py::test_context_manager_close_on_release[pyloop] 
+[gw2] [ 79%] PASSED tests/test_web_functional.py::test_post_max_client_size_for_file[pyloop] 
+[gw0] [ 80%] PASSED tests/test_web_functional.py::test_client_api_context_manager[pyloop] 
+[gw3] [ 80%] PASSED tests/test_web_functional.py::test_context_manager_close_on_release[pyloop] 
+tests/test_web_functional.py::test_raise_http_exception[pyloop] 
+tests/test_web_functional.py::test_response_with_bodypart[pyloop] 
+[gw1] [ 81%] PASSED tests/test_web_functional.py::test_raise_http_exception[pyloop] 
+tests/test_web_functional.py::test_iter_any[pyloop] 
+[gw2] [ 82%] PASSED tests/test_web_functional.py::test_response_with_bodypart[pyloop] 
+[gw3] [ 83%] PASSED tests/test_web_functional.py::test_iter_any[pyloop] 
+tests/test_web_functional.py::test_request_path[pyloop] 
+[gw0] [ 84%] PASSED tests/test_web_functional.py::test_request_path[pyloop] 
+tests/test_web_functional.py::test_response_with_bodypart_named[pyloop] 
+tests/test_web_functional.py::test_request_headers_type[pyloop] 
+[gw3] [ 84%] PASSED tests/test_web_functional.py::test_request_headers_type[pyloop] 
+[gw2] [ 85%] PASSED tests/test_web_functional.py::test_response_with_bodypart_named[pyloop] 
+tests/test_web_functional.py::test_app_add_routes[pyloop] 
+tests/test_web_functional.py::test_read_bufsize[pyloop] 
+[gw3] [ 86%] PASSED tests/test_web_functional.py::test_read_bufsize[pyloop] 
+[gw1] [ 87%] PASSED tests/test_web_functional.py::test_app_add_routes[pyloop] 
+tests/test_web_functional.py::test_bad_method_for_c_http_parser_not_hangs[pyloop] 
+[gw2] [ 88%] SKIPPED tests/test_web_functional.py::test_bad_method_for_c_http_parser_not_hangs[pyloop] 
+tests/test_web_functional.py::test_response_101_204_no_content_length_http11[pyloop-101] 
+tests/test_web_functional.py::test_signal_on_error_handler[pyloop] 
+[gw2] [ 88%] PASSED tests/test_web_functional.py::test_response_101_204_no_content_length_http11[pyloop-101] 
+[gw0] [ 89%] PASSED tests/test_web_functional.py::test_signal_on_error_handler[pyloop] 
+tests/test_web_functional.py::test_auto_decompress[pyloop-False-compressed] 
+tests/test_web_functional.py::test_response_101_204_no_content_length_http11[pyloop-204] 
+[gw3] [ 90%] PASSED tests/test_web_functional.py::test_auto_decompress[pyloop-False-compressed] 
+[gw2] [ 91%] PASSED tests/test_web_functional.py::test_response_101_204_no_content_length_http11[pyloop-204] 
+tests/test_web_functional.py::test_auto_decompress[pyloop-True-uncompressed] 
+[gw1] [ 92%] PASSED tests/test_web_functional.py::test_auto_decompress[pyloop-True-uncompressed] 
+tests/test_web_functional.py::test_stream_response_headers_204[pyloop] 
+[gw0] [ 92%] PASSED tests/test_web_functional.py::test_stream_response_headers_204[pyloop] 
+tests/test_web_functional.py::test_no_body_for_1xx_204_304_responses[pyloop-version0-101] 
+tests/test_web_functional.py::test_httpfound_cookies_302[pyloop] 
+[gw2] [ 93%] PASSED tests/test_web_functional.py::test_no_body_for_1xx_204_304_responses[pyloop-version0-101] 
+[gw3] [ 94%] PASSED tests/test_web_functional.py::test_httpfound_cookies_302[pyloop] 
+tests/test_web_functional.py::test_no_body_for_1xx_204_304_responses[pyloop-version0-204] 
+[gw1] [ 95%] PASSED tests/test_web_functional.py::test_no_body_for_1xx_204_304_responses[pyloop-version0-204] 
+tests/test_web_functional.py::test_no_body_for_1xx_204_304_responses[pyloop-version0-304] 
+[gw0] [ 96%] PASSED tests/test_web_functional.py::test_no_body_for_1xx_204_304_responses[pyloop-version0-304] 
+tests/test_web_functional.py::test_no_body_for_1xx_204_304_responses[pyloop-version1-101] 
+tests/test_web_functional.py::test_no_body_for_1xx_204_304_responses[pyloop-version1-204] 
+[gw1] [ 96%] PASSED tests/test_web_functional.py::test_no_body_for_1xx_204_304_responses[pyloop-version1-204] 
+tests/test_web_functional.py::test_no_body_for_1xx_204_304_responses[pyloop-version1-304] 
+tests/test_web_functional.py::test_keepalive_race_condition[pyloop] 
+[gw3] [ 97%] PASSED tests/test_web_functional.py::test_no_body_for_1xx_204_304_responses[pyloop-version1-101] 
+[gw2] [ 98%] PASSED tests/test_web_functional.py::test_no_body_for_1xx_204_304_responses[pyloop-version1-304] 
+[gw0] [ 99%] PASSED tests/test_web_functional.py::test_keepalive_race_condition[pyloop] 
+tests/test_web_functional.py::test_keepalive_expires_on_time[pyloop] 
+[gw3] [100%] PASSED tests/test_web_functional.py::test_keepalive_expires_on_time[pyloop] 
+
+---------- coverage: platform linux, python 3.9.25-final-0 -----------
+Name                                         Stmts   Miss Branch BrPart  Cover
+------------------------------------------------------------------------------
+aiohttp/__init__.py                             26      8      2      1    68%
+aiohttp/_websocket/__init__.py                   0      0      0      0   100%
+aiohttp/_websocket/helpers.py                   77     52     38      0    22%
+aiohttp/_websocket/models.py                    87      5      0      0    94%
+aiohttp/_websocket/reader.py                     6      0      0      0   100%
+aiohttp/_websocket/reader_py.py                271    229    108      0    12%
+aiohttp/_websocket/writer.py                    73     56     24      0    18%
+aiohttp/abc.py                                 107      4      0      0    96%
+aiohttp/base_protocol.py                        71     31     22      3    46%
+aiohttp/client.py                              527    206    196     50    55%
+aiohttp/client_exceptions.py                   141     55     14      1    56%
+aiohttp/client_proto.py                        170     51     56     15    65%
+aiohttp/client_reqrep.py                       665    186    262     55    66%
+aiohttp/client_ws.py                           274    217     84      1    17%
+aiohttp/compression_utils.py                    70     19     14      3    67%
+aiohttp/connector.py                           717    323    318     61    49%
+aiohttp/cookiejar.py                           272    176    132     16    28%
+aiohttp/formdata.py                             88      9     40      7    88%
+aiohttp/hdrs.py                                 94      0      0      0   100%
+aiohttp/helpers.py                             516    185    202     41    58%
+aiohttp/http.py                                  8      0      0      0   100%
+aiohttp/http_exceptions.py                      51     10      2      1    79%
+aiohttp/http_parser.py                         501    118    210     60    71%
+aiohttp/http_websocket.py                        6      0      0      0   100%
+aiohttp/http_writer.py                         137     38     56     12    67%
+aiohttp/log.py                                   7      0      0      0   100%
+aiohttp/multipart.py                           625    237    268     50    56%
+aiohttp/payload.py                             254     42     74     12    80%
+aiohttp/pytest_plugin.py                       161     48     42      7    68%
+aiohttp/resolver.py                             62     40     18      1    29%
+aiohttp/streams.py                             379    115    134     19    65%
+aiohttp/tcp_helpers.py                          19      2      6      3    80%
+aiohttp/test_utils.py                          303     98     52     14    63%
+aiohttp/tracing.py                             193     11     32      0    95%
+aiohttp/typedefs.py                             24      0      0      0   100%
+aiohttp/web.py                                 128     90     54      0    22%
+aiohttp/web_app.py                             239     44     52     13    78%
+aiohttp/web_exceptions.py                      215     21     28      7    86%
+aiohttp/web_fileresponse.py                    186     70     60     17    57%
+aiohttp/web_log.py                              97     31     12      0    66%
+aiohttp/web_middlewares.py                      58     34     22      0    32%
+aiohttp/web_protocol.py                        382     68    160     49    75%
+aiohttp/web_request.py                         431    132    136     22    64%
+aiohttp/web_response.py                        440    117    198     38    69%
+aiohttp/web_routedef.py                        100     39     10      1    60%
+aiohttp/web_runner.py                          220     67     40     11    65%
+aiohttp/web_server.py                           49      5     14      2    86%
+aiohttp/web_urldispatcher.py                   722    197    153     32    69%
+aiohttp/web_ws.py                              385    294    134      1    18%
+aiohttp/worker.py                              123    123     30      0     0%
+tests/conftest.py                              141     80     16      0    39%
+tests/test_base_protocol.py                    200    200      2      0     0%
+tests/test_benchmarks_client.py                168    168     22      0     0%
+tests/test_benchmarks_client_request.py         55     55      2      0     0%
+tests/test_benchmarks_client_ws.py              66     66     12      0     0%
+tests/test_benchmarks_cookiejar.py              14     14      0      0     0%
+tests/test_benchmarks_http_websocket.py         71     71     12      0     0%
+tests/test_benchmarks_http_writer.py            11     11      2      0     0%
+tests/test_benchmarks_web_fileresponse.py       63     63      6      0     0%
+tests/test_benchmarks_web_middleware.py         24     24      4      0     0%
+tests/test_benchmarks_web_response.py           33     33     10      0     0%
+tests/test_benchmarks_web_urldispatcher.py     308    308     74      0     0%
+tests/test_circular_imports.py                  29     29     13      0     0%
+tests/test_classbasedview.py                    39     39      0      0     0%
+tests/test_client_connection.py                 98     98      0      0     0%
+tests/test_client_exceptions.py                182    182     14      0     0%
+tests/test_client_fingerprint.py                23     23      0      0     0%
+tests/test_client_functional.py               2640   2640     74      0     0%
+tests/test_client_proto.py                     147    147      6      0     0%
+tests/test_client_request.py                   824    824     20      0     0%
+tests/test_client_response.py                  511    511      6      0     0%
+tests/test_client_session.py                   589    589     29      0     0%
+tests/test_client_ws.py                        489    489      2      0     0%
+tests/test_client_ws_functional.py             885    885     22      0     0%
+tests/test_compression_utils.py                 15     15      0      0     0%
+tests/test_connector.py                       2096   2096    102      0     0%
+tests/test_cookiejar.py                        469    469     28      0     0%
+tests/test_flowcontrol_streams.py               85     85      0      0     0%
+tests/test_formdata.py                          92     92      4      0     0%
+tests/test_helpers.py                          559    559     20      0     0%
+tests/test_http_exceptions.py                  110    110     10      0     0%
+tests/test_http_parser.py                     1104   1104     44      0     0%
+tests/test_http_writer.py                      253    253     34      0     0%
+tests/test_imports.py                           39     39      6      0     0%
+tests/test_loop.py                              35     35      0      0     0%
+tests/test_multipart.py                        869    869     34      0     0%
+tests/test_multipart_helpers.py                446    446      0      0     0%
+tests/test_payload.py                           79     79      0      0     0%
+tests/test_proxy.py                            360    360      2      0     0%
+tests/test_proxy_functional.py                 468    468     20      0     0%
+tests/test_pytest_plugin.py                     47     47      0      0     0%
+tests/test_resolver.py                         201    201     18      0     0%
+tests/test_route_def.py                        191    191      0      0     0%
+tests/test_run_app.py                          587    587     30      0     0%
+tests/test_streams.py                         1061   1061     38      0     0%
+tests/test_tcp_helpers.py                       52     52      2      0     0%
+tests/test_test_utils.py                       258    258     14      0     0%
+tests/test_tracing.py                           49     49      0      0     0%
+tests/test_urldispatch.py                      879    879     24      0     0%
+tests/test_web_app.py                          383    383      6      0     0%
+tests/test_web_cli.py                           94     94      0      0     0%
+tests/test_web_exceptions.py                   277    277     30      0     0%
+tests/test_web_functional.py                  1577     31     24      1    98%
+tests/test_web_log.py                          160    160      4      0     0%
+tests/test_web_middleware.py                   259    259      8      0     0%
+tests/test_web_request.py                      539    539      0      0     0%
+tests/test_web_request_handler.py               42     42      0      0     0%
+tests/test_web_response.py                     881    881      6      0     0%
+tests/test_web_runner.py                       179    179      4      0     0%
+tests/test_web_sendfile.py                      85     85      0      0     0%
+tests/test_web_sendfile_functional.py          681    681     18      0     0%
+tests/test_web_server.py                       253    253      2      0     0%
+tests/test_web_urldispatcher.py                512    512     24      0     0%
+tests/test_web_websocket.py                    450    450      8      0     0%
+tests/test_web_websocket_functional.py         868    868     24      0     0%
+tests/test_websocket_data_queue.py              23     23      2      0     0%
+tests/test_websocket_handshake.py              153    153     12      0     0%
+tests/test_websocket_parser.py                 353    353     12      0     0%
+tests/test_websocket_writer.py                  99     99      6      0     0%
+tests/test_worker.py                           186    186      2      0     0%
+------------------------------------------------------------------------------
+TOTAL                                        36825  28364   4479    627    24%
+
+
+============================= slowest 10 durations =============================
+0.46s teardown tests/test_web_functional.py::test_subapp_middleware_context[pyloop-/-expected7-]
+0.24s call     tests/test_web_functional.py::test_handler_returns_not_response[pyloop]
+0.18s call     tests/test_web_functional.py::test_upload_file[pyloop]
+0.17s teardown tests/test_web_functional.py::test_custom_date_header[pyloop]
+0.14s teardown tests/test_web_functional.py::test_app_add_routes[pyloop]
+0.13s teardown tests/test_web_functional.py::test_bad_request_payload[pyloop]
+0.13s teardown tests/test_web_functional.py::test_client_api_context_manager[pyloop]
+0.12s teardown tests/test_web_functional.py::test_keepalive_expires_on_time[pyloop]
+0.12s teardown tests/test_web_functional.py::test_raise_http_exception[pyloop]
+0.12s teardown tests/test_web_functional.py::test_request_tracing[pyloop]
+=========================== short test summary info ============================
+SKIPPED [1] tests/test_web_functional.py:199: Needs Task.cancelling()
+SKIPPED [1] tests/test_web_functional.py:2149: C based HTTP parser not available
+======================= 123 passed, 2 skipped in 15.57s ========================

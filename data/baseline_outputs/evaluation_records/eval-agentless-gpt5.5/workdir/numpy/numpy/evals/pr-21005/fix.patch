@@ -1,0 +1,36 @@
+diff --git a/numpy/random/src/distributions/distributions.c b/numpy/random/src/distributions/distributions.c
+index bd1e1fa..0adad97 100644
+--- a/numpy/random/src/distributions/distributions.c
++++ b/numpy/random/src/distributions/distributions.c
+@@ -576,7 +576,14 @@ static RAND_INT_TYPE random_poisson_ptrs(bitgen_t *bitgen_state, double lam) {
+ }
+ 
+ RAND_INT_TYPE random_poisson(bitgen_t *bitgen_state, double lam) {
+-  if (lam >= 10) {
++  /*
++   * The result is returned as a signed 64-bit integer.  Values at or
++   * above 2**63 cannot be represented and must not be passed to either
++   * Poisson implementation, since the conversion can wrap negative.
++   */
++  if (lam >= 0x1p63) {
++    return INT64_MAX;
++  } else if (lam >= 10) {
+     return random_poisson_ptrs(bitgen_state, lam);
+   } else if (lam == 0) {
+     return 0;
+@@ -588,6 +595,15 @@ RAND_INT_TYPE random_poisson(bitgen_t *bitgen_state, double lam) {
+ RAND_INT_TYPE random_negative_binomial(bitgen_t *bitgen_state, double n,
+                                        double p) {
+   double Y = random_gamma(bitgen_state, n, (1 - p) / p);
++
++  /*
++   * Gamma-Poisson sampling can produce a Poisson parameter too large for
++   * the int64 result type even when n and p passed their input checks.
++   */
++  if (Y >= 0x1p63) {
++    return INT64_MAX;
++  }
++
+   return random_poisson(bitgen_state, Y);
+ }
+ 

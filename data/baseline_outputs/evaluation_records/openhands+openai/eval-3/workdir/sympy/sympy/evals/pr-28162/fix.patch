@@ -1,0 +1,87 @@
+diff --git a/sympy/physics/continuum_mechanics/beam.py b/sympy/physics/continuum_mechanics/beam.py
+index 7e575dd562..d43f7d647f 100644
+--- a/sympy/physics/continuum_mechanics/beam.py
++++ b/sympy/physics/continuum_mechanics/beam.py
+@@ -13,6 +13,7 @@
+ from sympy.solvers import linsolve
+ from sympy.solvers.ode.ode import dsolve
+ from sympy.solvers.solvers import solve
++from sympy.simplify.simplify import posify
+ from sympy.printing import sstr
+ from sympy.functions import SingularityFunction, Piecewise, factorial
+ from sympy.integrals import integrate
+@@ -946,8 +947,14 @@ def solve_for_reaction_loads(self, *reactions):
+         rotation_jumps = tuple(self._rotation_hinge_symbols)
+         deflection_jumps = tuple(self._sliding_hinge_symbols)
+ 
+-        shear_curve = limit(self.shear_force(), x, l)
+-        moment_curve = limit(self.bending_moment(), x, l)
++        l, reps = posify(l)
++        pos = {old: new for new, old in reps.items()}
++        load = self.load.xreplace(pos)
++        shear_force = -integrate(load, x)
++        bending_moment = integrate(shear_force, x)
++
++        shear_curve = limit(shear_force, x, l)
++        moment_curve = limit(bending_moment, x, l)
+ 
+         shear_force_eqs = []
+         bending_moment_eqs = []
+@@ -955,27 +962,35 @@ def solve_for_reaction_loads(self, *reactions):
+         deflection_eqs = []
+ 
+         for position, value in self._boundary_conditions['shear_force']:
+-            eqs = self.shear_force().subs(x, position) - value
++            position = sympify(position).xreplace(pos)
++            value = sympify(value).xreplace(pos)
++            eqs = shear_force.subs(x, position) - value
+             new_eqs = sum(arg for arg in eqs.args if not any(num.is_infinite for num in arg.args))
+             shear_force_eqs.append(new_eqs)
+ 
+         for position, value in self._boundary_conditions['bending_moment']:
+-            eqs = self.bending_moment().subs(x, position) - value
++            position = sympify(position).xreplace(pos)
++            value = sympify(value).xreplace(pos)
++            eqs = bending_moment.subs(x, position) - value
+             new_eqs = sum(arg for arg in eqs.args if not any(num.is_infinite for num in arg.args))
+             bending_moment_eqs.append(new_eqs)
+ 
+-        slope_curve = integrate(self.bending_moment(), x) + C3
++        slope_curve = integrate(bending_moment, x) + C3
+         for position, value in self._boundary_conditions['slope']:
++            position = sympify(position).xreplace(pos)
++            value = sympify(value).xreplace(pos)
+             eqs = slope_curve.subs(x, position) - value
+             slope_eqs.append(eqs)
+ 
+         deflection_curve = integrate(slope_curve, x) + C4
+         for position, value in self._boundary_conditions['deflection']:
++            position = sympify(position).xreplace(pos)
++            value = sympify(value).xreplace(pos)
+             eqs = deflection_curve.subs(x, position) - value
+             deflection_eqs.append(eqs)
+ 
+-        solution = list((linsolve([shear_curve, moment_curve] + shear_force_eqs + bending_moment_eqs + slope_eqs
+-                            + deflection_eqs, (C3, C4) + reactions + rotation_jumps + deflection_jumps).args)[0])
++        solution = [sol.xreplace(reps) for sol in list((linsolve([shear_curve, moment_curve] + shear_force_eqs + bending_moment_eqs + slope_eqs
++                            + deflection_eqs, (C3, C4) + reactions + rotation_jumps + deflection_jumps).args)[0])]
+         reaction_index = 2+len(reactions)
+         rotation_index = reaction_index + len(rotation_jumps)
+         reaction_solution = solution[2:reaction_index]
+diff --git a/sympy/series/limits.py b/sympy/series/limits.py
+index 46d892c4ca..4a0751cd33 100644
+--- a/sympy/series/limits.py
++++ b/sympy/series/limits.py
+@@ -296,6 +296,12 @@ def set_signs(expr):
+             e = nsimplify(e)
+         e = set_signs(e)
+ 
++        if e.is_Add:
++            from sympy.functions.special.singularity_functions import SingularityFunction
++            if e.has(SingularityFunction):
++                r = heuristics(e, z, z0, dir)
++                if r is not None:
++                    return r
+ 
+         if e.is_meromorphic(z, z0):
+             if z0 is S.Infinity:

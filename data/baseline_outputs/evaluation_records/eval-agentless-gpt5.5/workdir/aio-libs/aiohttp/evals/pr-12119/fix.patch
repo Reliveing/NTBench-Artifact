@@ -1,0 +1,40 @@
+diff --git a/aiohttp/http_parser.py b/aiohttp/http_parser.py
+index c5560b7..2325068 100644
+--- a/aiohttp/http_parser.py
++++ b/aiohttp/http_parser.py
+@@ -882,13 +882,28 @@ class HttpPayloadParser:
+                     self._chunk = ChunkState.PARSE_CHUNKED_CHUNK_EOF
+                     self.payload.end_http_chunk_receiving()
+ 
+-                # toss the CRLF at the end of the chunk
++                # Toss the CRLF at the end of the chunk. If bytes are
++                # available and they cannot be the beginning of the
++                # terminator, reject the message instead of waiting
++                # indefinitely for more input.
+                 if self._chunk == ChunkState.PARSE_CHUNKED_CHUNK_EOF:
+                     if self._lax and chunk.startswith(b"\r"):
++                        # A lax parser accepts CRLF when SEP is LF. Preserve
++                        # a lone CR so it can be completed by the next read.
++                        if len(chunk) == 1:
++                            self._chunk_tail = chunk
++                            return False, b""
+                         chunk = chunk[1:]
++
+                     if chunk[: len(SEP)] == SEP:
+                         chunk = chunk[len(SEP) :]
+                         self._chunk = ChunkState.PARSE_CHUNKED_SIZE
++                    elif chunk and not SEP.startswith(chunk):
++                        exc = TransferEncodingError(
++                            "Invalid chunk terminator"
++                        )
++                        set_exception(self.payload, exc)
++                        raise exc
+                     else:
+                         self._chunk_tail = chunk
+                         return False, b""
+@@ -1052,4 +1067,4 @@ with suppress(ImportError):
+         HttpRequestParserC = HttpRequestParser
+         HttpResponseParserC = HttpResponseParser
+         RawRequestMessageC = RawRequestMessage
+-        RawResponseMessageC = RawResponseMessage
++        RawResponseMessageC = RawResponseMessage

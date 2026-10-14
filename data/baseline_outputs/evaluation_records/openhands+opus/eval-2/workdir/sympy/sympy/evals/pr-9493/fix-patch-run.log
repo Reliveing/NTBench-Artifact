@@ -1,0 +1,406 @@
+Obtaining file:///home/sympy
+  Preparing metadata (setup.py): started
+  Preparing metadata (setup.py): finished with status 'done'
+Requirement already satisfied: mpmath>=0.19 in /usr/local/lib/python3.8/site-packages (from sympy==0.7.7.dev0) (1.3.0)
+Installing collected packages: sympy
+  Attempting uninstall: sympy
+    Found existing installation: sympy 0.7.7.dev0
+    Uninstalling sympy-0.7.7.dev0:
+      Successfully uninstalled sympy-0.7.7.dev0
+  DEPRECATION: Legacy editable install of sympy==0.7.7.dev0 from file:///home/sympy (setup.py develop) is deprecated. pip 25.1 will enforce this behaviour change. A possible replacement is to add a pyproject.toml or enable --use-pep517, and use setuptools >= 64. If the resulting installation is not behaving as expected, try using --config-settings editable_mode=compat. Please consult the setuptools documentation for more information. Discussion can be found at https://github.com/pypa/pip/issues/11457
+  Running setup.py develop for sympy
+Successfully installed sympy
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+============================= test session starts ==============================
+collecting ... collected 70 items
+
+sympy/core/tests/test_numbers.py::test_integers_cache PASSED             [  1%]
+sympy/core/tests/test_numbers.py::test_seterr PASSED                     [  2%]
+sympy/core/tests/test_numbers.py::test_mod PASSED                        [  4%]
+sympy/core/tests/test_numbers.py::test_divmod PASSED                     [  5%]
+sympy/core/tests/test_numbers.py::test_igcd PASSED                       [  7%]
+sympy/core/tests/test_numbers.py::test_ilcm PASSED                       [  8%]
+sympy/core/tests/test_numbers.py::test_igcdex PASSED                     [ 10%]
+sympy/core/tests/test_numbers.py::test_Integer_new PASSED                [ 11%]
+sympy/core/tests/test_numbers.py::test_Rational_new PASSED               [ 12%]
+sympy/core/tests/test_numbers.py::test_Number_new PASSED                 [ 14%]
+sympy/core/tests/test_numbers.py::test_Rational_cmp PASSED               [ 15%]
+sympy/core/tests/test_numbers.py::test_Float PASSED                      [ 17%]
+sympy/core/tests/test_numbers.py::test_Float_default_to_highprec_from_str PASSED [ 18%]
+sympy/core/tests/test_numbers.py::test_Float_eval PASSED                 [ 20%]
+sympy/core/tests/test_numbers.py::test_Float_issue_2107 PASSED           [ 21%]
+sympy/core/tests/test_numbers.py::test_Infinity PASSED                   [ 22%]
+sympy/core/tests/test_numbers.py::test_Infinity_2 PASSED                 [ 24%]
+sympy/core/tests/test_numbers.py::test_Mul_Infinity_Zero PASSED          [ 25%]
+sympy/core/tests/test_numbers.py::test_Div_By_Zero PASSED                [ 27%]
+sympy/core/tests/test_numbers.py::test_Infinity_inequations PASSED       [ 28%]
+sympy/core/tests/test_numbers.py::test_NaN PASSED                        [ 30%]
+sympy/core/tests/test_numbers.py::test_special_numbers PASSED            [ 31%]
+sympy/core/tests/test_numbers.py::test_powers PASSED                     [ 32%]
+sympy/core/tests/test_numbers.py::test_integer_nthroot_overflow PASSED   [ 34%]
+sympy/core/tests/test_numbers.py::test_powers_Integer PASSED             [ 35%]
+sympy/core/tests/test_numbers.py::test_powers_Rational PASSED            [ 37%]
+sympy/core/tests/test_numbers.py::test_powers_Float PASSED               [ 38%]
+sympy/core/tests/test_numbers.py::test_abs1 PASSED                       [ 40%]
+sympy/core/tests/test_numbers.py::test_accept_int PASSED                 [ 41%]
+sympy/core/tests/test_numbers.py::test_dont_accept_str PASSED            [ 42%]
+sympy/core/tests/test_numbers.py::test_int PASSED                        [ 44%]
+sympy/core/tests/test_numbers.py::test_long PASSED                       [ 45%]
+sympy/core/tests/test_numbers.py::test_real_bug PASSED                   [ 47%]
+sympy/core/tests/test_numbers.py::test_bug_sqrt PASSED                   [ 48%]
+sympy/core/tests/test_numbers.py::test_pi_Pi PASSED                      [ 50%]
+sympy/core/tests/test_numbers.py::test_no_len PASSED                     [ 51%]
+sympy/core/tests/test_numbers.py::test_issue_3321 PASSED                 [ 52%]
+sympy/core/tests/test_numbers.py::test_issue_3692 PASSED                 [ 54%]
+sympy/core/tests/test_numbers.py::test_issue_3423 PASSED                 [ 55%]
+sympy/core/tests/test_numbers.py::test_issue_3449 PASSED                 [ 57%]
+sympy/core/tests/test_numbers.py::test_Integer_factors PASSED            [ 58%]
+sympy/core/tests/test_numbers.py::test_Rational_factors PASSED           [ 60%]
+sympy/core/tests/test_numbers.py::test_issue_4107 PASSED                 [ 61%]
+sympy/core/tests/test_numbers.py::test_IntegerInteger PASSED             [ 62%]
+sympy/core/tests/test_numbers.py::test_Rational_gcd_lcm_cofactors PASSED [ 64%]
+sympy/core/tests/test_numbers.py::test_Float_gcd_lcm_cofactors PASSED    [ 65%]
+sympy/core/tests/test_numbers.py::test_issue_4611 PASSED                 [ 67%]
+sympy/core/tests/test_numbers.py::test_conversion_to_mpmath PASSED       [ 68%]
+sympy/core/tests/test_numbers.py::test_relational PASSED                 [ 70%]
+sympy/core/tests/test_numbers.py::test_Integer_as_index PASSED           [ 71%]
+sympy/core/tests/test_numbers.py::test_Rational_int PASSED               [ 72%]
+sympy/core/tests/test_numbers.py::test_zoo PASSED                        [ 74%]
+sympy/core/tests/test_numbers.py::test_issue_4122 PASSED                 [ 75%]
+sympy/core/tests/test_numbers.py::test_GoldenRatio_expand PASSED         [ 77%]
+sympy/core/tests/test_numbers.py::test_as_content_primitive PASSED       [ 78%]
+sympy/core/tests/test_numbers.py::test_hashing_sympy_integers PASSED     [ 80%]
+sympy/core/tests/test_numbers.py::test_issue_4172 PASSED                 [ 81%]
+sympy/core/tests/test_numbers.py::test_mpmath_issues FAILED              [ 82%]
+sympy/core/tests/test_numbers.py::test_Catalan_EulerGamma_prec PASSED    [ 84%]
+sympy/core/tests/test_numbers.py::test_Float_eq PASSED                   [ 85%]
+sympy/core/tests/test_numbers.py::test_int_NumberSymbols PASSED          [ 87%]
+sympy/core/tests/test_numbers.py::test_issue_6640 PASSED                 [ 88%]
+sympy/core/tests/test_numbers.py::test_issue_6349 PASSED                 [ 90%]
+sympy/core/tests/test_numbers.py::test_mpf_norm PASSED                   [ 91%]
+sympy/core/tests/test_numbers.py::test_latex PASSED                      [ 92%]
+sympy/core/tests/test_numbers.py::test_issue_7742 PASSED                 [ 94%]
+sympy/core/tests/test_numbers.py::test_simplify_AlgebraicNumber PASSED   [ 95%]
+sympy/core/tests/test_numbers.py::test_Float_idempotence PASSED          [ 97%]
+sympy/core/tests/test_numbers.py::test_comp PASSED                       [ 98%]
+sympy/core/tests/test_numbers.py::test_issue_9491 PASSED                 [100%]
+
+=============================== warnings summary ===============================
+sympy/core/facts.py:3
+  /home/sympy/sympy/core/facts.py:3: DeprecationWarning: invalid escape sequence \_
+    """This is rule-based deduction system for SymPy
+
+sympy/core/expr.py:2189
+  /home/sympy/sympy/core/expr.py:2189: DeprecationWarning: invalid escape sequence \*
+    """
+
+sympy/core/evalf.py:1430
+  /home/sympy/sympy/core/evalf.py:1430: DeprecationWarning: invalid escape sequence \*
+    """
+
+sympy/utilities/misc.py:23
+  /home/sympy/sympy/utilities/misc.py:23: DeprecationWarning: invalid escape sequence \ 
+    """Return a cut-and-pastable string that, when printed, is equivalent
+
+sympy/utilities/runtests.py:520
+  /home/sympy/sympy/utilities/runtests.py:520: DeprecationWarning: invalid escape sequence \*
+    """
+
+sympy/utilities/runtests.py:1292
+  /home/sympy/sympy/utilities/runtests.py:1292: DeprecationWarning: invalid escape sequence \*
+    """
+
+sympy/utilities/runtests.py:1539
+  /home/sympy/sympy/utilities/runtests.py:1539: DeprecationWarning: invalid escape sequence \d
+    matches = re.findall("line \d+", name)
+
+sympy/utilities/runtests.py:1747
+  /home/sympy/sympy/utilities/runtests.py:1747: DeprecationWarning: invalid escape sequence \s
+    want = re.sub('(?m)^%s\s*?$' % re.escape(pdoctest.BLANKLINE_MARKER),
+
+sympy/utilities/runtests.py:1751
+  /home/sympy/sympy/utilities/runtests.py:1751: DeprecationWarning: invalid escape sequence \s
+    got = re.sub('(?m)^\s*?$', '', got)
+
+sympy/core/function.py:1664
+  /home/sympy/sympy/core/function.py:1664: DeprecationWarning: invalid escape sequence \s
+    """
+
+sympy/core/function.py:106: 190 warnings
+  /home/sympy/sympy/core/function.py:106: DeprecationWarning: inspect.getargspec() is deprecated since Python 3.0, use inspect.signature() or inspect.getfullargspec()
+    evalargspec = inspect.getargspec(cls.eval)
+
+sympy/core/symbol.py:333
+  /home/sympy/sympy/core/symbol.py:333: DeprecationWarning: invalid escape sequence \,
+    """
+
+sympy/core/symbol.py:452
+  /home/sympy/sympy/core/symbol.py:452: DeprecationWarning: invalid escape sequence \,
+    literals = ['\,', '\:', '\ ']
+
+sympy/core/symbol.py:452
+  /home/sympy/sympy/core/symbol.py:452: DeprecationWarning: invalid escape sequence \:
+    literals = ['\,', '\:', '\ ']
+
+sympy/core/symbol.py:452
+  /home/sympy/sympy/core/symbol.py:452: DeprecationWarning: invalid escape sequence \ 
+    literals = ['\,', '\:', '\ ']
+
+sympy/sets/sets.py:165
+  /home/sympy/sympy/sets/sets.py:165: DeprecationWarning: invalid escape sequence \ 
+    """
+
+sympy/sets/sets.py:1484
+  /home/sympy/sympy/sets/sets.py:1484: DeprecationWarning: invalid escape sequence \{
+    """Represents the set difference or relative complement of a set with
+
+sympy/polys/polyoptions.py:404
+  /home/sympy/sympy/polys/polyoptions.py:404: DeprecationWarning: invalid escape sequence \d
+    _re_realfield = re.compile("^(R|RR)(_(\d+))?$")
+
+sympy/polys/polyoptions.py:405
+  /home/sympy/sympy/polys/polyoptions.py:405: DeprecationWarning: invalid escape sequence \d
+    _re_complexfield = re.compile("^(C|CC)(_(\d+))?$")
+
+sympy/polys/polyoptions.py:406
+  /home/sympy/sympy/polys/polyoptions.py:406: DeprecationWarning: invalid escape sequence \(
+    _re_finitefield = re.compile("^(FF|GF)\((\d+)\)$")
+
+sympy/polys/polyoptions.py:407
+  /home/sympy/sympy/polys/polyoptions.py:407: DeprecationWarning: invalid escape sequence \[
+    _re_polynomial = re.compile("^(Z|ZZ|Q|QQ)\[(.+)\]$")
+
+sympy/polys/polyoptions.py:408
+  /home/sympy/sympy/polys/polyoptions.py:408: DeprecationWarning: invalid escape sequence \(
+    _re_fraction = re.compile("^(Z|ZZ|Q|QQ)\((.+)\)$")
+
+sympy/polys/polyoptions.py:409
+  /home/sympy/sympy/polys/polyoptions.py:409: DeprecationWarning: invalid escape sequence \<
+    _re_algebraic = re.compile("^(Q|QQ)\<(.+)\>$")
+
+sympy/ntheory/factor_.py:1422
+  /home/sympy/sympy/ntheory/factor_.py:1422: DeprecationWarning: invalid escape sequence \s
+    """
+
+sympy/ntheory/factor_.py:1488
+  /home/sympy/sympy/ntheory/factor_.py:1488: DeprecationWarning: invalid escape sequence \p
+    """
+
+sympy/polys/fglmtools.py:106
+  /home/sympy/sympy/polys/fglmtools.py:106: DeprecationWarning: invalid escape sequence \m
+    """
+
+sympy/polys/fglmtools.py:132
+  /home/sympy/sympy/polys/fglmtools.py:132: DeprecationWarning: invalid escape sequence \l
+    """
+
+sympy/polys/domains/domain.py:384
+  /home/sympy/sympy/polys/domains/domain.py:384: DeprecationWarning: invalid escape sequence \d
+    """Returns an algebraic field, i.e. `K(\\alpha, \dots)`. """
+
+sympy/printing/pretty/pretty.py:467
+  /home/sympy/sympy/printing/pretty/pretty.py:467: DeprecationWarning: invalid escape sequence \%
+    lines.append("\%s`" % (' '*(w - 1)))
+
+sympy/printing/pretty/pretty.py:1493
+  /home/sympy/sympy/printing/pretty/pretty.py:1493: DeprecationWarning: invalid escape sequence \ 
+    delimiter = ' \ '
+
+sympy/printing/str.py:658
+  /home/sympy/sympy/printing/str.py:658: DeprecationWarning: invalid escape sequence \ 
+    return ' \ '.join(self._print(set) for set in expr.args)
+
+sympy/printing/pretty/pretty_symbology.py:567
+  /home/sympy/sympy/printing/pretty/pretty_symbology.py:567: DeprecationWarning: invalid escape sequence \_
+    'G': (3, 0, 3, 1, ' __\n/__\n\_|')
+
+sympy/printing/latex.py:612
+  /home/sympy/sympy/printing/latex.py:612: DeprecationWarning: invalid escape sequence \o
+    '''
+
+sympy/printing/latex.py:630
+  /home/sympy/sympy/printing/latex.py:630: DeprecationWarning: invalid escape sequence \s
+    '''
+
+sympy/printing/latex.py:1362
+  /home/sympy/sympy/printing/latex.py:1362: DeprecationWarning: invalid escape sequence \d
+    return "%s^\dag" % self._print(mat)
+
+sympy/printing/latex.py:1385
+  /home/sympy/sympy/printing/latex.py:1385: DeprecationWarning: invalid escape sequence \c
+    return ' \circ '.join(map(parens, expr.args))
+
+sympy/printing/latex.py:1492
+  /home/sympy/sympy/printing/latex.py:1492: DeprecationWarning: invalid escape sequence \l
+    printset = next(it), next(it), '\ldots', s._last_element
+
+sympy/printing/tableform.py:10
+  /home/sympy/sympy/printing/tableform.py:10: DeprecationWarning: invalid escape sequence \e
+    """
+
+sympy/functions/elementary/exponential.py:435
+  /home/sympy/sympy/functions/elementary/exponential.py:435: DeprecationWarning: invalid escape sequence \l
+    """
+
+sympy/functions/elementary/exponential.py:459
+  /home/sympy/sympy/functions/elementary/exponential.py:459: DeprecationWarning: invalid escape sequence \l
+    """
+
+sympy/functions/elementary/exponential.py:547
+  /home/sympy/sympy/functions/elementary/exponential.py:547: DeprecationWarning: invalid escape sequence \l
+    """
+
+sympy/functions/elementary/exponential.py:727
+  /home/sympy/sympy/functions/elementary/exponential.py:727: DeprecationWarning: invalid escape sequence \e
+    """
+
+sympy/functions/elementary/trigonometric.py:2280
+  /home/sympy/sympy/functions/elementary/trigonometric.py:2280: DeprecationWarning: invalid escape sequence \s
+    """
+
+sympy/simplify/simplify.py:832
+  /home/sympy/sympy/simplify/simplify.py:832: DeprecationWarning: invalid escape sequence \e
+    """
+
+sympy/simplify/simplify.py:1802
+  /home/sympy/sympy/simplify/simplify.py:1802: DeprecationWarning: invalid escape sequence \/
+    """
+
+sympy/series/order.py:327
+  /home/sympy/sympy/series/order.py:327: DeprecationWarning: invalid escape sequence \*
+    """
+
+sympy/concrete/expr_with_intlimits.py:16
+  /home/sympy/sympy/concrete/expr_with_intlimits.py:16: DeprecationWarning: invalid escape sequence \m
+    """
+
+sympy/solvers/solvers.py:359
+  /home/sympy/sympy/solvers/solvers.py:359: DeprecationWarning: invalid escape sequence \ 
+    """
+
+sympy/integrals/meijerint.py:717
+  /home/sympy/sympy/integrals/meijerint.py:717: DeprecationWarning: invalid escape sequence \i
+    """
+
+sympy/integrals/meijerint.py:834
+  /home/sympy/sympy/integrals/meijerint.py:834: DeprecationWarning: invalid escape sequence \i
+    """
+
+sympy/integrals/meijerint.py:1998
+  /home/sympy/sympy/integrals/meijerint.py:1998: DeprecationWarning: invalid escape sequence \i
+    """
+
+sympy/integrals/transforms.py:1713
+  /home/sympy/sympy/integrals/transforms.py:1713: DeprecationWarning: invalid escape sequence \i
+    """
+
+sympy/solvers/recurr.py:1
+  /home/sympy/sympy/solvers/recurr.py:1: DeprecationWarning: invalid escape sequence \d
+    """
+
+sympy/solvers/recurr.py:72
+  /home/sympy/sympy/solvers/recurr.py:72: DeprecationWarning: invalid escape sequence \o
+    """
+
+sympy/solvers/recurr.py:350
+  /home/sympy/sympy/solvers/recurr.py:350: DeprecationWarning: invalid escape sequence \o
+    """
+
+sympy/solvers/recurr.py:461
+  /home/sympy/sympy/solvers/recurr.py:461: DeprecationWarning: invalid escape sequence \o
+    """
+
+sympy/solvers/recurr.py:658
+  /home/sympy/sympy/solvers/recurr.py:658: DeprecationWarning: invalid escape sequence \o
+    """
+
+sympy/tensor/indexed.py:1
+  /home/sympy/sympy/tensor/indexed.py:1: DeprecationWarning: invalid escape sequence \_
+    """Module that defines indexed objects
+
+sympy/plotting/plot.py:28
+  /home/sympy/sympy/plotting/plot.py:28: DeprecationWarning: Using or importing the ABCs from 'collections' instead of from 'collections.abc' is deprecated since Python 3.3, and in 3.10 it will stop working
+    from collections import Callable
+
+sympy/interactive/printing.py:241
+  /home/sympy/sympy/interactive/printing.py:241: DeprecationWarning: invalid escape sequence \/
+    """
+
+sympy/interactive/session.py:314
+  /home/sympy/sympy/interactive/session.py:314: DeprecationWarning: invalid escape sequence \/
+    """
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+                                DO *NOT* COMMIT!                                
+=========================== short test summary info ============================
+PASSED sympy/core/tests/test_numbers.py::test_integers_cache
+PASSED sympy/core/tests/test_numbers.py::test_seterr
+PASSED sympy/core/tests/test_numbers.py::test_mod
+PASSED sympy/core/tests/test_numbers.py::test_divmod
+PASSED sympy/core/tests/test_numbers.py::test_igcd
+PASSED sympy/core/tests/test_numbers.py::test_ilcm
+PASSED sympy/core/tests/test_numbers.py::test_igcdex
+PASSED sympy/core/tests/test_numbers.py::test_Integer_new
+PASSED sympy/core/tests/test_numbers.py::test_Rational_new
+PASSED sympy/core/tests/test_numbers.py::test_Number_new
+PASSED sympy/core/tests/test_numbers.py::test_Rational_cmp
+PASSED sympy/core/tests/test_numbers.py::test_Float
+PASSED sympy/core/tests/test_numbers.py::test_Float_default_to_highprec_from_str
+PASSED sympy/core/tests/test_numbers.py::test_Float_eval
+PASSED sympy/core/tests/test_numbers.py::test_Float_issue_2107
+PASSED sympy/core/tests/test_numbers.py::test_Infinity
+PASSED sympy/core/tests/test_numbers.py::test_Infinity_2
+PASSED sympy/core/tests/test_numbers.py::test_Mul_Infinity_Zero
+PASSED sympy/core/tests/test_numbers.py::test_Div_By_Zero
+PASSED sympy/core/tests/test_numbers.py::test_Infinity_inequations
+PASSED sympy/core/tests/test_numbers.py::test_NaN
+PASSED sympy/core/tests/test_numbers.py::test_special_numbers
+PASSED sympy/core/tests/test_numbers.py::test_powers
+PASSED sympy/core/tests/test_numbers.py::test_integer_nthroot_overflow
+PASSED sympy/core/tests/test_numbers.py::test_powers_Integer
+PASSED sympy/core/tests/test_numbers.py::test_powers_Rational
+PASSED sympy/core/tests/test_numbers.py::test_powers_Float
+PASSED sympy/core/tests/test_numbers.py::test_abs1
+PASSED sympy/core/tests/test_numbers.py::test_accept_int
+PASSED sympy/core/tests/test_numbers.py::test_dont_accept_str
+PASSED sympy/core/tests/test_numbers.py::test_int
+PASSED sympy/core/tests/test_numbers.py::test_long
+PASSED sympy/core/tests/test_numbers.py::test_real_bug
+PASSED sympy/core/tests/test_numbers.py::test_bug_sqrt
+PASSED sympy/core/tests/test_numbers.py::test_pi_Pi
+PASSED sympy/core/tests/test_numbers.py::test_no_len
+PASSED sympy/core/tests/test_numbers.py::test_issue_3321
+PASSED sympy/core/tests/test_numbers.py::test_issue_3692
+PASSED sympy/core/tests/test_numbers.py::test_issue_3423
+PASSED sympy/core/tests/test_numbers.py::test_issue_3449
+PASSED sympy/core/tests/test_numbers.py::test_Integer_factors
+PASSED sympy/core/tests/test_numbers.py::test_Rational_factors
+PASSED sympy/core/tests/test_numbers.py::test_issue_4107
+PASSED sympy/core/tests/test_numbers.py::test_IntegerInteger
+PASSED sympy/core/tests/test_numbers.py::test_Rational_gcd_lcm_cofactors
+PASSED sympy/core/tests/test_numbers.py::test_Float_gcd_lcm_cofactors
+PASSED sympy/core/tests/test_numbers.py::test_issue_4611
+PASSED sympy/core/tests/test_numbers.py::test_conversion_to_mpmath
+PASSED sympy/core/tests/test_numbers.py::test_relational
+PASSED sympy/core/tests/test_numbers.py::test_Integer_as_index
+PASSED sympy/core/tests/test_numbers.py::test_Rational_int
+PASSED sympy/core/tests/test_numbers.py::test_zoo
+PASSED sympy/core/tests/test_numbers.py::test_issue_4122
+PASSED sympy/core/tests/test_numbers.py::test_GoldenRatio_expand
+PASSED sympy/core/tests/test_numbers.py::test_as_content_primitive
+PASSED sympy/core/tests/test_numbers.py::test_hashing_sympy_integers
+PASSED sympy/core/tests/test_numbers.py::test_issue_4172
+PASSED sympy/core/tests/test_numbers.py::test_Catalan_EulerGamma_prec
+PASSED sympy/core/tests/test_numbers.py::test_Float_eq
+PASSED sympy/core/tests/test_numbers.py::test_int_NumberSymbols
+PASSED sympy/core/tests/test_numbers.py::test_issue_6640
+PASSED sympy/core/tests/test_numbers.py::test_issue_6349
+PASSED sympy/core/tests/test_numbers.py::test_mpf_norm
+PASSED sympy/core/tests/test_numbers.py::test_latex
+PASSED sympy/core/tests/test_numbers.py::test_issue_7742
+PASSED sympy/core/tests/test_numbers.py::test_simplify_AlgebraicNumber
+PASSED sympy/core/tests/test_numbers.py::test_Float_idempotence
+PASSED sympy/core/tests/test_numbers.py::test_comp
+PASSED sympy/core/tests/test_numbers.py::test_issue_9491
+FAILED sympy/core/tests/test_numbers.py::test_mpmath_issues - sympy.utilities...
+================== 1 failed, 69 passed, 250 warnings in 2.47s ==================

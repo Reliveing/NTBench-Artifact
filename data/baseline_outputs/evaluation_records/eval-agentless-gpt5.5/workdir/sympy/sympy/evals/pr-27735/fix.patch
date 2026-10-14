@@ -1,0 +1,29 @@
+diff --git a/sympy/logic/algorithms/dpll2.py b/sympy/logic/algorithms/dpll2.py
+index 75115e0..a6c82f2 100644
+--- a/sympy/logic/algorithms/dpll2.py
++++ b/sympy/logic/algorithms/dpll2.py
+@@ -237,7 +237,17 @@ class SATSolver:
+                         yield {self.symbols[abs(lit) - 1]:
+                                     lit > 0 for lit in self.var_settings}
+                     else:
+-                        self._simple_add_learned_clause(res[1])
++                        # The theory solver produced a conflict clause.
++                        # Backtrack far enough so that we do not keep the
++                        # conflicting assignment in place; otherwise the same
++                        # theory conflict can be detected repeatedly.
++                        conflict = res[1]
++                        self._simple_add_learned_clause(conflict)
++
++                        conflict_vars = {abs(l) for l in conflict}
++                        while (len(self.levels) > 1 and
++                               abs(self._current_level.decision) not in conflict_vars):
++                            self._undo()
+ 
+                     while self._current_level.flipped:
+                         self._undo()
+@@ -681,4 +691,4 @@ class Level:
+     def __init__(self, decision, flipped=False):
+         self.decision = decision
+         self.var_settings = set()
+-        self.flipped = flipped
++        self.flipped = flipped

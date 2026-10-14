@@ -1,0 +1,23 @@
+diff --git a/numpy/random/_generator.pyx b/numpy/random/_generator.pyx
+index d7c1879e7a..abeca5a8c8 100644
+--- a/numpy/random/_generator.pyx
++++ b/numpy/random/_generator.pyx
+@@ -3021,6 +3021,18 @@ def negative_binomial(self, n, p, size=None):
+         ...    print(i, "wells drilled, probability of one success =", probability)
+ 
+         """
++        # Check for potential overflow in the internal implementation.
++        # negative_binomial uses Gamma(n, (1-p)/p) + Poisson(Y), so we need
++        # n * (1-p)/p to be within the safe range for Poisson to avoid
++        # silent integer overflow.
++        cdef np.ndarray _n_arr, _p_arr
++        _n_arr = np.asarray(n, dtype=np.float64)
++        _p_arr = np.asarray(p, dtype=np.float64)
++        with np.errstate(invalid='ignore', divide='ignore'):
++            if np.any(np.logical_and(_p_arr > 0,
++                                     _n_arr * (1.0 - _p_arr) / _p_arr > POISSON_LAM_MAX)):
++                raise ValueError("n value too large")
++
+         return disc(&random_negative_binomial, &self._bitgen, size, self.lock, 2, 0,
+                     n, 'n', CONS_POSITIVE_NOT_NAN,
+                     p, 'p', CONS_BOUNDED_GT_0_1,

@@ -1,0 +1,37 @@
+diff --git a/sklearn/svm/src/liblinear/tron.cpp b/sklearn/svm/src/liblinear/tron.cpp
+index ae1dae88da..4697afd308 100644
+--- a/sklearn/svm/src/liblinear/tron.cpp
++++ b/sklearn/svm/src/liblinear/tron.cpp
+@@ -137,6 +137,12 @@ int TRON::tron(double *w)
+ 			info("WARNING: actred and prered too small\n");
+ 			break;
+ 		}
++		if (isnan(f) || isnan(fnew) || isnan(actred) || isnan(prered) ||
++		    isinf(f) || isinf(fnew))
++		{
++			info("WARNING: numerical difficulties (NaN or Inf values)\n");
++			break;
++		}
+ 	}
+ 
+ 	delete[] g;
+@@ -171,7 +177,18 @@ int TRON::trcg(double delta, double *g, double *s, double *r)
+ 		cg_iter++;
+ 		fun_obj->Hv(d, Hd);
+ 
+-		alpha = rTr / blas->dot(n, d, inc, Hd, inc);
++		double dHd = blas->dot(n, d, inc, Hd, inc);
++		if (isnan(dHd) || isinf(dHd) || dHd <= 0)
++		{
++			info("WARNING: CG: dHd is nan, inf, or <= 0\n");
++			break;
++		}
++		alpha = rTr / dHd;
++		if (isnan(alpha) || isinf(alpha))
++		{
++			info("WARNING: CG: alpha is nan or inf\n");
++			break;
++		}
+ 		blas->axpy(n, alpha, d, inc, s, inc);
+ 		if (blas->nrm2(n, s, inc) > delta)
+ 		{

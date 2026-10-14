@@ -1,0 +1,19 @@
+diff --git a/sympy/solvers/simplex.py b/sympy/solvers/simplex.py
+index f140268b79..6510f6c980 100644
+--- a/sympy/solvers/simplex.py
++++ b/sympy/solvers/simplex.py
+@@ -323,9 +323,11 @@ def _simplex(A, B, C, D=None, dual=False):
+         _, c = min((X[i], i) for i in piv_cols) # Bland's rule
+ 
+         # Choose pivot row, r
+-        piv_rows = [_ for _ in range(A.rows) if A[_, c] > 0 and B[_] > 0]
+-        piv_rows.append(k)
+-        r = _choose_pivot_row(A, B, piv_rows, c, Y)
++        # Use the row with negative B (k) as the pivot row.
++        # This is the dual simplex approach: fix the infeasibility
++        # in row k directly rather than using a ratio test which
++        # can lead to cycling in degenerate cases.
++        r = k
+ 
+         # check for oscillation
+         if (r, c) == last:

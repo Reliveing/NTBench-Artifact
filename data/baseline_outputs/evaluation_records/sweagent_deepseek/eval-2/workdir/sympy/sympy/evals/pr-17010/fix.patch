@@ -1,0 +1,34 @@
+--- /home/sympy/sympy/functions/special/polynomials.py.bak	2026-06-26 02:58:36.423433660 +0000
++++ /home/sympy/sympy/functions/special/polynomials.py	2026-06-26 02:59:16.254334174 +0000
+@@ -601,8 +601,9 @@
+                 if n == S.NegativeOne:
+                     # n can not be -1 here
+                     return S.Zero
+-                else:
+-                    return -chebyshevu(-n - 2, x)
++                # strip the minus sign
++                n = -n
++                return -chebyshevu(n - 2, x)
+             # We can evaluate for some special values of x
+             if x == S.Zero:
+                 return cos(S.Half * S.Pi * n)
+@@ -784,7 +785,9 @@
+                 return S.NegativeOne**n * legendre(n, -x)
+             # L_{-n}(x)  --->  L_{n-1}(x)
+             if n.could_extract_minus_sign():
+-                return legendre(-n - S.One, x)
++                # strip the minus sign
++                n = -n
++                return legendre(n - S.One, x)
+             # We can evaluate for some special values of x
+             if x == S.Zero:
+                 return sqrt(S.Pi)/(gamma(S.Half - n/2)*gamma(S.One + n/2))
+@@ -1093,6 +1096,8 @@
+             # L_{n}(-x)  --->  exp(-x) * L_{-n-1}(x)
+             # L_{-n}(x)  --->  exp(x) * L_{n-1}(-x)
+             if n.could_extract_minus_sign():
++                # strip the minus sign
++                n = -n
+                 return exp(x) * laguerre(n - 1, -x)
+             # We can evaluate for some special values of x
+             if x == S.Zero:

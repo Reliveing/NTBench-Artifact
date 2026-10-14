@@ -1,0 +1,21 @@
+diff --git a/src/_backend_agg.h b/src/_backend_agg.h
+index f15fa05dd5..9cb90e22da 100644
+--- a/src/_backend_agg.h
++++ b/src/_backend_agg.h
+@@ -1195,6 +1195,16 @@ inline void RendererAgg::_draw_gouraud_triangle(PointArray &points,
+         trans.transform(&tpoints[i][0], &tpoints[i][1]);
+     }
+ 
++    // Skip triangles where a vertex is not finite (e.g. contains NaN or inf),
++    // as these produce garbage that can crash the rasterizer on some platforms.
++    for (int i = 0; i < 3; ++i) {
++        for (int j = 0; j < 2; ++j) {
++            if (!(std::isfinite(tpoints[i][j]))) {
++                return;
++            }
++        }
++    }
++
+     span_alloc_t span_alloc;
+     span_gen_t span_gen;
+ 

@@ -1,0 +1,23 @@
+diff --git a/numpy/_core/src/multiarray/item_selection.c b/numpy/_core/src/multiarray/item_selection.c
+index 7f7d839..5deede2 100644
+--- a/numpy/_core/src/multiarray/item_selection.c
++++ b/numpy/_core/src/multiarray/item_selection.c
+@@ -376,6 +376,18 @@ PyArray_PutTo(PyArrayObject *self, PyObject* values0, PyObject *indices0,
+ 
+     NPY_cast_info_init(&cast_info);
+ 
++    if (!PyArray_Check(self)) {
++        PyErr_SetString(PyExc_TypeError,
++                        "put: first argument must be an array");
++        return NULL;
++    }
++
++    if (PyArray_SIZE(self) == 0) {
++        PyErr_SetString(PyExc_IndexError,
++                        "cannot replace elements of an empty array");
++        return NULL;
++    }
++
+     indices = NULL;
+     values = NULL;
+     if (!PyArray_Check(self)) {

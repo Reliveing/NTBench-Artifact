@@ -1,0 +1,23 @@
+diff --git a/sympy/core/basic.py b/sympy/core/basic.py
+index a134fab92b..b4e49e5660 100644
+--- a/sympy/core/basic.py
++++ b/sympy/core/basic.py
+@@ -1106,6 +1106,18 @@ def fallback(self, old, new):
+         if _aresame(self, old):
+             return new
+ 
++        # Treat atoms as powers with exponent 1 when doing
++        # substitutions of powers. This lets the power substitution logic
++        # recognize, e.g., x as (sqrt(x))**2 in x.subs(sqrt(x), y).
++        if (self.is_Atom and old.is_Pow and old.exp.is_positive
++                and hasattr(self, 'as_base_exp')):
++            from sympy.core.power import Pow
++            b, e = self.as_base_exp()
++            if e is S.One and b == old.base:
++                rv = Pow(b, e, evaluate=False)._eval_subs(old, new)
++                if rv is not None and rv != self:
++                    return rv
++
+         rv = self._eval_subs(old, new)
+         if rv is None:
+             rv = fallback(self, old, new)

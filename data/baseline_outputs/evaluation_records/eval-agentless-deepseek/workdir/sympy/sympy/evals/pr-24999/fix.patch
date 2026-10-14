@@ -1,0 +1,62 @@
+diff --git a/sympy/core/function.py b/sympy/core/function.py
+index 8b4965d..8799468 100644
+--- a/sympy/core/function.py
++++ b/sympy/core/function.py
+@@ -2194,22 +2194,35 @@ class Subs(Expr):
+             p = CustomStrPrinter(settings)
+             return p.doprint(expr)
+         while 1:
+-            s_pts = {p: Symbol(pre + mystr(p)) for p in pts}
+-            reps = [(v, s_pts[p])
+-                for v, p in zip(variables, point)]
+-            # if any underscore-prepended symbol is already a free symbol
+-            # and is a variable with a different point value, then there
+-            # is a clash, e.g. _0 clashes in Subs(_0 + _1, (_0, _1), (1, 0))
+-            # because the new symbol that would be created is _1 but _1
+-            # is already mapped to 0 so __0 and __1 are used for the new
+-            # symbols
+-            if any(r in expr.free_symbols and
+-                   r in variables and
+-                   Symbol(pre + mystr(point[variables.index(r)])) != r
+-                   for _, r in reps):
+-                pre += "_"
+-                continue
+-            break
++            try:
++                s_pts = {p: Symbol(pre + mystr(p)) for p in pts}
++                reps = [(v, s_pts[p])
++                    for v, p in zip(variables, point)]
++                # if any underscore-prepended symbol is already a free symbol
++                # and is a variable with a different point value, then there
++                # is a clash, e.g. _0 clashes in Subs(_0 + _1, (_0, _1), (1, 0))
++                # because the new symbol that would be created is _1 but _1
++                # is already mapped to 0 so __0 and __1 are used for the new
++                # symbols
++                if any(r in expr.free_symbols and
++                       r in variables and
++                       Symbol(pre + mystr(point[variables.index(r)])) != r
++                       for _, r in reps):
++                    pre += "_"
++                    continue
++                break
++            except RecursionError:
++                # If we hit a RecursionError, use a simpler representation
++                # by using the hash of the expression to create unique symbols
++                s_pts = {}
++                reps = []
++                for v, p in zip(variables, point):
++                    if p in s_pts:
++                        s_pts[p] = s_pts[p]
++                    else:
++                        s_pts[p] = Symbol(pre + str(hash(p)) + "_" + str(len(s_pts)))
++                    reps.append((v, s_pts[p]))
++                break
+ 
+         obj = Expr.__new__(cls, expr, Tuple(*variables), point)
+         obj._expr = expr.xreplace(dict(reps))
+@@ -3377,4 +3390,4 @@ def nfloat(expr, n=15, exponent=False, dkeys=False):
+         lambda x: isinstance(x, Function) and not isinstance(x, AppliedUndef)))
+ 
+ 
+-from .symbol import Dummy, Symbol
++from .symbol import Dummy, Symbol

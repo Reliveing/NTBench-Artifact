@@ -1,0 +1,23 @@
+diff --git a/sympy/polys/galoistools.py b/sympy/polys/galoistools.py
+index cbf1af6e6d..baa3922373 100644
+--- a/sympy/polys/galoistools.py
++++ b/sympy/polys/galoistools.py
+@@ -1877,6 +1877,7 @@ def gf_edf_zassenhaus(f, n, p, K):
+ 
+     .. [1] [Gathen99]_
+     .. [2] [Geddes92]_
++    .. [3] [Cohen93]_
+ 
+     """
+     factors = [f]
+@@ -1894,7 +1895,9 @@ def gf_edf_zassenhaus(f, n, p, K):
+         if p == 2:
+             h = r
+ 
+-            for i in range(0, 2**(n*N - 1)):
++            # In characteristic two use the trace-like test polynomial
++            # r + r**2 + ... + r**(2**(n - 1)) (mod f).
++            for i in range(1, n):
+                 r = gf_pow_mod(r, 2, f, p, K)
+                 h = gf_add(h, r, p, K)
+ 

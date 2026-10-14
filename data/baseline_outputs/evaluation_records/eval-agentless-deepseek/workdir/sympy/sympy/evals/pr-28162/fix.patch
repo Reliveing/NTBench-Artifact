@@ -1,0 +1,24 @@
+diff --git a/sympy/functions/special/singularity_functions.py b/sympy/functions/special/singularity_functions.py
+index a69026e..517ddf1 100644
+--- a/sympy/functions/special/singularity_functions.py
++++ b/sympy/functions/special/singularity_functions.py
+@@ -216,6 +216,9 @@ class SingularityFunction(DefinedFunction):
+             return S.Zero
+         elif n.is_zero and shift.is_zero:
+             return S.Zero if cdir == -1 else S.One
++        elif shift.is_zero:
++            # For positive n, the leading term is zero
++            return S.Zero
+         elif shift.is_positive:
+             return shift**n
+         return S.Zero
+@@ -227,6 +230,9 @@ class SingularityFunction(DefinedFunction):
+             return S.Zero
+         elif n.is_zero and shift.is_zero:
+             return S.Zero if cdir == -1 else S.One
++        elif shift.is_zero:
++            # For positive n, the series is zero
++            return S.Zero
+         elif shift.is_positive:
+             return ((z - a)**n)._eval_nseries(x, n, logx=logx, cdir=cdir)
+         return S.Zero

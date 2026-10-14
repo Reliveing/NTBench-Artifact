@@ -1,0 +1,20 @@
+diff --git a/sympy/concrete/summations.py b/sympy/concrete/summations.py
+index 23c5d73..73fc62b 100644
+--- a/sympy/concrete/summations.py
++++ b/sympy/concrete/summations.py
+@@ -1174,6 +1174,9 @@ def eval_sum_hyper(f, i_a_b):
+         res1, cond1 = res1
+         res2, cond2 = res2
+         cond = And(cond1, cond2)
++        # Simplify the condition to detect contradictions like
++        # And(Abs(x) < 1, Abs(1/x) < 1) which is always False
++        cond = cond.simplify()
+         if cond == False:
+             return None
+         return Piecewise((res1 + res2, cond), (old_sum, True))
+@@ -1190,4 +1193,4 @@ def eval_sum_hyper(f, i_a_b):
+                 elif f.is_negative:
+                     return S.NegativeInfinity
+             return None
+-        return Piecewise(res, (old_sum, True))
++        return Piecewise(res, (old_sum, True))

@@ -1,0 +1,25 @@
+diff --git a/sympy/calculus/util.py b/sympy/calculus/util.py
+index 50feb12d2d..5c5ffa711b 100644
+--- a/sympy/calculus/util.py
++++ b/sympy/calculus/util.py
+@@ -156,6 +156,7 @@ def function_range(f, symbol, domain):
+         OR if the critical points of the function on the domain can't be found.
+     """
+     from sympy.solvers.solveset import solveset
++    from sympy.sets.fancysets import ImageSet
+ 
+     if isinstance(domain, EmptySet):
+         return S.EmptySet
+@@ -213,6 +214,12 @@ def function_range(f, symbol, domain):
+             if not iterable(solution):
+                 raise NotImplementedError('Unable to find critical points for {}'.format(f))
+ 
++            if isinstance(solution, ImageSet) or \
++                (isinstance(solution, Union) and
++                 any(isinstance(s, ImageSet) for s in solution.args)):
++                raise NotImplementedError(
++                    'Infinite number of critical points for {}'.format(f))
++
+             critical_points += solution
+ 
+             for critical_point in critical_points:

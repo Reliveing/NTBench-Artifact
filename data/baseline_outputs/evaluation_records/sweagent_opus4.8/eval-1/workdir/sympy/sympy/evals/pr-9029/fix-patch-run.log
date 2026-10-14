@@ -1,0 +1,322 @@
+Obtaining file:///home/sympy
+  Preparing metadata (setup.py): started
+  Preparing metadata (setup.py): finished with status 'done'
+Requirement already satisfied: mpmath>=0.19 in /usr/local/lib/python3.8/site-packages (from sympy==0.7.6.dev0) (1.3.0)
+Installing collected packages: sympy
+  Attempting uninstall: sympy
+    Found existing installation: sympy 0.7.6.dev0
+    Uninstalling sympy-0.7.6.dev0:
+      Successfully uninstalled sympy-0.7.6.dev0
+  DEPRECATION: Legacy editable install of sympy==0.7.6.dev0 from file:///home/sympy (setup.py develop) is deprecated. pip 25.1 will enforce this behaviour change. A possible replacement is to add a pyproject.toml or enable --use-pep517, and use setuptools >= 64. If the resulting installation is not behaving as expected, try using --config-settings editable_mode=compat. Please consult the setuptools documentation for more information. Discussion can be found at https://github.com/pypa/pip/issues/11457
+  Running setup.py develop for sympy
+Successfully installed sympy
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+============================= test session starts ==============================
+collecting ... collected 24 items
+
+sympy/polys/tests/test_rootoftools.py::test_RootOf___new__ PASSED        [  4%]
+sympy/polys/tests/test_rootoftools.py::test_RootOf_attributes PASSED     [  8%]
+sympy/polys/tests/test_rootoftools.py::test_RootOf___eq__ PASSED         [ 12%]
+sympy/polys/tests/test_rootoftools.py::test_RootOf___eval_Eq__ PASSED    [ 16%]
+sympy/polys/tests/test_rootoftools.py::test_RootOf_is_real PASSED        [ 20%]
+sympy/polys/tests/test_rootoftools.py::test_RootOf_is_complex PASSED     [ 25%]
+sympy/polys/tests/test_rootoftools.py::test_RootOf_subs PASSED           [ 29%]
+sympy/polys/tests/test_rootoftools.py::test_RootOf_diff PASSED           [ 33%]
+sympy/polys/tests/test_rootoftools.py::test_RootOf_evalf PASSED          [ 37%]
+sympy/polys/tests/test_rootoftools.py::test_RootOf_evalf_caching_bug PASSED [ 41%]
+sympy/polys/tests/test_rootoftools.py::test_RootOf_real_roots PASSED     [ 45%]
+sympy/polys/tests/test_rootoftools.py::test_RootOf_all_roots PASSED      [ 50%]
+sympy/polys/tests/test_rootoftools.py::test_RootOf_eval_rational PASSED  [ 54%]
+sympy/polys/tests/test_rootoftools.py::test_RootSum___new__ PASSED       [ 58%]
+sympy/polys/tests/test_rootoftools.py::test_RootSum_free_symbols PASSED  [ 62%]
+sympy/polys/tests/test_rootoftools.py::test_RootSum___eq__ PASSED        [ 66%]
+sympy/polys/tests/test_rootoftools.py::test_RootSum_doit PASSED          [ 70%]
+sympy/polys/tests/test_rootoftools.py::test_RootSum_evalf PASSED         [ 75%]
+sympy/polys/tests/test_rootoftools.py::test_RootSum_diff PASSED          [ 79%]
+sympy/polys/tests/test_rootoftools.py::test_RootSum_subs PASSED          [ 83%]
+sympy/polys/tests/test_rootoftools.py::test_RootSum_rational PASSED      [ 87%]
+sympy/polys/tests/test_rootoftools.py::test_RootSum_independent PASSED   [ 91%]
+sympy/polys/tests/test_rootoftools.py::test_issue_7876 PASSED            [ 95%]
+sympy/polys/tests/test_rootoftools.py::test_issue_8316 PASSED            [100%]
+
+=============================== warnings summary ===============================
+sympy/core/facts.py:3
+  /home/sympy/sympy/core/facts.py:3: DeprecationWarning: invalid escape sequence \_
+    """This is rule-based deduction system for SymPy
+
+sympy/core/expr.py:2170
+  /home/sympy/sympy/core/expr.py:2170: DeprecationWarning: invalid escape sequence \*
+    """
+
+sympy/core/evalf.py:1407
+  /home/sympy/sympy/core/evalf.py:1407: DeprecationWarning: invalid escape sequence \*
+    """
+
+sympy/utilities/misc.py:21
+  /home/sympy/sympy/utilities/misc.py:21: DeprecationWarning: invalid escape sequence \ 
+    """Return a cut-and-pastable string that, when printed, is equivalent
+
+sympy/utilities/runtests.py:516
+  /home/sympy/sympy/utilities/runtests.py:516: DeprecationWarning: invalid escape sequence \*
+    """
+
+sympy/utilities/runtests.py:1262
+  /home/sympy/sympy/utilities/runtests.py:1262: DeprecationWarning: invalid escape sequence \*
+    """
+
+sympy/utilities/runtests.py:1509
+  /home/sympy/sympy/utilities/runtests.py:1509: DeprecationWarning: invalid escape sequence \d
+    matches = re.findall("line \d+", name)
+
+sympy/utilities/runtests.py:1717
+  /home/sympy/sympy/utilities/runtests.py:1717: DeprecationWarning: invalid escape sequence \s
+    want = re.sub('(?m)^%s\s*?$' % re.escape(pdoctest.BLANKLINE_MARKER),
+
+sympy/utilities/runtests.py:1721
+  /home/sympy/sympy/utilities/runtests.py:1721: DeprecationWarning: invalid escape sequence \s
+    got = re.sub('(?m)^\s*?$', '', got)
+
+sympy/core/function.py:1662
+  /home/sympy/sympy/core/function.py:1662: DeprecationWarning: invalid escape sequence \s
+    """
+
+sympy/core/function.py:106: 186 warnings
+sympy/polys/tests/test_rootoftools.py: 1 warning
+  /home/sympy/sympy/core/function.py:106: DeprecationWarning: inspect.getargspec() is deprecated since Python 3.0, use inspect.signature() or inspect.getfullargspec()
+    evalargspec = inspect.getargspec(cls.eval)
+
+sympy/core/symbol.py:333
+  /home/sympy/sympy/core/symbol.py:333: DeprecationWarning: invalid escape sequence \,
+    """
+
+sympy/core/symbol.py:452
+  /home/sympy/sympy/core/symbol.py:452: DeprecationWarning: invalid escape sequence \,
+    literals = ['\,', '\:', '\ ']
+
+sympy/core/symbol.py:452
+  /home/sympy/sympy/core/symbol.py:452: DeprecationWarning: invalid escape sequence \:
+    literals = ['\,', '\:', '\ ']
+
+sympy/core/symbol.py:452
+  /home/sympy/sympy/core/symbol.py:452: DeprecationWarning: invalid escape sequence \ 
+    literals = ['\,', '\:', '\ ']
+
+sympy/sets/sets.py:159
+  /home/sympy/sympy/sets/sets.py:159: DeprecationWarning: invalid escape sequence \ 
+    """
+
+sympy/sets/sets.py:1478
+  /home/sympy/sympy/sets/sets.py:1478: DeprecationWarning: invalid escape sequence \{
+    """Represents the set difference or relative complement of a set with
+
+sympy/polys/polyoptions.py:404
+  /home/sympy/sympy/polys/polyoptions.py:404: DeprecationWarning: invalid escape sequence \d
+    _re_realfield = re.compile("^(R|RR)(_(\d+))?$")
+
+sympy/polys/polyoptions.py:405
+  /home/sympy/sympy/polys/polyoptions.py:405: DeprecationWarning: invalid escape sequence \d
+    _re_complexfield = re.compile("^(C|CC)(_(\d+))?$")
+
+sympy/polys/polyoptions.py:406
+  /home/sympy/sympy/polys/polyoptions.py:406: DeprecationWarning: invalid escape sequence \(
+    _re_finitefield = re.compile("^(FF|GF)\((\d+)\)$")
+
+sympy/polys/polyoptions.py:407
+  /home/sympy/sympy/polys/polyoptions.py:407: DeprecationWarning: invalid escape sequence \[
+    _re_polynomial = re.compile("^(Z|ZZ|Q|QQ)\[(.+)\]$")
+
+sympy/polys/polyoptions.py:408
+  /home/sympy/sympy/polys/polyoptions.py:408: DeprecationWarning: invalid escape sequence \(
+    _re_fraction = re.compile("^(Z|ZZ|Q|QQ)\((.+)\)$")
+
+sympy/polys/polyoptions.py:409
+  /home/sympy/sympy/polys/polyoptions.py:409: DeprecationWarning: invalid escape sequence \<
+    _re_algebraic = re.compile("^(Q|QQ)\<(.+)\>$")
+
+sympy/ntheory/factor_.py:1422
+  /home/sympy/sympy/ntheory/factor_.py:1422: DeprecationWarning: invalid escape sequence \s
+    """
+
+sympy/ntheory/factor_.py:1488
+  /home/sympy/sympy/ntheory/factor_.py:1488: DeprecationWarning: invalid escape sequence \p
+    """
+
+sympy/polys/fglmtools.py:106
+  /home/sympy/sympy/polys/fglmtools.py:106: DeprecationWarning: invalid escape sequence \m
+    """
+
+sympy/polys/fglmtools.py:132
+  /home/sympy/sympy/polys/fglmtools.py:132: DeprecationWarning: invalid escape sequence \l
+    """
+
+sympy/polys/domains/domain.py:384
+  /home/sympy/sympy/polys/domains/domain.py:384: DeprecationWarning: invalid escape sequence \d
+    """Returns an algebraic field, i.e. `K(\\alpha, \dots)`. """
+
+sympy/printing/pretty/pretty.py:461
+  /home/sympy/sympy/printing/pretty/pretty.py:461: DeprecationWarning: invalid escape sequence \%
+    lines.append("\%s`" % (' '*(w - 1)))
+
+sympy/printing/pretty/pretty.py:1484
+  /home/sympy/sympy/printing/pretty/pretty.py:1484: DeprecationWarning: invalid escape sequence \ 
+    delimiter = ' \ '
+
+sympy/printing/str.py:658
+  /home/sympy/sympy/printing/str.py:658: DeprecationWarning: invalid escape sequence \ 
+    return ' \ '.join(self._print(set) for set in expr.args)
+
+sympy/printing/pretty/pretty_symbology.py:558
+  /home/sympy/sympy/printing/pretty/pretty_symbology.py:558: DeprecationWarning: invalid escape sequence \_
+    'G': (3, 0, 3, 1, ' __\n/__\n\_|')
+
+sympy/printing/latex.py:611
+  /home/sympy/sympy/printing/latex.py:611: DeprecationWarning: invalid escape sequence \o
+    '''
+
+sympy/printing/latex.py:629
+  /home/sympy/sympy/printing/latex.py:629: DeprecationWarning: invalid escape sequence \s
+    '''
+
+sympy/printing/latex.py:1350
+  /home/sympy/sympy/printing/latex.py:1350: DeprecationWarning: invalid escape sequence \d
+    return "%s^\dag" % self._print(mat)
+
+sympy/printing/latex.py:1373
+  /home/sympy/sympy/printing/latex.py:1373: DeprecationWarning: invalid escape sequence \c
+    return ' \circ '.join(map(parens, expr.args))
+
+sympy/printing/latex.py:1480
+  /home/sympy/sympy/printing/latex.py:1480: DeprecationWarning: invalid escape sequence \l
+    printset = next(it), next(it), '\ldots', s._last_element
+
+sympy/printing/tableform.py:10
+  /home/sympy/sympy/printing/tableform.py:10: DeprecationWarning: invalid escape sequence \e
+    """
+
+sympy/functions/combinatorial/factorials.py:197
+  /home/sympy/sympy/functions/combinatorial/factorials.py:197: DeprecationWarning: invalid escape sequence \G
+    """The subfactorial counts the derangements of n items and is
+
+sympy/functions/elementary/exponential.py:429
+  /home/sympy/sympy/functions/elementary/exponential.py:429: DeprecationWarning: invalid escape sequence \l
+    """
+
+sympy/functions/elementary/exponential.py:453
+  /home/sympy/sympy/functions/elementary/exponential.py:453: DeprecationWarning: invalid escape sequence \l
+    """
+
+sympy/functions/elementary/exponential.py:541
+  /home/sympy/sympy/functions/elementary/exponential.py:541: DeprecationWarning: invalid escape sequence \l
+    """
+
+sympy/functions/elementary/exponential.py:723
+  /home/sympy/sympy/functions/elementary/exponential.py:723: DeprecationWarning: invalid escape sequence \e
+    """
+
+sympy/simplify/simplify.py:820
+  /home/sympy/sympy/simplify/simplify.py:820: DeprecationWarning: invalid escape sequence \e
+    """
+
+sympy/simplify/simplify.py:1798
+  /home/sympy/sympy/simplify/simplify.py:1798: DeprecationWarning: invalid escape sequence \/
+    """
+
+sympy/series/order.py:325
+  /home/sympy/sympy/series/order.py:325: DeprecationWarning: invalid escape sequence \*
+    """
+
+sympy/concrete/expr_with_intlimits.py:16
+  /home/sympy/sympy/concrete/expr_with_intlimits.py:16: DeprecationWarning: invalid escape sequence \m
+    """
+
+sympy/solvers/solvers.py:359
+  /home/sympy/sympy/solvers/solvers.py:359: DeprecationWarning: invalid escape sequence \ 
+    """
+
+sympy/solvers/recurr.py:1
+  /home/sympy/sympy/solvers/recurr.py:1: DeprecationWarning: invalid escape sequence \d
+    """
+
+sympy/solvers/recurr.py:72
+  /home/sympy/sympy/solvers/recurr.py:72: DeprecationWarning: invalid escape sequence \o
+    """
+
+sympy/solvers/recurr.py:350
+  /home/sympy/sympy/solvers/recurr.py:350: DeprecationWarning: invalid escape sequence \o
+    """
+
+sympy/solvers/recurr.py:461
+  /home/sympy/sympy/solvers/recurr.py:461: DeprecationWarning: invalid escape sequence \o
+    """
+
+sympy/solvers/recurr.py:658
+  /home/sympy/sympy/solvers/recurr.py:658: DeprecationWarning: invalid escape sequence \o
+    """
+
+sympy/integrals/rationaltools.py:171
+  /home/sympy/sympy/integrals/rationaltools.py:171: DeprecationWarning: invalid escape sequence \ 
+    """
+
+sympy/integrals/rationaltools.py:302
+  /home/sympy/sympy/integrals/rationaltools.py:302: DeprecationWarning: invalid escape sequence \ 
+    """
+
+sympy/integrals/meijerint.py:717
+  /home/sympy/sympy/integrals/meijerint.py:717: DeprecationWarning: invalid escape sequence \i
+    """
+
+sympy/integrals/meijerint.py:834
+  /home/sympy/sympy/integrals/meijerint.py:834: DeprecationWarning: invalid escape sequence \i
+    """
+
+sympy/integrals/meijerint.py:1976
+  /home/sympy/sympy/integrals/meijerint.py:1976: DeprecationWarning: invalid escape sequence \i
+    """
+
+sympy/integrals/transforms.py:1674
+  /home/sympy/sympy/integrals/transforms.py:1674: DeprecationWarning: invalid escape sequence \i
+    """
+
+sympy/tensor/indexed.py:1
+  /home/sympy/sympy/tensor/indexed.py:1: DeprecationWarning: invalid escape sequence \_
+    """Module that defines indexed objects
+
+sympy/plotting/plot.py:28
+  /home/sympy/sympy/plotting/plot.py:28: DeprecationWarning: Using or importing the ABCs from 'collections' instead of from 'collections.abc' is deprecated since Python 3.3, and in 3.10 it will stop working
+    from collections import Callable
+
+sympy/interactive/printing.py:222
+  /home/sympy/sympy/interactive/printing.py:222: DeprecationWarning: invalid escape sequence \/
+    """
+
+sympy/interactive/session.py:312
+  /home/sympy/sympy/interactive/session.py:312: DeprecationWarning: invalid escape sequence \/
+    """
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+PASSED sympy/polys/tests/test_rootoftools.py::test_RootOf___new__
+PASSED sympy/polys/tests/test_rootoftools.py::test_RootOf_attributes
+PASSED sympy/polys/tests/test_rootoftools.py::test_RootOf___eq__
+PASSED sympy/polys/tests/test_rootoftools.py::test_RootOf___eval_Eq__
+PASSED sympy/polys/tests/test_rootoftools.py::test_RootOf_is_real
+PASSED sympy/polys/tests/test_rootoftools.py::test_RootOf_is_complex
+PASSED sympy/polys/tests/test_rootoftools.py::test_RootOf_subs
+PASSED sympy/polys/tests/test_rootoftools.py::test_RootOf_diff
+PASSED sympy/polys/tests/test_rootoftools.py::test_RootOf_evalf
+PASSED sympy/polys/tests/test_rootoftools.py::test_RootOf_evalf_caching_bug
+PASSED sympy/polys/tests/test_rootoftools.py::test_RootOf_real_roots
+PASSED sympy/polys/tests/test_rootoftools.py::test_RootOf_all_roots
+PASSED sympy/polys/tests/test_rootoftools.py::test_RootOf_eval_rational
+PASSED sympy/polys/tests/test_rootoftools.py::test_RootSum___new__
+PASSED sympy/polys/tests/test_rootoftools.py::test_RootSum_free_symbols
+PASSED sympy/polys/tests/test_rootoftools.py::test_RootSum___eq__
+PASSED sympy/polys/tests/test_rootoftools.py::test_RootSum_doit
+PASSED sympy/polys/tests/test_rootoftools.py::test_RootSum_evalf
+PASSED sympy/polys/tests/test_rootoftools.py::test_RootSum_diff
+PASSED sympy/polys/tests/test_rootoftools.py::test_RootSum_subs
+PASSED sympy/polys/tests/test_rootoftools.py::test_RootSum_rational
+PASSED sympy/polys/tests/test_rootoftools.py::test_RootSum_independent
+PASSED sympy/polys/tests/test_rootoftools.py::test_issue_7876
+PASSED sympy/polys/tests/test_rootoftools.py::test_issue_8316
+======================= 24 passed, 249 warnings in 6.11s =======================

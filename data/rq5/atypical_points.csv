@@ -1,0 +1,29 @@
+framework,model,instance_id,runs,evals,mean_distance,upper_fence,distinct_patch_texts
+Agentless,DeepSeek,sympy__sympy-9844,1,"[""single""]",3983,1007.5,1
+Agentless,DeepSeek,sympy__sympy-15569,1,"[""single""]",8099,1007.5,1
+Agentless,GPT-5.5,sympy__sympy-15569,1,"[""single""]",7176,2138.625,1
+Agentless,Opus 4.8,sympy__sympy-15569,1,"[""single""]",8097,1234.625,1
+Agentless,Opus 4.8,sympy__sympy-17010,1,"[""single""]",1700,1234.625,1
+OpenHands,DeepSeek,tox-dev__tox-3759,2,"[""eval-1"", ""eval-3""]",3977.5,2178.291666666667,2
+OpenHands,DeepSeek,sympy__sympy-15569,3,"[""eval-1"", ""eval-2"", ""eval-3""]",7428.333333333333,2178.291666666667,3
+OpenHands,DeepSeek,numpy__numpy-21005,3,"[""eval-1"", ""eval-2"", ""eval-3""]",2390,2178.291666666667,3
+OpenHands,GPT-5.5,tox-dev__tox-3759,3,"[""eval-1"", ""eval-2"", ""eval-3""]",3607.3333333333335,3449.916666666666,3
+OpenHands,GPT-5.5,pydantic__pydantic-12799,3,"[""eval-1"", ""eval-2"", ""eval-3""]",3697.3333333333335,3449.916666666666,3
+OpenHands,GPT-5.5,sympy__sympy-15569,3,"[""eval-1"", ""eval-2"", ""eval-3""]",6704,3449.916666666666,3
+OpenHands,GPT-5.5,sympy__sympy-28162,2,"[""eval-1"", ""eval-3""]",4313,3449.916666666666,2
+OpenHands,Opus 4.8,tox-dev__tox-3759,3,"[""eval-1"", ""eval-2"", ""eval-3""]",3621.6666666666665,2319.791666666667,3
+OpenHands,Opus 4.8,pydantic__pydantic-12799,3,"[""eval-1"", ""eval-2"", ""eval-3""]",3363.6666666666665,2319.791666666667,3
+OpenHands,Opus 4.8,sympy__sympy-15569,3,"[""eval-1"", ""eval-2"", ""eval-3""]",7316.333333333333,2319.791666666667,3
+OpenHands,Opus 4.8,numpy__numpy-21005,3,"[""eval-1"", ""eval-2"", ""eval-3""]",2534.6666666666665,2319.791666666667,3
+mini-swe-agent,DeepSeek,tox-dev__tox-3759,3,"[""eval-1"", ""eval-2"", ""eval-3""]",3804,1943.0,1
+mini-swe-agent,DeepSeek,pydantic__pydantic-11143,3,"[""eval-1"", ""eval-2"", ""eval-3""]",2243,1943.0,1
+mini-swe-agent,DeepSeek,sympy__sympy-15569,3,"[""eval-1"", ""eval-2"", ""eval-3""]",7306,1943.0,2
+mini-swe-agent,DeepSeek,sympy__sympy-15855,2,"[""eval-2"", ""eval-3""]",2493,1943.0,1
+mini-swe-agent,DeepSeek,scikit-learn__scikit-learn-28165,3,"[""eval-1"", ""eval-2"", ""eval-3""]",1963.3333333333333,1943.0,2
+mini-swe-agent,GPT-5.5,tox-dev__tox-3759,3,"[""eval-1"", ""eval-2"", ""eval-3""]",3895,3284.0,1
+mini-swe-agent,GPT-5.5,sympy__sympy-9844,3,"[""eval-1"", ""eval-2"", ""eval-3""]",4043,3284.0,1
+mini-swe-agent,GPT-5.5,sympy__sympy-15569,3,"[""eval-1"", ""eval-2"", ""eval-3""]",6720,3284.0,1
+mini-swe-agent,Opus 4.8,tox-dev__tox-3759,3,"[""eval-1"", ""eval-2"", ""eval-3""]",3793,3508.291666666667,1
+mini-swe-agent,Opus 4.8,pydantic__pydantic-11143,3,"[""eval-1"", ""eval-2"", ""eval-3""]",3538,3508.291666666667,1
+mini-swe-agent,Opus 4.8,sympy__sympy-15569,3,"[""eval-1"", ""eval-2"", ""eval-3""]",7314,3508.291666666667,1
+mini-swe-agent,Opus 4.8,sympy__sympy-27735,3,"[""eval-1"", ""eval-2"", ""eval-3""]",3817,3508.291666666667,1

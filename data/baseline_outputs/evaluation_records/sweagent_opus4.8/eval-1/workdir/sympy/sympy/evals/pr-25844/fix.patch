@@ -1,0 +1,28 @@
+diff --git a/sympy/core/mul.py b/sympy/core/mul.py
+index 5704a3f4e9..ca9cb4aa85 100644
+--- a/sympy/core/mul.py
++++ b/sympy/core/mul.py
+@@ -572,7 +572,22 @@ def _gather(c_powers):
+                 e_i, ep = divmod(e.p, e.q)
+                 coeff *= Pow(b, e_i)
+                 e = Rational(ep, e.q)
+-            num_rat.append((b, e))
++            # the base can only be reliably reduced (via the integer gcd
++            # extraction below) when it is an integer; a non-integer
++            # rational base is therefore split into its (positive) integer
++            # numerator and denominator, e.g. (4/3)**(1/2) becomes
++            # 4**(1/2) * 3**(-1/2). Without this, the gcd extraction loop
++            # can fail to terminate because gcd of two rationals may itself
++            # be a fraction (e.g. gcd(3, 4/3) == 1/3) which makes ``bi/g``
++            # grow without bound.
++            if b.is_Rational and not b.is_Integer:
++                p, q = b.p, b.q
++                if p != 1:
++                    num_rat.append((Rational(p), e))
++                if q != 1:
++                    num_rat.append((Rational(q), -e))
++            else:
++                num_rat.append((b, e))
+         del comb_e
+ 
+         # extract gcd of bases in num_rat

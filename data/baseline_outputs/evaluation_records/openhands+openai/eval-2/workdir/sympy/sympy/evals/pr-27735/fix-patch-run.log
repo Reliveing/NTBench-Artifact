@@ -1,0 +1,82 @@
+Obtaining file:///home/sympy
+  Installing build dependencies: started
+  Installing build dependencies: finished with status 'done'
+  Checking if build backend supports build_editable: started
+  Checking if build backend supports build_editable: finished with status 'done'
+  Getting requirements to build editable: started
+  Getting requirements to build editable: finished with status 'done'
+  Preparing editable metadata (pyproject.toml): started
+  Preparing editable metadata (pyproject.toml): finished with status 'done'
+Requirement already satisfied: mpmath>=1.1.0 in /usr/local/lib/python3.11/site-packages (from sympy==1.14.dev0) (1.4.1)
+Building wheels for collected packages: sympy
+  Building editable for sympy (pyproject.toml): started
+  Building editable for sympy (pyproject.toml): finished with status 'done'
+  Created wheel for sympy: filename=sympy-1.14.dev0-0.editable-py3-none-any.whl size=33273 sha256=9724d49e403837472a26d9340cf3ea5d60f52e0efc5679b43fdca35d60db826c
+  Stored in directory: /tmp/pip-ephem-wheel-cache-5t7626ok/wheels/af/22/61/2ece34a734d21005537313f7f88a33ef281f3770719986eb88
+Successfully built sympy
+Installing collected packages: sympy
+  Attempting uninstall: sympy
+    Found existing installation: sympy 1.14.dev0
+    Uninstalling sympy-1.14.dev0:
+      Successfully uninstalled sympy-1.14.dev0
+Successfully installed sympy-1.14.dev0
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+
+[notice] A new release of pip is available: 26.0.1 -> 26.2.1
+[notice] To update, run: pip install --upgrade pip
+============================= test session starts ==============================
+collecting ... collected 25 items
+
+sympy/logic/tests/test_inference.py::test_literal PASSED                 [  4%]
+sympy/logic/tests/test_inference.py::test_find_pure_symbol PASSED        [  8%]
+sympy/logic/tests/test_inference.py::test_find_pure_symbol_int_repr PASSED [ 12%]
+sympy/logic/tests/test_inference.py::test_unit_clause PASSED             [ 16%]
+sympy/logic/tests/test_inference.py::test_unit_clause_int_repr PASSED    [ 20%]
+sympy/logic/tests/test_inference.py::test_unit_propagate PASSED          [ 24%]
+sympy/logic/tests/test_inference.py::test_unit_propagate_int_repr PASSED [ 28%]
+sympy/logic/tests/test_inference.py::test_dpll PASSED                    [ 32%]
+sympy/logic/tests/test_inference.py::test_dpll_satisfiable PASSED        [ 36%]
+sympy/logic/tests/test_inference.py::test_dpll2_satisfiable PASSED       [ 40%]
+sympy/logic/tests/test_inference.py::test_minisat22_satisfiable PASSED   [ 44%]
+sympy/logic/tests/test_inference.py::test_minisat22_minimal_satisfiable PASSED [ 48%]
+sympy/logic/tests/test_inference.py::test_satisfiable PASSED             [ 52%]
+sympy/logic/tests/test_inference.py::test_valid PASSED                   [ 56%]
+sympy/logic/tests/test_inference.py::test_pl_true PASSED                 [ 60%]
+sympy/logic/tests/test_inference.py::test_pl_true_wrong_input PASSED     [ 64%]
+sympy/logic/tests/test_inference.py::test_entails PASSED                 [ 68%]
+sympy/logic/tests/test_inference.py::test_PropKB PASSED                  [ 72%]
+sympy/logic/tests/test_inference.py::test_propKB_tolerant PASSED         [ 76%]
+sympy/logic/tests/test_inference.py::test_satisfiable_non_symbols PASSED [ 80%]
+sympy/logic/tests/test_inference.py::test_satisfiable_bool PASSED        [ 84%]
+sympy/logic/tests/test_inference.py::test_satisfiable_all_models PASSED  [ 88%]
+sympy/logic/tests/test_inference.py::test_z3 SKIPPED (z3 not installed.) [ 92%]
+sympy/logic/tests/test_inference.py::test_z3_vs_lra_dpll2 SKIPPED (z...) [ 96%]
+sympy/logic/tests/test_inference.py::test_issue_27733 PASSED             [100%]
+
+=========================== short test summary info ============================
+PASSED sympy/logic/tests/test_inference.py::test_literal
+PASSED sympy/logic/tests/test_inference.py::test_find_pure_symbol
+PASSED sympy/logic/tests/test_inference.py::test_find_pure_symbol_int_repr
+PASSED sympy/logic/tests/test_inference.py::test_unit_clause
+PASSED sympy/logic/tests/test_inference.py::test_unit_clause_int_repr
+PASSED sympy/logic/tests/test_inference.py::test_unit_propagate
+PASSED sympy/logic/tests/test_inference.py::test_unit_propagate_int_repr
+PASSED sympy/logic/tests/test_inference.py::test_dpll
+PASSED sympy/logic/tests/test_inference.py::test_dpll_satisfiable
+PASSED sympy/logic/tests/test_inference.py::test_dpll2_satisfiable
+PASSED sympy/logic/tests/test_inference.py::test_minisat22_satisfiable
+PASSED sympy/logic/tests/test_inference.py::test_minisat22_minimal_satisfiable
+PASSED sympy/logic/tests/test_inference.py::test_satisfiable
+PASSED sympy/logic/tests/test_inference.py::test_valid
+PASSED sympy/logic/tests/test_inference.py::test_pl_true
+PASSED sympy/logic/tests/test_inference.py::test_pl_true_wrong_input
+PASSED sympy/logic/tests/test_inference.py::test_entails
+PASSED sympy/logic/tests/test_inference.py::test_PropKB
+PASSED sympy/logic/tests/test_inference.py::test_propKB_tolerant
+PASSED sympy/logic/tests/test_inference.py::test_satisfiable_non_symbols
+PASSED sympy/logic/tests/test_inference.py::test_satisfiable_bool
+PASSED sympy/logic/tests/test_inference.py::test_satisfiable_all_models
+PASSED sympy/logic/tests/test_inference.py::test_issue_27733
+SKIPPED [1] sympy/logic/tests/test_inference.py:330: z3 not installed.
+SKIPPED [1] sympy/logic/tests/test_inference.py:347: z3 not installed.
+======================== 23 passed, 2 skipped in 1.80s =========================

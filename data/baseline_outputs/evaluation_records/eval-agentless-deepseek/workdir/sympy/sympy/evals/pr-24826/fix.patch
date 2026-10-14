@@ -1,0 +1,19 @@
+diff --git a/sympy/simplify/cse_main.py b/sympy/simplify/cse_main.py
+index d603560..99e1b01 100644
+--- a/sympy/simplify/cse_main.py
++++ b/sympy/simplify/cse_main.py
+@@ -513,7 +513,7 @@ def opt_cse(exprs, order='canonical'):
+ 
+         if not isinstance(expr, MatrixExpr) and expr.could_extract_minus_sign():
+             neg_expr = -expr
+-            if not neg_expr.is_Atom:
++            if not neg_expr.is_Atom and expr not in neg_expr.args:
+                 opt_subs[expr] = Unevaluated(Mul, (S.NegativeOne, neg_expr))
+                 seen_subexp.add(neg_expr)
+                 expr = neg_expr
+@@ -936,4 +936,4 @@ def _cse_homogeneous(exprs, **kwargs):
+     except TypeError: # For example 'mpf' objects
+         return [], exprs
+     else:
+-        return replacements, reduced_exprs
++        return replacements, reduced_exprs

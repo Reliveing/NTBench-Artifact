@@ -1,0 +1,2 @@
+error: patch failed: sympy/core/tests/test_subs.py:194
+error: sympy/core/tests/test_subs.py: patch does not apply

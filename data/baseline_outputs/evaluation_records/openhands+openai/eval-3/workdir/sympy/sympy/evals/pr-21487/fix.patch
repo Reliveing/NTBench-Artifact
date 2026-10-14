@@ -1,0 +1,13 @@
+diff --git a/sympy/functions/special/bessel.py b/sympy/functions/special/bessel.py
+index c57b2dadb7..c2c7a18d2f 100644
+--- a/sympy/functions/special/bessel.py
++++ b/sympy/functions/special/bessel.py
+@@ -82,6 +82,8 @@ def _eval_is_meromorphic(self, x, a):
+ 
+     def _eval_expand_func(self, **hints):
+         nu, z, f = self.order, self.argument, self.__class__
++        if nu.is_infinite:
++            return self
+         if nu.is_extended_real:
+             if (nu - 1).is_extended_positive:
+                 return (-self._a*self._b*f(nu - 2, z)._eval_expand_func() +

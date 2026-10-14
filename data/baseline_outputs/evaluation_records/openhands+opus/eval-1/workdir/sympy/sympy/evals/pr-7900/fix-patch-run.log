@@ -1,0 +1,2 @@
+error: patch failed: sympy/solvers/tests/test_solvers.py:1499
+error: sympy/solvers/tests/test_solvers.py: patch does not apply

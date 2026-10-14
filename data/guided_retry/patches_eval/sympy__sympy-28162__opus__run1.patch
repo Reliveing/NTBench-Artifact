@@ -1,0 +1,18 @@
+diff --git a/sympy/core/add.py b/sympy/core/add.py
+index 27e0797a96..8821804e66 100644
+--- a/sympy/core/add.py
++++ b/sympy/core/add.py
+@@ -1036,6 +1036,13 @@ def _eval_as_leading_term(self, x, logx, cdir):
+         _logx = Dummy('logx') if logx is None else logx
+         leading_terms = [t.as_leading_term(x, logx=_logx, cdir=cdir) for t in expr.args]
+ 
++        # If every term has a vanishing leading term there is nothing left to
++        # cancel, so the leading term of the sum is zero as well. Returning
++        # early here avoids an expensive (and possibly non-terminating) series
++        # expansion in the ``is_zero`` branch below (see issue #24225).
++        if all(t.is_zero for t in leading_terms):
++            return S.Zero
++
+         min, new_expr = Order(0), S.Zero
+ 
+         try:

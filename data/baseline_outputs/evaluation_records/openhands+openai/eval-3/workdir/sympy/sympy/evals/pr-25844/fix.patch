@@ -1,0 +1,42 @@
+diff --git a/sympy/solvers/solvers.py b/sympy/solvers/solvers.py
+index 507e14ba3b..bc333b4976 100644
+--- a/sympy/solvers/solvers.py
++++ b/sympy/solvers/solvers.py
+@@ -1467,12 +1467,22 @@ def _solve(f, *symbols, **flags):
+             return [{f_num: sol}]
+ 
+         poly = None
++        poly_expand = True
+         # check for a single Add generator
+-        if not f_num.is_Add:
+-            add_args = [i for i in f_num.atoms(Add)
+-                if symbol in i.free_symbols]
+-            if len(add_args) == 1:
+-                gen = add_args[0]
++        add_args = [i for i in f_num.atoms(Add)
++            if symbol in i.free_symbols and i != f_num]
++        if len(add_args) == 1:
++            gen = add_args[0]
++            try:
++                gen_poly = Poly(gen, symbol)
++                p = Poly(f_num, gen, expand=False)
++                if gen_poly.degree() == 1 and p.degree() > 5 and not any(
++                        c.has(symbol) for c in p.all_coeffs()):
++                    poly = p
++                    poly_expand = False
++            except PolynomialError:
++                pass
++            if poly is None and not f_num.is_Add:
+                 spart = gen.as_independent(symbol)[1].as_base_exp()[0]
+                 if spart == symbol:
+                     try:
+@@ -1624,7 +1634,8 @@ def _expand(p):
+             # Also use composite=True with f_num since Poly won't update
+             # poly as documented in issue 8810.
+ 
+-            poly = Poly(f_num, gens[0], composite=True)
++            poly = Poly(f_num, gens[0], composite=True,
++                expand=poly_expand)
+ 
+             # if we aren't on the tsolve-pass, use roots
+             if not flags.pop('tsolve', False):

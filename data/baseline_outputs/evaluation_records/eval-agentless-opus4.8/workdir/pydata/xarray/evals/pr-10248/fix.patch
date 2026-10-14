@@ -1,0 +1,32 @@
+diff --git a/xarray/computation/arithmetic.py b/xarray/computation/arithmetic.py
+index 7c2058f..1c1d940 100644
+--- a/xarray/computation/arithmetic.py
++++ b/xarray/computation/arithmetic.py
+@@ -79,6 +79,21 @@ class SupportsArithmetic:
+                 "`.values`)."
+             )
+ 
++        # Some numpy functions (e.g. ``np.fix``) invoke ufuncs with keyword
++        # arguments such as ``where`` that may themselves be xarray objects.
++        # Passing these through to the underlying ufunc unchanged causes numpy
++        # to dispatch back into ``__array_ufunc__`` indefinitely, resulting in a
++        # ``RecursionError``. Convert any xarray objects found in the keyword
++        # arguments to their underlying duck arrays to break the recursion.
++        kwargs = {
++            key: (
++                value.data
++                if isinstance(value, SupportsArithmetic) and hasattr(value, "data")
++                else value
++            )
++            for key, value in kwargs.items()
++        }
++
+         join = dataset_join = OPTIONS["arithmetic_join"]
+ 
+         return apply_ufunc(
+@@ -141,4 +156,4 @@ class DatasetGroupbyArithmetic(
+ 
+ 
+ class CoarsenArithmetic(IncludeReduceMethods):
+-    __slots__ = ()
++    __slots__ = ()

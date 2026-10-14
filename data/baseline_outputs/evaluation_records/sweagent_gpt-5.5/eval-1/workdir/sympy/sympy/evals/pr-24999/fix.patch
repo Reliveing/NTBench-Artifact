@@ -1,0 +1,23 @@
+diff --git a/sympy/core/mod.py b/sympy/core/mod.py
+index 86e04850be..dbee250fc6 100644
+--- a/sympy/core/mod.py
++++ b/sympy/core/mod.py
+@@ -116,6 +116,18 @@ def number_eval(p, q):
+         if rv is not None:
+             return rv
+ 
++        # If the modulus is 1, cancellation in the dividend can sometimes
++        # reveal that it is an integer.  For example, (n**2 + 2*n + 1)/(n + 1)
++        # is not immediately known to be an integer but cancels to n + 1.
++        # Detecting that here prevents unevaluated Mod(..., 1) terms from
++        # confusing higher-level algorithms such as solve.
++        if q == 1 and p.is_integer is None:
++            p_cancel = p.cancel()
++            if p_cancel != p:
++                rv = number_eval(p_cancel, q)
++                if rv is not None:
++                    return rv
++
+         # denest
+         if isinstance(p, cls):
+             qinner = p.args[1]

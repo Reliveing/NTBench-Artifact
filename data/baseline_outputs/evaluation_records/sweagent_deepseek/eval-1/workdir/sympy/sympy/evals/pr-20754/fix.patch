@@ -1,0 +1,36 @@
+--- a/sympy/functions/elementary/complexes.py	2026-06-25 11:33:14.436246803 +0000
++++ b/sympy/functions/elementary/complexes.py	2026-06-25 11:33:14.437598565 +0000
+@@ -657,6 +657,33 @@
+                 return self.args[0]**(exponent - 1)*self
+         return
+ 
++    def _eval_as_leading_term(self, x, cdir=0):
++        from sympy import Order
++        arg = self.args[0]
++        try:
++            arg_leading = arg.as_leading_term(x, cdir=cdir)
++        except Exception:
++            return self
++
++        o = Order(1, x)
++        if x in arg_leading.free_symbols and o.contains(arg_leading):
++            # The argument vanishes as x -> 0
++            # Use cdir to determine the sign
++            if cdir == 0:
++                try:
++                    cdir = arg.dir(x, 0)
++                except Exception:
++                    return self
++            if cdir != 0:
++                cdir = arg.dir(x, cdir)
++            if cdir < 0:
++                return -arg_leading
++            else:
++                return arg_leading
++        else:
++            # The argument does not vanish
++            return self.func(arg_leading)
++
+     def _eval_nseries(self, x, n, logx, cdir=0):
+         direction = self.args[0].leadterm(x)[0]
+         if direction.has(log(x)):

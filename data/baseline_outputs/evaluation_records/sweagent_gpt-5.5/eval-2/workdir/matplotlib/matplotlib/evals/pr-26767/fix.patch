@@ -1,0 +1,17 @@
+diff --git a/lib/matplotlib/collections.py b/lib/matplotlib/collections.py
+index 81db24d0c0..54814e3096 100644
+--- a/lib/matplotlib/collections.py
++++ b/lib/matplotlib/collections.py
+@@ -2120,6 +2120,12 @@ class _MeshData:
+             c_d, c_a, c_center,
+         ], axis=2).reshape((-1, 3, 4))
+         tmask = np.isnan(colors[..., 2, 3])
++        # Backends generally do not handle non-finite coordinates in Gouraud
++        # triangles robustly (and some, such as Agg, can crash).  Non-affine
++        # transforms may produce such coordinates, e.g. when a polar-log mesh
++        # extends below the radial axis minimum.  Drop the affected triangles
++        # here, matching the existing treatment of masked colors.
++        tmask |= ~np.isfinite(triangles).all(axis=(1, 2))
+         return triangles[~tmask], colors[~tmask]
+ 
+ 

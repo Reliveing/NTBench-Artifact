@@ -1,0 +1,15 @@
+diff --git a/rich/cells.py b/rich/cells.py
+index 31165957..69962550 100644
+--- a/rich/cells.py
++++ b/rich/cells.py
+@@ -207,6 +207,10 @@ def split_graphemes(
+             # zero width characters are associated with the previous character
+             start, _end, cell_length = spans[-1]
+             spans[-1] = (start, index := index + 1, cell_length)
++        else:
++            # A leading zero width character has no previous character to
++            # associate with, so it forms its own zero-width span
++            spans.append((index, index := index + 1, 0))
+ 
+     return (spans, total_width)
+ 

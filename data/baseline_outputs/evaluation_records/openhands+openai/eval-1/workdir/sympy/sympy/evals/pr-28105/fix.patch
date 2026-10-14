@@ -1,0 +1,45 @@
+diff --git a/sympy/solvers/simplex.py b/sympy/solvers/simplex.py
+index f140268b79..677f11afae 100644
+--- a/sympy/solvers/simplex.py
++++ b/sympy/solvers/simplex.py
+@@ -300,6 +300,7 @@ def _simplex(A, B, C, D=None, dual=False):
+ 
+     ## keep track of last pivot row and column
+     last = None
++    seen = set()
+ 
+     while True:
+         B = M[:-1, -1]
+@@ -308,6 +309,12 @@ def _simplex(A, B, C, D=None, dual=False):
+             # We have found a feasible solution
+             break
+ 
++        state = (tuple(M), tuple(X), tuple(Y))
++        if state in seen:
++            last = True
++            break
++        seen.add(state)
++
+         # Find k: first row with a negative rightmost entry
+         for k in range(B.rows):
+             if B[k] < 0:
+@@ -660,7 +667,7 @@ def _rel_as_nonpos(constr, syms):
+ 
+     # introduce auxilliary variables as needed for univariate
+     # inequalities
+-    for x in syms:
++    for x in ordered(syms):
+         i = univariate.get(x, True)
+         if not i:
+             return None  # no solution possible
+@@ -806,6 +813,10 @@ def _lp(min_max, f, constr):
+         # don't show aux
+         p = {k: p[k] for k in ordered(p) if k not in aux}
+ 
++    if not all(i == True or i.xreplace(p) == True for i in constr):
++        raise InfeasibleLPError(filldedent("""
++            The constraint set is empty!"""))
++
+     # not returning dual since there may be extra constraints
+     # when a variable has finite bounds
+     return o, p

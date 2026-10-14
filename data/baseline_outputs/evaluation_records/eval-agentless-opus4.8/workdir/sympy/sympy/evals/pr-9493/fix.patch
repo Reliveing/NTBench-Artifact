@@ -1,0 +1,19 @@
+diff --git a/sympy/core/numbers.py b/sympy/core/numbers.py
+index d1e4f02..be363a0 100644
+--- a/sympy/core/numbers.py
++++ b/sympy/core/numbers.py
+@@ -2467,6 +2467,8 @@ class Infinity(with_metaclass(Singleton, Number)):
+             return S.Zero
+         if expt is S.NaN:
+             return S.NaN
++        if expt is S.ComplexInfinity:
++            return S.NaN
+ 
+         if expt.is_number:
+             return self**expt.evalf()
+@@ -3483,4 +3485,4 @@ from .power import Pow, integer_nthroot
+ from .mul import Mul
+ Mul.identity = One()
+ from .add import Add
+-Add.identity = Zero()
++Add.identity = Zero()

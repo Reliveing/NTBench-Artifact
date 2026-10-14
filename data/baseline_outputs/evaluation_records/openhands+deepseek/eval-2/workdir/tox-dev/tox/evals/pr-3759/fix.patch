@@ -1,0 +1,26 @@
+diff --git a/src/tox/config/loader/toml/__init__.py b/src/tox/config/loader/toml/__init__.py
+index eb48936e..1f08e4f2 100644
+--- a/src/tox/config/loader/toml/__init__.py
++++ b/src/tox/config/loader/toml/__init__.py
+@@ -68,10 +68,17 @@ class TomlLoader(Loader[TomlTypes]):
+         raw: TomlTypes,
+         args: ConfigLoadArgs,
+     ) -> _T:
+-        exploded = Unroll(conf=conf, loader=self, args=args)(raw)
+-        result = self.to(exploded, of_type, factory)
+-        if inspect.isclass(of_type) and issubclass(of_type, SetEnv):
+-            result.use_replacer(lambda c, s: c, args=args)  # noqa: ARG005
++        delay_replace = inspect.isclass(of_type) and issubclass(of_type, SetEnv)
++
++        def replacer(raw_str: str, args_: ConfigLoadArgs) -> str:
++            if conf is None:
++                return raw_str
++            return validate(Unroll(conf=conf, loader=self, args=args_)(raw_str), str)
++
++        prepared = raw if delay_replace else Unroll(conf=conf, loader=self, args=args)(raw)
++        result = self.to(prepared, of_type, factory)
++        if delay_replace:
++            result.use_replacer(replacer, args)
+         return result
+ 
+     def found_keys(self) -> set[str]:

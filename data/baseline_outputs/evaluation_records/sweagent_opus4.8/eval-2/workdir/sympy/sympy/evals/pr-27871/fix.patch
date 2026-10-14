@@ -1,0 +1,31 @@
+diff --git a/sympy/functions/combinatorial/numbers.py b/sympy/functions/combinatorial/numbers.py
+index 3903be6476..f729c03bee 100644
+--- a/sympy/functions/combinatorial/numbers.py
++++ b/sympy/functions/combinatorial/numbers.py
+@@ -894,6 +894,14 @@ class harmonic(DefinedFunction):
+     # This prevents redundant recalculations and speeds up harmonic number computations.
+     harmonic_cache: dict[Integer, Callable[[int], Rational]] = {}
+ 
++    # For integer arguments larger than this threshold the exact rational value
++    # is not automatically computed.  Doing so is expensive and produces very
++    # large numerator/denominator integers (which may even exceed the limit for
++    # integer-to-string conversion).  Instead the expression is kept
++    # unevaluated so that it can be numerically approximated with ``evalf`` or
++    # rewritten as needed.
++    _exact_eval_threshold = 5000
++
+     @classmethod
+     def eval(cls, n, m=None):
+         from sympy.functions.special.zeta_functions import zeta
+@@ -918,6 +926,11 @@ def eval(cls, n, m=None):
+             if n.is_negative and (m.is_integer is False or m.is_nonpositive is False):
+                 return S.ComplexInfinity if m is S.One else S.NaN
+             if n.is_nonnegative:
++                # For very large ``n`` computing the exact value is expensive
++                # and yields huge integers, so leave it unevaluated (it can
++                # still be evaluated numerically with ``evalf``).
++                if n > cls._exact_eval_threshold:
++                    return
+                 if m.is_Integer:
+                     if m not in cls.harmonic_cache:
+                         @recurrence_memo([0])

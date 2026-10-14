@@ -1,0 +1,83 @@
+diff --git a/src/tox/config/loader/toml/__init__.py b/src/tox/config/loader/toml/__init__.py
+index eb48936e..8bb07ad3 100644
+--- a/src/tox/config/loader/toml/__init__.py
++++ b/src/tox/config/loader/toml/__init__.py
+@@ -6,12 +6,14 @@ from pathlib import Path
+ from typing import TYPE_CHECKING, Any, TypeVar, cast
+ 
+ from tox.config.loader.api import ConfigLoadArgs, Loader, Override
++from tox.config.loader.replacer import replace
+ from tox.config.set_env import SetEnv
+ from tox.config.types import Command, EnvList
+ from tox.report import HandledError
++from tox.tox_env.errors import Skip
+ 
+ from ._api import TomlTypes
+-from ._replace import Unroll
++from ._replace import TomlReplaceLoader, Unroll
+ from ._validate import validate
+ 
+ if TYPE_CHECKING:
+@@ -61,17 +63,31 @@ class TomlLoader(Loader[TomlTypes]):
+ 
+     def build(  # noqa: PLR0913
+         self,
+-        key: str,  # noqa: ARG002
++        key: str,
+         of_type: type[_T] | UnionType,
+         factory: Factory[_T],
+         conf: Config | None,
+         raw: TomlTypes,
+         args: ConfigLoadArgs,
+     ) -> _T:
+-        exploded = Unroll(conf=conf, loader=self, args=args)(raw)
++        delay_replace = inspect.isclass(of_type) and issubclass(of_type, SetEnv)
++        exploded = Unroll(conf=conf, loader=self, args=args, replace_strings=not delay_replace)(raw)
++
++        def replacer(raw_: str, args_: ConfigLoadArgs) -> str:
++            if conf is None:
++                return raw_
++            try:
++                return replace(conf, TomlReplaceLoader(conf, self), raw_, args_)
++            except Exception as exception:
++                if isinstance(exception, (HandledError, Skip)):
++                    raise
++                name = self.section.key if args_.env_name is None else args_.env_name
++                msg = f"replace failed in {name}.{key} with {exception!r}"
++                raise HandledError(msg) from exception
++
+         result = self.to(exploded, of_type, factory)
+-        if inspect.isclass(of_type) and issubclass(of_type, SetEnv):
+-            result.use_replacer(lambda c, s: c, args=args)  # noqa: ARG005
++        if delay_replace:
++            result.use_replacer(replacer, args=args)
+         return result
+ 
+     def found_keys(self) -> set[str]:
+diff --git a/src/tox/config/loader/toml/_replace.py b/src/tox/config/loader/toml/_replace.py
+index a95bb2ec..87351ceb 100644
+--- a/src/tox/config/loader/toml/_replace.py
++++ b/src/tox/config/loader/toml/_replace.py
+@@ -21,17 +21,20 @@ if TYPE_CHECKING:
+ 
+ 
+ class Unroll:
+-    def __init__(self, conf: Config | None, loader: TomlLoader, args: ConfigLoadArgs) -> None:
++    def __init__(
++        self, conf: Config | None, loader: TomlLoader, args: ConfigLoadArgs, *, replace_strings: bool = True
++    ) -> None:
+         self.conf = conf
+         self.loader = loader
+         self.args = args
++        self.replace_strings = replace_strings
+ 
+     def __call__(self, value: TomlTypes, depth: int = 0) -> TomlTypes:  # noqa: C901, PLR0912
+         """Replace all active tokens within value according to the config."""
+         depth += 1
+         MatchRecursionError.check(depth, value)
+         if isinstance(value, str):
+-            if self.conf is not None:  # core config does not support string substitution
++            if self.conf is not None and self.replace_strings:  # core config does not support string substitution
+                 reference = TomlReplaceLoader(self.conf, self.loader)
+                 value = replace(self.conf, reference, value, self.args)
+         elif isinstance(value, (int, float, bool)):

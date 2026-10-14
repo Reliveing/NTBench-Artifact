@@ -1,0 +1,56 @@
+diff --git a/sympy/integrals/manualintegrate.py b/sympy/integrals/manualintegrate.py
+index 50d75d5f92..4756fee9b7 100644
+--- a/sympy/integrals/manualintegrate.py
++++ b/sympy/integrals/manualintegrate.py
+@@ -324,6 +324,15 @@ def add_rule(integral):
+          for g in integrand.as_ordered_terms()],
+         integrand, symbol)
+ 
++
++def _has_constant_base_power(integrand, symbol):
++    for power in integrand.atoms(sympy.Pow):
++        base, exp = power.as_base_exp()
++        if symbol not in base.free_symbols and symbol in exp.free_symbols:
++            return True
++    return False
++
++
+ def mul_rule(integral):
+     integrand, symbol = integral
+     args = integrand.args
+@@ -337,6 +346,13 @@ def mul_rule(integral):
+             integral_steps(f, symbol),
+             integrand, symbol)
+ 
++    if integrand.has(sympy.Add) and _has_constant_base_power(integrand, symbol):
++        expanded = integrand.expand()
++        if expanded != integrand and isinstance(expanded, sympy.Add):
++            substep = integral_steps(expanded, symbol)
++            if substep and not contains_dont_know(substep):
++                return RewriteRule(expanded, substep, integrand, symbol)
++
+ def _parts_rule(integrand, symbol):
+     # LIATE rule:
+     # log, inverse trig, algebraic (polynomial), trigonometric, exponential
+@@ -808,6 +824,10 @@ def substitution_rule(integral):
+     lambda integrand, symbol: integrand.is_rational_function(),
+     lambda integrand, symbol: integrand.apart(symbol))
+ 
++powsimp_rule = rewriter(
++    lambda integrand, symbol: isinstance(integrand, sympy.Mul),
++    lambda integrand, symbol: sympy.powsimp(integrand))
++
+ distribute_expand_rule = rewriter(
+     lambda integrand, symbol: (
+         all(arg.is_Pow or arg.is_polynomial(symbol) for arg in integrand.args)
+@@ -918,8 +938,8 @@ def _integral_is_subclass(integral):
+             sympy.Symbol: power_rule,
+             sympy.exp: exp_rule,
+             sympy.Add: add_rule,
+-            sympy.Mul: do_one(null_safe(mul_rule), null_safe(trig_product_rule), \
+-                null_safe(heaviside_rule)),
++            sympy.Mul: do_one(null_safe(mul_rule), null_safe(powsimp_rule),
++                null_safe(trig_product_rule), null_safe(heaviside_rule)),
+             sympy.Derivative: derivative_rule,
+             TrigonometricFunction: trig_rule,
+             sympy.Heaviside: heaviside_rule,

@@ -1,0 +1,96 @@
+diff --git a/src/tox/config/loader/toml/__init__.py b/src/tox/config/loader/toml/__init__.py
+index eb48936e..222a6654 100644
+--- a/src/tox/config/loader/toml/__init__.py
++++ b/src/tox/config/loader/toml/__init__.py
+@@ -68,12 +68,25 @@ class TomlLoader(Loader[TomlTypes]):
+         raw: TomlTypes,
+         args: ConfigLoadArgs,
+     ) -> _T:
+-        exploded = Unroll(conf=conf, loader=self, args=args)(raw)
++        delay_replace = inspect.isclass(of_type) and issubclass(of_type, SetEnv)
++        exploded = self._set_env_raw(raw) if delay_replace else Unroll(conf=conf, loader=self, args=args)(raw)
+         result = self.to(exploded, of_type, factory)
+-        if inspect.isclass(of_type) and issubclass(of_type, SetEnv):
+-            result.use_replacer(lambda c, s: c, args=args)  # noqa: ARG005
++        if delay_replace:
++            def replacer(value: Any, args_: ConfigLoadArgs) -> str:
++                unrolled = Unroll(conf=conf, loader=self, args=args_)(cast("TomlTypes", value))
++                return self.to_str(unrolled)
++
++            result.use_replacer(replacer, args=args)
+         return result
+ 
++    def _set_env_raw(self, raw: TomlTypes) -> TomlTypes:
++        if isinstance(raw, list):
++            return [self._set_env_raw(item) for item in raw]
++        if isinstance(raw, dict) and raw.get("replace") == "ref" and (of := raw.get("of")):
++            path = self.section.SEP.join(validate(of, list[str]))
++            return self._set_env_raw(self.load_raw_from_root(path))
++        return raw
++
+     def found_keys(self) -> set[str]:
+         return set(self.content.keys()) - self._unused_exclude
+ 
+diff --git a/src/tox/config/set_env.py b/src/tox/config/set_env.py
+index bbd3b35c..7fae06e1 100644
+--- a/src/tox/config/set_env.py
++++ b/src/tox/config/set_env.py
+@@ -10,7 +10,7 @@ from packaging.markers import Marker
+ from tox.config.loader.api import ConfigLoadArgs
+ from tox.tox_env.errors import Fail
+ 
+-Replacer = Callable[[str, ConfigLoadArgs], str]
++Replacer = Callable[[Any, ConfigLoadArgs], str]
+ SetEnvRaw = str | dict[str, Any] | list[dict[str, Any]]
+ 
+ 
+@@ -20,11 +20,11 @@ class SetEnv:
+     ) -> None:
+         self.changed = False
+         self._materialized: dict[str, str] = {}  # env vars we already loaded
+-        self._raw: dict[str, str] = {}  # could still need replacement
++        self._raw: dict[str, Any] = {}  # could still need replacement
+         self._markers: dict[str, Marker] = {}  # PEP-496 markers for conditional env vars
+         self._needs_replacement: list[str] = []  # env vars that need replacement
+-        self._env_files: list[tuple[str, set[str]]] = []
+-        self._replacer: Replacer = lambda s, c: s  # noqa: ARG005
++        self._env_files: list[tuple[Any, set[str]]] = []
++        self._replacer: Replacer = lambda s, c: s if isinstance(s, str) else str(s)  # noqa: ARG005
+         self._name, self._env_name, self._root = name, env_name, root
+         from .loader.replacer import MatchExpression, find_replace_expr  # noqa: PLC0415
+ 
+@@ -70,6 +70,11 @@ class SetEnv:
+                     keys_after_file.add(key)
+                     if marker := value.get("marker"):
+                         self._markers[key] = Marker(marker)
++                elif "replace" in value:
++                    self._raw[key] = {k: v for k, v in value.items() if k != "marker"}
++                    keys_after_file.add(key)
++                    if marker := value.get("marker"):
++                        self._markers[key] = Marker(marker)
+             else:
+                 self._raw[key] = value
+                 keys_after_file.add(key)
+@@ -94,7 +99,7 @@ class SetEnv:
+                 if key not in keys_after:
+                     self._raw[key] = val
+ 
+-    def _stream_env_file(self, filename: str, args: ConfigLoadArgs) -> Iterator[tuple[str, str]]:
++    def _stream_env_file(self, filename: Any, args: ConfigLoadArgs) -> Iterator[tuple[str, str]]:
+         # Our rules in the documentation, some upstream environment file rules (we follow mostly the docker one):
+         # - https://www.npmjs.com/package/dotenv#rules
+         # - https://docs.docker.com/compose/env-file/
+diff --git a/src/tox/config/sets.py b/src/tox/config/sets.py
+index bb92e0a7..98eba677 100644
+--- a/src/tox/config/sets.py
++++ b/src/tox/config/sets.py
+@@ -273,7 +273,8 @@ class EnvConfigSet(ConfigSet):
+                 if isinstance(v, str):
+                     return True
+                 if isinstance(v, dict):
+-                    return "value" in v and isinstance(v.get("value"), str)  # ty: ignore[invalid-argument-type] # https://github.com/astral-sh/ty/issues/2374
++                    has_value = "value" in v and isinstance(v.get("value"), str)
++                    return has_value or "replace" in v
+                 return False
+ 
+             if not (

@@ -1,0 +1,22 @@
+diff --git a/sympy/solvers/solvers.py b/sympy/solvers/solvers.py
+index fcc7e13c31..0c7d5d8dcd 100644
+--- a/sympy/solvers/solvers.py
++++ b/sympy/solvers/solvers.py
+@@ -14,6 +14,7 @@
+ from __future__ import annotations
+ 
+ from sympy.core import (S, Add, Symbol, Dummy, Expr, Mul)
++from sympy.core.mod import Mod
+ from sympy.core.assumptions import check_assumptions
+ from sympy.core.exprtools import factor_terms
+ from sympy.core.function import (expand_mul, expand_log, Derivative,
+@@ -2641,6 +2642,9 @@ def _tsolve(eq, sym, **flags):
+     else:
+         flags['tsolve_saw'].append(eq)
+ 
++    if eq.has(Mod):
++        return None
++
+     rhs, lhs = _invert(eq, sym)
+ 
+     if lhs == sym:

@@ -1,0 +1,22 @@
+diff --git a/sympy/calculus/util.py b/sympy/calculus/util.py
+index 4f6ada07f1..eec1d05249 100644
+--- a/sympy/calculus/util.py
++++ b/sympy/calculus/util.py
+@@ -480,7 +480,7 @@ def _check(orig_f, period):
+ 
+     elif f.is_Mul:
+         coeff, g = f.as_independent(symbol, as_Add=False)
+-        if isinstance(g, TrigonometricFunction) or coeff is not S.One:
++        if isinstance(g, TrigonometricFunction) or coeff != 1:
+             period = periodicity(g, symbol)
+ 
+         else:
+@@ -488,7 +488,7 @@ def _check(orig_f, period):
+ 
+     elif f.is_Add:
+         k, g = f.as_independent(symbol)
+-        if k is not S.Zero:
++        if k != 0:
+             return periodicity(g, symbol)
+ 
+         period = _periodicity(g.args, symbol)

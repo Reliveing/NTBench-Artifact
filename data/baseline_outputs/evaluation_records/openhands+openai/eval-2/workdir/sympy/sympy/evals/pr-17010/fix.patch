@@ -1,0 +1,49 @@
+diff --git a/sympy/functions/special/polynomials.py b/sympy/functions/special/polynomials.py
+index 361ba77c20..89e11bec1d 100644
+--- a/sympy/functions/special/polynomials.py
++++ b/sympy/functions/special/polynomials.py
+@@ -34,6 +34,15 @@
+ _x = Dummy('x')
+ 
+ 
++def _order_could_extract_minus_sign(order):
++    if order.is_Add:
++        terms = [term for term in order.as_ordered_terms()
++                 if not term.is_Number]
++        if terms:
++            return terms[0].could_extract_minus_sign()
++    return order.could_extract_minus_sign()
++
++
+ class OrthogonalPolynomial(Function):
+     """Base class for orthogonal polynomials.
+     """
+@@ -597,7 +606,7 @@ def eval(cls, n, x):
+             if x.could_extract_minus_sign():
+                 return S.NegativeOne**n * chebyshevu(n, -x)
+             # U_{-n}(x)  --->  -U_{n-2}(x)
+-            if n.could_extract_minus_sign():
++            if _order_could_extract_minus_sign(n):
+                 if n == S.NegativeOne:
+                     # n can not be -1 here
+                     return S.Zero
+@@ -783,7 +792,7 @@ def eval(cls, n, x):
+             if x.could_extract_minus_sign():
+                 return S.NegativeOne**n * legendre(n, -x)
+             # L_{-n}(x)  --->  L_{n-1}(x)
+-            if n.could_extract_minus_sign():
++            if _order_could_extract_minus_sign(n):
+                 return legendre(-n - S.One, x)
+             # We can evaluate for some special values of x
+             if x == S.Zero:
+@@ -1092,8 +1101,8 @@ def eval(cls, n, x):
+             # Symbolic result L_n(x)
+             # L_{n}(-x)  --->  exp(-x) * L_{-n-1}(x)
+             # L_{-n}(x)  --->  exp(x) * L_{n-1}(-x)
+-            if n.could_extract_minus_sign():
+-                return exp(x) * laguerre(n - 1, -x)
++            if _order_could_extract_minus_sign(n):
++                return exp(x) * laguerre(-n - 1, -x)
+             # We can evaluate for some special values of x
+             if x == S.Zero:
+                 return S.One

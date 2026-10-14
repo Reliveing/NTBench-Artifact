@@ -1,0 +1,45 @@
+Obtaining file:///home/sympy
+  Installing build dependencies: started
+  Installing build dependencies: finished with status 'done'
+  Checking if build backend supports build_editable: started
+  Checking if build backend supports build_editable: finished with status 'done'
+  Getting requirements to build editable: started
+  Getting requirements to build editable: finished with status 'done'
+  Preparing editable metadata (pyproject.toml): started
+  Preparing editable metadata (pyproject.toml): finished with status 'done'
+Requirement already satisfied: mpmath>=1.1.0 in /usr/local/lib/python3.11/site-packages (from sympy==1.15.0.dev0) (1.4.1)
+Building wheels for collected packages: sympy
+  Building editable for sympy (pyproject.toml): started
+  Building editable for sympy (pyproject.toml): finished with status 'done'
+  Created wheel for sympy: filename=sympy-1.15.0.dev0-0.editable-py3-none-any.whl size=34533 sha256=0df7cd0b465589f4f0e41a48429d68ac348d7739c6472e7efef189383135632f
+  Stored in directory: /tmp/pip-ephem-wheel-cache-6of24f5m/wheels/af/22/61/2ece34a734d21005537313f7f88a33ef281f3770719986eb88
+Successfully built sympy
+Installing collected packages: sympy
+  Attempting uninstall: sympy
+    Found existing installation: sympy 1.15.0.dev0
+    Uninstalling sympy-1.15.0.dev0:
+      Successfully uninstalled sympy-1.15.0.dev0
+Successfully installed sympy-1.15.0.dev0
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+
+[notice] A new release of pip is available: 26.0.1 -> 26.2.1
+[notice] To update, run: pip install --upgrade pip
+============================= test session starts ==============================
+collecting ... collected 6 items
+
+sympy/solvers/tests/test_simplex.py::test_lp PASSED                      [ 16%]
+sympy/solvers/tests/test_simplex.py::test_simplex PASSED                 [ 33%]
+sympy/solvers/tests/test_simplex.py::test_lpmin_lpmax PASSED             [ 50%]
+sympy/solvers/tests/test_simplex.py::test_linprog PASSED                 [ 66%]
+sympy/solvers/tests/test_simplex.py::test_28089 PASSED                   [ 83%]
+sympy/solvers/tests/test_simplex.py::test_28104 FAILED                   [100%]
+
+                                DO *NOT* COMMIT!                                
+=========================== short test summary info ============================
+PASSED sympy/solvers/tests/test_simplex.py::test_lp
+PASSED sympy/solvers/tests/test_simplex.py::test_simplex
+PASSED sympy/solvers/tests/test_simplex.py::test_lpmin_lpmax
+PASSED sympy/solvers/tests/test_simplex.py::test_linprog
+PASSED sympy/solvers/tests/test_simplex.py::test_28089
+FAILED sympy/solvers/tests/test_simplex.py::test_28104 - assert 0 is 0
+========================= 1 failed, 5 passed in 7.50s ==========================

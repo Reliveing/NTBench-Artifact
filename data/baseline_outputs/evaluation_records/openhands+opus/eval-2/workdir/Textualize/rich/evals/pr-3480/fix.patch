@@ -1,0 +1,66 @@
+diff --git a/CHANGELOG.md b/CHANGELOG.md
+index e14bd69a..4810afb1 100644
+--- a/CHANGELOG.md
++++ b/CHANGELOG.md
+@@ -24,6 +24,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
+ - Fixed issue with record and capture interaction https://github.com/Textualize/rich/pull/3470
+ - Fixed control codes breaking in `append_tokens` https://github.com/Textualize/rich/pull/3471
+ - Fixed exception pretty printing a dataclass with missing fields https://github.com/Textualize/rich/pull/3472
++- Fixed infinite loop in `Text.append` and `Text.append_text` when appending a `Text` instance to itself
+ 
+ ### Changed
+ 
+diff --git a/rich/text.py b/rich/text.py
+index 69e19b64..bd40f2d4 100644
+--- a/rich/text.py
++++ b/rich/text.py
+@@ -991,16 +991,21 @@ class Text(JupyterMixin):
+                         "style must not be set when appending Text instance"
+                     )
+                 text_length = self._length
++                # Capture text properties before mutating to avoid infinite loop when text is self
++                text_plain = text.plain
++                text_spans = list(text._spans)
++                text_len = len(text)
++
+                 if text.style:
+                     self._spans.append(
+-                        _Span(text_length, text_length + len(text), text.style)
++                        _Span(text_length, text_length + text_len, text.style)
+                     )
+-                self._text.append(text.plain)
++                self._text.append(text_plain)
+                 self._spans.extend(
+                     _Span(start + text_length, end + text_length, style)
+-                    for start, end, style in text._spans
++                    for start, end, style in text_spans
+                 )
+-                self._length += len(text)
++                self._length += text_len
+         return self
+ 
+     def append_text(self, text: "Text") -> "Text":
+@@ -1015,14 +1020,19 @@ class Text(JupyterMixin):
+         """
+         _Span = Span
+         text_length = self._length
++        # Capture text properties before mutating to avoid infinite loop when text is self
++        text_plain = text.plain
++        text_spans = list(text._spans)
++        text_len = len(text)
++
+         if text.style:
+-            self._spans.append(_Span(text_length, text_length + len(text), text.style))
+-        self._text.append(text.plain)
++            self._spans.append(_Span(text_length, text_length + text_len, text.style))
++        self._text.append(text_plain)
+         self._spans.extend(
+             _Span(start + text_length, end + text_length, style)
+-            for start, end, style in text._spans
++            for start, end, style in text_spans
+         )
+-        self._length += len(text)
++        self._length += text_len
+         return self
+ 
+     def append_tokens(

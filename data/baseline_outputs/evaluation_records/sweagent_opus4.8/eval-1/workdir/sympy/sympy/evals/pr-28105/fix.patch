@@ -1,0 +1,15 @@
+diff --git a/sympy/solvers/simplex.py b/sympy/solvers/simplex.py
+index f140268b79..368bd4cb30 100644
+--- a/sympy/solvers/simplex.py
++++ b/sympy/solvers/simplex.py
+@@ -323,7 +323,9 @@ def _simplex(A, B, C, D=None, dual=False):
+         _, c = min((X[i], i) for i in piv_cols) # Bland's rule
+ 
+         # Choose pivot row, r
+-        piv_rows = [_ for _ in range(A.rows) if A[_, c] > 0 and B[_] > 0]
++        # include degenerate rows (B == 0) in the ratio test so that,
++        # together with Bland's rule for tie-breaking, cycling is avoided
++        piv_rows = [_ for _ in range(A.rows) if A[_, c] > 0 and B[_] >= 0 and _ != k]
+         piv_rows.append(k)
+         r = _choose_pivot_row(A, B, piv_rows, c, Y)
+ 

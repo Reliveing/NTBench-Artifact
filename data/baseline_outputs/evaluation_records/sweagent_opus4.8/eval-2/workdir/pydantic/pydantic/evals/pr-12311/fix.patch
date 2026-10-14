@@ -1,0 +1,102 @@
+diff --git a/pydantic/json_schema.py b/pydantic/json_schema.py
+index f5cc325be..d8d8ec202 100644
+--- a/pydantic/json_schema.py
++++ b/pydantic/json_schema.py
+@@ -263,6 +263,7 @@ class GenerateJsonSchema:
+         self.json_to_defs_refs: dict[JsonRef, DefsRef] = {}
+ 
+         self.definitions: dict[DefsRef, JsonSchemaValue] = {}
++        self._local_defs_counter = 0
+         self._config_wrapper_stack = _config.ConfigWrapperStack(_config.ConfigWrapper({}))
+ 
+         self._mode: JsonSchemaMode = 'validation'
+@@ -539,6 +540,7 @@ class GenerateJsonSchema:
+                 js_modify_function: GetJsonSchemaFunction = js_modify_function,
+             ) -> JsonSchemaValue:
+                 json_schema = js_modify_function(schema_or_field, current_handler)
++                json_schema = self._extract_local_defs(json_schema)
+                 if _core_utils.is_core_schema(schema_or_field):
+                     json_schema = populate_defs(schema_or_field, json_schema)
+                 original_schema = current_handler.resolve_ref_schema(json_schema)
+@@ -556,7 +558,7 @@ class GenerateJsonSchema:
+                 current_handler: GetJsonSchemaHandler = current_handler,
+                 js_modify_function: GetJsonSchemaFunction = js_modify_function,
+             ) -> JsonSchemaValue:
+-                return js_modify_function(schema_or_field, current_handler)
++                return self._extract_local_defs(js_modify_function(schema_or_field, current_handler))
+ 
+             current_handler = _schema_generation_shared.GenerateJsonSchemaHandler(self, new_handler_func)
+ 
+@@ -2383,6 +2385,72 @@ class GenerateJsonSchema:
+         _add_json_refs(json_schema)
+         return json_refs
+ 
++    def _extract_local_defs(self, json_schema: JsonSchemaValue) -> JsonSchemaValue:
++        """Extract any ``$defs`` defined locally within a JSON schema returned by a
++        ``__get_pydantic_json_schema__`` method (or another JSON schema modify function) and
++        merge them into the global definitions.
++
++        User-provided JSON schemas may contain their own ``$defs`` alongside ``$ref`` values
++        that point to them (e.g. ``{"$ref": "#/$defs/Tire"}``). Since these definitions are not
++        registered in the generator's definition mappings, they would otherwise cause failures
++        when resolving references. This method hoists the local definitions into the global
++        definitions, renaming them (in a collision-free way) if necessary, and rewrites the
++        corresponding ``$ref`` values.
++
++        Args:
++            json_schema: The JSON schema that may contain a local ``$defs`` entry.
++
++        Returns:
++            The JSON schema with local definitions hoisted into the global definitions and
++            references rewritten accordingly.
++        """
++        if not isinstance(json_schema, dict):
++            return json_schema
++
++        local_defs = json_schema.get('$defs')
++        if not isinstance(local_defs, dict) or not local_defs:
++            return json_schema
++
++        json_schema = {k: v for k, v in json_schema.items() if k != '$defs'}
++
++        # For each local definition, choose a globally unique ``DefsRef`` to store it under, and
++        # register a list of prioritized name choices so that `_build_definitions_remapping` can
++        # simplify the name to the original one when there is no collision.
++        json_ref_remapping: dict[JsonRef, JsonRef] = {}
++        defs_ref_remapping: dict[str, DefsRef] = {}
++        for local_name in local_defs:
++            preferred = DefsRef(self.normalize_name(local_name))
++            # Build a definitely-unique name to use as the canonical key. This guarantees we never
++            # overwrite an existing (unrelated) definition, while still allowing the remapping step
++            # to collapse the name back to ``preferred`` when doing so introduces no ambiguity.
++            self._local_defs_counter += 1
++            unique = DefsRef(f'{preferred}--local-def-{self._local_defs_counter}')
++
++            defs_ref_remapping[local_name] = unique
++            local_json_ref = JsonRef(f'#/$defs/{local_name}')
++            new_json_ref = JsonRef(self.ref_template.format(model=unique))
++            json_ref_remapping[local_json_ref] = new_json_ref
++            self.json_to_defs_refs[new_json_ref] = unique
++            self._prioritized_defsref_choices[unique] = [preferred, unique]
++
++        def _remap_refs(item: Any) -> Any:
++            if isinstance(item, dict):
++                result: dict[str, Any] = {}
++                for key, value in item.items():
++                    if key == '$ref' and isinstance(value, str) and JsonRef(value) in json_ref_remapping:
++                        result[key] = json_ref_remapping[JsonRef(value)]
++                    else:
++                        result[key] = _remap_refs(value)
++                return result
++            elif isinstance(item, list):
++                return [_remap_refs(v) for v in item]
++            return item
++
++        for local_name, local_def in local_defs.items():
++            self.definitions[defs_ref_remapping[local_name]] = _remap_refs(local_def)
++
++        return _remap_refs(json_schema)
++
+     def handle_invalid_for_json_schema(self, schema: CoreSchemaOrField, error_info: str) -> JsonSchemaValue:
+         raise PydanticInvalidForJsonSchema(f'Cannot generate a JsonSchema for {error_info}')
+ 

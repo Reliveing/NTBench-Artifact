@@ -1,0 +1,54 @@
+diff --git a/src/tox/config/loader/toml/__init__.py b/src/tox/config/loader/toml/__init__.py
+index eb48936e..a3913f60 100644
+--- a/src/tox/config/loader/toml/__init__.py
++++ b/src/tox/config/loader/toml/__init__.py
+@@ -11,7 +11,7 @@ from tox.config.types import Command, EnvList
+ from tox.report import HandledError
+ 
+ from ._api import TomlTypes
+-from ._replace import Unroll
++from ._replace import TomlReplaceLoader, Unroll
+ from ._validate import validate
+ 
+ if TYPE_CHECKING:
+@@ -68,10 +68,26 @@ class TomlLoader(Loader[TomlTypes]):
+         raw: TomlTypes,
+         args: ConfigLoadArgs,
+     ) -> _T:
+-        exploded = Unroll(conf=conf, loader=self, args=args)(raw)
++        from tox.config.loader.replacer import replace  # noqa: PLC0415
++
++        delay_replace = inspect.isclass(of_type) and issubclass(of_type, SetEnv)
++
++        def replacer(raw_str: str, args_: ConfigLoadArgs) -> str:
++            if conf is None:
++                return raw_str
++            reference = TomlReplaceLoader(conf, self)
++            return replace(conf, reference, raw_str, args_)
++
++        if delay_replace:
++            # Still run Unroll to handle replace types (env, posargs, ref) in dicts,
++            # but skip string substitution to avoid recursion (e.g., {env_site_packages_dir}
++            # triggers env creation which reads set_env again).
++            exploded = Unroll(conf=None, loader=self, args=args)(raw)
++        else:
++            exploded = Unroll(conf=conf, loader=self, args=args)(raw)
+         result = self.to(exploded, of_type, factory)
+-        if inspect.isclass(of_type) and issubclass(of_type, SetEnv):
+-            result.use_replacer(lambda c, s: c, args=args)  # noqa: ARG005
++        if delay_replace:
++            result.use_replacer(replacer, args)
+         return result
+ 
+     def found_keys(self) -> set[str]:
+diff --git a/src/tox/config/loader/toml/_replace.py b/src/tox/config/loader/toml/_replace.py
+index a95bb2ec..62131389 100644
+--- a/src/tox/config/loader/toml/_replace.py
++++ b/src/tox/config/loader/toml/_replace.py
+@@ -158,5 +158,6 @@ class RawLoader:
+ 
+ 
+ __all__ = [
++    "TomlReplaceLoader",
+     "Unroll",
+ ]

@@ -1,0 +1,29 @@
+diff --git a/sympy/solvers/solvers.py b/sympy/solvers/solvers.py
+index fcc7e13c31..c5981959c0 100644
+--- a/sympy/solvers/solvers.py
++++ b/sympy/solvers/solvers.py
+@@ -33,8 +33,10 @@
+                              Abs, re, im, arg, sqrt, atan2)
+ from sympy.functions.combinatorial.factorials import binomial
+ from sympy.functions.elementary.hyperbolic import HyperbolicFunction
++from sympy.functions.elementary.integers import floor
+ from sympy.functions.elementary.piecewise import piecewise_fold, Piecewise
+ from sympy.functions.elementary.trigonometric import TrigonometricFunction
++from sympy.core.mod import Mod
+ from sympy.integrals.integrals import Integral
+ from sympy.ntheory.factor_ import divisors
+ from sympy.simplify import (simplify, collect, powsimp, posify,  # type: ignore
+@@ -2645,6 +2647,13 @@ def _tsolve(eq, sym, **flags):
+ 
+     if lhs == sym:
+         return [rhs]
++
++    # _tsolve cannot solve equations with Mod or floor; return None
++    # to avoid infinite recursion from rewrite(exp) changing the
++    # expression slightly on each pass
++    if lhs.has(Mod) or lhs.has(floor):
++        return None
++
+     try:
+         if lhs.is_Add:
+             # it's time to try factoring; powdenest is used

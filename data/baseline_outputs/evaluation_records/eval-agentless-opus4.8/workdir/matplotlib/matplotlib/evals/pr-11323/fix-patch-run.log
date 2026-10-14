@@ -1,0 +1,179 @@
+Checking patch lib/matplotlib/tests/baseline_images/test_arrow_patches/connection_styles.png...
+error: cannot apply binary patch to 'lib/matplotlib/tests/baseline_images/test_arrow_patches/connection_styles.png' without full index line
+error: lib/matplotlib/tests/baseline_images/test_arrow_patches/connection_styles.png: patch does not apply
+Checking patch lib/matplotlib/tests/test_arrow_patches.py...
+Applied patch lib/matplotlib/tests/test_arrow_patches.py cleanly.
+Checking patch lib/matplotlib/patches.py...
+Applied patch lib/matplotlib/patches.py cleanly.
+============================= test session starts ==============================
+platform linux -- Python 3.6.15, pytest-3.10.1, py-1.11.0, pluggy-1.0.0 -- /usr/local/bin/python
+rootdir: /home/matplotlib, inifile: pytest.ini
+plugins: timeout-1.4.2
+timeout: 20.0s
+timeout method: signal
+timeout func_only: False
+collecting ... collected 10 items
+
+lib/matplotlib/tests/test_arrow_patches.py::test_fancyarrow[png] FAILED
+lib/matplotlib/tests/test_arrow_patches.py::test_fancyarrow[pdf] FAILED
+lib/matplotlib/tests/test_arrow_patches.py::test_fancyarrow[svg] FAILED
+lib/matplotlib/tests/test_arrow_patches.py::test_boxarrow[png] PASSED
+lib/matplotlib/tests/test_arrow_patches.py::test_fancyarrow_dpi_cor_100dpi[png] PASSED
+lib/matplotlib/tests/test_arrow_patches.py::test_fancyarrow_dpi_cor_200dpi[png] PASSED
+lib/matplotlib/tests/test_arrow_patches.py::test_fancyarrow_dash[png] PASSED
+lib/matplotlib/tests/test_arrow_patches.py::test_arrow_styles[png] FAILED
+lib/matplotlib/tests/test_arrow_patches.py::test_connection_styles[png] FAILED
+lib/matplotlib/tests/test_arrow_patches.py::test_invalid_intersection FAILED
+
+=================================== FAILURES ===================================
+_____________________________ test_fancyarrow[png] _____________________________
+lib/matplotlib/figure.py:1875: in savefig
+    self.canvas.print_figure(fname, **kwargs)
+lib/matplotlib/backend_bases.py:2229: in print_figure
+    **kwargs)
+lib/matplotlib/backends/backend_agg.py:488: in print_png
+    FigureCanvasAgg.draw(self)
+lib/matplotlib/backends/backend_agg.py:421: in draw
+    self.figure.draw(self.renderer)
+lib/matplotlib/artist.py:50: in draw_wrapper
+    return draw(artist, renderer, *args, **kwargs)
+lib/matplotlib/figure.py:1478: in draw
+    renderer, self, artists, self.suppressComposite)
+lib/matplotlib/image.py:138: in _draw_list_compositing_images
+    a.draw(renderer)
+lib/matplotlib/artist.py:50: in draw_wrapper
+    return draw(artist, renderer, *args, **kwargs)
+lib/matplotlib/axes/_base.py:2574: in draw
+    mimage._draw_list_compositing_images(renderer, self, artists)
+lib/matplotlib/image.py:138: in _draw_list_compositing_images
+    a.draw(renderer)
+lib/matplotlib/artist.py:50: in draw_wrapper
+    return draw(artist, renderer, *args, **kwargs)
+lib/matplotlib/text.py:2206: in draw
+    self.arrow_patch.draw(renderer)
+lib/matplotlib/patches.py:4267: in draw
+    path, fillable = self.get_path_in_displaycoord()
+lib/matplotlib/patches.py:4216: in get_path_in_displaycoord
+    self.get_mutation_aspect())
+lib/matplotlib/patches.py:3190: in __call__
+    return self.transmute(path, mutation_size, linewidth)
+lib/matplotlib/patches.py:3744: in transmute
+    x0, y0, x1, y1, x2, y2 = self.ensure_quadratic_bezier(path)
+lib/matplotlib/patches.py:3143: in ensure_quadratic_bezier
+    return [*segments[0][1], *segments[1][1]]
+E   TypeError: 'numpy.uint8' object is not iterable
+_____________________________ test_fancyarrow[pdf] _____________________________
+lib/matplotlib/figure.py:1875: in savefig
+    self.canvas.print_figure(fname, **kwargs)
+lib/matplotlib/backend_bases.py:2229: in print_figure
+    **kwargs)
+lib/matplotlib/backends/backend_pdf.py:2566: in print_pdf
+    self.figure.draw(renderer)
+lib/matplotlib/artist.py:50: in draw_wrapper
+    return draw(artist, renderer, *args, **kwargs)
+lib/matplotlib/figure.py:1478: in draw
+    renderer, self, artists, self.suppressComposite)
+lib/matplotlib/image.py:138: in _draw_list_compositing_images
+    a.draw(renderer)
+lib/matplotlib/artist.py:50: in draw_wrapper
+    return draw(artist, renderer, *args, **kwargs)
+lib/matplotlib/axes/_base.py:2574: in draw
+    mimage._draw_list_compositing_images(renderer, self, artists)
+lib/matplotlib/image.py:138: in _draw_list_compositing_images
+    a.draw(renderer)
+lib/matplotlib/artist.py:50: in draw_wrapper
+    return draw(artist, renderer, *args, **kwargs)
+lib/matplotlib/text.py:2206: in draw
+    self.arrow_patch.draw(renderer)
+lib/matplotlib/patches.py:4267: in draw
+    path, fillable = self.get_path_in_displaycoord()
+lib/matplotlib/patches.py:4216: in get_path_in_displaycoord
+    self.get_mutation_aspect())
+lib/matplotlib/patches.py:3190: in __call__
+    return self.transmute(path, mutation_size, linewidth)
+lib/matplotlib/patches.py:3744: in transmute
+    x0, y0, x1, y1, x2, y2 = self.ensure_quadratic_bezier(path)
+lib/matplotlib/patches.py:3143: in ensure_quadratic_bezier
+    return [*segments[0][1], *segments[1][1]]
+E   TypeError: 'numpy.uint8' object is not iterable
+_____________________________ test_fancyarrow[svg] _____________________________
+lib/matplotlib/figure.py:1875: in savefig
+    self.canvas.print_figure(fname, **kwargs)
+lib/matplotlib/backend_bases.py:2229: in print_figure
+    **kwargs)
+lib/matplotlib/backends/backend_svg.py:1185: in print_svg
+    result = self._print_svg(filename, fh, **kwargs)
+lib/matplotlib/backends/backend_svg.py:1210: in _print_svg
+    self.figure.draw(renderer)
+lib/matplotlib/artist.py:50: in draw_wrapper
+    return draw(artist, renderer, *args, **kwargs)
+lib/matplotlib/figure.py:1478: in draw
+    renderer, self, artists, self.suppressComposite)
+lib/matplotlib/image.py:138: in _draw_list_compositing_images
+    a.draw(renderer)
+lib/matplotlib/artist.py:50: in draw_wrapper
+    return draw(artist, renderer, *args, **kwargs)
+lib/matplotlib/axes/_base.py:2574: in draw
+    mimage._draw_list_compositing_images(renderer, self, artists)
+lib/matplotlib/image.py:138: in _draw_list_compositing_images
+    a.draw(renderer)
+lib/matplotlib/artist.py:50: in draw_wrapper
+    return draw(artist, renderer, *args, **kwargs)
+lib/matplotlib/text.py:2206: in draw
+    self.arrow_patch.draw(renderer)
+lib/matplotlib/patches.py:4267: in draw
+    path, fillable = self.get_path_in_displaycoord()
+lib/matplotlib/patches.py:4216: in get_path_in_displaycoord
+    self.get_mutation_aspect())
+lib/matplotlib/patches.py:3190: in __call__
+    return self.transmute(path, mutation_size, linewidth)
+lib/matplotlib/patches.py:3744: in transmute
+    x0, y0, x1, y1, x2, y2 = self.ensure_quadratic_bezier(path)
+lib/matplotlib/patches.py:3143: in ensure_quadratic_bezier
+    return [*segments[0][1], *segments[1][1]]
+E   TypeError: 'numpy.uint8' object is not iterable
+____________________________ test_arrow_styles[png] ____________________________
+lib/matplotlib/tests/test_arrow_patches.py:136: in test_arrow_styles
+    ax.add_patch(patch)
+lib/matplotlib/axes/_base.py:1941: in add_patch
+    self._update_patch_limits(p)
+lib/matplotlib/axes/_base.py:1959: in _update_patch_limits
+    vertices = patch.get_path().vertices
+lib/matplotlib/patches.py:4186: in get_path
+    _path, fillable = self.get_path_in_displaycoord()
+lib/matplotlib/patches.py:4216: in get_path_in_displaycoord
+    self.get_mutation_aspect())
+lib/matplotlib/patches.py:3190: in __call__
+    return self.transmute(path, mutation_size, linewidth)
+lib/matplotlib/patches.py:3744: in transmute
+    x0, y0, x1, y1, x2, y2 = self.ensure_quadratic_bezier(path)
+lib/matplotlib/patches.py:3143: in ensure_quadratic_bezier
+    return [*segments[0][1], *segments[1][1]]
+E   TypeError: 'numpy.uint8' object is not iterable
+_________________________ test_connection_styles[png] __________________________
+lib/matplotlib/testing/decorators.py:231: in copy_baseline
+    raise ImageComparisonFailure(reason)
+E   matplotlib.testing.exceptions.ImageComparisonFailure: Do not have baseline image /home/matplotlib/result_images/test_arrow_patches/connection_styles-expected.png because this file does not exist: /home/matplotlib/lib/matplotlib/tests/baseline_images/test_arrow_patches/connection_styles.png
+__________________________ test_invalid_intersection ___________________________
+lib/matplotlib/tests/test_arrow_patches.py:162: in test_invalid_intersection
+    plt.gca().add_patch(p1)
+lib/matplotlib/axes/_base.py:1941: in add_patch
+    self._update_patch_limits(p)
+lib/matplotlib/axes/_base.py:1959: in _update_patch_limits
+    vertices = patch.get_path().vertices
+lib/matplotlib/patches.py:4186: in get_path
+    _path, fillable = self.get_path_in_displaycoord()
+lib/matplotlib/patches.py:4207: in get_path_in_displaycoord
+    shrinkB=self.shrinkB * dpi_cor
+lib/matplotlib/patches.py:2747: in __call__
+    shrunk_path = self._shrink(clipped_path, shrinkA, shrinkB)
+lib/matplotlib/patches.py:2730: in _shrink
+    left, right = split_path_inout(path, insideB)
+lib/matplotlib/bezier.py:254: in split_path_inout
+    bp, inside, tolerence)
+lib/matplotlib/bezier.py:194: in split_bezier_intersecting_with_closedpath
+    tolerence=tolerence)
+lib/matplotlib/bezier.py:128: in find_bezier_t_intersecting_with_closedpath
+    if np.hypot(start[0] - end[0], start[1] - end[1]) < tolerence:
+E   Failed: Timeout >20.0s
+===================== 6 failed, 4 passed in 38.92 seconds ======================

@@ -1,0 +1,44 @@
+diff --git a/sympy/functions/special/singularity_functions.py b/sympy/functions/special/singularity_functions.py
+index a69026e6e6..34b7a3a3ba 100644
+--- a/sympy/functions/special/singularity_functions.py
++++ b/sympy/functions/special/singularity_functions.py
+@@ -211,24 +211,33 @@ def _eval_rewrite_as_Heaviside(self, *args, **kwargs):
+ 
+     def _eval_as_leading_term(self, x, logx, cdir):
+         z, a, n = self.args
+-        shift = (z - a).subs(x, 0)
++        z0 = z.subs(x, 0)
++        shift = z0 - a
+         if n < 0:
+             return S.Zero
+         elif n.is_zero and shift.is_zero:
+             return S.Zero if cdir == -1 else S.One
+         elif shift.is_positive:
+             return shift**n
++        elif z0.free_symbols and (
++                not a.free_symbols or z0.free_symbols & a.free_symbols):
++            return self.func(z0, a, n)
+         return S.Zero
+ 
+     def _eval_nseries(self, x, n, logx=None, cdir=0):
+-        z, a, n = self.args
+-        shift = (z - a).subs(x, 0)
+-        if n < 0:
++        z, a, sfn = self.args
++        z0 = z.subs(x, 0)
++        shift = z0 - a
++        if sfn < 0:
+             return S.Zero
+-        elif n.is_zero and shift.is_zero:
++        elif sfn.is_zero and shift.is_zero:
+             return S.Zero if cdir == -1 else S.One
+         elif shift.is_positive:
+-            return ((z - a)**n)._eval_nseries(x, n, logx=logx, cdir=cdir)
++            return ((z - a)**sfn)._eval_nseries(x, n, logx=logx, cdir=cdir)
++        elif z0.free_symbols and (
++                not a.free_symbols or z0.free_symbols & a.free_symbols):
++            return self.func(z0, a, sfn)
++
+         return S.Zero
+ 
+     _eval_rewrite_as_DiracDelta = _eval_rewrite_as_Heaviside

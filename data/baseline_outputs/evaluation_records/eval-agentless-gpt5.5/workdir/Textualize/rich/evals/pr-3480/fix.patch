@@ -1,0 +1,37 @@
+diff --git a/rich/text.py b/rich/text.py
+index 69e19b6..0e8c437 100644
+--- a/rich/text.py
++++ b/rich/text.py
+@@ -991,16 +991,21 @@ class Text(JupyterMixin):
+                         "style must not be set when appending Text instance"
+                     )
+                 text_length = self._length
+-                if text.style:
++                source_length = len(text)
++                source_style = text.style
++                source_plain = text.plain
++                source_spans = tuple(text._spans)
++
++                if source_style:
+                     self._spans.append(
+-                        _Span(text_length, text_length + len(text), text.style)
++                        _Span(text_length, text_length + source_length, source_style)
+                     )
+-                self._text.append(text.plain)
++                self._text.append(source_plain)
+                 self._spans.extend(
+                     _Span(start + text_length, end + text_length, style)
+-                    for start, end, style in text._spans
++                    for start, end, style in source_spans
+                 )
+-                self._length += len(text)
++                self._length += source_length
+         return self
+ 
+     def append_text(self, text: "Text") -> "Text":
+@@ -1355,4 +1360,4 @@ if __name__ == "__main__":  # pragma: no cover
+ 
+     console.rule("justify='full'")
+     console.print(text, style="magenta", justify="full")
+-    console.print()
++    console.print()

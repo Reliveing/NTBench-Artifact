@@ -1,0 +1,59 @@
+diff --git a/pylint/lint/parallel.py b/pylint/lint/parallel.py
+index 1896fc95f..cae23344b 100644
+--- a/pylint/lint/parallel.py
++++ b/pylint/lint/parallel.py
+@@ -121,6 +121,16 @@ def check_parallel(linter, jobs, files: Iterable[FileItem], arguments=None):
+     This splits the work filestream-by-filestream. If you need to do work across
+     multiple files, as in the similarity-checker, then inherit from MapReduceMixin and
+     implement the map/reduce mixin functionality"""
++    files = list(files)
++    if not files:
++        return
++
++    # Do not start more workers than there is work to do.  Starting unnecessary
++    # processes is especially expensive when workers import configured C extensions
++    # during initialisation, and some extensions are unsafe to initialise in many
++    # freshly forked processes at once.
++    jobs = min(jobs, len(files))
++
+     # The reporter does not need to be passed to worker processes, i.e. the reporter does
+     original_reporter = linter.reporter
+     linter.reporter = None
+@@ -129,14 +139,17 @@ def check_parallel(linter, jobs, files: Iterable[FileItem], arguments=None):
+     # is identical to the linter object here. This is required so that
+     # a custom PyLinter object can be used.
+     initializer = functools.partial(_worker_initialize, arguments=arguments)
+-    pool = multiprocessing.Pool(  # pylint: disable=consider-using-with
+-        jobs, initializer=initializer, initargs=[linter]
+-    )
+-    # ..and now when the workers have inherited the linter, the actual reporter
+-    # can be set back here on the parent process so that results get stored into
+-    # correct reporter
+-    linter.set_reporter(original_reporter)
++    try:
++        pool = multiprocessing.Pool(  # pylint: disable=consider-using-with
++            jobs, initializer=initializer, initargs=[linter]
++        )
++    finally:
++        # ..and now when the workers have inherited the linter, the actual reporter
++        # can be set back here on the parent process so that results get stored into
++        # correct reporter. This also restores the reporter when pool creation fails.
++        linter.set_reporter(original_reporter)
+     linter.open()
++    pool_closed = False
+     try:
+         all_stats = []
+         all_mapreduce_data = collections.defaultdict(list)
+@@ -162,8 +175,11 @@ def check_parallel(linter, jobs, files: Iterable[FileItem], arguments=None):
+             all_stats.append(stats)
+             all_mapreduce_data[worker_idx].append(mapreduce_data)
+             linter.msg_status |= msg_status
+-    finally:
+         pool.close()
++        pool_closed = True
++    finally:
++        if not pool_closed:
++            pool.terminate()
+         pool.join()
+ 
+     _merge_mapreduce_data(linter, all_mapreduce_data)

@@ -1,0 +1,12 @@
+diff --git a/lib/matplotlib/collections.py b/lib/matplotlib/collections.py
+index 81db24d0c0..e33c90ea39 100644
+--- a/lib/matplotlib/collections.py
++++ b/lib/matplotlib/collections.py
+@@ -2120,6 +2120,7 @@ class _MeshData:
+             c_d, c_a, c_center,
+         ], axis=2).reshape((-1, 3, 4))
+         tmask = np.isnan(colors[..., 2, 3])
++        tmask |= ~np.isfinite(triangles).all(axis=(1, 2))
+         return triangles[~tmask], colors[~tmask]
+ 
+ 

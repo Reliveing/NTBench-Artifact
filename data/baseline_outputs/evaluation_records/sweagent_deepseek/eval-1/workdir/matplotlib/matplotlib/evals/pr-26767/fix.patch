@@ -1,0 +1,13 @@
+diff --git a/lib/matplotlib/collections.py b/lib/matplotlib/collections.py
+index 81db24d0c0..9b4e260b9e 100644
+--- a/lib/matplotlib/collections.py
++++ b/lib/matplotlib/collections.py
+@@ -2120,6 +2120,8 @@ class _MeshData:
+             c_d, c_a, c_center,
+         ], axis=2).reshape((-1, 3, 4))
+         tmask = np.isnan(colors[..., 2, 3])
++        # Also mask triangles that have NaN coordinates.
++        tmask |= np.any(np.isnan(triangles), axis=(1, 2))
+         return triangles[~tmask], colors[~tmask]
+ 
+ 

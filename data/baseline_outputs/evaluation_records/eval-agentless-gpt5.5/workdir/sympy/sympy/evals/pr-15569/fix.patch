@@ -1,0 +1,63 @@
+diff --git a/sympy/series/limits.py b/sympy/series/limits.py
+index de5731c..35b9778 100644
+--- a/sympy/series/limits.py
++++ b/sympy/series/limits.py
+@@ -52,6 +52,8 @@ def limit(e, z, z0, dir="+"):
+     First we try some heuristics for easy and frequent cases like "x", "1/x",
+     "x**2" and similar, so that it's fast. For all other cases, we use the
+     Gruntz algorithm (see the gruntz() function).
++
++    To compute the limit of a sequence, use ``limit_seq`` instead.
+     """
+ 
+     if dir == "+-":
+@@ -172,8 +174,12 @@ class Limit(Expr):
+ 
+ 
+     def doit(self, **hints):
+-        """Evaluates limit"""
+-        from sympy.series.limitseq import limit_seq
++        """
++        Evaluate the limit.
++
++        The ``deep`` hint controls whether subexpressions are evaluated before
++        computing the limit. It defaults to ``True``.
++        """
+         from sympy.functions import RisingFactorial
+ 
+         e, z, z0, dir = self.args
+@@ -233,13 +239,6 @@ class Limit(Expr):
+             if r is None:
+                 return self
+         except NotImplementedError:
+-            # Trying finding limits of sequences
+-            if hints.get('sequence', True) and z0 is S.Infinity:
+-                trials = hints.get('trials', 5)
+-                r = limit_seq(e, z, trials)
+-                if r is None:
+-                    raise NotImplementedError()
+-            else:
+-                raise NotImplementedError()
++            raise
+ 
+-        return r
++        return r
+diff --git a/sympy/series/limitseq.py b/sympy/series/limitseq.py
+index 6a23326..5e06b17 100644
+--- a/sympy/series/limitseq.py
++++ b/sympy/series/limitseq.py
+@@ -102,7 +102,7 @@ def dominant(expr, n):
+ 
+ def _limit_inf(expr, n):
+     try:
+-        return Limit(expr, n, S.Infinity).doit(deep=False, sequence=False)
++        return Limit(expr, n, S.Infinity).doit(deep=False)
+     except (NotImplementedError, PoleError):
+         return None
+ 
+@@ -214,4 +214,4 @@ def limit_seq(expr, n=None, trials=5):
+             if L1 == L2:
+                 return L1
+     else:
+-        return _limit_seq(expr.xreplace({n: n_}), n_, trials)
++        return _limit_seq(expr.xreplace({n: n_}), n_, trials)

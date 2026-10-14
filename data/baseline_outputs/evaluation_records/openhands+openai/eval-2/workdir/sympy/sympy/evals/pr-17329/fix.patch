@@ -1,0 +1,13 @@
+diff --git a/sympy/calculus/util.py b/sympy/calculus/util.py
+index 50feb12d2d..9ee78ae28b 100644
+--- a/sympy/calculus/util.py
++++ b/sympy/calculus/util.py
+@@ -210,7 +210,7 @@ def function_range(f, symbol, domain):
+ 
+             solution = solveset(f.diff(symbol), symbol, interval)
+ 
+-            if not iterable(solution):
++            if not iterable(solution) or not solution.is_FiniteSet:
+                 raise NotImplementedError('Unable to find critical points for {}'.format(f))
+ 
+             critical_points += solution

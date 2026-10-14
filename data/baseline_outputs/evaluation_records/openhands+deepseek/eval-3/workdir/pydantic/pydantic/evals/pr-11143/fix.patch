@@ -1,0 +1,29 @@
+diff --git a/pydantic/_internal/_model_construction.py b/pydantic/_internal/_model_construction.py
+index aed979bbf..f03e155aa 100644
+--- a/pydantic/_internal/_model_construction.py
++++ b/pydantic/_internal/_model_construction.py
+@@ -160,7 +160,8 @@ class ModelMetaclass(ABCMeta):
+             if __pydantic_generic_metadata__:
+                 cls.__pydantic_generic_metadata__ = __pydantic_generic_metadata__
+             else:
+-                parent_parameters = getattr(cls, '__pydantic_generic_metadata__', {}).get('parameters', ())
++                parent_metadata = getattr(cls, '__pydantic_generic_metadata__', {})
++                parent_parameters = parent_metadata.get('parameters', ())
+                 parameters = getattr(cls, '__parameters__', None) or parent_parameters
+                 if parameters and parent_parameters and not all(x in parameters for x in parent_parameters):
+                     from ..root_model import RootModelRootType
+@@ -200,8 +201,12 @@ class ModelMetaclass(ABCMeta):
+                     raise TypeError(error_message)
+ 
+                 cls.__pydantic_generic_metadata__ = {
+-                    'origin': None,
+-                    'args': (),
++                    'origin': (parent_metadata.get('origin') or None)
++                    if parameters == parent_parameters and parent_parameters and not getattr(cls, '__parameters__', None)
++                    else None,
++                    'args': parent_metadata.get('args', ())
++                    if parameters == parent_parameters and parent_parameters and not getattr(cls, '__parameters__', None)
++                    else (),
+                     'parameters': parameters,
+                 }
+ 

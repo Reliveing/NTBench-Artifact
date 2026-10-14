@@ -1,0 +1,34 @@
+diff --git a/lib/matplotlib/patches.py b/lib/matplotlib/patches.py
+index a6120d6..82766c8 100644
+--- a/lib/matplotlib/patches.py
++++ b/lib/matplotlib/patches.py
+@@ -2865,8 +2865,10 @@ class ConnectionStyle(_Style):
+             codes = [Path.MOVETO]
+ 
+             if self.rad == 0.:
+-                vertices.append((cx, cy))
+-                codes.append(Path.LINETO)
++                # Use a quadratic Bezier curve to connect the points
++                # so that arrow styles requiring quadratic Bezier curves work
++                vertices.extend([(cx, cy), (x2, y2)])
++                codes.extend([Path.CURVE3, Path.CURVE3])
+             else:
+                 dx1, dy1 = x1 - cx, y1 - cy
+                 d1 = (dx1 ** 2 + dy1 ** 2) ** .5
+@@ -3138,6 +3140,16 @@ class ArrowStyle(_Style):
+             segments = list(path.iter_segments())
+             if (len(segments) != 2 or segments[0][1] != Path.MOVETO or
+                     segments[1][1] != Path.CURVE3):
++                # If the path is not a simple quadratic Bezier curve,
++                # convert it to one by using the first and last points
++                # and the midpoint as the control point.
++                vertices = path.vertices
++                if len(vertices) >= 2:
++                    x0, y0 = vertices[0]
++                    x1, y1 = vertices[-1]
++                    # Use the midpoint as the control point
++                    cx, cy = (x0 + x1) / 2., (y0 + y1) / 2.
++                    return [x0, y0, cx, cy, x1, y1]
+                 raise ValueError(
+                     "'path' is not a valid quadratic Bezier curve")
+             return [*segments[0][0], *segments[1][0]]

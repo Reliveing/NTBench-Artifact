@@ -1,0 +1,21 @@
+diff --git a/lib/matplotlib/ticker.py b/lib/matplotlib/ticker.py
+index a2be7cb..2921c35 100644
+--- a/lib/matplotlib/ticker.py
++++ b/lib/matplotlib/ticker.py
+@@ -1681,6 +1681,10 @@ class MaxNLocator(Locator):
+             nticks = ((ticks <= vmax) & (ticks >= vmin)).sum()
+             if nticks >= self._min_n_ticks:
+                 break
++            # If we're forcing integer ticks and the range is too small,
++            # increasing nbins won't help; break to avoid infinite loop.
++            if self._integer and (vmax - vmin) < self._min_n_ticks:
++                break
+             nbins += 1
+ 
+         self._nbins_used = nbins  # Maybe useful for troubleshooting.
+@@ -2316,4 +2320,4 @@ class OldAutoLocator(Locator):
+                 ticksize = base / 5.0
+             locator = MultipleLocator(ticksize)
+ 
+-        return locator
++        return locator

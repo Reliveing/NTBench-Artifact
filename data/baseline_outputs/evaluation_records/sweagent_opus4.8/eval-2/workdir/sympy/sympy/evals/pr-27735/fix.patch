@@ -1,0 +1,100 @@
+diff --git a/sympy/logic/algorithms/dpll2.py b/sympy/logic/algorithms/dpll2.py
+index 75115e01ef..3c2bfbba09 100644
+--- a/sympy/logic/algorithms/dpll2.py
++++ b/sympy/logic/algorithms/dpll2.py
+@@ -215,6 +215,12 @@ def _find_model(self):
+                 flip_var = False
+                 lit = self._current_level.decision
+ 
++                # Assign the literal, updating the clauses it satisfies
++                self._assign_literal(lit)
++
++                # _simplify the theory
++                self._simplify()
++
+             else:
+                 # Pick a literal to set
+                 lit = self.heur_calculate()
+@@ -233,30 +239,63 @@ def _find_model(self):
+                         self.lra.reset_bounds()
+                     else:
+                         res = None
++
+                     if res is None or res[0]:
++                        # Either there is no theory or the theory is
++                        #  satisfied by the current assignment.
+                         yield {self.symbols[abs(lit) - 1]:
+                                     lit > 0 for lit in self.var_settings}
+-                    else:
+-                        self._simple_add_learned_clause(res[1])
+ 
+-                    while self._current_level.flipped:
++                        while self._current_level.flipped:
++                            self._undo()
++                        if len(self.levels) == 1:
++                            return
++                        flip_lit = -self._current_level.decision
+                         self._undo()
+-                    if len(self.levels) == 1:
+-                        return
+-                    flip_lit = -self._current_level.decision
+-                    self._undo()
+-                    self.levels.append(Level(flip_lit, flipped=True))
+-                    flip_var = True
+-                    continue
+-
+-                # Start the new decision level
+-                self.levels.append(Level(lit))
+-
+-            # Assign the literal, updating the clauses it satisfies
+-            self._assign_literal(lit)
+-
+-            # _simplify the theory
+-            self._simplify()
++                        self.levels.append(Level(flip_lit, flipped=True))
++                        flip_var = True
++                        continue
++                    else:
++                        # The theory found the current assignment to be
++                        #  unsatisfiable.  Add the conflict clause returned
++                        #  by the theory (unless it is already known) and
++                        #  backtrack to a state before the conflicting
++                        #  literals were assigned so that the same conflict
++                        #  is not encountered again.
++                        conflict = list(res[1])
++                        if conflict not in self.clauses:
++                            self._simple_add_learned_clause(conflict)
++
++                        # The conflict clause is currently violated (all of
++                        #  its literals are assigned False).  Backtrack until
++                        #  at least one of its literals becomes unassigned so
++                        #  that the standard unit propagation machinery can
++                        #  enforce the clause and prevent revisiting the same
++                        #  conflict.
++                        conflict_vars = {abs(l) for l in conflict}
++                        while all(self.variable_set[v] for v in conflict_vars):
++                            if 1 == len(self.levels):
++                                # There is nothing left to undo, so the
++                                #  theory is unsatisfiable.
++                                return
++                            self._undo()
++
++                        # Re-run propagation now that we have backtracked.
++                        #  The newly learned clause becomes unit and forces
++                        #  an assignment that avoids the conflict.  Fall
++                        #  through so that any resulting boolean conflict is
++                        #  handled by the standard unsat machinery below.
++                        self._simplify()
++
++                else:
++                    # Start the new decision level
++                    self.levels.append(Level(lit))
++
++                    # Assign the literal, updating the clauses it satisfies
++                    self._assign_literal(lit)
++
++                    # _simplify the theory
++                    self._simplify()
+ 
+             # Check if we've made the theory unsat
+             if self.is_unsatisfied:

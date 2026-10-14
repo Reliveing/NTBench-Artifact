@@ -1,0 +1,18 @@
+diff --git a/sympy/simplify/cse_main.py b/sympy/simplify/cse_main.py
+index d603560f59..442d51184e 100644
+--- a/sympy/simplify/cse_main.py
++++ b/sympy/simplify/cse_main.py
+@@ -512,8 +512,12 @@ def _find_opts(expr):
+         list(map(_find_opts, expr.args))
+ 
+         if not isinstance(expr, MatrixExpr) and expr.could_extract_minus_sign():
++            # To avoid infinite recursion in the rebuild step, only extract the
++            # minus sign if the negation actually simplifies the expression
++            # (e.g. it does not reintroduce the original expression as an
++            # argument, which can happen with unevaluated expressions).
+             neg_expr = -expr
+-            if not neg_expr.is_Atom:
++            if not neg_expr.is_Atom and expr not in neg_expr.args:
+                 opt_subs[expr] = Unevaluated(Mul, (S.NegativeOne, neg_expr))
+                 seen_subexp.add(neg_expr)
+                 expr = neg_expr

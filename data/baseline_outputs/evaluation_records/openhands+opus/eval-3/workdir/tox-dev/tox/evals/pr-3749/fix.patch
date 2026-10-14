@@ -1,0 +1,22 @@
+diff --git a/docs/changelog/3049.bugfix.rst b/docs/changelog/3049.bugfix.rst
+new file mode 100644
+index 00000000..3f554252
+--- /dev/null
++++ b/docs/changelog/3049.bugfix.rst
+@@ -0,0 +1 @@
++Fix ``RecursionError`` when ``change_dir`` (``changedir``) is set to ``{posargs}`` - by :user:`gaborbernat`.
+diff --git a/src/tox/config/loader/replacer.py b/src/tox/config/loader/replacer.py
+index 18fe2422..f6e9074e 100644
+--- a/src/tox/config/loader/replacer.py
++++ b/src/tox/config/loader/replacer.py
+@@ -246,8 +246,8 @@ def load_posargs(conf: Config, conf_args: ConfigLoadArgs) -> tuple[str, ...] | N
+         env_conf = conf.get_env(conf_args.env_name)
+         try:
+             if env_conf["args_are_paths"]:  # pragma: no branch
+-                to_path = env_conf["change_dir"]
+-        except KeyError:
++                to_path = env_conf.load("change_dir", conf_args.chain)
++        except (KeyError, CircularChainError):
+             pass
+     return conf.pos_args(to_path)
+ 

@@ -1,0 +1,21 @@
+diff --git a/sympy/simplify/cse_main.py b/sympy/simplify/cse_main.py
+index d603560f59..efc3c0e7bb 100644
+--- a/sympy/simplify/cse_main.py
++++ b/sympy/simplify/cse_main.py
+@@ -514,9 +514,13 @@ def _find_opts(expr):
+         if not isinstance(expr, MatrixExpr) and expr.could_extract_minus_sign():
+             neg_expr = -expr
+             if not neg_expr.is_Atom:
+-                opt_subs[expr] = Unevaluated(Mul, (S.NegativeOne, neg_expr))
+-                seen_subexp.add(neg_expr)
+-                expr = neg_expr
++                # Avoid creating a substitution cycle when the negation does not
++                # simplify (e.g. with UnevaluatedExpr), in which case ``neg_expr``
++                # would itself extract a minus sign and map back to ``expr``.
++                if not neg_expr.could_extract_minus_sign():
++                    opt_subs[expr] = Unevaluated(Mul, (S.NegativeOne, neg_expr))
++                    seen_subexp.add(neg_expr)
++                    expr = neg_expr
+ 
+         if isinstance(expr, (Mul, MatMul)):
+             if len(expr.args) == 1:

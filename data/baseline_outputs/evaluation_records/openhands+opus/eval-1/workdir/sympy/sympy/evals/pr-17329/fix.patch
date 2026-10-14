@@ -1,0 +1,21 @@
+diff --git a/sympy/calculus/util.py b/sympy/calculus/util.py
+index 50feb12d2d..7b1ea53dee 100644
+--- a/sympy/calculus/util.py
++++ b/sympy/calculus/util.py
+@@ -10,6 +10,7 @@
+ from sympy.polys.rationaltools import together
+ from sympy.sets.sets import (Interval, Intersection, FiniteSet, Union,
+                              Complement, EmptySet)
++from sympy.sets.fancysets import ImageSet
+ from sympy.simplify.radsimp import denom
+ from sympy.solvers.inequalities import solve_univariate_inequality
+ from sympy.utilities import filldedent
+@@ -212,6 +213,8 @@ def function_range(f, symbol, domain):
+ 
+             if not iterable(solution):
+                 raise NotImplementedError('Unable to find critical points for {}'.format(f))
++            if isinstance(solution, ImageSet):
++                raise NotImplementedError('Infinite number of critical points for {}'.format(f))
+ 
+             critical_points += solution
+ 

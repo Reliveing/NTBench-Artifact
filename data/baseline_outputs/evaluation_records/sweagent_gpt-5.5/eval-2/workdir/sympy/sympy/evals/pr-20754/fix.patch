@@ -1,0 +1,24 @@
+diff --git a/sympy/functions/elementary/complexes.py b/sympy/functions/elementary/complexes.py
+index 84930497b5..0909d65a64 100644
+--- a/sympy/functions/elementary/complexes.py
++++ b/sympy/functions/elementary/complexes.py
+@@ -658,13 +658,16 @@ def _eval_power(self, exponent):
+         return
+ 
+     def _eval_nseries(self, x, n, logx, cdir=0):
+-        direction = self.args[0].leadterm(x)[0]
++        direction, exp = self.args[0].leadterm(x)
+         if direction.has(log(x)):
+             direction = direction.subs(log(x), logx)
+-        s = self.args[0]._eval_nseries(x, n=n, logx=logx)
++        lead = direction
++        if cdir != 0:
++            direction *= cdir**exp
++        s = self.args[0]._eval_nseries(x, n=n, logx=logx, cdir=cdir)
+         when = Eq(direction, 0)
+         return Piecewise(
+-            ((s.subs(direction, 0)), when),
++            ((s.subs(lead, 0)), when),
+             (sign(direction)*s, True),
+         )
+ 

@@ -1,0 +1,86 @@
+diff --git a/pydantic/json_schema.py b/pydantic/json_schema.py
+index f5cc325..c696eb9 100644
+--- a/pydantic/json_schema.py
++++ b/pydantic/json_schema.py
+@@ -2350,6 +2350,21 @@ class GenerateJsonSchema:
+     def get_json_ref_counts(self, json_schema: JsonSchemaValue) -> dict[JsonRef, int]:
+         """Get all values corresponding to the key '$ref' anywhere in the json_schema."""
+         json_refs: dict[JsonRef, int] = Counter()
++        local_defs: dict[JsonRef, JsonSchemaValue] = {}
++
++        def _collect_local_defs(schema: Any) -> None:
++            """Collect all $defs from the schema and its nested schemas."""
++            if isinstance(schema, dict):
++                if '$defs' in schema and isinstance(schema['$defs'], dict):
++                    for k, v in schema['$defs'].items():
++                        local_defs[JsonRef(f'#/$defs/{k}')] = v
++                for v in schema.values():
++                    _collect_local_defs(v)
++            elif isinstance(schema, list):
++                for v in schema:
++                    _collect_local_defs(v)
++
++        _collect_local_defs(json_schema)
+ 
+         def _add_json_refs(schema: Any) -> None:
+             if isinstance(schema, dict):
+@@ -2362,12 +2377,16 @@ class GenerateJsonSchema:
+                     if already_visited:
+                         return  # prevent recursion on a definition that was already visited
+                     try:
++                        # First try to resolve from the generator's known definitions
+                         defs_ref = self.json_to_defs_refs[json_ref]
+                         if defs_ref in self._core_defs_invalid_for_json_schema:
+                             raise self._core_defs_invalid_for_json_schema[defs_ref]
+                         _add_json_refs(self.definitions[defs_ref])
+                     except KeyError:
+-                        if not json_ref.startswith(('http://', 'https://')):
++                        # If not in generator's definitions, check if it's a local $defs reference
++                        if json_ref in local_defs:
++                            _add_json_refs(local_defs[json_ref])
++                        elif not json_ref.startswith(('http://', 'https://')):
+                             raise
+ 
+                 for k, v in schema.items():
+@@ -2427,6 +2446,23 @@ class GenerateJsonSchema:
+     def _garbage_collect_definitions(self, schema: JsonSchemaValue) -> None:
+         visited_defs_refs: set[DefsRef] = set()
+         unvisited_json_refs = _get_all_json_refs(schema)
++
++        # Collect local $defs from the schema itself (e.g., from custom __get_pydantic_json_schema__)
++        local_defs: dict[JsonRef, JsonSchemaValue] = {}
++
++        def _collect_local_defs(s: Any) -> None:
++            if isinstance(s, dict):
++                if '$defs' in s and isinstance(s['$defs'], dict):
++                    for k, v in s['$defs'].items():
++                        local_defs[JsonRef(f'#/$defs/{k}')] = v
++                for v in s.values():
++                    _collect_local_defs(v)
++            elif isinstance(s, list):
++                for v in s:
++                    _collect_local_defs(v)
++
++        _collect_local_defs(schema)
++
+         while unvisited_json_refs:
+             next_json_ref = unvisited_json_refs.pop()
+             try:
+@@ -2436,7 +2472,10 @@ class GenerateJsonSchema:
+                 visited_defs_refs.add(next_defs_ref)
+                 unvisited_json_refs.update(_get_all_json_refs(self.definitions[next_defs_ref]))
+             except KeyError:
+-                if not next_json_ref.startswith(('http://', 'https://')):
++                # If it's a local ref, process its nested refs but don't affect self.definitions
++                if next_json_ref in local_defs:
++                    unvisited_json_refs.update(_get_all_json_refs(local_defs[next_json_ref]))
++                elif not next_json_ref.startswith(('http://', 'https://')):
+                     raise
+ 
+         self.definitions = {k: v for k, v in self.definitions.items() if k in visited_defs_refs}
+@@ -2776,4 +2815,4 @@ def _get_ser_schema_for_default_value(schema: CoreSchema) -> core_schema.PlainSe
+     ):
+         return ser_schema
+     if _core_utils.is_function_with_inner_schema(schema):
+-        return _get_ser_schema_for_default_value(schema['schema'])
++        return _get_ser_schema_for_default_value(schema['schema'])

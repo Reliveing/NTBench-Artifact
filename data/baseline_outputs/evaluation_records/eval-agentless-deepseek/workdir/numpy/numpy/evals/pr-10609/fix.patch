@@ -1,0 +1,19 @@
+diff --git a/numpy/core/arrayprint.py b/numpy/core/arrayprint.py
+index 987589d..5619138 100644
+--- a/numpy/core/arrayprint.py
++++ b/numpy/core/arrayprint.py
+@@ -1422,7 +1422,7 @@ def array_str(a, max_line_width=None, precision=None, suppress_small=None):
+     # so floats are not truncated by `precision`, and strings are not wrapped
+     # in quotes. So we return the str of the scalar value.
+     if a.shape == ():
+-        return str(a[()])
++        return str(a.item())
+ 
+     return array2string(a, max_line_width, precision, suppress_small, ' ', "")
+ 
+@@ -1486,4 +1486,4 @@ def set_string_function(f, repr=True):
+         return multiarray.set_string_function(f, repr)
+ 
+ set_string_function(array_str, 0)
+-set_string_function(array_repr, 1)
++set_string_function(array_repr, 1)
